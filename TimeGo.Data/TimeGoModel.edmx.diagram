@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7be4cdd1207e4e588186aab34063d3c1" Name="Diagram1" ZoomLevel="75" >
+        <EntityTypeShape EntityType="TimeGoModel.ApprovalStatus" Width="2" PointX="6.875" PointY="8.5" />
+        <EntityTypeShape EntityType="TimeGoModel.Company" Width="1.5" PointX="2.875" PointY="2.875" />
+        <EntityTypeShape EntityType="TimeGoModel.CompanyApproved" Width="2.625" PointX="0.625" PointY="1.625" />
+        <EntityTypeShape EntityType="TimeGoModel.Employee" Width="1.5" PointX="5.125" PointY="2" />
+        <EntityTypeShape EntityType="TimeGoModel.LockStatus" Width="1.5" PointX="7.375" PointY="11.75" />
+        <EntityTypeShape EntityType="TimeGoModel.Period" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="TimeGoModel.SubscriptionPlan" Width="1.875" PointX="0.625" PointY="4.625" />
+        <EntityTypeShape EntityType="TimeGoModel.Timesheet" Width="1.5" PointX="9.625" PointY="2.75" />
+        <EntityTypeShape EntityType="TimeGoModel.TimesheetLine" Width="1.5" PointX="11.875" PointY="4.375" />
+        <EntityTypeShape EntityType="TimeGoModel.VersionInfo" Width="1.5" PointX="0.625" PointY="9.5" />
+        <AssociationConnector Association="TimeGoModel.fk_Timesheet_ApprovalStatus" />
+        <AssociationConnector Association="TimeGoModel.fk_Company_CompanyApproved" />
+        <AssociationConnector Association="TimeGoModel.fk_Company_SubscriptionPlan" />
+        <AssociationConnector Association="TimeGoModel.fk_Employee_Company" />
+        <AssociationConnector Association="TimeGoModel.fk_Period_Company" />
+        <AssociationConnector Association="TimeGoModel.fk_Timesheet_Company" />
+        <AssociationConnector Association="TimeGoModel.fk_Employee_Employee" />
+        <AssociationConnector Association="TimeGoModel.fk_Period_Employee" />
+        <AssociationConnector Association="TimeGoModel.fk_Timesheet_Employee1" />
+        <AssociationConnector Association="TimeGoModel.fk_Timesheet_Employee2" />
+        <AssociationConnector Association="TimeGoModel.fk_Timesheet_Employee3" />
+        <AssociationConnector Association="TimeGoModel.fk_Timesheet_LockStatus" />
+        <AssociationConnector Association="TimeGoModel.fk_Timesheet_Period" />
+        <AssociationConnector Association="TimeGoModel.fk_TimesheetLine_Timesheet" />
+        <EntityTypeShape EntityType="TimeGoModel.Task" Width="1.5" PointX="13.75" PointY="0.625" />
+        <EntityTypeShape EntityType="TimeGoModel.TaskAllowed" Width="1.5" PointX="7.375" PointY="2.375" />
+        <AssociationConnector Association="TimeGoModel.fk_Task_Company" />
+        <AssociationConnector Association="TimeGoModel.fk_TaskAllowed_Employee" />
+        <AssociationConnector Association="TimeGoModel.fk_TaskAllowed_Task" />
+        <EntityTypeShape EntityType="TimeGoModel.EmployeeRate" Width="1.5" PointX="7.375" PointY="14.5" />
+        <AssociationConnector Association="TimeGoModel.fk_EmployeeRates_Employees" />
+        <EntityTypeShape EntityType="TimeGoModel.TimeoffRequest" Width="1.5" PointX="12.625" PointY="7.375" />
+        <AssociationConnector Association="TimeGoModel.fk_TimeoffRequests_ApprovalStatus" />
+        <AssociationConnector Association="TimeGoModel.fk_TimeoffRequests_Company" />
+        <AssociationConnector Association="TimeGoModel.fk_TimeoffRequests_Employee" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

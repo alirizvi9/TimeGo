@@ -1,0 +1,68 @@
+﻿@using TimeGo.Models
+@model AdminAllowedCodesViewModel
+@{
+    ViewBag.Title = "Manage Tasks";
+}
+
+<style>
+    .date {width: 70px;}
+
+    .single-line input, .single-line button {
+        display: inline-block
+    }
+
+    .single-line button { width: auto;}
+</style>
+
+<h1>@Model.CompanyName</h1>
+
+<h3>ADMIN - Manage Allowed Tasks for Users</h3>
+
+<br /><br />
+
+
+@using (Html.BeginForm("AdminAllowedCodes", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+    <div class="form-group form-inline">
+        Select employee @Html.DropDownListFor(m => m.EmployeeId, Model.Employees, new { Class = "form-control" }) and check allowed tasks below:
+    </div>
+
+    <br />
+
+    for (int i = 0; i < Model.Tasks.Count; i++) {
+        <div class="form-group">
+            <div>
+                <label>
+                    @if (@Model.Tasks[i].Selected) {
+                        <input type="checkbox" name="SelectedTasks" checked="checked" value="@Model.Tasks[i].Value" />
+                    } else {
+                        <input type="checkbox" name="SelectedTasks" value="@Model.Tasks[i].Value" />
+                    }
+
+                    
+                    @Model.Tasks[i].Text
+                </label>
+            </div>
+        </div>
+    }
+
+
+
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary" value="Save" />    <input type="button" value="Cancel" class="btn btn-default" onclick="location.href='@Url.Action("AdminAllowedCodes", "Admin")'" />
+    </div>
+}
+
+
+
+@section scripts{
+    <script>
+        $(function () {
+            $(".date").datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: true
+            });
+        });
+    </script>
+
+    @Scripts.Render("~/bundles/jqueryval")
+}

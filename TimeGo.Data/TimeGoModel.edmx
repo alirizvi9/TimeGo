@@ -1,0 +1,1325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TimeGoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ApprovalStatus">
+          <Key>
+            <PropertyRef Name="ApprovalStatusId" />
+          </Key>
+          <Property Name="ApprovalStatusId" Type="int" Nullable="false" />
+          <Property Name="ApprovalStatusType" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ContactName" Type="nvarchar" MaxLength="100" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="100" />
+          <Property Name="TimeGoURL" Type="nvarchar" MaxLength="100" />
+          <Property Name="CompanyApprovedId" Type="int" Nullable="false" />
+          <Property Name="BillingAddressLine1" Type="nvarchar" MaxLength="100" />
+          <Property Name="BillingAddressLine2" Type="nvarchar" MaxLength="100" />
+          <Property Name="BillingAddressCity" Type="nvarchar" MaxLength="100" />
+          <Property Name="BillingAddressState" Type="nvarchar" MaxLength="100" />
+          <Property Name="BillingAddressZip" Type="nvarchar" MaxLength="100" />
+          <Property Name="BillingAddressCountry" Type="nvarchar" MaxLength="100" />
+          <Property Name="SubscriptionPlanId" Type="int" Nullable="false" />
+          <Property Name="VacationApproverEmail" Type="nvarchar" MaxLength="100" />
+          <Property Name="UpdatedById" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CompanyApproved">
+          <Key>
+            <PropertyRef Name="CompanyApprovedId" />
+          </Key>
+          <Property Name="CompanyApprovedId" Type="int" Nullable="false" />
+          <Property Name="CompanyApprovedType" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="EmployeeNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="100" />
+          <Property Name="Password" Type="nvarchar" MaxLength="100" />
+          <Property Name="SSN" Type="nvarchar" MaxLength="4" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="IsOvertimeCalculated" Type="bit" Nullable="false" />
+          <Property Name="UpdatedById" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="Phonenumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="LoginMethodId" Type="int" />
+        </EntityType>
+        <EntityType Name="EmployeeRates">
+          <Key>
+            <PropertyRef Name="RateId" />
+          </Key>
+          <Property Name="RateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="EffectiveStartDate" Type="datetime" Nullable="false" />
+          <Property Name="EffectiveEndDate" Type="datetime" />
+          <Property Name="RateAmount" Type="real" Nullable="false" />
+          <Property Name="UpdatedById" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="LockStatus">
+          <Key>
+            <PropertyRef Name="LockStatusId" />
+          </Key>
+          <Property Name="LockStatusId" Type="int" Nullable="false" />
+          <Property Name="LockStatusType" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Period">
+          <Key>
+            <PropertyRef Name="PeriodId" />
+          </Key>
+          <Property Name="PeriodId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="PeriodStart" Type="datetime" />
+          <Property Name="PeriodEnd" Type="datetime" />
+          <Property Name="Reminder1Date" Type="datetime" />
+          <Property Name="Reminder2Date" Type="datetime" />
+          <Property Name="PeriodStatusId" Type="int" Nullable="false" />
+          <Property Name="UpdatedById" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SubscriptionPlan">
+          <Key>
+            <PropertyRef Name="SubscriptionPlanId" />
+          </Key>
+          <Property Name="SubscriptionPlanId" Type="int" Nullable="false" />
+          <Property Name="SubscriptionPlanType" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="TaskId" />
+          </Key>
+          <Property Name="TaskId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="TaskName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Approver1Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="Approver2Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsActive" Type="int" />
+          <Property Name="UpdatedById" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TaskAllowed">
+          <Key>
+            <PropertyRef Name="TaskAllowedId" />
+          </Key>
+          <Property Name="TaskAllowedId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskId" Type="int" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="TimeoffRequests">
+          <Key>
+            <PropertyRef Name="TimeoffId" />
+          </Key>
+          <Property Name="TimeoffId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="FromDate" Type="datetime" Nullable="false" />
+          <Property Name="ToDate" Type="datetime" Nullable="false" />
+          <Property Name="Reason" Type="nvarchar" MaxLength="255" />
+          <Property Name="ApprovalStatusId" Type="int" Nullable="false" />
+          <Property Name="SubmittedOn" Type="datetime" />
+          <Property Name="ApprovedById" Type="int" />
+          <Property Name="ApprovedOn" Type="datetime" />
+          <Property Name="ReturningToWork" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Timesheet">
+          <Key>
+            <PropertyRef Name="TimesheetId" />
+          </Key>
+          <Property Name="TimesheetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="PeriodId" Type="int" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="EmployeeNotes" Type="nvarchar" MaxLength="255" />
+          <Property Name="ApproverNotes" Type="nvarchar" MaxLength="255" />
+          <Property Name="ApprovalStatusId" Type="int" Nullable="false" />
+          <Property Name="LockStatusId" Type="int" Nullable="false" />
+          <Property Name="RevisedById" Type="int" />
+          <Property Name="ApprovedById" Type="int" />
+          <Property Name="SavedOn" Type="datetime" />
+          <Property Name="SubmittedOn" Type="datetime" />
+          <Property Name="RevisedOn" Type="datetime" />
+          <Property Name="ApprovedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TimesheetLine">
+          <Key>
+            <PropertyRef Name="LineId" />
+          </Key>
+          <Property Name="LineId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TimesheetId" Type="int" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" Nullable="false" />
+          <Property Name="TaskId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VersionInfo">
+          <Key>
+            <PropertyRef Name="Version" />
+          </Key>
+          <Property Name="Version" Type="bigint" Nullable="false" />
+          <Property Name="AppliedOn" Type="datetime" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <Association Name="fk_Company_CompanyApproved">
+          <End Role="CompanyApproved" Type="Self.CompanyApproved" Multiplicity="1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyApproved">
+              <PropertyRef Name="CompanyApprovedId" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="CompanyApprovedId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Company_SubscriptionPlan">
+          <End Role="SubscriptionPlan" Type="Self.SubscriptionPlan" Multiplicity="1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubscriptionPlan">
+              <PropertyRef Name="SubscriptionPlanId" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="SubscriptionPlanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Employee_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Employee_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Employee1" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Employee1">
+              <PropertyRef Name="UpdatedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EmployeeRates_Employees">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="EmployeeRates" Type="Self.EmployeeRates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="EmployeeRates">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Period_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Period" Type="Self.Period" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Period">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Period_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Period" Type="Self.Period" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Period">
+              <PropertyRef Name="UpdatedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Task_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TaskAllowed_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="TaskAllowed" Type="Self.TaskAllowed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="TaskAllowed">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TaskAllowed_Task">
+          <End Role="Task" Type="Self.Task" Multiplicity="0..1" />
+          <End Role="TaskAllowed" Type="Self.TaskAllowed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="TaskId" />
+            </Principal>
+            <Dependent Role="TaskAllowed">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TimeoffRequests_ApprovalStatus">
+          <End Role="ApprovalStatus" Type="Self.ApprovalStatus" Multiplicity="1" />
+          <End Role="TimeoffRequests" Type="Self.TimeoffRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApprovalStatus">
+              <PropertyRef Name="ApprovalStatusId" />
+            </Principal>
+            <Dependent Role="TimeoffRequests">
+              <PropertyRef Name="ApprovalStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TimeoffRequests_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="TimeoffRequests" Type="Self.TimeoffRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="TimeoffRequests">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TimeoffRequests_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="TimeoffRequests" Type="Self.TimeoffRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="TimeoffRequests">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Timesheet_ApprovalStatus">
+          <End Role="ApprovalStatus" Type="Self.ApprovalStatus" Multiplicity="1" />
+          <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApprovalStatus">
+              <PropertyRef Name="ApprovalStatusId" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="ApprovalStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Timesheet_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Timesheet_Employee1">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Timesheet_Employee2">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="RevisedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Timesheet_Employee3">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="ApprovedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Timesheet_LockStatus">
+          <End Role="LockStatus" Type="Self.LockStatus" Multiplicity="1" />
+          <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LockStatus">
+              <PropertyRef Name="LockStatusId" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="LockStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Timesheet_Period">
+          <End Role="Period" Type="Self.Period" Multiplicity="0..1" />
+          <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Period">
+              <PropertyRef Name="PeriodId" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="PeriodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TimesheetLine_Timesheet">
+          <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="0..1" />
+          <End Role="TimesheetLine" Type="Self.TimesheetLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timesheet">
+              <PropertyRef Name="TimesheetId" />
+            </Principal>
+            <Dependent Role="TimesheetLine">
+              <PropertyRef Name="TimesheetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TimeGoModelStoreContainer">
+          <EntitySet Name="ApprovalStatus" EntityType="Self.ApprovalStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompanyApproved" EntityType="Self.CompanyApproved" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeRates" EntityType="Self.EmployeeRates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LockStatus" EntityType="Self.LockStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Period" EntityType="Self.Period" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubscriptionPlan" EntityType="Self.SubscriptionPlan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskAllowed" EntityType="Self.TaskAllowed" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TimeoffRequests" EntityType="Self.TimeoffRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Timesheet" EntityType="Self.Timesheet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TimesheetLine" EntityType="Self.TimesheetLine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VersionInfo" EntityType="Self.VersionInfo" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VersionInfo].[Version] AS [Version], 
+    [VersionInfo].[AppliedOn] AS [AppliedOn], 
+    [VersionInfo].[Description] AS [Description]
+    FROM [dbo].[VersionInfo] AS [VersionInfo]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="fk_Company_CompanyApproved" Association="Self.fk_Company_CompanyApproved">
+            <End Role="CompanyApproved" EntitySet="CompanyApproved" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Company_SubscriptionPlan" Association="Self.fk_Company_SubscriptionPlan">
+            <End Role="SubscriptionPlan" EntitySet="SubscriptionPlan" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Employee_Company" Association="Self.fk_Employee_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Employee_Employee" Association="Self.fk_Employee_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Employee1" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EmployeeRates_Employees" Association="Self.fk_EmployeeRates_Employees">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeRates" EntitySet="EmployeeRates" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Period_Company" Association="Self.fk_Period_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Period" EntitySet="Period" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Period_Employee" Association="Self.fk_Period_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Period" EntitySet="Period" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Task_Company" Association="Self.fk_Task_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TaskAllowed_Employee" Association="Self.fk_TaskAllowed_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="TaskAllowed" EntitySet="TaskAllowed" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TaskAllowed_Task" Association="Self.fk_TaskAllowed_Task">
+            <End Role="Task" EntitySet="Task" />
+            <End Role="TaskAllowed" EntitySet="TaskAllowed" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TimeoffRequests_ApprovalStatus" Association="Self.fk_TimeoffRequests_ApprovalStatus">
+            <End Role="ApprovalStatus" EntitySet="ApprovalStatus" />
+            <End Role="TimeoffRequests" EntitySet="TimeoffRequests" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TimeoffRequests_Company" Association="Self.fk_TimeoffRequests_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="TimeoffRequests" EntitySet="TimeoffRequests" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TimeoffRequests_Employee" Association="Self.fk_TimeoffRequests_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="TimeoffRequests" EntitySet="TimeoffRequests" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Timesheet_ApprovalStatus" Association="Self.fk_Timesheet_ApprovalStatus">
+            <End Role="ApprovalStatus" EntitySet="ApprovalStatus" />
+            <End Role="Timesheet" EntitySet="Timesheet" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Timesheet_Company" Association="Self.fk_Timesheet_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Timesheet" EntitySet="Timesheet" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Timesheet_Employee1" Association="Self.fk_Timesheet_Employee1">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Timesheet" EntitySet="Timesheet" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Timesheet_Employee2" Association="Self.fk_Timesheet_Employee2">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Timesheet" EntitySet="Timesheet" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Timesheet_Employee3" Association="Self.fk_Timesheet_Employee3">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Timesheet" EntitySet="Timesheet" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Timesheet_LockStatus" Association="Self.fk_Timesheet_LockStatus">
+            <End Role="LockStatus" EntitySet="LockStatus" />
+            <End Role="Timesheet" EntitySet="Timesheet" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Timesheet_Period" Association="Self.fk_Timesheet_Period">
+            <End Role="Period" EntitySet="Period" />
+            <End Role="Timesheet" EntitySet="Timesheet" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TimesheetLine_Timesheet" Association="Self.fk_TimesheetLine_Timesheet">
+            <End Role="Timesheet" EntitySet="Timesheet" />
+            <End Role="TimesheetLine" EntitySet="TimesheetLine" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TimeGoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TimeGoEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="ApprovalStatus" EntityType="TimeGoModel.ApprovalStatus" />
+          <EntitySet Name="Companies" EntityType="TimeGoModel.Company" />
+          <EntitySet Name="CompanyApproveds" EntityType="TimeGoModel.CompanyApproved" />
+          <EntitySet Name="Employees" EntityType="TimeGoModel.Employee" />
+          <EntitySet Name="LockStatus" EntityType="TimeGoModel.LockStatus" />
+          <EntitySet Name="Periods" EntityType="TimeGoModel.Period" />
+          <EntitySet Name="SubscriptionPlans" EntityType="TimeGoModel.SubscriptionPlan" />
+          <EntitySet Name="Timesheets" EntityType="TimeGoModel.Timesheet" />
+          <EntitySet Name="TimesheetLines" EntityType="TimeGoModel.TimesheetLine" />
+          <EntitySet Name="VersionInfoes" EntityType="TimeGoModel.VersionInfo" />
+          <AssociationSet Name="fk_Timesheet_ApprovalStatus" Association="TimeGoModel.fk_Timesheet_ApprovalStatus">
+            <End Role="ApprovalStatu" EntitySet="ApprovalStatus" />
+            <End Role="Timesheet" EntitySet="Timesheets" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Company_CompanyApproved" Association="TimeGoModel.fk_Company_CompanyApproved">
+            <End Role="CompanyApproved" EntitySet="CompanyApproveds" />
+            <End Role="Company" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Company_SubscriptionPlan" Association="TimeGoModel.fk_Company_SubscriptionPlan">
+            <End Role="SubscriptionPlan" EntitySet="SubscriptionPlans" />
+            <End Role="Company" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Employee_Company" Association="TimeGoModel.fk_Employee_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Period_Company" Association="TimeGoModel.fk_Period_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Period" EntitySet="Periods" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Timesheet_Company" Association="TimeGoModel.fk_Timesheet_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Timesheet" EntitySet="Timesheets" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Employee_Employee" Association="TimeGoModel.fk_Employee_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Employee1" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Period_Employee" Association="TimeGoModel.fk_Period_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Period" EntitySet="Periods" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Timesheet_Employee1" Association="TimeGoModel.fk_Timesheet_Employee1">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Timesheet" EntitySet="Timesheets" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Timesheet_Employee2" Association="TimeGoModel.fk_Timesheet_Employee2">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Timesheet" EntitySet="Timesheets" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Timesheet_Employee3" Association="TimeGoModel.fk_Timesheet_Employee3">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Timesheet" EntitySet="Timesheets" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Timesheet_LockStatus" Association="TimeGoModel.fk_Timesheet_LockStatus">
+            <End Role="LockStatu" EntitySet="LockStatus" />
+            <End Role="Timesheet" EntitySet="Timesheets" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Timesheet_Period" Association="TimeGoModel.fk_Timesheet_Period">
+            <End Role="Period" EntitySet="Periods" />
+            <End Role="Timesheet" EntitySet="Timesheets" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TimesheetLine_Timesheet" Association="TimeGoModel.fk_TimesheetLine_Timesheet">
+            <End Role="Timesheet" EntitySet="Timesheets" />
+            <End Role="TimesheetLine" EntitySet="TimesheetLines" />
+          </AssociationSet>
+          <EntitySet Name="Tasks" EntityType="TimeGoModel.Task" />
+          <EntitySet Name="TaskAlloweds" EntityType="TimeGoModel.TaskAllowed" />
+          <AssociationSet Name="fk_Task_Company" Association="TimeGoModel.fk_Task_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TaskAllowed_Employee" Association="TimeGoModel.fk_TaskAllowed_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="TaskAllowed" EntitySet="TaskAlloweds" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TaskAllowed_Task" Association="TimeGoModel.fk_TaskAllowed_Task">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="TaskAllowed" EntitySet="TaskAlloweds" />
+          </AssociationSet>
+          <EntitySet Name="EmployeeRates" EntityType="TimeGoModel.EmployeeRate" />
+          <AssociationSet Name="fk_EmployeeRates_Employees" Association="TimeGoModel.fk_EmployeeRates_Employees">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeeRate" EntitySet="EmployeeRates" />
+          </AssociationSet>
+          <EntitySet Name="TimeoffRequests" EntityType="TimeGoModel.TimeoffRequest" />
+          <AssociationSet Name="fk_TimeoffRequests_ApprovalStatus" Association="TimeGoModel.fk_TimeoffRequests_ApprovalStatus">
+            <End Role="ApprovalStatus" EntitySet="ApprovalStatus" />
+            <End Role="TimeoffRequest" EntitySet="TimeoffRequests" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TimeoffRequests_Company" Association="TimeGoModel.fk_TimeoffRequests_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="TimeoffRequest" EntitySet="TimeoffRequests" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TimeoffRequests_Employee" Association="TimeGoModel.fk_TimeoffRequests_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="TimeoffRequest" EntitySet="TimeoffRequests" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ApprovalStatus">
+          <Key>
+            <PropertyRef Name="ApprovalStatusId" />
+          </Key>
+          <Property Name="ApprovalStatusId" Type="Int32" Nullable="false" />
+          <Property Name="ApprovalStatusType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Timesheets" Relationship="TimeGoModel.fk_Timesheet_ApprovalStatus" FromRole="ApprovalStatu" ToRole="Timesheet" />
+          <NavigationProperty Name="TimeoffRequests" Relationship="TimeGoModel.fk_TimeoffRequests_ApprovalStatus" FromRole="ApprovalStatus" ToRole="TimeoffRequest" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ContactName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TimeGoURL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyApprovedId" Type="Int32" Nullable="false" />
+          <Property Name="BillingAddressLine1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BillingAddressLine2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BillingAddressCity" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BillingAddressState" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BillingAddressZip" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BillingAddressCountry" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SubscriptionPlanId" Type="Int32" Nullable="false" />
+          <Property Name="VacationApproverEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CompanyApproved" Relationship="TimeGoModel.fk_Company_CompanyApproved" FromRole="Company" ToRole="CompanyApproved" />
+          <NavigationProperty Name="SubscriptionPlan" Relationship="TimeGoModel.fk_Company_SubscriptionPlan" FromRole="Company" ToRole="SubscriptionPlan" />
+          <NavigationProperty Name="Employees" Relationship="TimeGoModel.fk_Employee_Company" FromRole="Company" ToRole="Employee" />
+          <NavigationProperty Name="Periods" Relationship="TimeGoModel.fk_Period_Company" FromRole="Company" ToRole="Period" />
+          <NavigationProperty Name="Timesheets" Relationship="TimeGoModel.fk_Timesheet_Company" FromRole="Company" ToRole="Timesheet" />
+          <Property Name="UpdatedById" Type="Int32" />
+          <NavigationProperty Name="Tasks" Relationship="TimeGoModel.fk_Task_Company" FromRole="Company" ToRole="Task" />
+          <NavigationProperty Name="TimeoffRequests" Relationship="TimeGoModel.fk_TimeoffRequests_Company" FromRole="Company" ToRole="TimeoffRequest" />
+        </EntityType>
+        <EntityType Name="CompanyApproved">
+          <Key>
+            <PropertyRef Name="CompanyApprovedId" />
+          </Key>
+          <Property Name="CompanyApprovedId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyApprovedType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Companies" Relationship="TimeGoModel.fk_Company_CompanyApproved" FromRole="CompanyApproved" ToRole="Company" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="EmployeeNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SSN" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsOvertimeCalculated" Type="Boolean" Nullable="false" />
+          <Property Name="UpdatedById" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Company" Relationship="TimeGoModel.fk_Employee_Company" FromRole="Employee" ToRole="Company" />
+          <NavigationProperty Name="Employee1" Relationship="TimeGoModel.fk_Employee_Employee" FromRole="Employee" ToRole="Employee1" />
+          <NavigationProperty Name="Employee2" Relationship="TimeGoModel.fk_Employee_Employee" FromRole="Employee1" ToRole="Employee" />
+          <NavigationProperty Name="Periods" Relationship="TimeGoModel.fk_Period_Employee" FromRole="Employee" ToRole="Period" />
+          <NavigationProperty Name="Timesheets" Relationship="TimeGoModel.fk_Timesheet_Employee1" FromRole="Employee" ToRole="Timesheet" />
+          <NavigationProperty Name="Timesheets1" Relationship="TimeGoModel.fk_Timesheet_Employee2" FromRole="Employee" ToRole="Timesheet" />
+          <NavigationProperty Name="Timesheets2" Relationship="TimeGoModel.fk_Timesheet_Employee3" FromRole="Employee" ToRole="Timesheet" />
+          <Property Name="Phonenumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LoginMethodId" Type="Int32" />
+          <NavigationProperty Name="TaskAlloweds" Relationship="TimeGoModel.fk_TaskAllowed_Employee" FromRole="Employee" ToRole="TaskAllowed" />
+          <NavigationProperty Name="EmployeeRates" Relationship="TimeGoModel.fk_EmployeeRates_Employees" FromRole="Employee" ToRole="EmployeeRate" />
+          <NavigationProperty Name="TimeoffRequests" Relationship="TimeGoModel.fk_TimeoffRequests_Employee" FromRole="Employee" ToRole="TimeoffRequest" />
+        </EntityType>
+        <EntityType Name="LockStatus">
+          <Key>
+            <PropertyRef Name="LockStatusId" />
+          </Key>
+          <Property Name="LockStatusId" Type="Int32" Nullable="false" />
+          <Property Name="LockStatusType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Timesheets" Relationship="TimeGoModel.fk_Timesheet_LockStatus" FromRole="LockStatu" ToRole="Timesheet" />
+        </EntityType>
+        <EntityType Name="Period">
+          <Key>
+            <PropertyRef Name="PeriodId" />
+          </Key>
+          <Property Name="PeriodId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="PeriodStart" Type="DateTime" Precision="3" />
+          <Property Name="PeriodEnd" Type="DateTime" Precision="3" />
+          <Property Name="Reminder1Date" Type="DateTime" Precision="3" />
+          <Property Name="Reminder2Date" Type="DateTime" Precision="3" />
+          <Property Name="PeriodStatusId" Type="Int32" Nullable="false" />
+          <Property Name="UpdatedById" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Company" Relationship="TimeGoModel.fk_Period_Company" FromRole="Period" ToRole="Company" />
+          <NavigationProperty Name="Employee" Relationship="TimeGoModel.fk_Period_Employee" FromRole="Period" ToRole="Employee" />
+          <NavigationProperty Name="Timesheets" Relationship="TimeGoModel.fk_Timesheet_Period" FromRole="Period" ToRole="Timesheet" />
+        </EntityType>
+        <EntityType Name="SubscriptionPlan">
+          <Key>
+            <PropertyRef Name="SubscriptionPlanId" />
+          </Key>
+          <Property Name="SubscriptionPlanId" Type="Int32" Nullable="false" />
+          <Property Name="SubscriptionPlanType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Companies" Relationship="TimeGoModel.fk_Company_SubscriptionPlan" FromRole="SubscriptionPlan" ToRole="Company" />
+        </EntityType>
+        <EntityType Name="Timesheet">
+          <Key>
+            <PropertyRef Name="TimesheetId" />
+          </Key>
+          <Property Name="TimesheetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="PeriodId" Type="Int32" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="EmployeeNotes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ApproverNotes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovalStatusId" Type="Int32" Nullable="false" />
+          <Property Name="LockStatusId" Type="Int32" Nullable="false" />
+          <Property Name="RevisedById" Type="Int32" />
+          <Property Name="ApprovedById" Type="Int32" />
+          <Property Name="SavedOn" Type="DateTime" Precision="3" />
+          <Property Name="SubmittedOn" Type="DateTime" Precision="3" />
+          <Property Name="RevisedOn" Type="DateTime" Precision="3" />
+          <Property Name="ApprovedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ApprovalStatu" Relationship="TimeGoModel.fk_Timesheet_ApprovalStatus" FromRole="Timesheet" ToRole="ApprovalStatu" />
+          <NavigationProperty Name="Company" Relationship="TimeGoModel.fk_Timesheet_Company" FromRole="Timesheet" ToRole="Company" />
+          <NavigationProperty Name="Employee" Relationship="TimeGoModel.fk_Timesheet_Employee1" FromRole="Timesheet" ToRole="Employee" />
+          <NavigationProperty Name="Employee1" Relationship="TimeGoModel.fk_Timesheet_Employee2" FromRole="Timesheet" ToRole="Employee" />
+          <NavigationProperty Name="Employee2" Relationship="TimeGoModel.fk_Timesheet_Employee3" FromRole="Timesheet" ToRole="Employee" />
+          <NavigationProperty Name="LockStatu" Relationship="TimeGoModel.fk_Timesheet_LockStatus" FromRole="Timesheet" ToRole="LockStatu" />
+          <NavigationProperty Name="Period" Relationship="TimeGoModel.fk_Timesheet_Period" FromRole="Timesheet" ToRole="Period" />
+          <NavigationProperty Name="TimesheetLines" Relationship="TimeGoModel.fk_TimesheetLine_Timesheet" FromRole="Timesheet" ToRole="TimesheetLine" />
+        </EntityType>
+        <EntityType Name="TimesheetLine">
+          <Key>
+            <PropertyRef Name="LineId" />
+          </Key>
+          <Property Name="LineId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TimesheetId" Type="Int32" />
+          <Property Name="StartTime" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="EndTime" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="TaskId" Type="Int32" />
+          <NavigationProperty Name="Timesheet" Relationship="TimeGoModel.fk_TimesheetLine_Timesheet" FromRole="TimesheetLine" ToRole="Timesheet" />
+        </EntityType>
+        <EntityType Name="VersionInfo">
+          <Key>
+            <PropertyRef Name="Version" />
+          </Key>
+          <Property Name="Version" Type="Int64" Nullable="false" />
+          <Property Name="AppliedOn" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="fk_Timesheet_ApprovalStatus">
+          <End Type="TimeGoModel.ApprovalStatus" Role="ApprovalStatu" Multiplicity="1" />
+          <End Type="TimeGoModel.Timesheet" Role="Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApprovalStatu">
+              <PropertyRef Name="ApprovalStatusId" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="ApprovalStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Company_CompanyApproved">
+          <End Type="TimeGoModel.CompanyApproved" Role="CompanyApproved" Multiplicity="1" />
+          <End Type="TimeGoModel.Company" Role="Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyApproved">
+              <PropertyRef Name="CompanyApprovedId" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="CompanyApprovedId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Company_SubscriptionPlan">
+          <End Type="TimeGoModel.SubscriptionPlan" Role="SubscriptionPlan" Multiplicity="1" />
+          <End Type="TimeGoModel.Company" Role="Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubscriptionPlan">
+              <PropertyRef Name="SubscriptionPlanId" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="SubscriptionPlanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Employee_Company">
+          <End Type="TimeGoModel.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="TimeGoModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Period_Company">
+          <End Type="TimeGoModel.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="TimeGoModel.Period" Role="Period" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Period">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Timesheet_Company">
+          <End Type="TimeGoModel.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="TimeGoModel.Timesheet" Role="Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Employee_Employee">
+          <End Type="TimeGoModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="TimeGoModel.Employee" Role="Employee1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Employee1">
+              <PropertyRef Name="UpdatedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Period_Employee">
+          <End Type="TimeGoModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="TimeGoModel.Period" Role="Period" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Period">
+              <PropertyRef Name="UpdatedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Timesheet_Employee1">
+          <End Type="TimeGoModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="TimeGoModel.Timesheet" Role="Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Timesheet_Employee2">
+          <End Type="TimeGoModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="TimeGoModel.Timesheet" Role="Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="RevisedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Timesheet_Employee3">
+          <End Type="TimeGoModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="TimeGoModel.Timesheet" Role="Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="ApprovedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Timesheet_LockStatus">
+          <End Type="TimeGoModel.LockStatus" Role="LockStatu" Multiplicity="1" />
+          <End Type="TimeGoModel.Timesheet" Role="Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LockStatu">
+              <PropertyRef Name="LockStatusId" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="LockStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Timesheet_Period">
+          <End Type="TimeGoModel.Period" Role="Period" Multiplicity="0..1" />
+          <End Type="TimeGoModel.Timesheet" Role="Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Period">
+              <PropertyRef Name="PeriodId" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="PeriodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TimesheetLine_Timesheet">
+          <End Type="TimeGoModel.Timesheet" Role="Timesheet" Multiplicity="0..1" />
+          <End Type="TimeGoModel.TimesheetLine" Role="TimesheetLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timesheet">
+              <PropertyRef Name="TimesheetId" />
+            </Principal>
+            <Dependent Role="TimesheetLine">
+              <PropertyRef Name="TimesheetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="TaskId" />
+          </Key>
+          <Property Name="TaskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="TaskName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Approver1Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Approver2Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Int32" />
+          <Property Name="UpdatedById" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Company" Relationship="TimeGoModel.fk_Task_Company" FromRole="Task" ToRole="Company" />
+          <NavigationProperty Name="TaskAlloweds" Relationship="TimeGoModel.fk_TaskAllowed_Task" FromRole="Task" ToRole="TaskAllowed" />
+        </EntityType>
+        <EntityType Name="TaskAllowed">
+          <Key>
+            <PropertyRef Name="TaskAllowedId" />
+          </Key>
+          <Property Name="TaskAllowedId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskId" Type="Int32" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <NavigationProperty Name="Employee" Relationship="TimeGoModel.fk_TaskAllowed_Employee" FromRole="TaskAllowed" ToRole="Employee" />
+          <NavigationProperty Name="Task" Relationship="TimeGoModel.fk_TaskAllowed_Task" FromRole="TaskAllowed" ToRole="Task" />
+          <Property Name="IsActive" Type="Boolean" />
+        </EntityType>
+        <Association Name="fk_Task_Company">
+          <End Type="TimeGoModel.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="TimeGoModel.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TaskAllowed_Employee">
+          <End Type="TimeGoModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="TimeGoModel.TaskAllowed" Role="TaskAllowed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="TaskAllowed">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TaskAllowed_Task">
+          <End Type="TimeGoModel.Task" Role="Task" Multiplicity="0..1" />
+          <End Type="TimeGoModel.TaskAllowed" Role="TaskAllowed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="TaskId" />
+            </Principal>
+            <Dependent Role="TaskAllowed">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EmployeeRate">
+          <Key>
+            <PropertyRef Name="RateId" />
+          </Key>
+          <Property Name="RateId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="EffectiveStartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EffectiveEndDate" Type="DateTime" Precision="3" />
+          <Property Name="RateAmount" Type="Single" Nullable="false" />
+          <Property Name="UpdatedById" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Employee" Relationship="TimeGoModel.fk_EmployeeRates_Employees" FromRole="EmployeeRate" ToRole="Employee" />
+        </EntityType>
+        <Association Name="fk_EmployeeRates_Employees">
+          <End Type="TimeGoModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="TimeGoModel.EmployeeRate" Role="EmployeeRate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="EmployeeRate">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TimeoffRequest">
+          <Key>
+            <PropertyRef Name="TimeoffId" />
+          </Key>
+          <Property Name="TimeoffId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="FromDate" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="ToDate" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ApprovalStatusId" Type="Int32" Nullable="false" />
+          <Property Name="SubmittedOn" Type="DateTime" Precision="3" />
+          <Property Name="ApprovedById" Type="Int32" />
+          <Property Name="ApprovedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ApprovalStatu" Relationship="TimeGoModel.fk_TimeoffRequests_ApprovalStatus" FromRole="TimeoffRequest" ToRole="ApprovalStatus" />
+          <NavigationProperty Name="Company" Relationship="TimeGoModel.fk_TimeoffRequests_Company" FromRole="TimeoffRequest" ToRole="Company" />
+          <NavigationProperty Name="Employee" Relationship="TimeGoModel.fk_TimeoffRequests_Employee" FromRole="TimeoffRequest" ToRole="Employee" />
+          <Property Name="ReturningToWork" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <Association Name="fk_TimeoffRequests_ApprovalStatus">
+          <End Type="TimeGoModel.ApprovalStatus" Role="ApprovalStatus" Multiplicity="1" />
+          <End Type="TimeGoModel.TimeoffRequest" Role="TimeoffRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApprovalStatus">
+              <PropertyRef Name="ApprovalStatusId" />
+            </Principal>
+            <Dependent Role="TimeoffRequest">
+              <PropertyRef Name="ApprovalStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TimeoffRequests_Company">
+          <End Type="TimeGoModel.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="TimeGoModel.TimeoffRequest" Role="TimeoffRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="TimeoffRequest">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TimeoffRequests_Employee">
+          <End Type="TimeGoModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="TimeGoModel.TimeoffRequest" Role="TimeoffRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="TimeoffRequest">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TimeGoModelStoreContainer" CdmEntityContainer="TimeGoEntities" >
+          <EntitySetMapping Name="ApprovalStatus">
+            <EntityTypeMapping TypeName="TimeGoModel.ApprovalStatus">
+              <MappingFragment StoreEntitySet="ApprovalStatus">
+                <ScalarProperty Name="ApprovalStatusType" ColumnName="ApprovalStatusType" />
+                <ScalarProperty Name="ApprovalStatusId" ColumnName="ApprovalStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="TimeGoModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="UpdatedById" ColumnName="UpdatedById" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="VacationApproverEmail" ColumnName="VacationApproverEmail" />
+                <ScalarProperty Name="SubscriptionPlanId" ColumnName="SubscriptionPlanId" />
+                <ScalarProperty Name="BillingAddressCountry" ColumnName="BillingAddressCountry" />
+                <ScalarProperty Name="BillingAddressZip" ColumnName="BillingAddressZip" />
+                <ScalarProperty Name="BillingAddressState" ColumnName="BillingAddressState" />
+                <ScalarProperty Name="BillingAddressCity" ColumnName="BillingAddressCity" />
+                <ScalarProperty Name="BillingAddressLine2" ColumnName="BillingAddressLine2" />
+                <ScalarProperty Name="BillingAddressLine1" ColumnName="BillingAddressLine1" />
+                <ScalarProperty Name="CompanyApprovedId" ColumnName="CompanyApprovedId" />
+                <ScalarProperty Name="TimeGoURL" ColumnName="TimeGoURL" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyApproveds">
+            <EntityTypeMapping TypeName="TimeGoModel.CompanyApproved">
+              <MappingFragment StoreEntitySet="CompanyApproved">
+                <ScalarProperty Name="CompanyApprovedType" ColumnName="CompanyApprovedType" />
+                <ScalarProperty Name="CompanyApprovedId" ColumnName="CompanyApprovedId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="TimeGoModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="LoginMethodId" ColumnName="LoginMethodId" />
+                <ScalarProperty Name="Phonenumber" ColumnName="Phonenumber" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedById" ColumnName="UpdatedById" />
+                <ScalarProperty Name="IsOvertimeCalculated" ColumnName="IsOvertimeCalculated" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="SSN" ColumnName="SSN" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="EmployeeNumber" ColumnName="EmployeeNumber" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LockStatus">
+            <EntityTypeMapping TypeName="TimeGoModel.LockStatus">
+              <MappingFragment StoreEntitySet="LockStatus">
+                <ScalarProperty Name="LockStatusType" ColumnName="LockStatusType" />
+                <ScalarProperty Name="LockStatusId" ColumnName="LockStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Periods">
+            <EntityTypeMapping TypeName="TimeGoModel.Period">
+              <MappingFragment StoreEntitySet="Period">
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedById" ColumnName="UpdatedById" />
+                <ScalarProperty Name="PeriodStatusId" ColumnName="PeriodStatusId" />
+                <ScalarProperty Name="Reminder2Date" ColumnName="Reminder2Date" />
+                <ScalarProperty Name="Reminder1Date" ColumnName="Reminder1Date" />
+                <ScalarProperty Name="PeriodEnd" ColumnName="PeriodEnd" />
+                <ScalarProperty Name="PeriodStart" ColumnName="PeriodStart" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="PeriodId" ColumnName="PeriodId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubscriptionPlans">
+            <EntityTypeMapping TypeName="TimeGoModel.SubscriptionPlan">
+              <MappingFragment StoreEntitySet="SubscriptionPlan">
+                <ScalarProperty Name="SubscriptionPlanType" ColumnName="SubscriptionPlanType" />
+                <ScalarProperty Name="SubscriptionPlanId" ColumnName="SubscriptionPlanId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Timesheets">
+            <EntityTypeMapping TypeName="TimeGoModel.Timesheet">
+              <MappingFragment StoreEntitySet="Timesheet">
+                <ScalarProperty Name="ApprovedOn" ColumnName="ApprovedOn" />
+                <ScalarProperty Name="RevisedOn" ColumnName="RevisedOn" />
+                <ScalarProperty Name="SubmittedOn" ColumnName="SubmittedOn" />
+                <ScalarProperty Name="SavedOn" ColumnName="SavedOn" />
+                <ScalarProperty Name="ApprovedById" ColumnName="ApprovedById" />
+                <ScalarProperty Name="RevisedById" ColumnName="RevisedById" />
+                <ScalarProperty Name="LockStatusId" ColumnName="LockStatusId" />
+                <ScalarProperty Name="ApprovalStatusId" ColumnName="ApprovalStatusId" />
+                <ScalarProperty Name="ApproverNotes" ColumnName="ApproverNotes" />
+                <ScalarProperty Name="EmployeeNotes" ColumnName="EmployeeNotes" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="PeriodId" ColumnName="PeriodId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="TimesheetId" ColumnName="TimesheetId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimesheetLines">
+            <EntityTypeMapping TypeName="TimeGoModel.TimesheetLine">
+              <MappingFragment StoreEntitySet="TimesheetLine">
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="TimesheetId" ColumnName="TimesheetId" />
+                <ScalarProperty Name="LineId" ColumnName="LineId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VersionInfoes">
+            <EntityTypeMapping TypeName="TimeGoModel.VersionInfo">
+              <MappingFragment StoreEntitySet="VersionInfo">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="AppliedOn" ColumnName="AppliedOn" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="TimeGoModel.Task">
+              <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedById" ColumnName="UpdatedById" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Approver2Email" ColumnName="Approver2Email" />
+                <ScalarProperty Name="Approver1Email" ColumnName="Approver1Email" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskAlloweds">
+            <EntityTypeMapping TypeName="TimeGoModel.TaskAllowed">
+              <MappingFragment StoreEntitySet="TaskAllowed">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="TaskAllowedId" ColumnName="TaskAllowedId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeRates">
+            <EntityTypeMapping TypeName="TimeGoModel.EmployeeRate">
+              <MappingFragment StoreEntitySet="EmployeeRates">
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedById" ColumnName="UpdatedById" />
+                <ScalarProperty Name="RateAmount" ColumnName="RateAmount" />
+                <ScalarProperty Name="EffectiveEndDate" ColumnName="EffectiveEndDate" />
+                <ScalarProperty Name="EffectiveStartDate" ColumnName="EffectiveStartDate" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="RateId" ColumnName="RateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimeoffRequests">
+            <EntityTypeMapping TypeName="TimeGoModel.TimeoffRequest">
+              <MappingFragment StoreEntitySet="TimeoffRequests">
+                <ScalarProperty Name="ReturningToWork" ColumnName="ReturningToWork" />
+                <ScalarProperty Name="ApprovedOn" ColumnName="ApprovedOn" />
+                <ScalarProperty Name="ApprovedById" ColumnName="ApprovedById" />
+                <ScalarProperty Name="SubmittedOn" ColumnName="SubmittedOn" />
+                <ScalarProperty Name="ApprovalStatusId" ColumnName="ApprovalStatusId" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="TimeoffId" ColumnName="TimeoffId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

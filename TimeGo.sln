@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeGo", "TimeGo\TimeGo.csproj", "{FA8843C4-ACF0-4511-858D-30D6C6DB3E7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeGo.DataModel", "TimeGo.DataModel\TimeGo.DataModel.csproj", "{8DD6D06B-BAAD-4E42-85E6-8A5D32960A12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeGo.Data", "TimeGo.Data\TimeGo.Data.csproj", "{217FE23A-77EA-44DA-B439-C36C98B7FD5B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FA8843C4-ACF0-4511-858D-30D6C6DB3E7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA8843C4-ACF0-4511-858D-30D6C6DB3E7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA8843C4-ACF0-4511-858D-30D6C6DB3E7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA8843C4-ACF0-4511-858D-30D6C6DB3E7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DD6D06B-BAAD-4E42-85E6-8A5D32960A12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DD6D06B-BAAD-4E42-85E6-8A5D32960A12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DD6D06B-BAAD-4E42-85E6-8A5D32960A12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DD6D06B-BAAD-4E42-85E6-8A5D32960A12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{217FE23A-77EA-44DA-B439-C36C98B7FD5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{217FE23A-77EA-44DA-B439-C36C98B7FD5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{217FE23A-77EA-44DA-B439-C36C98B7FD5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{217FE23A-77EA-44DA-B439-C36C98B7FD5B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

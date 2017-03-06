@@ -1,0 +1,110 @@
+﻿@using TimeGo.Models
+@model SignUpViewModel
+@{
+    ViewBag.Title = "Sign Up";
+}
+
+<style>
+    .date {
+        width: 70px;
+    }
+
+    .single-line input, .single-line button {
+        display: inline-block;
+    }
+
+    .single-line button {
+        width: auto;
+    }
+</style>
+
+<h1>TimeGo.com</h1>
+
+<h3>Ready to sign up?</h3>
+
+<br />
+
+
+@using (Html.BeginForm("SignUp", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+
+    <div class="row">
+        <div class="form-group col-sm-6">
+            <label for="exampleInputEmail1" class="col-sm-4">Company Name</label>
+            @Html.TextBoxFor(m => m.CompanyName, new { Class = "form-control" })
+            @Html.ValidationMessageFor(m => m.CompanyName, "", new { @class = "text-danger col-xs-7" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-sm-6">
+            <label for="exampleInputEmail1" class="col-sm-4">First Name</label>
+            @Html.TextBoxFor(m => m.FirstName, new { Class = "form-control" })
+            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger col-xs-7" })
+        </div>
+
+        <div class="form-group col-sm-6">
+            <label for="exampleInputEmail1" class="col-sm-4">Last Name</label>
+            @Html.TextBoxFor(m => m.LastName, new { Class = "form-control" })
+            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger col-xs-7" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-sm-6">
+            <label for="exampleInputEmail1" class="col-sm-4">Email Address</label>
+            @Html.TextBoxFor(m => m.Email, new { Class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger col-xs-7" })
+        </div>
+
+        <div class="form-group col-sm-6">
+            <label for="exampleInputEmail1" class="col-sm-4">Password</label>
+            @Html.TextBoxFor(m => m.Password, new { Class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger col-xs-7" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-sm-6">
+            <label for="exampleInputEmail1" class="col-sm-4">Phone Number</label>
+            @Html.TextBoxFor(m => m.PhoneNumber, new { Class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger col-xs-7" })
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row">
+        <label for="exampleInputEmail1" class="col-sm-12">Pick a short word (no spaces or special characters) that users will type after timego.com/ tp reach your company login screen.</label>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-sm-12 single-line">
+            <div class="col-sm-5 text-right">
+                http://timego.com/
+                @Html.TextBoxFor(m => m.CompanyURL, new { @class = "form-control" })
+                /
+            </div>
+        </div>
+    </div>
+    @Html.ValidationMessageFor(m => m.CompanyURL, "", new { @class = "text-danger col-xs-7" })
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="submit" class="btn btn-primary" value="Sign Up" />
+        </div>
+    </div>
+}
+
+
+
+
+@section scripts{
+    <script>
+        $(function () {
+            $(".date").datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: true
+            });
+        });
+    </script>
+}

@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Session["LoginId"]!=null)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            @Html.ActionLink("Hello " + (String)Session["LoginName"] + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+        </li>
+        <li>
+            @Html.ActionLink("Log off", "", (String)Session["CompanyURL"], routeValues: null, htmlAttributes: new { title = "Manage" })
+    </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Register", "", "SignUp", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li><a href="/Login">Log In</a></li>
+    </ul>
+}
