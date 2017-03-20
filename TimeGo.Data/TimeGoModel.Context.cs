@@ -39,5 +39,6 @@ namespace TimeGo.Data
         public virtual DbSet<TaskAllowed> TaskAlloweds { get; set; }
         public virtual DbSet<EmployeeRate> EmployeeRates { get; set; }
         public virtual DbSet<TimeoffRequest> TimeoffRequests { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
     }
 }

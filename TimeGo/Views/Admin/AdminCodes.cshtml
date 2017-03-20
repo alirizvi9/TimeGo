@@ -23,8 +23,8 @@
         <tr>
             <th width="50"></th>
             <th style="width: 20%">Task</th>
-            <th style="width: 20%">Approver 1 Email</th>
-            <th>Approver 2 Email</th>
+            <th style="width: 20%">Approver 1</th>
+            <th>Approver 2</th>
             <th>Is Active</th>
         </tr>
     </thead>
@@ -36,8 +36,16 @@
                 </a>
             </td>
             <td>@task.TaskName</td>
-            <td>@task.Approver1Email</td>
-            <td>@task.Approver2Email</td>
+            <td>
+                @if (task.Employee != null) {
+                    @String.Format("{1}, {0}", @task.Employee.FirstName, @task.Employee.LastName);
+                }
+            </td>
+            <td>
+                @if (task.Employee1 != null) {
+                    @String.Format("{1}, {0}", @task.Employee1.FirstName, @task.Employee1.LastName);
+                }
+            </td>
             <td>@(task.IsActive==1?"Yes":"No")</td>
         </tr>
     }
@@ -59,12 +67,12 @@
         @Html.ValidationMessageFor(m => m.SelectedTask.TaskName, "", new { @class = "text-danger col-xs-7" })
     </div>
     <div class="form-group">
-        <label for="exampleInputEmail1" class="col-sm-2">Approver 1 Email</label>
-        @Html.TextBoxFor(m => m.SelectedTask.Approver1Email, new { Class = "form-control" })
+        <label for="exampleInputEmail1" class="col-sm-2">Approver 1</label>
+        @Html.DropDownListFor(m => m.SelectedTask.Approver1Id, Model.Employees, new { Class = "form-control" })
     </div>
     <div class="form-group">
-        <label for="exampleInputEmail1" class="col-sm-2">Approver 2 Email</label>
-        @Html.TextBoxFor(m => m.SelectedTask.Approver2Email, new { Class = "form-control" })
+        <label for="exampleInputEmail1" class="col-sm-2">Approver 2</label>
+        @Html.DropDownListFor(m => m.SelectedTask.Approver2Id, Model.Employees, new { Class = "form-control" })
      </div>
 
     <div class="form-group">

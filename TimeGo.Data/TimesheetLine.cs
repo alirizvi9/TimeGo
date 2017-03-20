@@ -19,7 +19,16 @@ namespace TimeGo.Data
         public System.DateTime StartTime { get; set; }
         public System.DateTime EndTime { get; set; }
         public Nullable<int> TaskId { get; set; }
+        public int ApprovalStatusId { get; set; }
+        public int LockStatusId { get; set; }
+        public Nullable<int> RevisedById { get; set; }
+        public Nullable<int> ApprovedById { get; set; }
+        public Nullable<System.DateTime> ApprovedOn { get; set; }
     
         public virtual Timesheet Timesheet { get; set; }
+        public virtual ApprovalStatus ApprovalStatu { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual Employee Employee1 { get; set; }
+        public virtual LockStatus LockStatu { get; set; }
     }
 }

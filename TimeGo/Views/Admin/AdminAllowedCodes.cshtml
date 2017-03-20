@@ -23,7 +23,7 @@
 
 @using (Html.BeginForm("AdminAllowedCodes", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
     <div class="form-group form-inline">
-        Select employee @Html.DropDownListFor(m => m.EmployeeId, Model.Employees, new { Class = "form-control" }) and check allowed tasks below:
+        Select employee @Html.DropDownListFor(m => m.EmployeeId, Model.Employees, new { Class = "form-control SelectedEmployeeId" }) and check allowed tasks below:
     </div>
 
     <br />
@@ -61,6 +61,10 @@
                 showOtherMonths: true,
                 selectOtherMonths: true
             });
+
+            $(".SelectedEmployeeId").on("change", function() {
+                window.location.href = "?SelectedEmployeeId="+$(".SelectedEmployeeId").val();
+            })
         });
     </script>
 

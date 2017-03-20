@@ -29,8 +29,8 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "User")</li>
                     <li>@Html.ActionLink("Timesheet", "Index", "Timesheet")</li>
-                    <li>@Html.ActionLink("Time Off", "TimeOff", Model.CompanyURL)</li>
-                    @if (Model.IsAdmin==true) {
+                    <li>@Html.ActionLink("Timeoff Request", "TimeOff", Model.CompanyURL)</li>
+                    @if (Model.RoleId!=0) {
                         <li><a href="@("/"+Model.CompanyURL+"/Admin")">Administrative</a></li>
                     }
                 </ul>

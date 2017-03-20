@@ -28,9 +28,13 @@ namespace TimeGo.Data
         public Nullable<int> IsActive { get; set; }
         public Nullable<int> UpdatedById { get; set; }
         public Nullable<System.DateTime> UpdatedOn { get; set; }
+        public Nullable<int> Approver1Id { get; set; }
+        public Nullable<int> Approver2Id { get; set; }
     
         public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TaskAllowed> TaskAlloweds { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual Employee Employee1 { get; set; }
     }
 }

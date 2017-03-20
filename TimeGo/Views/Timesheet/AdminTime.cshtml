@@ -1,7 +1,7 @@
 ﻿@using TimeGo.Models
-@model TimeoffViewModel
+@model TimesheetViewModel
 @{
-    ViewBag.Title = "Timeoff Request";
+    ViewBag.Title = "Timesheets";
 }
 
 <style>
@@ -21,16 +21,20 @@
 </style>
 
 <h1>@Model.CompanyName</h1>
+<h3>Admin - Review or Edit Timesheets</h3>
 
-
-@using (Html.BeginForm("time", Model.CompanyURL, FormMethod.Post, new { @class = "form-horizontal", role = "form" })) 
+@using (Html.BeginForm("admintime", Model.CompanyURL, FormMethod.Post, new { @class = "form-horizontal", role = "form" })) 
 {
     <div class="row form-group">
-        <div class="col-xs-8">
+        <div class="col-xs-4">
             @Html.DropDownListFor(m => m.SelectedPeriodId, Model.PeriodListItems, new { @Class = "form-control SelectedPeriodId" })
         </div>
 
-        <div class="col-xs-4">
+        <div class="col-xs-5" style="text-align: right">
+            @Html.DropDownListFor(m => m.SelectedEmployeeId, Model.Timesheets, new { @Class = "form-control pull-right SelectedPeriodId", style = "max-width: 100%" })
+        </div>
+
+       <div class="col-xs-3">
             <p class="form-control-static grandtotal text-right" style="font-weight: bold; color: blue; font-size: 12pt;"></p>
         </div>
     </div>
@@ -66,9 +70,21 @@
 
         <div class="row">
             <div class="form-group">
-                <label for="exampleInputEmail1" class="col-sm-2">Notes to payroll</label>
+                <label for="exampleInputEmail1" class="col-sm-2">Employee Notes</label>
                 <div class="col-sm-10">
-                    @Html.TextAreaFor(m=>m.EmployeeNotes, new { @class="form-control", rows="2", style="max-width: 100%" })
+                    @Html.DisplayFor(m=>m.EmployeeNotes, new { @class="xform-control", rows="2", style="max-width: 100%" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <label for="exampleInputEmail1" class="">Approver Notes</label>
+                    <button class="form-control savenotes btn btn-primary">Save Notes</button>
+                </div>
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(m => m.PayroleNotes, new { @class = "form-control", rows = "2", style = "max-width: 100%" })
                 </div>
             </div>
         </div>
@@ -78,29 +94,47 @@
         <div class="row">
             <div class="form-group">
                 <div class="col-sm-2">
-                    <button type="submit" class="form-control save btn btn-primary"  @((Model.IsLocked) ? "disabled" : "") >Save</button>
+                    <button type="submit" class="form-control approve btn btn-primary" @((Model.ApprovalStatusId==2) ? "disabled" : "")>Approve</button>
                 </div>
+
+                <div class="col-sm-1"></div>
 
                 <div class="col-sm-2">
-                    <button class="form-control submit btn btn-primary" @((Model.IsLocked) ? "disabled" : "")>Submit Final</button>
+                    <button class="form-control resubmit btn btn-primary" @((Model.ApprovalStatusId==0) ? "disabled" : "")>Request Resubmit</button>
                 </div>
 
-                <div class="col-sm-6">
-                    @if (Model.LastSubmitted != null) {
-                        <p class="form-control-static">Submitted on  @Model.LastSubmitted</p>
-                    }
-                </div>
+                <div class="col-sm-1"></div>
 
                 <div class="col-sm-2">
-                    <button class="form-control Unlock btn btn-primary" @((!Model.IsLocked) ? "disabled" : "")>Request to Unlock</button>
+                    <button type="button" class="revise form-control btn btn-primary">Revise</button>
                 </div>
+
+                <div class="col-sm-1"></div>
+
+                @if (Model.LockStatusId == 2) {
+                <div class="col-sm-2">
+                    <button class="form-control reviserequsted  btn btn-primary">Unlock</button>
+                </div>
+                }
             </div>
+        </div>
+
+        <div class="col-sm-6">
+            @if (Model.LastSubmitted != null) {
+                <span class="form-control-static">Submitted on @(Model.LastSubmitted).</span>
+            }
+            @if (Model.LastApproved != null) {
+                <span class="form-control-static">Approved on @(Model.LastApproved).</span>
+            }
         </div>
 
     @Html.HiddenFor(m=>m.TimesheetData, new {id="TimesheetDetails" })
     @Html.HiddenFor(m => m.IsSave, new { @class = "IsSave" })
+    @Html.HiddenFor(m => m.IsApprove, new { @class = "IsApprove" })
     @Html.HiddenFor(m => m.IsSubmit, new { @class = "IsSubmit" })
     @Html.HiddenFor(m => m.IsLocked, new { @class = "IsLocked" })
+    @Html.HiddenFor(m => m.IsReviseRequsted, new { @class = "IsReviseRequsted" })
+    @Html.HiddenFor(m => m.IsResubmit, new { @class = "IsResubmit" })
 }
 
 
@@ -212,6 +246,7 @@
             var starttime = +row.find(".start-hour").val() + row.find(".start-minute").val() / 60
             var endtime = +row.find(".end-hour").val() + row.find(".end-minute").val() / 60
             var total = endtime - starttime;
+            if (total < 0) total = 24 + total;
 
             var task = +row.find(".task").val();
 
@@ -280,21 +315,51 @@
             timesheetData += obj.find(".task").val();
             timesheetData += "\n";
         });
-
         $("#TimesheetDetails").val(timesheetData);
         $(".IsSave").val("True");
         $(".IsSubmit").val("False");
     }
 
-    $(".save").on("click", saveTimesheet);
+    $(".revise").on("click", function () {
+        $(".work-day select, .work-day button").each(function () {
+            $(this).prop("disabled", "");
+        })
+        $(".submit, .save").prop("disabled", "");
+    });
 
-
+    $(".resubmit").on("click", function () {
+        saveTimesheet();
+        $(".IsSave").val("True");
+        $(".IsResubmit").val("True");
+    });
 
     $(".submit").on("click", function () {
+        saveTimesheet();
         saveTimesheet();
         $(".IsSubmit").val("True");
     });
 
+
+    $(".savenotes").on("click", function () {
+        saveTimesheet();
+        $(".IsSave").val("True");
+    });
+
+    $(".approve").on("click", function () {
+        saveTimesheet();
+        $(".IsSubmit").val("False");
+        $(".IsReviseRequsted").val("False");
+        $(".IsSave").val("true");
+        $(".IsApprove").val("True");
+        $("form").submit();
+    }); 
+
+    $(".reviserequsted").on("click", function () {
+        $(".IsSave").val("true");
+        $(".IsSubmit").val("False");
+        $(".IsReviseRequsted").val("True");
+        $("form").submit();
+    });
 
 
     $(function () {
@@ -310,14 +375,11 @@
         }
         reportedHours_OnChange()
 
-        if ($(".IsLocked").val() == "True") {
-            $(".work-day select, .work-day button").each(function () {
-                $(this).prop("disabled", "true");
-            })
+        $(".work-day select, .work-day button").each(function () {
+            $(this).prop("disabled", "true");
+        })
 
-            $(".submit, .save").prop("disabled", "true");
-
-        }
+        $(".submit, .save").prop("disabled", "true");
     });
 
 

@@ -11,7 +11,7 @@
 <h3>Go to:</h3>
 
 <ul>
-    @if (Model.IsAdmin) {
+    @if (Model.RoleId!=0) {
         <li><a href="admin">Administration</a></li>
     }
     <li><a href="time">Timsheets</a></li>

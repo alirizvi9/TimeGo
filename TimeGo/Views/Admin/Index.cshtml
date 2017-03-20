@@ -24,24 +24,28 @@
 <h3>Go to:</h3>
 
 <ul>
-    <li><a href="time">Review or Edit Timesheets</a></li>
-    <li><a href="timeoff">Manage Vacation Requests</a></li>
-    <li><a href="timeoff">Manage Timesheet Periods</a></li>
+    <li><a href="admintime">Review or Edit Timesheets</a></li>
+    <li><a href="admintimeoff">Manage Vacation Requests</a>
+    @if (Model.NumberOfTimeoffRequests > 0) {
+        <span class="badge badge-error">@Html.DisplayFor(m=>m.NumberOfTimeoffRequests)</span>
+    }
+    </li>
+    <li><a href="AdminPeriods">Manage Timesheet Periods</a></li>
     <li><a href="AdminUsers">Manage Users</a></li>
     <li><a href="AdminRates">Manage User Rates</a></li>
     <li><a href="AdminCodes">Manage Tasks</a></li>
     <li><a href="AdminAllowedCodes">Manage allowed Tasks for Users</a></li>
     <li><a href="timeoff">Manage Subscription</a></li>
-    <li><a href="timeoff">Timesheets</a></li>
+    <li><a href="time">Timesheets</a></li>
     <li><a href="timeoff">Timeoff Requests</a></li>
 </ul>
 
-
+@if (Model.RoleId == 2) {
 <br /><br />
 
 <h3>Company Options</h3>
 
-@using (Html.BeginForm("admin", Model.CompanyURL, FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+using (Html.BeginForm("admin", Model.CompanyURL, FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
         <div class="row">
             <div class="form-group col-sm-6">
                 <label for="exampleInputEmail1" class="col-sm-4">Company Name</label>
@@ -100,8 +104,8 @@
                 <input type="submit" class="btn btn-primary" value="Update Company Options" />
             </div>
         </div>
-        }
-
+}
+}
 
         @section scripts{
             <script>

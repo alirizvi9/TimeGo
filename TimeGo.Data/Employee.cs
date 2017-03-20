@@ -25,6 +25,10 @@ namespace TimeGo.Data
             this.TaskAlloweds = new HashSet<TaskAllowed>();
             this.EmployeeRates = new HashSet<EmployeeRate>();
             this.TimeoffRequests = new HashSet<TimeoffRequest>();
+            this.TimesheetLines = new HashSet<TimesheetLine>();
+            this.TimesheetLines1 = new HashSet<TimesheetLine>();
+            this.Tasks = new HashSet<Task>();
+            this.Tasks1 = new HashSet<Task>();
         }
     
         public int EmployeeId { get; set; }
@@ -42,6 +46,7 @@ namespace TimeGo.Data
         public Nullable<System.DateTime> UpdatedOn { get; set; }
         public string Phonenumber { get; set; }
         public Nullable<int> LoginMethodId { get; set; }
+        public Nullable<int> RoleId { get; set; }
     
         public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -61,5 +66,14 @@ namespace TimeGo.Data
         public virtual ICollection<EmployeeRate> EmployeeRates { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TimeoffRequest> TimeoffRequests { get; set; }
+        public virtual Role Role { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TimesheetLine> TimesheetLines { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TimesheetLine> TimesheetLines1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Task> Tasks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Task> Tasks1 { get; set; }
     }
 }

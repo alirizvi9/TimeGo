@@ -60,6 +60,7 @@
           <Property Name="UpdatedOn" Type="datetime" />
           <Property Name="Phonenumber" Type="nvarchar" MaxLength="100" />
           <Property Name="LoginMethodId" Type="int" />
+          <Property Name="RoleId" Type="int" />
         </EntityType>
         <EntityType Name="EmployeeRates">
           <Key>
@@ -95,6 +96,13 @@
           <Property Name="UpdatedById" Type="int" />
           <Property Name="UpdatedOn" Type="datetime" />
         </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="RoleType" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="SubscriptionPlan">
           <Key>
             <PropertyRef Name="SubscriptionPlanId" />
@@ -114,6 +122,8 @@
           <Property Name="IsActive" Type="int" />
           <Property Name="UpdatedById" Type="int" />
           <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="Approver1Id" Type="int" />
+          <Property Name="Approver2Id" Type="int" />
         </EntityType>
         <EntityType Name="TaskAllowed">
           <Key>
@@ -133,7 +143,7 @@
           <Property Name="EmployeeId" Type="int" />
           <Property Name="FromDate" Type="datetime" Nullable="false" />
           <Property Name="ToDate" Type="datetime" Nullable="false" />
-          <Property Name="Reason" Type="nvarchar" MaxLength="255" />
+          <Property Name="Reason" Type="nvarchar(max)" />
           <Property Name="ApprovalStatusId" Type="int" Nullable="false" />
           <Property Name="SubmittedOn" Type="datetime" />
           <Property Name="ApprovedById" Type="int" />
@@ -148,8 +158,8 @@
           <Property Name="CompanyId" Type="int" />
           <Property Name="PeriodId" Type="int" />
           <Property Name="EmployeeId" Type="int" />
-          <Property Name="EmployeeNotes" Type="nvarchar" MaxLength="255" />
-          <Property Name="ApproverNotes" Type="nvarchar" MaxLength="255" />
+          <Property Name="EmployeeNotes" Type="nvarchar(max)" />
+          <Property Name="ApproverNotes" Type="nvarchar(max)" />
           <Property Name="ApprovalStatusId" Type="int" Nullable="false" />
           <Property Name="LockStatusId" Type="int" Nullable="false" />
           <Property Name="RevisedById" Type="int" />
@@ -168,6 +178,11 @@
           <Property Name="StartTime" Type="datetime" Nullable="false" />
           <Property Name="EndTime" Type="datetime" Nullable="false" />
           <Property Name="TaskId" Type="int" />
+          <Property Name="ApprovalStatusId" Type="int" Nullable="false" />
+          <Property Name="LockStatusId" Type="int" Nullable="false" />
+          <Property Name="RevisedById" Type="int" />
+          <Property Name="ApprovedById" Type="int" />
+          <Property Name="ApprovedOn" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -224,6 +239,42 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
             </Principal>
             <Dependent Role="Employee1">
               <PropertyRef Name="UpdatedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Employee_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Employee_Task1">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="Approver1Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Employee_Task2">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="Approver2Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -419,6 +470,54 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_TimesheetLine_ApprovalStatus">
+          <End Role="ApprovalStatus" Type="Self.ApprovalStatus" Multiplicity="1" />
+          <End Role="TimesheetLine" Type="Self.TimesheetLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApprovalStatus">
+              <PropertyRef Name="ApprovalStatusId" />
+            </Principal>
+            <Dependent Role="TimesheetLine">
+              <PropertyRef Name="ApprovalStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TimesheetLine_Employee2">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="TimesheetLine" Type="Self.TimesheetLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="TimesheetLine">
+              <PropertyRef Name="RevisedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TimesheetLine_Employee3">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="TimesheetLine" Type="Self.TimesheetLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="TimesheetLine">
+              <PropertyRef Name="ApprovedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TimesheetLine_LockStatus">
+          <End Role="LockStatus" Type="Self.LockStatus" Multiplicity="1" />
+          <End Role="TimesheetLine" Type="Self.TimesheetLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LockStatus">
+              <PropertyRef Name="LockStatusId" />
+            </Principal>
+            <Dependent Role="TimesheetLine">
+              <PropertyRef Name="LockStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_TimesheetLine_Timesheet">
           <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="0..1" />
           <End Role="TimesheetLine" Type="Self.TimesheetLine" Multiplicity="*" />
@@ -439,6 +538,7 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <EntitySet Name="EmployeeRates" EntityType="Self.EmployeeRates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LockStatus" EntityType="Self.LockStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Period" EntityType="Self.Period" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubscriptionPlan" EntityType="Self.SubscriptionPlan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskAllowed" EntityType="Self.TaskAllowed" Schema="dbo" store:Type="Tables" />
@@ -467,6 +567,18 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <AssociationSet Name="fk_Employee_Employee" Association="Self.fk_Employee_Employee">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="Employee1" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Employee_Role" Association="Self.fk_Employee_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Employee_Task1" Association="Self.fk_Employee_Task1">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Employee_Task2" Association="Self.fk_Employee_Task2">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Task" EntitySet="Task" />
           </AssociationSet>
           <AssociationSet Name="fk_EmployeeRates_Employees" Association="Self.fk_EmployeeRates_Employees">
             <End Role="Employee" EntitySet="Employee" />
@@ -531,6 +643,22 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <AssociationSet Name="fk_Timesheet_Period" Association="Self.fk_Timesheet_Period">
             <End Role="Period" EntitySet="Period" />
             <End Role="Timesheet" EntitySet="Timesheet" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TimesheetLine_ApprovalStatus" Association="Self.fk_TimesheetLine_ApprovalStatus">
+            <End Role="ApprovalStatus" EntitySet="ApprovalStatus" />
+            <End Role="TimesheetLine" EntitySet="TimesheetLine" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TimesheetLine_Employee2" Association="Self.fk_TimesheetLine_Employee2">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="TimesheetLine" EntitySet="TimesheetLine" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TimesheetLine_Employee3" Association="Self.fk_TimesheetLine_Employee3">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="TimesheetLine" EntitySet="TimesheetLine" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TimesheetLine_LockStatus" Association="Self.fk_TimesheetLine_LockStatus">
+            <End Role="LockStatus" EntitySet="LockStatus" />
+            <End Role="TimesheetLine" EntitySet="TimesheetLine" />
           </AssociationSet>
           <AssociationSet Name="fk_TimesheetLine_Timesheet" Association="Self.fk_TimesheetLine_Timesheet">
             <End Role="Timesheet" EntitySet="Timesheet" />
@@ -640,6 +768,35 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
             <End Role="Employee" EntitySet="Employees" />
             <End Role="TimeoffRequest" EntitySet="TimeoffRequests" />
           </AssociationSet>
+          <EntitySet Name="Roles" EntityType="TimeGoModel.Role" />
+          <AssociationSet Name="fk_TimesheetLine_ApprovalStatus" Association="TimeGoModel.fk_TimesheetLine_ApprovalStatus">
+            <End Role="ApprovalStatus" EntitySet="ApprovalStatus" />
+            <End Role="TimesheetLine" EntitySet="TimesheetLines" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Employee_Role" Association="TimeGoModel.fk_Employee_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TimesheetLine_Employee2" Association="TimeGoModel.fk_TimesheetLine_Employee2">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="TimesheetLine" EntitySet="TimesheetLines" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TimesheetLine_Employee3" Association="TimeGoModel.fk_TimesheetLine_Employee3">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="TimesheetLine" EntitySet="TimesheetLines" />
+          </AssociationSet>
+          <AssociationSet Name="fk_TimesheetLine_LockStatus" Association="TimeGoModel.fk_TimesheetLine_LockStatus">
+            <End Role="LockStatus" EntitySet="LockStatus" />
+            <End Role="TimesheetLine" EntitySet="TimesheetLines" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Employee_Task1" Association="TimeGoModel.fk_Employee_Task1">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Employee_Task2" Association="TimeGoModel.fk_Employee_Task2">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ApprovalStatus">
           <Key>
@@ -649,6 +806,7 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <Property Name="ApprovalStatusType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Timesheets" Relationship="TimeGoModel.fk_Timesheet_ApprovalStatus" FromRole="ApprovalStatu" ToRole="Timesheet" />
           <NavigationProperty Name="TimeoffRequests" Relationship="TimeGoModel.fk_TimeoffRequests_ApprovalStatus" FromRole="ApprovalStatus" ToRole="TimeoffRequest" />
+          <NavigationProperty Name="TimesheetLines" Relationship="TimeGoModel.fk_TimesheetLine_ApprovalStatus" FromRole="ApprovalStatus" ToRole="TimesheetLine" />
         </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -716,6 +874,12 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <NavigationProperty Name="TaskAlloweds" Relationship="TimeGoModel.fk_TaskAllowed_Employee" FromRole="Employee" ToRole="TaskAllowed" />
           <NavigationProperty Name="EmployeeRates" Relationship="TimeGoModel.fk_EmployeeRates_Employees" FromRole="Employee" ToRole="EmployeeRate" />
           <NavigationProperty Name="TimeoffRequests" Relationship="TimeGoModel.fk_TimeoffRequests_Employee" FromRole="Employee" ToRole="TimeoffRequest" />
+          <Property Name="RoleId" Type="Int32" />
+          <NavigationProperty Name="Role" Relationship="TimeGoModel.fk_Employee_Role" FromRole="Employee" ToRole="Role" />
+          <NavigationProperty Name="TimesheetLines" Relationship="TimeGoModel.fk_TimesheetLine_Employee2" FromRole="Employee" ToRole="TimesheetLine" />
+          <NavigationProperty Name="TimesheetLines1" Relationship="TimeGoModel.fk_TimesheetLine_Employee3" FromRole="Employee" ToRole="TimesheetLine" />
+          <NavigationProperty Name="Tasks" Relationship="TimeGoModel.fk_Employee_Task1" FromRole="Employee" ToRole="Task" />
+          <NavigationProperty Name="Tasks1" Relationship="TimeGoModel.fk_Employee_Task2" FromRole="Employee" ToRole="Task" />
         </EntityType>
         <EntityType Name="LockStatus">
           <Key>
@@ -724,6 +888,7 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <Property Name="LockStatusId" Type="Int32" Nullable="false" />
           <Property Name="LockStatusType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Timesheets" Relationship="TimeGoModel.fk_Timesheet_LockStatus" FromRole="LockStatu" ToRole="Timesheet" />
+          <NavigationProperty Name="TimesheetLines" Relationship="TimeGoModel.fk_TimesheetLine_LockStatus" FromRole="LockStatus" ToRole="TimesheetLine" />
         </EntityType>
         <EntityType Name="Period">
           <Key>
@@ -758,8 +923,8 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <Property Name="CompanyId" Type="Int32" />
           <Property Name="PeriodId" Type="Int32" />
           <Property Name="EmployeeId" Type="Int32" />
-          <Property Name="EmployeeNotes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="ApproverNotes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ApproverNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ApprovalStatusId" Type="Int32" Nullable="false" />
           <Property Name="LockStatusId" Type="Int32" Nullable="false" />
           <Property Name="RevisedById" Type="Int32" />
@@ -787,6 +952,15 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <Property Name="EndTime" Type="DateTime" Precision="3" Nullable="false" />
           <Property Name="TaskId" Type="Int32" />
           <NavigationProperty Name="Timesheet" Relationship="TimeGoModel.fk_TimesheetLine_Timesheet" FromRole="TimesheetLine" ToRole="Timesheet" />
+          <Property Name="ApprovalStatusId" Type="Int32" Nullable="false" />
+          <Property Name="LockStatusId" Type="Int32" Nullable="false" />
+          <Property Name="RevisedById" Type="Int32" />
+          <Property Name="ApprovedById" Type="Int32" />
+          <Property Name="ApprovedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ApprovalStatu" Relationship="TimeGoModel.fk_TimesheetLine_ApprovalStatus" FromRole="TimesheetLine" ToRole="ApprovalStatus" />
+          <NavigationProperty Name="Employee" Relationship="TimeGoModel.fk_TimesheetLine_Employee2" FromRole="TimesheetLine" ToRole="Employee" />
+          <NavigationProperty Name="Employee1" Relationship="TimeGoModel.fk_TimesheetLine_Employee3" FromRole="TimesheetLine" ToRole="Employee" />
+          <NavigationProperty Name="LockStatu" Relationship="TimeGoModel.fk_TimesheetLine_LockStatus" FromRole="TimesheetLine" ToRole="LockStatus" />
         </EntityType>
         <EntityType Name="VersionInfo">
           <Key>
@@ -978,6 +1152,10 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Company" Relationship="TimeGoModel.fk_Task_Company" FromRole="Task" ToRole="Company" />
           <NavigationProperty Name="TaskAlloweds" Relationship="TimeGoModel.fk_TaskAllowed_Task" FromRole="Task" ToRole="TaskAllowed" />
+          <Property Name="Approver1Id" Type="Int32" />
+          <Property Name="Approver2Id" Type="Int32" />
+          <NavigationProperty Name="Employee" Relationship="TimeGoModel.fk_Employee_Task1" FromRole="Task" ToRole="Employee" />
+          <NavigationProperty Name="Employee1" Relationship="TimeGoModel.fk_Employee_Task2" FromRole="Task" ToRole="Employee" />
         </EntityType>
         <EntityType Name="TaskAllowed">
           <Key>
@@ -1061,7 +1239,7 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <Property Name="EmployeeId" Type="Int32" />
           <Property Name="FromDate" Type="DateTime" Precision="3" Nullable="false" />
           <Property Name="ToDate" Type="DateTime" Precision="3" Nullable="false" />
-          <Property Name="Reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ApprovalStatusId" Type="Int32" Nullable="false" />
           <Property Name="SubmittedOn" Type="DateTime" Precision="3" />
           <Property Name="ApprovedById" Type="Int32" />
@@ -1104,6 +1282,98 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
             </Principal>
             <Dependent Role="TimeoffRequest">
               <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="RoleType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employees" Relationship="TimeGoModel.fk_Employee_Role" FromRole="Role" ToRole="Employee" />
+        </EntityType>
+        <Association Name="fk_TimesheetLine_ApprovalStatus">
+          <End Type="TimeGoModel.ApprovalStatus" Role="ApprovalStatus" Multiplicity="1" />
+          <End Type="TimeGoModel.TimesheetLine" Role="TimesheetLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ApprovalStatus">
+              <PropertyRef Name="ApprovalStatusId" />
+            </Principal>
+            <Dependent Role="TimesheetLine">
+              <PropertyRef Name="ApprovalStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Employee_Role">
+          <End Type="TimeGoModel.Role" Role="Role" Multiplicity="0..1" />
+          <End Type="TimeGoModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TimesheetLine_Employee2">
+          <End Type="TimeGoModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="TimeGoModel.TimesheetLine" Role="TimesheetLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="TimesheetLine">
+              <PropertyRef Name="RevisedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TimesheetLine_Employee3">
+          <End Type="TimeGoModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="TimeGoModel.TimesheetLine" Role="TimesheetLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="TimesheetLine">
+              <PropertyRef Name="ApprovedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_TimesheetLine_LockStatus">
+          <End Type="TimeGoModel.LockStatus" Role="LockStatus" Multiplicity="1" />
+          <End Type="TimeGoModel.TimesheetLine" Role="TimesheetLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LockStatus">
+              <PropertyRef Name="LockStatusId" />
+            </Principal>
+            <Dependent Role="TimesheetLine">
+              <PropertyRef Name="LockStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Employee_Task1">
+          <End Type="TimeGoModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="TimeGoModel.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="Approver1Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Employee_Task2">
+          <End Type="TimeGoModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="TimeGoModel.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="Approver2Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1155,6 +1425,7 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="TimeGoModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="LoginMethodId" ColumnName="LoginMethodId" />
                 <ScalarProperty Name="Phonenumber" ColumnName="Phonenumber" />
                 <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
@@ -1227,6 +1498,11 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <EntitySetMapping Name="TimesheetLines">
             <EntityTypeMapping TypeName="TimeGoModel.TimesheetLine">
               <MappingFragment StoreEntitySet="TimesheetLine">
+                <ScalarProperty Name="ApprovedOn" ColumnName="ApprovedOn" />
+                <ScalarProperty Name="ApprovedById" ColumnName="ApprovedById" />
+                <ScalarProperty Name="RevisedById" ColumnName="RevisedById" />
+                <ScalarProperty Name="LockStatusId" ColumnName="LockStatusId" />
+                <ScalarProperty Name="ApprovalStatusId" ColumnName="ApprovalStatusId" />
                 <ScalarProperty Name="TaskId" ColumnName="TaskId" />
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />
@@ -1247,6 +1523,8 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <EntitySetMapping Name="Tasks">
             <EntityTypeMapping TypeName="TimeGoModel.Task">
               <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="Approver2Id" ColumnName="Approver2Id" />
+                <ScalarProperty Name="Approver1Id" ColumnName="Approver1Id" />
                 <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
                 <ScalarProperty Name="UpdatedById" ColumnName="UpdatedById" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
@@ -1296,6 +1574,14 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="TimeoffId" ColumnName="TimeoffId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="TimeGoModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="RoleType" ColumnName="RoleType" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

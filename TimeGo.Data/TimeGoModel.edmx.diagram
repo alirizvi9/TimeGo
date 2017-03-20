@@ -40,6 +40,14 @@
         <AssociationConnector Association="TimeGoModel.fk_TimeoffRequests_ApprovalStatus" />
         <AssociationConnector Association="TimeGoModel.fk_TimeoffRequests_Company" />
         <AssociationConnector Association="TimeGoModel.fk_TimeoffRequests_Employee" />
+        <EntityTypeShape EntityType="TimeGoModel.Role" Width="1.5" PointX="2.875" PointY="9.5" />
+        <AssociationConnector Association="TimeGoModel.fk_TimesheetLine_ApprovalStatus" />
+        <AssociationConnector Association="TimeGoModel.fk_Employee_Role" />
+        <AssociationConnector Association="TimeGoModel.fk_TimesheetLine_Employee2" />
+        <AssociationConnector Association="TimeGoModel.fk_TimesheetLine_Employee3" />
+        <AssociationConnector Association="TimeGoModel.fk_TimesheetLine_LockStatus" />
+        <AssociationConnector Association="TimeGoModel.fk_Employee_Task1" />
+        <AssociationConnector Association="TimeGoModel.fk_Employee_Task2" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

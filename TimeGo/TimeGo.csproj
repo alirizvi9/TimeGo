@@ -260,7 +260,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -304,7 +306,10 @@
     <Content Include="Views\Admin\AdminRates.cshtml" />
     <Content Include="Views\Account\SignUp.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Timesoff\Index.cshtml" />
+    <Content Include="Views\Timeoff\Index.cshtml" />
+    <Content Include="Views\Timeoff\AdminTimeoff.cshtml" />
+    <Content Include="Views\Timesheet\AdminTime.cshtml" />
+    <Content Include="Views\Admin\AdminPeriods.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

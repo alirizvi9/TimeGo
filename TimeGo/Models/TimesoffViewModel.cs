@@ -9,11 +9,11 @@ namespace TimeGo.Models
     {
         public List<Data.TimeoffRequest> TimeoffRequests { get; set; }
         [Required]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         [Required]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         [Required]
-        public DateTime ReturningToWork { get; set; }
+        public DateTime? ReturningToWork { get; set; }
         public String Reason { get; set; }
     }
 }

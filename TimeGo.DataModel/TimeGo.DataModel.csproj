@@ -48,6 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SchemaChanges\frm_20170319_2158- Timesheet Reason Len.cs" />
+    <Compile Include="SchemaChanges\frm_20170315_0954- Timesheet Approval.cs" />
+    <Compile Include="SchemaChanges\frm_20170315_0915- Timesheet Approval.cs" />
     <Compile Include="SchemaChanges\frm_20170306_0905- Timeoff.cs" />
     <Compile Include="SchemaChanges\frm_20170306_0847- Timeoff.cs" />
     <Compile Include="SchemaChanges\frm_20170306_0824- Timeoff.cs" />

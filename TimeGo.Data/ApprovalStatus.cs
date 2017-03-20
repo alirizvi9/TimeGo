@@ -19,6 +19,7 @@ namespace TimeGo.Data
         {
             this.Timesheets = new HashSet<Timesheet>();
             this.TimeoffRequests = new HashSet<TimeoffRequest>();
+            this.TimesheetLines = new HashSet<TimesheetLine>();
         }
     
         public int ApprovalStatusId { get; set; }
@@ -28,5 +29,7 @@ namespace TimeGo.Data
         public virtual ICollection<Timesheet> Timesheets { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TimeoffRequest> TimeoffRequests { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TimesheetLine> TimesheetLines { get; set; }
     }
 }

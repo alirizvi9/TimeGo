@@ -73,6 +73,9 @@
       <DependentUpon>TimeGoModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Role.cs">
+      <DependentUpon>TimeGoModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SubscriptionPlan.cs">
       <DependentUpon>TimeGoModel.tt</DependentUpon>
     </Compile>

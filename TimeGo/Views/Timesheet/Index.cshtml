@@ -68,11 +68,21 @@
             <div class="form-group">
                 <label for="exampleInputEmail1" class="col-sm-2">Notes to payroll</label>
                 <div class="col-sm-10">
-                    @Html.TextAreaFor(m=>m.EmployeeNotes, new { @class="form-control", rows="2", style="max-width: 100%" })
+                    @Html.TextAreaFor(m=>m.EmployeeNotes, new { @class="form-control lockme", rows="2", style="max-width: 100%" })
                 </div>
             </div>
         </div>
 
+        if (!String.IsNullOrWhiteSpace(Model.PayroleNotes)) {
+        <div class="row">
+            <div class="form-group">
+                <label for="exampleInputEmail1" class="col-sm-2">Approver Notes:</label>
+                <div class="col-sm-10">
+                    @Html.DisplayFor(m => m.PayroleNotes, new { })
+                </div>
+            </div>
+        </div>
+        }
         <br />
 
         <div class="row">
@@ -89,11 +99,18 @@
                     @if (Model.LastSubmitted != null) {
                         <p class="form-control-static">Submitted on  @Model.LastSubmitted</p>
                     }
+                    @if (Model.LastApproved != null) {
+                        <span class="form-control-static">Approved on @(Model.LastApproved).</span>
+                    }
                 </div>
 
-                <div class="col-sm-2">
-                    <button class="form-control Unlock btn btn-primary" @((!Model.IsLocked) ? "disabled" : "")>Request to Unlock</button>
-                </div>
+                @if (Model.LockStatusId == 2) {
+                    <div class="col-sm-2 well well-sm">Unlock Requested</div>
+                } else {
+                    <div class="col-sm-2">
+                        <button class="form-control reviserequsted btn btn-primary" @((!Model.IsLocked) ? "disabled" : "")>Request to Unlock</button>
+                    </div>
+                }
             </div>
         </div>
 
@@ -101,6 +118,7 @@
     @Html.HiddenFor(m => m.IsSave, new { @class = "IsSave" })
     @Html.HiddenFor(m => m.IsSubmit, new { @class = "IsSubmit" })
     @Html.HiddenFor(m => m.IsLocked, new { @class = "IsLocked" })
+    @Html.HiddenFor(m => m.IsReviseRequsted, new { @class = "IsReviseRequsted" })
 }
 
 
@@ -212,10 +230,11 @@
             var starttime = +row.find(".start-hour").val() + row.find(".start-minute").val() / 60
             var endtime = +row.find(".end-hour").val() + row.find(".end-minute").val() / 60
             var total = endtime - starttime;
+            if (total < 0) total = 24 + total;
 
             var task = +row.find(".task").val();
 
-            if (total > 0 && task > 0) {
+            if (total != 0 && task > 0) {
                 row.find(".lines-total-hour").html(Math.floor(total) + "h")
                 row.find(".lines-total-minute").html(((+total - Math.floor(total)) * 60) + "m")
                 grandtotal += total;
@@ -315,7 +334,7 @@
                 $(this).prop("disabled", "true");
             })
 
-            $(".submit, .save").prop("disabled", "true");
+            $(".submit, .save, .lockme").prop("disabled", "true");
 
         }
     });
@@ -325,10 +344,18 @@
 
     $(".SelectedPeriodId").on("change", function () {
         $(".IsSave").val("False");
-        $(".IsSave").val("False");
+        $(".IsSubmit").val("False");
+        $(".IsReviseRequsted").val("False");
         $("form").submit();
     });
     
+
+    $(".reviserequsted").on("click", function () {
+        $(".IsSave").val("False");
+        $(".IsSubmit").val("False");
+        $(".IsReviseRequsted").val("True");
+        $("form").submit();
+    });
 
     $(".add-hours").on("click", function (event) {
         event.stopPropagation();

@@ -12,21 +12,18 @@ namespace TimeGo.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class LockStatus
+    public partial class Role
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public LockStatus()
+        public Role()
         {
-            this.Timesheets = new HashSet<Timesheet>();
-            this.TimesheetLines = new HashSet<TimesheetLine>();
+            this.Employees = new HashSet<Employee>();
         }
     
-        public int LockStatusId { get; set; }
-        public string LockStatusType { get; set; }
+        public int RoleId { get; set; }
+        public string RoleType { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Timesheet> Timesheets { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TimesheetLine> TimesheetLines { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 }

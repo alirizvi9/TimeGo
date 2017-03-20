@@ -15,7 +15,7 @@ namespace TimeGo.Controllers {
 
             Model.LoginId = (int)Session["LoginId"];
             Model.LoginName = (String)Session["LoginName"];
-            Model.IsAdmin = (bool)Session["IsAdmin"];
+            Model.RoleId = (int)Session["RoleId"];
 
             Model.CompanyId = (int)Session["CompanyId"];
             Model.CompanyName = (String)Session["CompanyName"];

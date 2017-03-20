@@ -62,7 +62,7 @@ namespace TimeGo.Controllers
             Employee.FirstName = Model.FirstName;
             Employee.LastName = Model.LastName;
             Employee.IsActive = true;
-            Employee.IsAdmin = true;
+            Employee.RoleId = 2;
 
             Context.Entry(Employee).State = System.Data.Entity.EntityState.Added;
             Context.SaveChanges();
@@ -85,6 +85,9 @@ namespace TimeGo.Controllers
             PopulateModel(Model);
              
             var tmpCompany = context.Companies.Where(c => c.TimeGoURL == CompanyURL).FirstOrDefault();
+            if (tmpCompany == null)
+                return RedirectPermanent("/Login");
+
             ViewBag.CompanyName = tmpCompany.CompanyName;
             Model.CompanyName = tmpCompany.CompanyName;
             Model.CompanyURL = CompanyURL;
@@ -120,7 +123,7 @@ namespace TimeGo.Controllers
             Session["CompanyName"] = Company.CompanyName;
             Session["LoginId"] = Employee.EmployeeId;
             Session["LoginName"] = Employee.FirstName + " " + Employee.LastName;
-            Session["IsAdmin"] = Employee.IsAdmin;
+            Session["RoleId"] = Employee.RoleId;
 
             return RedirectToLocal("/" + Company.TimeGoURL + "/user");
         }
@@ -185,7 +188,7 @@ namespace TimeGo.Controllers
             Session["CompanyName"] = Company.CompanyName;
             Session["LoginId"] = Employee.EmployeeId;
             Session["LoginName"] = Employee.FirstName+" "+ Employee.LastName;
-            Session["IsAdmin"] = Employee.IsAdmin;
+            Session["RoleId"] = Employee.RoleId;
 
             return RedirectToLocal("/" + Company.TimeGoURL + "/user");
         }
