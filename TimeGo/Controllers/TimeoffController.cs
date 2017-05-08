@@ -14,7 +14,7 @@ namespace TimeGo.Controllers {
             PopulateModel(Model);
 
             if (Model.LoginId == 0)
-                return RedirectPermanent("/Login");
+                return Expired(CompanyURL);
 
             Model.TimeoffRequests = Context.TimeoffRequests.Where(to => to.EmployeeId == Model.LoginId).OrderBy(tor => tor.FromDate).ToList();
             return View(Model);
@@ -28,7 +28,7 @@ namespace TimeGo.Controllers {
             PopulateModel(Model);
 
             if (Model.LoginId == 0)
-                return RedirectPermanent("/Login");
+                return Expired(CompanyURL);
 
             if (!ModelState.IsValid)
                 return View(Model);
@@ -62,7 +62,7 @@ namespace TimeGo.Controllers {
             PopulateModel(Model);
 
             if (Model.LoginId == 0)
-                return RedirectPermanent("/Login");
+                return Expired(CompanyURL);
 
             Model.TimeoffRequests = Context.TimeoffRequests.Where(tor=>tor.CompanyId == Model.CompanyId).OrderBy(tor=>tor.FromDate).ToList();
             return View(Model);
@@ -76,7 +76,7 @@ namespace TimeGo.Controllers {
             PopulateModel(Model);
 
             if (Model.LoginId == 0)
-                return RedirectPermanent("/Login");
+                return Expired(CompanyURL);
 
 
             var Request = Context.TimeoffRequests.Where(tor => tor.TimeoffId == RequestId).FirstOrDefault();
@@ -100,7 +100,7 @@ namespace TimeGo.Controllers {
             PopulateModel(Model);
 
             if (Model.LoginId == 0)
-                return RedirectPermanent("/Login");
+                return Expired(CompanyURL);
 
 
             var Request = Context.TimeoffRequests.Where(tor => tor.TimeoffId == RequestId).FirstOrDefault();

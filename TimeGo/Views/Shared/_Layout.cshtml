@@ -22,7 +22,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class = "navbar-brand" href="./user">TimeGo.com</a>
+@if (Model != null && Model.LoginId != 0) {
+    <a class = "navbar-brand" href="./user">TimeGo.com</a>
+} else {
+    <a class="navbar-brand" href="#">TimeGo.com</a>
+}
             </div>
             <div class="navbar-collapse collapse">
 @if (Model != null && Model.LoginId!=0) {

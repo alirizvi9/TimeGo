@@ -37,13 +37,12 @@
     @foreach (var Request in Model.TimeoffRequests) {
         <tr>
             <td>@Request.Employee.FirstName @Request.Employee.LastName</td>
-            <td>@Request.FromDate.ToString("MM/dd/yyyy")</td>
-            <td>@Request.ToDate.ToString("MM/dd/yyyy")</td>
-            <td>@Request.ReturningToWork.ToString("MM/dd/yyyy")</td>
+            <td>@Request.FromDate.ToString("dd-MMM-yy")</td>
+            <td>@Request.ToDate.ToString("dd-MMM-yy")</td>
+            <td>@Request.ReturningToWork.ToString("dd-MMM-yy")</td>
             <td>@Request.Reason</td>
             <td>@Request.ApprovalStatu.ApprovalStatusType</td>
             <td>
-                @if (Request.ApprovalStatusId == 10) {
                     <a href='@Url.Action("AdminTimeoffApprove", Model.CompanyURL, new { RequestId=Request.TimeoffId })'>
                         <span class="label label-success">Approve</span>
                     </a>
@@ -51,7 +50,6 @@
                     <a href='@Url.Action("AdminTimeoffDeny", Model.CompanyURL, new { RequestId=Request.TimeoffId })'>
                         <span class="label label-danger">Deny</span>
                     </a>
-                }
             </td>
 
         </tr>

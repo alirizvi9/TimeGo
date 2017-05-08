@@ -97,10 +97,14 @@
 
                 <div class="col-sm-6">
                     @if (Model.LastSubmitted != null) {
-                        <p class="form-control-static">Submitted on  @Model.LastSubmitted</p>
+                        DateTime dt = new DateTime(((DateTime)Model.LastSubmitted).Ticks, DateTimeKind.Utc);
+                        string s = dt.ToLocalTime().ToString("dd-MMM-yy HH:mm:ss tt");
+                        <p class="form-control-static">Submitted on @s</p>
                     }
                     @if (Model.LastApproved != null) {
-                        <span class="form-control-static">Approved on @(Model.LastApproved).</span>
+                        DateTime dt = new DateTime(((DateTime)Model.LastApproved).Ticks, DateTimeKind.Utc);
+                        string s = dt.ToLocalTime().ToString("dd-MMM-yy HH:mm:ss tt");
+                        <p class="form-control-static">Approved on @s</p>
                     }
                 </div>
 
@@ -213,7 +217,7 @@
         </div>
 
         <div class="col-xs-1" style="padding-top: 7px;">
-            <a href="#" style="color: red"><span class="glyphicon glyphicon-remove"></span></a>
+            <button href="#" class="remove lockme" style="color: red"><span class="glyphicon glyphicon-remove"></span></button>
         </div>
     </div>
 </div>
@@ -335,12 +339,24 @@
             })
 
             $(".submit, .save, .lockme").prop("disabled", "true");
-
+            $(".submit, .save, .lockme").addClass('disabled', state);
         }
     });
 
 
     $(".reported-hours").on("change", reportedHours_OnChange)
+
+    $(".reported-hours").on("click", '.remove', function () {
+        var LineId=$(this).parents(".day").find(".LineId").val();
+
+        $.ajax({
+            url: "/Timesheet/RemoveLine?LineId=" + LineId,
+        });
+
+
+        $(this).parents(".day").remove();
+        reportedHours_OnChange();
+    })
 
     $(".SelectedPeriodId").on("change", function () {
         $(".IsSave").val("False");

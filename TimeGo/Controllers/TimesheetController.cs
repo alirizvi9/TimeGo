@@ -9,25 +9,42 @@ namespace TimeGo.Controllers {
     public class TimesheetController : BaseController {
 
         [AllowAnonymous]
-        [Route("{CompanyId}/time")]
-        public ActionResult Index(String CompanyId, int? SelectedPeriodId) {
+        [Route("{CompanyURL}/time")]
+        public ActionResult Index(String CompanyURL, int? SelectedPeriodId) {
             var Model = new Models.TimesheetViewModel();
             PopulateModel(Model);
 
             if (Model.LoginId == 0)
-                return RedirectPermanent("/Login");
+                return Expired(CompanyURL);
 
             PopulateTimesheetModel(Model, 0, 0);
             return View(Model);
         }
 
+        [AllowAnonymous]
+        public ActionResult RemoveLine(int? LineId) {
+            var Model = new Models.TimesheetViewModel();
+            PopulateModel(Model);
+
+            if (Model.LoginId == 0)
+                return Expired(Model.CompanyURL);
+
+            var Line = Context.TimesheetLines.Where(l => l.LineId == LineId).FirstOrDefault();
+            if(Line!=null) {
+                Context.Entry(Line).State = System.Data.Entity.EntityState.Deleted;
+                Context.SaveChanges();
+            }
+
+            return RedirectPermanent("/" + Model.CompanyURL + "/time");
+        }
+
         public void PopulateTimesheetModel(Models.TimesheetViewModel Model, int SelectedPeriodId, int SelectedEmployeeId) {
             if (SelectedEmployeeId == 0) SelectedEmployeeId = Model.LoginId;
 
-            var Periods = Context.Periods.ToList();
+            var Periods = Context.Periods.Where(p=>p.CompanyId==Model.CompanyId).ToList();
             Model.PeriodListItems = Periods.Select(f => new SelectListItem {
                 Value = f.PeriodId.ToString(),
-                Text = ((DateTime)f.PeriodStart).ToString("MM/dd/yyyy") + " - " + ((DateTime)f.PeriodEnd).ToString("MM/dd/yyyy")
+                Text = ((DateTime)f.PeriodStart).ToString("dd-MMM-yy") + " to " + ((DateTime)f.PeriodEnd).ToString("dd-MMM-yy")
             });
             if (SelectedPeriodId != 0) Model.SelectedPeriodId = (int)SelectedPeriodId;
             if (Model.SelectedPeriodId == 0)
@@ -74,7 +91,18 @@ namespace TimeGo.Controllers {
                     TimesheetData += Line.TaskId + "\n";
                 }
                 Model.TimesheetData = TimesheetData;
+            } else {
+                Model.EmployeeNotes = "";
+                Model.IsLocked = false;
+                Model.LastSubmitted = null;
+                Model.PayroleNotes = "";
+                Model.LockStatusId = 0;
+                Model.ApprovalStatusId = 0;
+
+                Model.LastApproved = null;
+                Model.TimesheetData = "";
             }
+
         }
 
         [AllowAnonymous]
@@ -84,8 +112,7 @@ namespace TimeGo.Controllers {
             PopulateModel(Model);
 
             if (Model.LoginId == 0)
-                return RedirectPermanent("/Login");
-
+                return Expired(CompanyURL);
 
             Model.SelectedEmployeeId = Model.LoginId;
             if (Model.IsSave == true)
@@ -143,30 +170,32 @@ namespace TimeGo.Controllers {
             Context.Entry(Timesheet).State = Timesheet.TimesheetId == 0 ? System.Data.Entity.EntityState.Added : System.Data.Entity.EntityState.Modified;
             Context.SaveChanges();
 
+            if (!String.IsNullOrEmpty( Model.TimesheetData)) { 
             var TimeLines = Model.TimesheetData.Split('\n');
-            foreach (var TimeLine in TimeLines) {
-                if (TimeLine != "") {
-                    var LineDetails = TimeLine.Split('|');
+                foreach (var TimeLine in TimeLines) {
+                    if (TimeLine != "") {
+                        var LineDetails = TimeLine.Split('|');
 
-                    var Line = new Data.TimesheetLine();
-                    if (LineDetails[0] != "") {
-                        int tmpLineId = int.Parse(LineDetails[0]);
-                        Line = Context.TimesheetLines.Where(tl => tl.LineId == tmpLineId).FirstOrDefault();
+                        var Line = new Data.TimesheetLine();
+                        if (LineDetails[0] != "") {
+                            int tmpLineId = int.Parse(LineDetails[0]);
+                            Line = Context.TimesheetLines.Where(tl => tl.LineId == tmpLineId).FirstOrDefault();
+                        }
+
+                        Line.TimesheetId = Timesheet.TimesheetId;
+                        Line.StartTime = DateTime.Parse(LineDetails[1]);
+                        Line.EndTime = DateTime.Parse(LineDetails[2]);
+                        Line.TaskId = int.Parse(LineDetails[3]);
+
+                        if (Model.IsApprove == true) {
+                            Line.ApprovalStatusId = 2;
+                            Line.ApprovedById = Model.LoginId;
+                            Line.ApprovedOn = DateTime.UtcNow;
+                        }
+
+                        Context.Entry(Line).State = Line.LineId == 0 ? System.Data.Entity.EntityState.Added : System.Data.Entity.EntityState.Modified;
+                        Context.SaveChanges();
                     }
-
-                    Line.TimesheetId = Timesheet.TimesheetId;
-                    Line.StartTime = DateTime.Parse(LineDetails[1]);
-                    Line.EndTime = DateTime.Parse(LineDetails[2]);
-                    Line.TaskId = int.Parse(LineDetails[3]);
-
-                    if (Model.IsApprove == true) {
-                        Line.ApprovalStatusId = 2;
-                        Line.ApprovedById = Model.LoginId;
-                        Line.ApprovedOn = DateTime.UtcNow;
-                    }
-
-                    Context.Entry(Line).State = Line.LineId == 0 ? System.Data.Entity.EntityState.Added : System.Data.Entity.EntityState.Modified;
-                    Context.SaveChanges();
                 }
             }
         }
@@ -175,14 +204,13 @@ namespace TimeGo.Controllers {
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("{CompanyId}/admintime")]
-        public ActionResult AdminTime(String CompanyId) {
+        [Route("{CompanyURL}/admintime")]
+        public ActionResult AdminTime(String CompanyURL) {
             var Model = new Models.TimesheetViewModel();
-
             PopulateModel(Model);
 
             if (Model.LoginId == 0)
-                return RedirectPermanent("/Login");
+                return Expired(CompanyURL);
 
             PopulateAdminTimeModel(Model);
 
@@ -192,11 +220,11 @@ namespace TimeGo.Controllers {
         [AllowAnonymous]
         [HttpPost]
         [Route("{CompanyURL}/admintime")]
-        public ActionResult AdminTime(String CompanyURL, TimesheetViewModel Model) {
+        public ActionResult AdminTime(String CompanyURL, TimesheetViewModel Model) {   
             PopulateModel(Model);
 
             if (Model.LoginId == 0)
-                return RedirectPermanent("/Login");
+                return Expired(CompanyURL);
 
             //Approve Timesheet
             if (Model.IsApprove)
@@ -211,7 +239,7 @@ namespace TimeGo.Controllers {
         private void PopulateAdminTimeModel(TimesheetViewModel Model) {
             Model.IsAdmin = true;
 
-            var Periods = Context.Periods.ToList();
+            var Periods = Context.Periods.Where(p => p.CompanyId == Model.CompanyId).ToList();
             Model.PeriodListItems = Periods.Select(f => new SelectListItem {
                 Value = f.PeriodId.ToString(),
                 Text = ((DateTime)f.PeriodStart).ToString("MM/dd/yyyy") + " - " + ((DateTime)f.PeriodEnd).ToString("MM/dd/yyyy")
@@ -249,6 +277,9 @@ namespace TimeGo.Controllers {
                     }
 
                     Timesheet.ApprovalStatusId = 0;
+                    Timesheet.ApprovedOn = null;
+                    Timesheet.SubmittedOn = null;
+                    Timesheet.ApprovedById = null;
                     Timesheet.LockStatusId = 0;
                     Context.Entry(Timesheet).State = System.Data.Entity.EntityState.Modified;
 

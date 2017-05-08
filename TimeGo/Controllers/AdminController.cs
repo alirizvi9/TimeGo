@@ -13,7 +13,9 @@ namespace TimeGo.Controllers
         public ActionResult Index(String CompanyURL) {
             AdminViewModel Model = new AdminViewModel();
             PopulateModel(Model);
-            if (Model.LoginId == 0) return RedirectPermanent("/Login");
+            if (Model.LoginId == 0)
+                return Expired(CompanyURL);
+
 
             Data.Company Company = Context.Companies.Where(c => c.CompanyId == Model.CompanyId).FirstOrDefault();
             Model.CompanyName = Company.CompanyName;
@@ -32,11 +34,11 @@ namespace TimeGo.Controllers
         [HttpPost]
         [Route("{CompanyURL}/admin")]
         public ActionResult Index(String CompanyURL, AdminViewModel Model) {
-            if (!ModelState.IsValid)
-                return View(Model);
-
             BaseViewModel PriorModel = new BaseViewModel();
             PopulateModel(PriorModel);
+
+            if (!ModelState.IsValid)
+                return View(Model);
 
             Data.Company Company = Context.Companies.Where(c => c.TimeGoURL == PriorModel.CompanyURL).FirstOrDefault();
             Company.CompanyName = Model.CompanyName;
@@ -63,6 +65,9 @@ namespace TimeGo.Controllers
         [AllowAnonymous]
         public ActionResult Save(UserViewModel model) {
             PopulateModel(model);
+            if (!ModelState.IsValid)
+                return View(model);
+
 
             var employee = Context.Employees.Where(e => e.EmployeeId == model.LoginId).FirstOrDefault();
             employee.Phonenumber = model.Employee.Phonenumber;
@@ -82,8 +87,9 @@ namespace TimeGo.Controllers
         public ActionResult AdminCodes(String CompanyURL, int? TaskId) {
             var Model = new AdminCodesViewModel();
             PopulateModel(Model);
-            if (Model.LoginId == 0)
-                return RedirectPermanent("/Login");
+            if (!ModelState.IsValid)
+                return View(Model);
+
 
             Model.Tasks = Context.Tasks.Where(t => t.CompanyId == Model.CompanyId).ToList();
 
@@ -112,10 +118,8 @@ namespace TimeGo.Controllers
         [Route("{CompanyURL}/admincodes")]
         public ActionResult AdminCodes(String CompanyURL, AdminCodesViewModel Model) {
             PopulateModel(Model);
-
-            if (!ModelState.IsValid) {
+            if (!ModelState.IsValid)
                 return View(Model);
-            }
 
 
             Model.Employees = new List<SelectListItem>();
@@ -153,8 +157,8 @@ namespace TimeGo.Controllers
         public ActionResult AdminAllowedCodes(String CompanyURL, int? SelectedEmployeeId) {
             var Model = new AdminAllowedCodesViewModel();
             PopulateModel(Model);
-            if (Model.LoginId == 0)
-                return RedirectPermanent("/Login");
+            if (!ModelState.IsValid)
+                return View(Model);
 
             if (SelectedEmployeeId != null)
                 Model.EmployeeId = (int)SelectedEmployeeId;
@@ -197,9 +201,8 @@ namespace TimeGo.Controllers
         [Route("{CompanyURL}/adminallowedcodes")]
         public ActionResult AdminAllowedCodes(String CompanyURL, AdminAllowedCodesViewModel Model) {
             PopulateModel(Model);
-            if (!ModelState.IsValid) {
+            if (!ModelState.IsValid)
                 return View(Model);
-            }
 
             var ids = Request["SelectedTasks"] == null ? new List<String>() : Request["SelectedTasks"].Split(',').ToList();
             var TaskAlloweds = Context.TaskAlloweds.Where(t => t.EmployeeId == Model.EmployeeId).ToList();
@@ -242,8 +245,8 @@ namespace TimeGo.Controllers
         public ActionResult AdminUsers(String CompanyURL, int? EmployeeId) {
             var Model = new AdminUsersViewModel();
             PopulateModel(Model);
-            if (Model.LoginId == 0)
-                return RedirectPermanent("/Login");
+            if (!ModelState.IsValid)
+                return View(Model);
 
             Model.Employees = Context.Employees.Where(t => t.CompanyId == Model.CompanyId).ToList();
 
@@ -260,6 +263,9 @@ namespace TimeGo.Controllers
             if (EmployeeId == null) {
                 Model.SelectedEmployee = new Data.Employee();
                 Model.SelectedEmployee.RoleId = 0;
+                Model.SelectedEmployee.IsActive = true;
+                Model.SelectedEmployee.IsOvertimeCalculated = true;
+                Model.SelectedEmployee.IsAdmin = false;
             } else {
                 Model.SelectedEmployee = Context.Employees.Where(t => t.EmployeeId == EmployeeId).FirstOrDefault();
                 if (Model.SelectedEmployee.RoleId == null) Model.SelectedEmployee.RoleId = 0;
@@ -273,6 +279,8 @@ namespace TimeGo.Controllers
         [Route("{CompanyURL}/adminusers")]
         public ActionResult AdminUsers(String CompanyURL, AdminUsersViewModel Model) {
             PopulateModel(Model);
+            if (!ModelState.IsValid)
+                return View(Model);
 
             if (!ModelState.IsValid) {
                 Model.Employees = Context.Employees.Where(t => t.CompanyId == Model.CompanyId).ToList();
@@ -292,7 +300,7 @@ namespace TimeGo.Controllers
             Employee.EmployeeNumber = Model.SelectedEmployee.EmployeeNumber;
             Employee.RoleId = Model.SelectedEmployee.RoleId;
             Employee.IsOvertimeCalculated = Model.SelectedEmployee.IsOvertimeCalculated;
-
+            Employee.IsActive = Model.SelectedEmployee.IsActive;
             Employee.UpdatedById = Model.LoginId;
             Employee.UpdatedOn = DateTime.UtcNow;
 
@@ -307,8 +315,8 @@ namespace TimeGo.Controllers
         public ActionResult AdminRates(String CompanyURL, int? RateId) {
             var Model = new AdminUserRatesViewModel();
             PopulateModel(Model);
-            if (Model.LoginId == 0)
-                return RedirectPermanent("/Login");
+            if (!ModelState.IsValid)
+                return View(Model);
 
             Model.EmployeeRates = Context.EmployeeRates.Where(r => r.CompanyId == Model.CompanyId).OrderBy(r => r.Employee.LastName).ThenBy(r => r.Employee.FirstName).ThenBy(r => r.EffectiveStartDate).ToList();
 
@@ -343,6 +351,8 @@ namespace TimeGo.Controllers
         [Route("{CompanyURL}/adminrates")]
         public ActionResult AdminRates(String CompanyURL, AdminUserRatesViewModel Model) {
             PopulateModel(Model);
+            if (!ModelState.IsValid)
+                return View(Model);
 
             if (!ModelState.IsValid) {
                 Model.EmployeeRates = Context.EmployeeRates.Where(r => r.CompanyId == Model.CompanyId).OrderBy(r => r.Employee.LastName).ThenBy(r => r.EffectiveStartDate).ToList();
@@ -396,8 +406,8 @@ namespace TimeGo.Controllers
         public ActionResult AdminPeriods(String CompanyURL) {
             var Model = new AdminPeriodsViewModel();
             PopulateModel(Model);
-            if (Model.LoginId == 0)
-                return RedirectPermanent("/Login");
+            if (!ModelState.IsValid)
+                return View(Model);
 
             Model.Periods = Context.Periods.Where(r => r.CompanyId == Model.CompanyId).OrderBy(r => r.PeriodStart).ThenBy(r => r.PeriodEnd).ToList();
             var LastPeriod = Model.Periods.LastOrDefault();
@@ -431,8 +441,8 @@ namespace TimeGo.Controllers
 
         public ActionResult AddPeriod(AdminPeriodsViewModel Model) {
             PopulateModel(Model);
-            if (Model.LoginId == 0)
-                return RedirectPermanent("/Login");
+            if (!ModelState.IsValid)
+                return View(Model);
 
             var Period = new Data.Period();
             Period.CompanyId = Model.CompanyId;
@@ -449,10 +459,10 @@ namespace TimeGo.Controllers
 
         public ActionResult LockPeriod(AdminPeriodsViewModel Model, int? UnlockedPeriodId) {
             PopulateModel(Model);
-            if (Model.LoginId == 0)
-                return RedirectPermanent("/Login");
+            if (!ModelState.IsValid)
+                return View(Model);
 
-            if(UnlockedPeriodId!=null) {
+            if (UnlockedPeriodId!=null) {
                 var Period = Context.Periods.Where(p => p.PeriodId == UnlockedPeriodId).FirstOrDefault();
                 if (Period != null) {
                     Period.PeriodStatusId = 1;
@@ -467,8 +477,8 @@ namespace TimeGo.Controllers
 
         public ActionResult UnlockPeriod(AdminPeriodsViewModel Model, int? LockedPeriodId) {
             PopulateModel(Model);
-            if (Model.LoginId == 0)
-                return RedirectPermanent("/Login");
+            if (!ModelState.IsValid)
+                return View(Model);
 
             if (LockedPeriodId != null) {
                 var Period = Context.Periods.Where(p => p.PeriodId == LockedPeriodId).FirstOrDefault();

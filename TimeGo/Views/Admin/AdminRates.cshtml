@@ -44,12 +44,12 @@
             <td>@EmployeeRate.Employee.EmployeeNumber</td>
             <td>@EmployeeRate.Employee.FirstName</td>
             <td>@EmployeeRate.Employee.LastName</td>
-            <td>@EmployeeRate.EffectiveStartDate.ToString("MM/dd/yyyy")</td>
+            <td>@EmployeeRate.EffectiveStartDate.ToString("dd-MMM-yy")</td>
 
             @if (EmployeeRate.EffectiveEndDate == null) {
                 <td>- Present -</td>
             } else {
-                <td>@(((DateTime)EmployeeRate.EffectiveEndDate).ToString("MM/dd/yyyy"))</td> 
+                <td>@(((DateTime)EmployeeRate.EffectiveEndDate).ToString("dd-MMM-yy"))</td> 
             }
             <td class="text-right">@EmployeeRate.RateAmount.ToString("C")</td>
         </tr>
@@ -76,7 +76,7 @@
 
     <div class="form-group">
         <label for="exampleInputEmail1" class="col-sm-2">Effective Start Date</label>
-        <input Class="form-control date" id='SelectedEmployeeRate_EffectiveStartDate' name='SelectedEmployeeRate.EffectiveStartDate' type='text' value='@Model.SelectedEmployeeRate.EffectiveStartDate.ToString("MM/dd/yyyy")'>
+        <input Class="form-control date" id='SelectedEmployeeRate_EffectiveStartDate' name='SelectedEmployeeRate.EffectiveStartDate' type='text' value='@Model.SelectedEmployeeRate.EffectiveStartDate.ToString("dd-MMM-yy")'>
     </div>
 
     <div class="form-group">
@@ -84,7 +84,7 @@
         @if (Model.SelectedEmployeeRate.EffectiveEndDate == null) {
             <input Class="form-control date" id='SelectedEmployeeRate_EffectiveEndDate' name='SelectedEmployeeRate.EffectiveEndDate' type='text' value=''>
         } else {
-            <input Class="form-control date"  id='SelectedEmployeeRate_EffectiveEndDate' name='SelectedEmployeeRate.EffectiveEndDate' type='text' value='@(((DateTime)Model.SelectedEmployeeRate.EffectiveEndDate).ToString("MM/dd/yyyy")) '>
+            <input Class="form-control date"  id='SelectedEmployeeRate_EffectiveEndDate' name='SelectedEmployeeRate.EffectiveEndDate' type='text' value='@(((DateTime)Model.SelectedEmployeeRate.EffectiveEndDate).ToString("dd-MMM-yy")) '>
         }
     </div>
 
@@ -108,7 +108,7 @@
                     $(".date").datepicker({
                         showOtherMonths: true,
                         selectOtherMonths: true,
-                        dateFormat: "mm/dd/yy"
+                        dateFormat: "d-M-y"
                     });
                 });
             </script>

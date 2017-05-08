@@ -21,5 +21,13 @@ namespace TimeGo.Controllers {
             Model.CompanyName = (String)Session["CompanyName"];
             Model.CompanyURL = (String)Session["CompanyURL"];
         }
+
+
+        public ActionResult Expired(String CompanyURL) {
+            if (CompanyURL == null)
+                return RedirectPermanent("/");
+            else
+                return RedirectPermanent("/"+ CompanyURL);
+        }
     }
 }

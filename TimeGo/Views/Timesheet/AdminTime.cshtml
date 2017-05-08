@@ -103,12 +103,13 @@
                     <button class="form-control resubmit btn btn-primary" @((Model.ApprovalStatusId==0) ? "disabled" : "")>Request Resubmit</button>
                 </div>
 
+                <!--
                 <div class="col-sm-1"></div>
 
                 <div class="col-sm-2">
                     <button type="button" class="revise form-control btn btn-primary">Revise</button>
                 </div>
-
+                -->
                 <div class="col-sm-1"></div>
 
                 @if (Model.LockStatusId == 2) {
@@ -121,10 +122,14 @@
 
         <div class="col-sm-6">
             @if (Model.LastSubmitted != null) {
-                <span class="form-control-static">Submitted on @(Model.LastSubmitted).</span>
+                DateTime dt = new DateTime(((DateTime)Model.LastSubmitted).Ticks, DateTimeKind.Utc);
+                string s = dt.ToLocalTime().ToString("dd-MMM-yy HH:mm:ss tt");
+                <p class="form-control-static">Submitted on @s</p>
             }
             @if (Model.LastApproved != null) {
-                <span class="form-control-static">Approved on @(Model.LastApproved).</span>
+                DateTime dt = new DateTime(((DateTime)Model.LastApproved).Ticks, DateTimeKind.Utc);
+                string s = dt.ToLocalTime().ToString("dd-MMM-yy HH:mm:ss tt");
+                <p class="form-control-static">Approved on @s</p>
             }
         </div>
 
@@ -229,7 +234,7 @@
         </div>
 
         <div class="col-xs-1" style="padding-top: 7px;">
-            <a href="#" style="color: red"><span class="glyphicon glyphicon-remove"></span></a>
+            <a href="#" class="remove" style="color: red"><span class="glyphicon glyphicon-remove"></span></a>
         </div>
     </div>
 </div>
@@ -374,12 +379,6 @@
             }
         }
         reportedHours_OnChange()
-
-        $(".work-day select, .work-day button").each(function () {
-            $(this).prop("disabled", "true");
-        })
-
-        $(".submit, .save").prop("disabled", "true");
     });
 
 
@@ -388,9 +387,25 @@
     $(".SelectedPeriodId").on("change", function () {
         $(".IsSave").val("False");
         $(".IsSave").val("False");
+        $(".IsApprove").val("False");
+        $(".IsSubmit").val("False");
+        $(".IsReviseRequsted").val("False");
+        $(".IsResubmit").val("False");
+
         $("form").submit();
     });
     
+    $(".reported-hours").on("click", '.remove', function () {
+        var LineId = $(this).parents(".day").find(".LineId").val();
+
+        $.ajax({
+            url: "/Timesheet/RemoveLine?LineId=" + LineId,
+        });
+
+
+        $(this).parents(".day").remove();
+        reportedHours_OnChange();
+    })
 
     $(".add-hours").on("click", function (event) {
         event.stopPropagation();
