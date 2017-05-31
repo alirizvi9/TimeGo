@@ -297,6 +297,8 @@ namespace TimeGo.Controllers
             Employee.EmailAddress = Model.SelectedEmployee.EmailAddress;
             Employee.Phonenumber = Model.SelectedEmployee.Phonenumber;
             Employee.SSN = Model.SelectedEmployee.SSN;
+            Employee.UserName = Model.SelectedEmployee.UserName;
+            Employee.Password = Model.SelectedEmployee.Password;
             Employee.EmployeeNumber = Model.SelectedEmployee.EmployeeNumber;
             Employee.RoleId = Model.SelectedEmployee.RoleId;
             Employee.IsOvertimeCalculated = Model.SelectedEmployee.IsOvertimeCalculated;
@@ -491,6 +493,53 @@ namespace TimeGo.Controllers
 
 
             return RedirectPermanent("/" + Model.CompanyURL + "/AdminPeriods");
+        }
+
+
+
+        [Route("{CompanyURL}/TimesheetSubmissionEmail")]
+        public ActionResult AdminEmail(String CompanyURL, string EmailName) {
+            var Model = new AdminSetting();
+            Model.Caption = EmailName==null ? "Timesheet Notification Email" : EmailName;
+            Model.Key = EmailName == null ? "TimesheetSubmissionEmail" : EmailName;
+
+            PopulateModel(Model);
+            if (!ModelState.IsValid)
+                return View(Model);
+
+
+            var Email = Context.Emails.Where(e => e.CompanyId == Model.CompanyId && e.EmailName == Model.Caption).FirstOrDefault();
+            if(Email!=null) {
+                Model.Value = Email.EmailText;
+            }
+
+            return View(Model);
+        }
+
+        [HttpPost]
+        [Route("{CompanyURL}/TimesheetSubmissionEmail"), ValidateInput(false)]
+        public ActionResult AdminEmail(String CompanyURL, AdminSetting Model) {
+            PopulateModel(Model);
+            if (!ModelState.IsValid)
+                return View(Model);
+
+
+            var Email = Context.Emails.Where(e => e.CompanyId == Model.CompanyId && e.EmailName == Model.Key).FirstOrDefault();
+            if (Email == null) {
+                Email = new Data.Email();
+
+                Email.CompanyId = Model.CompanyId;
+                Email.EmailName = Model.Caption;
+                Email.EmailText = Model.Value;
+                Context.Entry(Email).State = System.Data.Entity.EntityState.Added;
+            } else {
+                Email.EmailText = Model.Value;
+                Context.Entry(Email).State = System.Data.Entity.EntityState.Modified;
+            }
+            Context.SaveChanges();
+
+
+            return View(Model);
         }
     }
 }

@@ -47,6 +47,7 @@ namespace TimeGo.Data
         public string Phonenumber { get; set; }
         public Nullable<int> LoginMethodId { get; set; }
         public Nullable<int> RoleId { get; set; }
+        public string UserName { get; set; }
     
         public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

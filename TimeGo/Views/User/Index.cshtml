@@ -19,29 +19,10 @@
 </ul>
 
 
-<br /><br />
+<br />
 
 <h1>Your info:</h1>
-<h3>Login Method</h3>
-
 @using (Html.BeginForm("Save", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
-
-    <div class="radio">
-        <label>
-            @Html.RadioButtonFor(m => m.Employee.LoginMethodId, 0)
-            Last Name and Last 4 of Social Security Number
-        </label>
-    </div>
-
-    <div class="radio">
-        <label>
-            @Html.RadioButtonFor(m=>m.Employee.LoginMethodId, 1)
-            Email and Password
-        </label>
-    </div>
-
-        <br />
-
         <div class="form-group">
             <label for="exampleInputEmail1">Phone Number</label>
             @Html.TextBoxFor(m => m.Employee.Phonenumber, Model.Employee.Phonenumber, new { Class = "form-control" })

@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SchemaChanges\frm_20170531_1602- Username.cs" />
+    <Compile Include="SchemaChanges\frm_20170507_2006- Email.cs" />
     <Compile Include="SchemaChanges\frm_20170319_2158- Timesheet Reason Len.cs" />
     <Compile Include="SchemaChanges\frm_20170315_0954- Timesheet Approval.cs" />
     <Compile Include="SchemaChanges\frm_20170315_0915- Timesheet Approval.cs" />

@@ -33,7 +33,7 @@
 
                 <div class="form-group">
                     @Html.LabelFor(m => m.Password, new { @class = "col-xs-2 control-label" })
-                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control col-xs-4", @placeholder = "Enter Password or Last 4 of Social" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control col-xs-4", @placeholder = "Enter Password or Last 4 of Social" })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger col-xs-12" })
                 </div>
 

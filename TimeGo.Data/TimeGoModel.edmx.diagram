@@ -48,6 +48,7 @@
         <AssociationConnector Association="TimeGoModel.fk_TimesheetLine_LockStatus" />
         <AssociationConnector Association="TimeGoModel.fk_Employee_Task1" />
         <AssociationConnector Association="TimeGoModel.fk_Employee_Task2" />
+        <EntityTypeShape EntityType="TimeGoModel.Email" Width="1.5" PointX="9.375" PointY="9.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

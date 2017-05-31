@@ -41,6 +41,15 @@
           <Property Name="CompanyApprovedId" Type="int" Nullable="false" />
           <Property Name="CompanyApprovedType" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="EmailName" />
+          </Key>
+          <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmailName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="EmailText" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -61,6 +70,7 @@
           <Property Name="Phonenumber" Type="nvarchar" MaxLength="100" />
           <Property Name="LoginMethodId" Type="int" />
           <Property Name="RoleId" Type="int" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="EmployeeRates">
           <Key>
@@ -519,7 +529,9 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_TimesheetLine_Timesheet">
-          <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="0..1" />
+          <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="TimesheetLine" Type="Self.TimesheetLine" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Timesheet">
@@ -534,6 +546,7 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <EntitySet Name="ApprovalStatus" EntityType="Self.ApprovalStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyApproved" EntityType="Self.CompanyApproved" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Email" EntityType="Self.Email" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmployeeRates" EntityType="Self.EmployeeRates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LockStatus" EntityType="Self.LockStatus" Schema="dbo" store:Type="Tables" />
@@ -797,6 +810,7 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
             <End Role="Employee" EntitySet="Employees" />
             <End Role="Task" EntitySet="Tasks" />
           </AssociationSet>
+          <EntitySet Name="Emails" EntityType="TimeGoModel.Email" />
         </EntityContainer>
         <EntityType Name="ApprovalStatus">
           <Key>
@@ -880,6 +894,7 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <NavigationProperty Name="TimesheetLines1" Relationship="TimeGoModel.fk_TimesheetLine_Employee3" FromRole="Employee" ToRole="TimesheetLine" />
           <NavigationProperty Name="Tasks" Relationship="TimeGoModel.fk_Employee_Task1" FromRole="Employee" ToRole="Task" />
           <NavigationProperty Name="Tasks1" Relationship="TimeGoModel.fk_Employee_Task2" FromRole="Employee" ToRole="Task" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="LockStatus">
           <Key>
@@ -1377,6 +1392,15 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="EmailName" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmailName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EmailText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1425,6 +1449,7 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="TimeGoModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="LoginMethodId" ColumnName="LoginMethodId" />
                 <ScalarProperty Name="Phonenumber" ColumnName="Phonenumber" />
@@ -1582,6 +1607,15 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
               <MappingFragment StoreEntitySet="Role">
                 <ScalarProperty Name="RoleType" ColumnName="RoleType" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Emails">
+            <EntityTypeMapping TypeName="TimeGoModel.Email">
+              <MappingFragment StoreEntitySet="Email">
+                <ScalarProperty Name="EmailText" ColumnName="EmailText" />
+                <ScalarProperty Name="EmailName" ColumnName="EmailName" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -74,8 +74,7 @@ namespace TimeGo.Models
     public class LoginViewModel : BaseViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
+        [Display(Name = "Username")]
         public string Email { get; set; }
 
         [Required]

@@ -60,6 +60,9 @@
     <Compile Include="CompanyApproved.cs">
       <DependentUpon>TimeGoModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Email.cs">
+      <DependentUpon>TimeGoModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Employee.cs">
       <DependentUpon>TimeGoModel.tt</DependentUpon>
     </Compile>

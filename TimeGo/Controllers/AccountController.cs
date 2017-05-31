@@ -111,7 +111,7 @@ namespace TimeGo.Controllers
 
 
             var Company = context.Companies.Where(c => c.CompanyId == model.CompanyId).FirstOrDefault();
-            var Employee = context.Employees.Where(e => e.CompanyId == Company.CompanyId && e.IsActive == true && e.EmailAddress == model.Email).FirstOrDefault();
+            var Employee = context.Employees.Where(e => e.CompanyId == Company.CompanyId && e.IsActive == true && (e.EmailAddress == model.Email || e.UserName == model.Email) && e.Password == model.Password).FirstOrDefault();
             if (Employee == null) {
                 ModelState.AddModelError("", "Invalid login attempt.");
                 return View(model);
