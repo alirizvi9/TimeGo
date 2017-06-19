@@ -33,6 +33,8 @@
           <Property Name="VacationApproverEmail" Type="nvarchar" MaxLength="100" />
           <Property Name="UpdatedById" Type="int" />
           <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="WorkweekStaryDay" Type="int" />
+          <Property Name="TimezoneId" Type="int" />
         </EntityType>
         <EntityType Name="CompanyApproved">
           <Key>
@@ -193,6 +195,13 @@
           <Property Name="RevisedById" Type="int" />
           <Property Name="ApprovedById" Type="int" />
           <Property Name="ApprovedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Timezone">
+          <Key>
+            <PropertyRef Name="TimezoneId" />
+          </Key>
+          <Property Name="TimezoneId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TimezoneName" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -542,6 +551,18 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_Timezone_Company">
+          <End Role="Timezone" Type="Self.Timezone" Multiplicity="0..1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timezone">
+              <PropertyRef Name="TimezoneId" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="TimezoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="TimeGoModelStoreContainer">
           <EntitySet Name="ApprovalStatus" EntityType="Self.ApprovalStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
@@ -558,6 +579,7 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <EntitySet Name="TimeoffRequests" EntityType="Self.TimeoffRequests" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Timesheet" EntityType="Self.Timesheet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TimesheetLine" EntityType="Self.TimesheetLine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Timezone" EntityType="Self.Timezone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VersionInfo" EntityType="Self.VersionInfo" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [VersionInfo].[Version] AS [Version], 
@@ -676,6 +698,10 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <AssociationSet Name="fk_TimesheetLine_Timesheet" Association="Self.fk_TimesheetLine_Timesheet">
             <End Role="Timesheet" EntitySet="Timesheet" />
             <End Role="TimesheetLine" EntitySet="TimesheetLine" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Timezone_Company" Association="Self.fk_Timezone_Company">
+            <End Role="Timezone" EntitySet="Timezone" />
+            <End Role="Company" EntitySet="Company" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -811,6 +837,11 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
             <End Role="Task" EntitySet="Tasks" />
           </AssociationSet>
           <EntitySet Name="Emails" EntityType="TimeGoModel.Email" />
+          <EntitySet Name="Timezones" EntityType="TimeGoModel.Timezone" />
+          <AssociationSet Name="fk_Timezone_Company" Association="TimeGoModel.fk_Timezone_Company">
+            <End Role="Timezone" EntitySet="Timezones" />
+            <End Role="Company" EntitySet="Companies" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ApprovalStatus">
           <Key>
@@ -850,6 +881,9 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <Property Name="UpdatedById" Type="Int32" />
           <NavigationProperty Name="Tasks" Relationship="TimeGoModel.fk_Task_Company" FromRole="Company" ToRole="Task" />
           <NavigationProperty Name="TimeoffRequests" Relationship="TimeGoModel.fk_TimeoffRequests_Company" FromRole="Company" ToRole="TimeoffRequest" />
+          <Property Name="WorkweekStaryDay" Type="Int32" />
+          <Property Name="TimezoneId" Type="Int32" />
+          <NavigationProperty Name="Timezone" Relationship="TimeGoModel.fk_Timezone_Company" FromRole="Company" ToRole="Timezone" />
         </EntityType>
         <EntityType Name="CompanyApproved">
           <Key>
@@ -1401,6 +1435,26 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <Property Name="EmailName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="EmailText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Timezone">
+          <Key>
+            <PropertyRef Name="TimezoneId" />
+          </Key>
+          <Property Name="TimezoneId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TimezoneName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Companies" Relationship="TimeGoModel.fk_Timezone_Company" FromRole="Timezone" ToRole="Company" />
+        </EntityType>
+        <Association Name="fk_Timezone_Company">
+          <End Type="TimeGoModel.Timezone" Role="Timezone" Multiplicity="0..1" />
+          <End Type="TimeGoModel.Company" Role="Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timezone">
+              <PropertyRef Name="TimezoneId" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="TimezoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1418,6 +1472,8 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="TimeGoModel.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="TimezoneId" ColumnName="TimezoneId" />
+                <ScalarProperty Name="WorkweekStaryDay" ColumnName="WorkweekStaryDay" />
                 <ScalarProperty Name="UpdatedById" ColumnName="UpdatedById" />
                 <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
                 <ScalarProperty Name="VacationApproverEmail" ColumnName="VacationApproverEmail" />
@@ -1616,6 +1672,14 @@ warning 6002: The table/view 'TimeGo.dbo.VersionInfo' does not have a primary ke
                 <ScalarProperty Name="EmailText" ColumnName="EmailText" />
                 <ScalarProperty Name="EmailName" ColumnName="EmailName" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Timezones">
+            <EntityTypeMapping TypeName="TimeGoModel.Timezone">
+              <MappingFragment StoreEntitySet="Timezone">
+                <ScalarProperty Name="TimezoneName" ColumnName="TimezoneName" />
+                <ScalarProperty Name="TimezoneId" ColumnName="TimezoneId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

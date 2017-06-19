@@ -112,6 +112,9 @@
     <Compile Include="TimesheetLine.cs">
       <DependentUpon>TimeGoModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Timezone.cs">
+      <DependentUpon>TimeGoModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="VersionInfo.cs">
       <DependentUpon>TimeGoModel.tt</DependentUpon>
     </Compile>

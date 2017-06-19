@@ -17,13 +17,13 @@ dsadasdasdsada
 
                 <div class="form-group">
                     @Html.LabelFor(m => m.CompanyId, new { @class = "col-xs-4 control-label" })
-                    @Html.DropDownListFor(m => m.CompanyId, Model.Companies, new { @class = "form-control col-xs-5", @placeholder = "Enter Email Address or Last Name" })
+                    @Html.DropDownListFor(m => m.CompanyId, Model.Companies, new { @class = "form-control col-xs-5", @placeholder = "" })
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger col-xs-12" })
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(m => m.Email, new { @class = "col-xs-4 control-label" })
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control col-xs-5", @placeholder = "Enter Email Address or Last Name" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control col-xs-5", @placeholder = "" })
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger col-xs-12" })
                 </div>
 

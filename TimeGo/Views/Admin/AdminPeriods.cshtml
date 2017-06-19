@@ -30,17 +30,17 @@
     </thead>
     @foreach (var Period in Model.Periods) {
         <tr>
-            <td>@(((DateTime)Period.PeriodStart).ToString("MM/dd/yyyy"))</td>
-            <td>@(((DateTime)Period.PeriodEnd).ToString("MM/dd/yyyy"))</td>
+            <td>@(((DateTime)Period.PeriodStart).ToString("dd-MMM-yy"))</td>
+            <td>@(((DateTime)Period.PeriodEnd).ToString("dd-MMM-yy"))</td>
             
             <td>
                 @if (Period.Reminder1Date != null) {
-                    @(((DateTime)Period.Reminder1Date).ToString("MM/dd/yyyy"))
+                    @(((DateTime)Period.Reminder1Date).ToString("dd-MMM-yy"))
                 }
             </td>
             <td>
                 @if (Period.Reminder2Date != null) {
-                    @(((DateTime)Period.Reminder2Date).ToString("MM/dd/yyyy"))
+                    @(((DateTime)Period.Reminder2Date).ToString("dd-MMM-yy"))
                 }
             </td>
             <td>@(Period.PeriodStatusId==0 ? "Unlocked":"Locked")</td>
@@ -66,7 +66,7 @@
                 @if (Model.SelectedPeriod.PeriodStart == null) {
                     <input Class="form-control date" id='SelectedPeriod_PeriodStart' name='SelectedPeriod.PeriodStart' style='width: 120px;' type='text' value=''>
                 } else {
-                    <input Class="form-control date" id='SelectedPeriod_PeriodStart' name='SelectedPeriod.PeriodStart' style='width: 120px;' type='text' value='@(((DateTime)Model.SelectedPeriod.PeriodStart).ToString("MM/dd/yyyy")) '>
+                    <input Class="form-control date" id='SelectedPeriod_PeriodStart' name='SelectedPeriod.PeriodStart' style='width: 120px;' type='text' value='@(((DateTime)Model.SelectedPeriod.PeriodStart).ToString("dd-MMM-yy")) '>
                 }
                 Each timesheet period lasts one week.
             </div>
@@ -83,13 +83,13 @@
                 @if (Model.SelectedPeriod.PeriodStart == null) {
                     <input Class="form-control date" id='SelectedPeriod_PeriodStart' name='SelectedPeriod.Reminder1Date' style='width: 120px;' type='text' value=''>
                 } else {
-                    <input Class="form-control date" id='SelectedPeriod_PeriodStart' name='SelectedPeriod.Reminder1Date' style='width: 120px;' type='text' value='@(((DateTime)Model.SelectedPeriod.Reminder1Date).ToString("MM/dd/yyyy")) '>
+                    <input Class="form-control date" id='SelectedPeriod_PeriodStart' name='SelectedPeriod.Reminder1Date' style='width: 120px;' type='text' value='@(((DateTime)Model.SelectedPeriod.Reminder1Date).ToString("dd-MMM-yy")) '>
                 }
 
                 @if (Model.SelectedPeriod.PeriodStart == null) {
                     <input Class="form-control date" id='SelectedPeriod_PeriodStart' name='SelectedPeriod.Reminder2Date' style='width: 120px;' type='text' value=''>
                 } else {
-                    <input Class="form-control date" id='SelectedPeriod_PeriodStart' name='SelectedPeriod.Reminder2Date' style='width: 120px;' type='text' value='@(((DateTime)Model.SelectedPeriod.Reminder2Date).ToString("MM/dd/yyyy")) '>
+                    <input Class="form-control date" id='SelectedPeriod_PeriodStart' name='SelectedPeriod.Reminder2Date' style='width: 120px;' type='text' value='@(((DateTime)Model.SelectedPeriod.Reminder2Date).ToString("dd-MMM-yy")) '>
                 }
             </div>
         </div>
@@ -136,7 +136,8 @@
                 $(function () {
                     $(".date").datepicker({
                         showOtherMonths: true,
-                        selectOtherMonths: true
+                        selectOtherMonths: true,
+                        dateFormat: "d-M-y", 
                     });
                 });
             </script>

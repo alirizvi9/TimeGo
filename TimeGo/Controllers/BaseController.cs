@@ -20,6 +20,7 @@ namespace TimeGo.Controllers {
             Model.CompanyId = (int)Session["CompanyId"];
             Model.CompanyName = (String)Session["CompanyName"];
             Model.CompanyURL = (String)Session["CompanyURL"];
+
         }
 
 

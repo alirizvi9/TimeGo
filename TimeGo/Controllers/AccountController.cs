@@ -27,6 +27,13 @@ namespace TimeGo.Controllers
         [AllowAnonymous]
         public ActionResult SignUp() {
             SignUpViewModel Model = new SignUpViewModel();
+
+            Model.Timezones = context.Timezones.Select(f => new SelectListItem {
+                Value = f.TimezoneId.ToString(),
+                Text = f.TimezoneName
+            });
+            Model.WorkweekStaryDay = WORK_WEEK.Monday;
+
             PopulateModel(Model);
 
             return View(Model);
@@ -49,6 +56,10 @@ namespace TimeGo.Controllers
             Company.PhoneNumber = Model.PhoneNumber;
             Company.TimeGoURL = Model.CompanyURL;
             Company.UpdatedOn = DateTime.UtcNow;
+
+            Company.TimezoneId =Model.TimezoneId;
+            Company.WorkweekStaryDay = (int?)Model.WorkweekStaryDay;
+
 
             Context.Entry(Company).State = System.Data.Entity.EntityState.Added;
             Context.SaveChanges();

@@ -41,5 +41,6 @@ namespace TimeGo.Data
         public virtual DbSet<TimeoffRequest> TimeoffRequests { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Email> Emails { get; set; }
+        public virtual DbSet<Timezone> Timezones { get; set; }
     }
 }

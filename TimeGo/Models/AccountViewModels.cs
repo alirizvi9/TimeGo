@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using System.Web.Mvc;
 
 namespace TimeGo.Models
 {
+    public enum WORK_WEEK {Monday=1, Tuesday=2, Wednesday=3, Thursday=4, Friday=5, Saturday=6, Sunday = 7 }
+
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
@@ -33,7 +35,15 @@ namespace TimeGo.Models
         public string Password { get; set; }
 
         [Required]
+        public int TimezoneId { get; set; }
+
+        [Required]
+        public WORK_WEEK WorkweekStaryDay { get; set; }
+
+        [Required]
         public new string CompanyURL { get; set; }
+
+        public IEnumerable<SelectListItem> Timezones { get; set; }
     }
 
 
@@ -107,7 +117,7 @@ namespace TimeGo.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.Web.Mvc.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -126,7 +136,7 @@ namespace TimeGo.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.Web.Mvc.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

@@ -71,10 +71,26 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="form-group col-sm-6">
+            <label for="exampleInputEmail1" class="col-sm-4">Timezone</label>
+            @Html.DropDownListFor(m => m.TimezoneId, Model.Timezones, new { @Class = "form-control SelectedPeriodId" })
+            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger col-xs-7" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-sm-6">
+            <label for="exampleInputEmail1" class="col-sm-4">Work Week Start</label>
+            @Html.EnumDropDownListFor(m => m.WorkweekStaryDay, new { @Class = "form-control SelectedPeriodId" })
+            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger col-xs-7" })
+        </div>
+    </div>
+
     <br />
 
     <div class="row">
-        <label for="exampleInputEmail1" class="col-sm-12">Pick a short word (no spaces or special characters) that users will type after timego.com/ tp reach your company login screen.</label>
+        <label for="exampleInputEmail1" class="col-sm-12">Pick a short word (no spaces or special characters) that users will type after timego.com/ to reach your company login screen.</label>
     </div>
 
     <div class="row">

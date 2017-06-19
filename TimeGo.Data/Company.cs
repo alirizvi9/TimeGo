@@ -41,6 +41,8 @@ namespace TimeGo.Data
         public string VacationApproverEmail { get; set; }
         public Nullable<System.DateTime> UpdatedOn { get; set; }
         public Nullable<int> UpdatedById { get; set; }
+        public Nullable<int> WorkweekStaryDay { get; set; }
+        public Nullable<int> TimezoneId { get; set; }
     
         public virtual CompanyApproved CompanyApproved { get; set; }
         public virtual SubscriptionPlan SubscriptionPlan { get; set; }
@@ -54,5 +56,6 @@ namespace TimeGo.Data
         public virtual ICollection<Task> Tasks { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TimeoffRequest> TimeoffRequests { get; set; }
+        public virtual Timezone Timezone { get; set; }
     }
 }
