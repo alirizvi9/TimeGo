@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeGo.DataModel", "TimeGo.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeGo.Data", "TimeGo.Data\TimeGo.Data.csproj", "{217FE23A-77EA-44DA-B439-C36C98B7FD5B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeGo.ApplicationDomain", "TimeGo.ApplicationDomain\TimeGo.ApplicationDomain.csproj", "{74D6754D-57EF-4AFC-B639-A967066B8589}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeGo.Tests", "TimeGo.Tests\TimeGo.Tests.csproj", "{C7CAE401-6F67-4B13-9BB7-317DEFCDE673}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{217FE23A-77EA-44DA-B439-C36C98B7FD5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{217FE23A-77EA-44DA-B439-C36C98B7FD5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{217FE23A-77EA-44DA-B439-C36C98B7FD5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74D6754D-57EF-4AFC-B639-A967066B8589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74D6754D-57EF-4AFC-B639-A967066B8589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74D6754D-57EF-4AFC-B639-A967066B8589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74D6754D-57EF-4AFC-B639-A967066B8589}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7CAE401-6F67-4B13-9BB7-317DEFCDE673}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7CAE401-6F67-4B13-9BB7-317DEFCDE673}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7CAE401-6F67-4B13-9BB7-317DEFCDE673}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7CAE401-6F67-4B13-9BB7-317DEFCDE673}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

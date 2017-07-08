@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using System.Web.Security;
-using System.Web.SessionState;
 
 namespace TimeGo
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class TimeGoApplication : System.Web.HttpApplication
     {
         protected void Application_BeginRequest(object sender, EventArgs e) {
             Response.AddHeader("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -24,9 +19,7 @@ namespace TimeGo
             TimeGo.Data.TimeGoEntities context=new TimeGo.Data.TimeGoEntities();
             new TimeGo.DataModel.UpdateDatabase(context.Database.Connection.ConnectionString);
 
-
-
-
+            AutofacConfig.ConfigureContainer();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
