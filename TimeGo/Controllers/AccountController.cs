@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -10,25 +8,54 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TimeGo.Models;
 using System.Collections.Generic;
+using TimeGo.Data;
 
 namespace TimeGo.Controllers
 {
     [Authorize]
     public class AccountController : BaseController
     {
-        public AccountController() { }
-        Data.TimeGoEntities context = new Data.TimeGoEntities();
-
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly TimeGoEntities _context;
 
+        public AccountController(TimeGoEntities context, ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+            _context = context;
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         [Route("SignUp")]
         [AllowAnonymous]
         public ActionResult SignUp() {
             SignUpViewModel Model = new SignUpViewModel();
 
-            Model.Timezones = context.Timezones.Select(f => new SelectListItem {
+            Model.Timezones = _context.Timezones.Select(f => new SelectListItem {
                 Value = f.TimezoneId.ToString(),
                 Text = f.TimezoneName
             });
@@ -61,8 +88,8 @@ namespace TimeGo.Controllers
             Company.WorkweekStaryDay = (int?)Model.WorkweekStaryDay;
 
 
-            Context.Entry(Company).State = System.Data.Entity.EntityState.Added;
-            Context.SaveChanges();
+            _context.Entry(Company).State = System.Data.Entity.EntityState.Added;
+            _context.SaveChanges();
 
             //Create login account for primary account
             Data.Employee Employee = new Data.Employee();
@@ -75,8 +102,8 @@ namespace TimeGo.Controllers
             Employee.IsActive = true;
             Employee.RoleId = 2;
 
-            Context.Entry(Employee).State = System.Data.Entity.EntityState.Added;
-            Context.SaveChanges();
+            _context.Entry(Employee).State = System.Data.Entity.EntityState.Added;
+            _context.SaveChanges();
 
             return RedirectPermanent("/" + Company.TimeGoURL);
         }
@@ -95,7 +122,7 @@ namespace TimeGo.Controllers
             LoginViewModel Model = new LoginViewModel();
             PopulateModel(Model);
              
-            var tmpCompany = context.Companies.Where(c => c.TimeGoURL == CompanyURL).FirstOrDefault();
+            var tmpCompany = _context.Companies.Where(c => c.TimeGoURL == CompanyURL).FirstOrDefault();
             if (tmpCompany == null)
                 return RedirectPermanent("/Login");
 
@@ -106,8 +133,6 @@ namespace TimeGo.Controllers
 
             return View(Model);
         }
-
-
 
         //
         // POST: /Account/Login
@@ -121,8 +146,8 @@ namespace TimeGo.Controllers
             }
 
 
-            var Company = context.Companies.Where(c => c.CompanyId == model.CompanyId).FirstOrDefault();
-            var Employee = context.Employees.Where(e => e.CompanyId == Company.CompanyId && e.IsActive == true && (e.EmailAddress == model.Email || e.UserName == model.Email) && e.Password == model.Password).FirstOrDefault();
+            var Company = _context.Companies.Where(c => c.CompanyId == model.CompanyId).FirstOrDefault();
+            var Employee = _context.Employees.Where(e => e.CompanyId == Company.CompanyId && e.IsActive == true && (e.EmailAddress == model.Email || e.UserName == model.Email) && e.Password == model.Password).FirstOrDefault();
             if (Employee == null) {
                 ModelState.AddModelError("", "Invalid login attempt.");
                 return View(model);
@@ -152,7 +177,7 @@ namespace TimeGo.Controllers
             PopulateModel(Model);
 
             Model.Companies = new List<SelectListItem>();
-            foreach (var Company in context.Companies) {
+            foreach (var Company in _context.Companies) {
                 SelectListItem selectList = new SelectListItem() {
                     Text = Company.CompanyName,
                     Value = Company.CompanyId.ToString()
@@ -177,11 +202,11 @@ namespace TimeGo.Controllers
             }
 
 
-            var Company = context.Companies.Where(c => c.CompanyId == Model.CompanyId).FirstOrDefault();
-            var Employee = context.Employees.Where(e => e.CompanyId == Company.CompanyId && e.IsActive == true && e.EmailAddress == Model.Email).FirstOrDefault();
+            var Company = _context.Companies.Where(c => c.CompanyId == Model.CompanyId).FirstOrDefault();
+            var Employee = _context.Employees.Where(e => e.CompanyId == Company.CompanyId && e.IsActive == true && e.EmailAddress == Model.Email).FirstOrDefault();
             if (Employee == null) {
                 Model.Companies = new List<SelectListItem>();
-                foreach (var Comp in context.Companies) {
+                foreach (var Comp in _context.Companies) {
                     SelectListItem selectList = new SelectListItem() {
                         Text = Comp.CompanyName,
                         Value = Comp.CompanyId.ToString()
@@ -203,43 +228,6 @@ namespace TimeGo.Controllers
 
             return RedirectToLocal("/" + Company.TimeGoURL + "/user");
         }
-
-
-
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
-
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set 
-            { 
-                _signInManager = value; 
-            }
-        }
-
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-
-
-
-
-
 
         //
         // GET: /Account/VerifyCode

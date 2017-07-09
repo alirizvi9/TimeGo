@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace TimeGo.Controllers {
@@ -19,7 +17,6 @@ namespace TimeGo.Controllers {
             Model.TimeoffRequests = Context.TimeoffRequests.Where(to => to.EmployeeId == Model.LoginId).OrderBy(tor => tor.FromDate).ToList();
             return View(Model);
         }
-
 
         [AllowAnonymous]
         [HttpPost]

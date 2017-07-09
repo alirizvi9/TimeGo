@@ -1,9 +1,14 @@
 ﻿using System.Data.Entity;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin;
+using Microsoft.Owin.Security.DataProtection;
 using TimeGo.ApplicationDomain;
 using TimeGo.ApplicationDomain.Dependency;
 using TimeGo.ApplicationDomain.Dependency.Autofac;
@@ -14,6 +19,7 @@ using TimeGo.ApplicationDomain.Persistance.Implementation;
 using TimeGo.ApplicationDomain.Services;
 using TimeGo.ApplicationDomain.Services.Implementation;
 using TimeGo.Data;
+using TimeGo.Models;
 
 namespace TimeGo
 {
@@ -30,12 +36,23 @@ namespace TimeGo
             builder.RegisterAssemblyTypes(typeof(TimeGoApplication).Assembly);
             builder.RegisterAssemblyTypes(typeof(TimeGoSettings).Assembly);
 
+            //Register services
             builder.RegisterInstance(settings).As<TimeGoSettings>();
             builder.RegisterType<HttpContextProvider>().As<IHttpContextProvider>().InstancePerRequest();
             builder.RegisterType<FileSystemStorageProvider>().As<IStorageProvider>().InstancePerRequest();
-            builder.RegisterType<TimeGoEntities>().As<DbContext>().InstancePerRequest();
+            builder.RegisterType<TimeGoEntities>().AsSelf().As<DbContext>().InstancePerRequest();
             builder.RegisterType<Repository>().As<IRepository>().InstancePerRequest();
 
+            //Register identity
+            builder.RegisterType<UserStore<ApplicationUser>>().AsImplementedInterfaces().InstancePerRequest();
+            builder.Register(x => new IdentityFactoryOptions<ApplicationUserManager>
+            {
+                DataProtectionProvider = new DpapiDataProtectionProvider("TimeGo")
+            }).InstancePerRequest();
+            builder.RegisterType<ApplicationUserManager>().InstancePerRequest();
+            builder.Register(ctx => HttpContext.Current.GetOwinContext()).As<IOwinContext>();
+
+            //Register filters
             builder.RegisterFilterProvider();
             builder.RegisterWebApiFilterProvider(config);
 
