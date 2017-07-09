@@ -178,7 +178,7 @@ namespace TimeGo.Controllers
 
 
             Model.Tasks = new List<SelectListItem>();
-            var TaskAlloweds = Context.TaskAlloweds.Where(t => t.EmployeeId == Model.EmployeeId && t.IsActive == true).ToList();
+            var TaskAlloweds = Context.TaskAllowed.Where(t => t.EmployeeId == Model.EmployeeId && t.IsActive == true).ToList();
             foreach (var Task in Context.Tasks.Where(t => t.IsActive == 1 && t.CompanyId == Model.CompanyId).OrderBy(e => e.TaskName)) {
                 var IsSelected = TaskAlloweds.Any(ta => ta.TaskId == Task.TaskId);
 
@@ -205,7 +205,7 @@ namespace TimeGo.Controllers
                 return View(Model);
 
             var ids = Request["SelectedTasks"] == null ? new List<String>() : Request["SelectedTasks"].Split(',').ToList();
-            var TaskAlloweds = Context.TaskAlloweds.Where(t => t.EmployeeId == Model.EmployeeId).ToList();
+            var TaskAlloweds = Context.TaskAllowed.Where(t => t.EmployeeId == Model.EmployeeId).ToList();
 
             foreach (var TaskAllowed in TaskAlloweds) {
                 if (ids.Any(i => i == TaskAllowed.TaskId.ToString())) {

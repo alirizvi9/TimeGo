@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoMapper\AutoMappingProfile.cs" />
     <Compile Include="Dependency\Autofac\AutofacComponentContainer.cs" />
     <Compile Include="Dependency\ComponentContainer.cs" />
     <Compile Include="Dependency\Get.cs" />

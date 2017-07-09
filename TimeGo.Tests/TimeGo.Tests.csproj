@@ -110,6 +110,7 @@
     <Compile Include="Base\Controllers\BaseDatabaseOrientedTest.cs" />
     <Compile Include="Base\Database\IDbSetUp.cs" />
     <Compile Include="Base\Database\SqlServerTestSetUp.cs" />
+    <Compile Include="Base\Extensions\AssemblyExtensions.cs" />
     <Compile Include="Base\Facotries\BaseFactory.cs" />
     <Compile Include="Base\Facotries\Factory.cs" />
     <Compile Include="Base\Facotries\IFactory.cs" />

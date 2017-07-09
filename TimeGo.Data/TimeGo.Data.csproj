@@ -51,96 +51,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApprovalStatus.cs">
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Company.cs">
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CompanyApproved.cs">
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Email.cs">
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Employee.cs">
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EmployeeRate.cs">
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="LockStatus.cs">
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Period.cs">
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="ApprovalStatus.cs" />
+    <Compile Include="Company.cs" />
+    <Compile Include="CompanyApproved.cs" />
+    <Compile Include="Email.cs" />
+    <Compile Include="Employee.cs" />
+    <Compile Include="EmployeeRate.cs" />
+    <Compile Include="LockStatus.cs" />
+    <Compile Include="TimeGoEntities.cs" />
+    <Compile Include="Period.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Role.cs">
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SubscriptionPlan.cs">
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Task.cs">
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TaskAllowed.cs">
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TimeGoModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TimeGoModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TimeGoModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TimeGoModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TimeGoModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="TimeoffRequest.cs">
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Timesheet.cs">
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TimesheetLine.cs">
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Timezone.cs">
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="VersionInfo.cs">
-      <DependentUpon>TimeGoModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Role.cs" />
+    <Compile Include="SubscriptionPlan.cs" />
+    <Compile Include="Task.cs" />
+    <Compile Include="TaskAllowed.cs" />
+    <Compile Include="TimeoffRequest.cs" />
+    <Compile Include="Timesheet.cs" />
+    <Compile Include="TimesheetLine.cs" />
+    <Compile Include="Timezone.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
-    <EntityDeploy Include="TimeGoModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>TimeGoModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="TimeGoModel.edmx.diagram">
-      <DependentUpon>TimeGoModel.edmx</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="TimeGoModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TimeGoModel.edmx</DependentUpon>
-      <LastGenOutput>TimeGoModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="TimeGoModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TimeGoModel.edmx</DependentUpon>
-      <LastGenOutput>TimeGoModel.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -51,7 +51,7 @@ namespace TimeGo.Controllers {
                 Model.SelectedPeriodId = int.Parse(Model.PeriodListItems.FirstOrDefault().Value);
 
 
-            var TaskAlloweds = Context.TaskAlloweds.Where(ta => ta.IsActive == true && ta.EmployeeId == SelectedEmployeeId).ToList();
+            var TaskAlloweds = Context.TaskAllowed.Where(ta => ta.IsActive == true && ta.EmployeeId == SelectedEmployeeId).ToList();
             List<SelectListItem> TaskListItems = TaskAlloweds.Select(f => new SelectListItem {
                 Value = f.Task.TaskId.ToString(),
                 Text = f.Task.TaskName
@@ -335,7 +335,7 @@ namespace TimeGo.Controllers {
             PopulateTimesheetModel(Model,Model.SelectedPeriodId, Model.SelectedEmployeeId);
 
 
-            var TaskAlloweds = Context.TaskAlloweds.Where(ta => ta.IsActive == true && ta.EmployeeId == Model.LoginId).ToList();
+            var TaskAlloweds = Context.TaskAllowed.Where(ta => ta.IsActive == true && ta.EmployeeId == Model.LoginId).ToList();
             List<SelectListItem> TaskListItems = TaskAlloweds.Select(f => new SelectListItem {
                 Value = f.Task.TaskId.ToString(),
                 Text = f.Task.TaskName
