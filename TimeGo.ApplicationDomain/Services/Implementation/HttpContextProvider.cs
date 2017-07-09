@@ -7,10 +7,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
 {
     public class HttpContextProvider : IHttpContextProvider
     {
-        public HttpContext Current
-        {
-            get { return HttpContext.Current; }
-        }
+        public HttpContext Current => HttpContext.Current;
 
         public HttpRequest GetHttpRequest()
         {
