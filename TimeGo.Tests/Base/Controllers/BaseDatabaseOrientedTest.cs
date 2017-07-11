@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Web.Configuration;
 using TimeGo.ApplicationDomain.Dependency;
 using TimeGo.ApplicationDomain.Persistance;
 using TimeGo.Tests.Base.Database;
@@ -9,9 +10,6 @@ namespace TimeGo.Tests.Base.Controllers
     public abstract class BaseDatabaseOrientedTest : IDisposable
     {
         protected IDbSetUp DbSetUp;
-        #region Abstract methods
-        protected abstract IDbSetUp GetDbSetup();
-        #endregion
 
         protected BaseDatabaseOrientedTest()
         {
@@ -31,6 +29,11 @@ namespace TimeGo.Tests.Base.Controllers
             DbSetUp = GetDbSetup();
 
             DbSetUp.SetUp();
+        }
+
+        private IDbSetUp GetDbSetup()
+        {
+            return new SqlServerTestSetUp();
         }
 
         private void AutoMapperInitialize()

@@ -114,6 +114,7 @@
     <Compile Include="Base\Facotries\BaseFactory.cs" />
     <Compile Include="Base\Facotries\Factory.cs" />
     <Compile Include="Base\Facotries\IFactory.cs" />
+    <Compile Include="Controller\AdminControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -139,7 +140,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controller\" />
     <Folder Include="Factories\" />
   </ItemGroup>
   <ItemGroup>
