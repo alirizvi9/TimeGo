@@ -33,7 +33,8 @@ namespace TimeGo.Tests.Base.Controllers
 
         private IDbSetUp GetDbSetup()
         {
-            return new SqlServerTestSetUp();
+            //return new SqlServerTestSetUp();
+            return null;
         }
 
         private void AutoMapperInitialize()
