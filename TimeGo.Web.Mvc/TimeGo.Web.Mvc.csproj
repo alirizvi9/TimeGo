@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -27,6 +28,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <ApplicationInsightsResourceId />
+    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -209,7 +211,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
@@ -260,18 +261,64 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App\app.component.html" />
+    <Content Include="App\chartjs\chartjs.component.html" />
+    <Content Include="App\components\buttons.component.html" />
+    <Content Include="App\components\cards.component.html" />
+    <Content Include="App\components\forms.component.html" />
+    <Content Include="App\components\modals.component.html" />
+    <Content Include="App\components\social-buttons.component.html" />
+    <Content Include="App\components\switches.component.html" />
+    <Content Include="App\components\tables.component.html" />
+    <Content Include="App\components\tabs.component.html" />
+    <Content Include="App\dashboard\dashboard.component.html" />
+    <Content Include="App\forms\advanced-forms\advanced-forms.component.html" />
+    <Content Include="App\forms\basic-forms\basic-forms.component.html" />
+    <Content Include="App\icons\font-awesome.component.html" />
+    <Content Include="App\icons\glyphicons-filetypes.component.html" />
+    <Content Include="App\icons\glyphicons-social.component.html" />
+    <Content Include="App\icons\glyphicons.component.html" />
+    <Content Include="App\icons\simple-line-icons.component.html" />
+    <Content Include="App\layouts\full-layout.component.html" />
+    <Content Include="App\layouts\simple-layout.component.html" />
+    <Content Include="App\pages\404.component.html" />
+    <Content Include="App\pages\500.component.html" />
+    <Content Include="App\pages\login.component.html" />
+    <Content Include="App\pages\register.component.html" />
+    <Content Include="App\plugins\calendar\calendar.component.html" />
+    <Content Include="App\plugins\datatable\datatable.component.html" />
+    <Content Include="App\plugins\draggable-cards\draggable-cards.component.html" />
+    <Content Include="App\plugins\loading-buttons\loading-buttons.component.html" />
+    <Content Include="App\plugins\notifications\notifications.component.html" />
+    <Content Include="App\plugins\spinners\spinners.component.html" />
+    <Content Include="App\uikits\email\compose.component.html" />
+    <Content Include="App\uikits\email\inbox.component.html" />
+    <Content Include="App\uikits\email\message.component.html" />
+    <Content Include="App\uikits\invoicing\invoice.component.html" />
+    <Content Include="App\widgets\widgets.component.html" />
+    <Content Include="App_Data\Logs\readme.txt" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\css\style.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\glyphicons-filetypes-regular.svg" />
+    <Content Include="Content\fonts\glyphicons-regular.svg" />
+    <Content Include="Content\fonts\glyphicons-social-regular.svg" />
+    <Content Include="Content\fonts\Simple-Line-Icons.svg" />
+    <Content Include="Content\img\favicon.png" />
+    <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\select.png" />
+    <Content Include="Content\img\select2-spinner.gif" />
+    <Content Include="Content\img\select2.png" />
+    <Content Include="Content\img\select2x2.png" />
+    <Content Include="Content\img\sort_asc.png" />
+    <Content Include="Content\img\sort_asc_disabled.png" />
+    <Content Include="Content\img\sort_both.png" />
+    <Content Include="Content\img\sort_desc.png" />
+    <Content Include="Content\img\sort_desc_disabled.png" />
+    <Content Include="Content\img\sprite-skin-modern.png" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
@@ -291,27 +338,7 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <Content Include="Scripts\knockout-2.3.0.debug.js" />
-    <Content Include="Scripts\knockout-2.3.0.js" />
-    <Content Include="Scripts\knockout.validation.debug.js" />
-    <Content Include="Scripts\knockout.validation.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\sammy-0.7.4.js" />
-    <Content Include="Scripts\sammy-0.7.4.min.js" />
-    <Content Include="Scripts\_references.js" />
-    <Content Include="Scripts\app\_run.js" />
-    <Content Include="Scripts\app\app.datamodel.js" />
-    <Content Include="Scripts\app\app.viewmodel.js" />
-    <Content Include="Scripts\app\common.js" />
-    <Content Include="Scripts\app\home.viewmodel.js" />
+    <Content Include="gulpfile.js" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -349,26 +376,301 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Service References\Application Insights\ConnectedService.json" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <Content Include="package.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="App\app.component.spec.ts" />
+    <TypeScriptCompile Include="App\app.component.ts" />
+    <TypeScriptCompile Include="App\app.module.ts" />
+    <TypeScriptCompile Include="App\app.routing.ts" />
+    <TypeScriptCompile Include="App\chartjs\chartjs-routing.module.ts" />
+    <TypeScriptCompile Include="App\chartjs\chartjs.component.ts" />
+    <TypeScriptCompile Include="App\chartjs\chartjs.module.ts" />
+    <TypeScriptCompile Include="App\components\buttons.component.ts" />
+    <TypeScriptCompile Include="App\components\cards.component.ts" />
+    <TypeScriptCompile Include="App\components\components-routing.module.ts" />
+    <TypeScriptCompile Include="App\components\components.module.ts" />
+    <TypeScriptCompile Include="App\components\forms.component.ts" />
+    <TypeScriptCompile Include="App\components\modals.component.ts" />
+    <TypeScriptCompile Include="App\components\social-buttons.component.ts" />
+    <TypeScriptCompile Include="App\components\switches.component.ts" />
+    <TypeScriptCompile Include="App\components\tables.component.ts" />
+    <TypeScriptCompile Include="App\components\tabs.component.ts" />
+    <TypeScriptCompile Include="App\dashboard\dashboard-routing.module.ts" />
+    <TypeScriptCompile Include="App\dashboard\dashboard.component.ts" />
+    <TypeScriptCompile Include="App\dashboard\dashboard.module.ts" />
+    <TypeScriptCompile Include="App\forms\advanced-forms\advanced-forms-routing.module.ts" />
+    <TypeScriptCompile Include="App\forms\advanced-forms\advanced-forms.component.ts" />
+    <TypeScriptCompile Include="App\forms\advanced-forms\advanced-forms.module.ts" />
+    <TypeScriptCompile Include="App\forms\basic-forms\basic-forms-routing.module.ts" />
+    <TypeScriptCompile Include="App\forms\basic-forms\basic-forms.component.ts" />
+    <TypeScriptCompile Include="App\forms\basic-forms\basic-forms.module.ts" />
+    <TypeScriptCompile Include="App\forms\forms-routing.module.ts" />
+    <TypeScriptCompile Include="App\forms\forms.module.ts" />
+    <TypeScriptCompile Include="App\icons\font-awesome.component.ts" />
+    <TypeScriptCompile Include="App\icons\glyphicons-filetypes.component.ts" />
+    <TypeScriptCompile Include="App\icons\glyphicons-social.component.ts" />
+    <TypeScriptCompile Include="App\icons\glyphicons.component.ts" />
+    <TypeScriptCompile Include="App\icons\icons-routing.module.ts" />
+    <TypeScriptCompile Include="App\icons\icons.module.ts" />
+    <TypeScriptCompile Include="App\icons\simple-line-icons.component.ts" />
+    <TypeScriptCompile Include="App\index.ts" />
+    <TypeScriptCompile Include="App\layouts\full-layout.component.ts" />
+    <TypeScriptCompile Include="App\layouts\simple-layout.component.ts" />
+    <TypeScriptCompile Include="App\pages\404.component.ts" />
+    <TypeScriptCompile Include="App\pages\500.component.ts" />
+    <TypeScriptCompile Include="App\pages\login.component.ts" />
+    <TypeScriptCompile Include="App\pages\pages-routing.module.ts" />
+    <TypeScriptCompile Include="App\pages\pages.module.ts" />
+    <TypeScriptCompile Include="App\pages\register.component.ts" />
+    <TypeScriptCompile Include="App\plugins\calendar\calendar-routing.module.ts" />
+    <TypeScriptCompile Include="App\plugins\calendar\calendar.component.ts" />
+    <TypeScriptCompile Include="App\plugins\calendar\calendar.module.ts" />
+    <TypeScriptCompile Include="App\plugins\datatable\datafilterpipe.ts" />
+    <TypeScriptCompile Include="App\plugins\datatable\datatable-routing.module.ts" />
+    <TypeScriptCompile Include="App\plugins\datatable\datatable.component.ts" />
+    <TypeScriptCompile Include="App\plugins\datatable\datatable.module.ts" />
+    <TypeScriptCompile Include="App\plugins\draggable-cards\draggable-cards-routing.module.ts" />
+    <TypeScriptCompile Include="App\plugins\draggable-cards\draggable-cards.component.ts" />
+    <TypeScriptCompile Include="App\plugins\draggable-cards\draggable-cards.module.ts" />
+    <TypeScriptCompile Include="App\plugins\loading-buttons\loading-buttons-routing.module.ts" />
+    <TypeScriptCompile Include="App\plugins\loading-buttons\loading-buttons.component.ts" />
+    <TypeScriptCompile Include="App\plugins\loading-buttons\loading-buttons.module.ts" />
+    <TypeScriptCompile Include="App\plugins\notifications\notifications-routing.module.ts" />
+    <TypeScriptCompile Include="App\plugins\notifications\notifications.component.ts" />
+    <TypeScriptCompile Include="App\plugins\notifications\notifications.module.ts" />
+    <TypeScriptCompile Include="App\plugins\plugins-routing.module.ts" />
+    <TypeScriptCompile Include="App\plugins\plugins.module.ts" />
+    <TypeScriptCompile Include="App\plugins\spinners\spinners-routing.module.ts" />
+    <TypeScriptCompile Include="App\plugins\spinners\spinners.component.ts" />
+    <TypeScriptCompile Include="App\plugins\spinners\spinners.module.ts" />
+    <TypeScriptCompile Include="App\shared\aside.directive.ts" />
+    <TypeScriptCompile Include="App\shared\breadcrumb.component.ts" />
+    <TypeScriptCompile Include="App\shared\nav-dropdown.directive.ts" />
+    <TypeScriptCompile Include="App\shared\sidebar.directive.ts" />
+    <TypeScriptCompile Include="App\uikits\email\compose.component.ts" />
+    <TypeScriptCompile Include="App\uikits\email\email-routing.module.ts" />
+    <TypeScriptCompile Include="App\uikits\email\email.module.ts" />
+    <TypeScriptCompile Include="App\uikits\email\inbox.component.ts" />
+    <TypeScriptCompile Include="App\uikits\email\message.component.ts" />
+    <TypeScriptCompile Include="App\uikits\invoicing\invoice-routing.module.ts" />
+    <TypeScriptCompile Include="App\uikits\invoicing\invoice.component.ts" />
+    <TypeScriptCompile Include="App\uikits\invoicing\invoice.module.ts" />
+    <TypeScriptCompile Include="App\uikits\uikits-routing.module.ts" />
+    <TypeScriptCompile Include="App\uikits\uikits.module.ts" />
+    <TypeScriptCompile Include="App\widgets\widgets-routing.module.ts" />
+    <TypeScriptCompile Include="App\widgets\widgets.component.ts" />
+    <TypeScriptCompile Include="App\widgets\widgets.module.ts" />
+    <TypeScriptCompile Include="main.ts" />
+    <TypeScriptCompile Include="polyfills.ts" />
+    <TypeScriptCompile Include="test.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\glyphicons-filetypes-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-filetypes-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-filetypes-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-filetypes-regular.woff2" />
+    <Content Include="Content\fonts\glyphicons-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-regular.woff2" />
+    <Content Include="Content\fonts\glyphicons-social-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-social-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-social-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-social-regular.woff2" />
+    <Content Include="Content\fonts\Simple-Line-Icons.eot" />
+    <Content Include="Content\fonts\Simple-Line-Icons.ttf" />
+    <Content Include="Content\fonts\Simple-Line-Icons.woff" />
+    <Content Include="Content\fonts\Simple-Line-Icons.woff2" />
+    <Content Include="Content\img\Sorting icons.psd" />
+    <Content Include="Content\scss\bootstrap\bootstrap-grid.scss" />
+    <Content Include="Content\scss\bootstrap\bootstrap-reboot.scss" />
+    <Content Include="Content\scss\bootstrap\bootstrap.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_alert.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_background-variant.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_badge.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_border-radius.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_breakpoints.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_buttons.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_cards.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_clearfix.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_float.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_forms.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_gradients.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_grid-framework.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_grid.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_hover.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_image.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_list-group.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_lists.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_nav-divider.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_navbar-align.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_pagination.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_reset-text.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_resize.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_screen-reader.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_size.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_table-row.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_text-emphasis.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_text-hide.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_text-truncate.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_transforms.scss" />
+    <Content Include="Content\scss\bootstrap\mixins\_visibility.scss" />
+    <Content Include="Content\scss\bootstrap\utilities\_align.scss" />
+    <Content Include="Content\scss\bootstrap\utilities\_background.scss" />
+    <Content Include="Content\scss\bootstrap\utilities\_borders.scss" />
+    <Content Include="Content\scss\bootstrap\utilities\_clearfix.scss" />
+    <Content Include="Content\scss\bootstrap\utilities\_display.scss" />
+    <Content Include="Content\scss\bootstrap\utilities\_flex.scss" />
+    <Content Include="Content\scss\bootstrap\utilities\_float.scss" />
+    <Content Include="Content\scss\bootstrap\utilities\_position.scss" />
+    <Content Include="Content\scss\bootstrap\utilities\_screenreaders.scss" />
+    <Content Include="Content\scss\bootstrap\utilities\_sizing.scss" />
+    <Content Include="Content\scss\bootstrap\utilities\_spacing.scss" />
+    <Content Include="Content\scss\bootstrap\utilities\_text.scss" />
+    <Content Include="Content\scss\bootstrap\utilities\_visibility.scss" />
+    <Content Include="Content\scss\bootstrap\_alert.scss" />
+    <Content Include="Content\scss\bootstrap\_badge.scss" />
+    <Content Include="Content\scss\bootstrap\_breadcrumb.scss" />
+    <Content Include="Content\scss\bootstrap\_button-group.scss" />
+    <Content Include="Content\scss\bootstrap\_buttons.scss" />
+    <Content Include="Content\scss\bootstrap\_card.scss" />
+    <Content Include="Content\scss\bootstrap\_carousel.scss" />
+    <Content Include="Content\scss\bootstrap\_close.scss" />
+    <Content Include="Content\scss\bootstrap\_code.scss" />
+    <Content Include="Content\scss\bootstrap\_custom-forms.scss" />
+    <Content Include="Content\scss\bootstrap\_custom.scss" />
+    <Content Include="Content\scss\bootstrap\_dropdown.scss" />
+    <Content Include="Content\scss\bootstrap\_forms.scss" />
+    <Content Include="Content\scss\bootstrap\_grid.scss" />
+    <Content Include="Content\scss\bootstrap\_images.scss" />
+    <Content Include="Content\scss\bootstrap\_input-group.scss" />
+    <Content Include="Content\scss\bootstrap\_jumbotron.scss" />
+    <Content Include="Content\scss\bootstrap\_list-group.scss" />
+    <Content Include="Content\scss\bootstrap\_media.scss" />
+    <Content Include="Content\scss\bootstrap\_mixins.scss" />
+    <Content Include="Content\scss\bootstrap\_modal.scss" />
+    <Content Include="Content\scss\bootstrap\_nav.scss" />
+    <Content Include="Content\scss\bootstrap\_navbar.scss" />
+    <Content Include="Content\scss\bootstrap\_normalize.scss" />
+    <Content Include="Content\scss\bootstrap\_pagination.scss" />
+    <Content Include="Content\scss\bootstrap\_popover.scss" />
+    <Content Include="Content\scss\bootstrap\_print.scss" />
+    <Content Include="Content\scss\bootstrap\_progress.scss" />
+    <Content Include="Content\scss\bootstrap\_reboot.scss" />
+    <Content Include="Content\scss\bootstrap\_responsive-embed.scss" />
+    <Content Include="Content\scss\bootstrap\_tables.scss" />
+    <Content Include="Content\scss\bootstrap\_tooltip.scss" />
+    <Content Include="Content\scss\bootstrap\_transitions.scss" />
+    <Content Include="Content\scss\bootstrap\_type.scss" />
+    <Content Include="Content\scss\bootstrap\_utilities.scss" />
+    <Content Include="Content\scss\bootstrap\_variables.scss" />
+    <Content Include="Content\scss\core\navigation\_disabled.scss" />
+    <Content Include="Content\scss\core\navigation\_sidebar.scss" />
+    <Content Include="Content\scss\core\navigation\_top.scss" />
+    <Content Include="Content\scss\core\utilities\_background.scss" />
+    <Content Include="Content\scss\core\utilities\_borders.scss" />
+    <Content Include="Content\scss\core\utilities\_display.scss" />
+    <Content Include="Content\scss\core\_animate.scss" />
+    <Content Include="Content\scss\core\_aside.scss" />
+    <Content Include="Content\scss\core\_avatars.scss" />
+    <Content Include="Content\scss\core\_badge.scss" />
+    <Content Include="Content\scss\core\_breadcrumb-menu.scss" />
+    <Content Include="Content\scss\core\_breadcrumb.scss" />
+    <Content Include="Content\scss\core\_buttons.scss" />
+    <Content Include="Content\scss\core\_callout.scss" />
+    <Content Include="Content\scss\core\_card.scss" />
+    <Content Include="Content\scss\core\_charts.scss" />
+    <Content Include="Content\scss\core\_dropdown.scss" />
+    <Content Include="Content\scss\core\_footer.scss" />
+    <Content Include="Content\scss\core\_grid.scss" />
+    <Content Include="Content\scss\core\_input-group.scss" />
+    <Content Include="Content\scss\core\_layout.scss" />
+    <Content Include="Content\scss\core\_loading.scss" />
+    <Content Include="Content\scss\core\_mixins.scss" />
+    <Content Include="Content\scss\core\_mobile.scss" />
+    <Content Include="Content\scss\core\_modal.scss" />
+    <Content Include="Content\scss\core\_nav.scss" />
+    <Content Include="Content\scss\core\_navbar.scss" />
+    <Content Include="Content\scss\core\_navigation.scss" />
+    <Content Include="Content\scss\core\_others.scss" />
+    <Content Include="Content\scss\core\_progress.scss" />
+    <Content Include="Content\scss\core\_rtl.scss" />
+    <Content Include="Content\scss\core\_sidebar.scss" />
+    <Content Include="Content\scss\core\_switches.scss" />
+    <Content Include="Content\scss\core\_tables.scss" />
+    <Content Include="Content\scss\core\_temp.scss" />
+    <Content Include="Content\scss\core\_typography.scss" />
+    <Content Include="Content\scss\core\_utilities-border.scss" />
+    <Content Include="Content\scss\core\_utilities.scss" />
+    <Content Include="Content\scss\core\_widgets.scss" />
+    <Content Include="Content\scss\style.scss" />
+    <Content Include="Content\scss\uikits\email\_email.scss" />
+    <Content Include="Content\scss\uikits\_uikits.scss" />
+    <Content Include="Content\scss\vendors\angular2-calendar\angular2-calendar.scss" />
+    <Content Include="Content\scss\vendors\angular2-calendar\day-view.scss" />
+    <Content Include="Content\scss\vendors\angular2-calendar\month-view.scss" />
+    <Content Include="Content\scss\vendors\angular2-calendar\week-view.scss" />
+    <Content Include="Content\scss\vendors\chart.js\chart.scss" />
+    <Content Include="Content\scss\vendors\datatables\datatables.scss" />
+    <Content Include="Content\scss\vendors\daterangepicker\daterangepicker.scss" />
+    <Content Include="Content\scss\vendors\draggula\draggula.scss" />
+    <Content Include="Content\scss\vendors\fullcalendar\fullcalendar.scss" />
+    <Content Include="Content\scss\vendors\gauge.js\gaugejs.scss" />
+    <Content Include="Content\scss\vendors\ionRangeSlider\ionRangeSlider.scss" />
+    <Content Include="Content\scss\vendors\ladda\_ladda.scss" />
+    <Content Include="Content\scss\vendors\react-select\components.scss" />
+    <Content Include="Content\scss\vendors\react-select\control.scss" />
+    <Content Include="Content\scss\vendors\react-select\default.scss" />
+    <Content Include="Content\scss\vendors\react-select\menu.scss" />
+    <Content Include="Content\scss\vendors\react-select\mixins.scss" />
+    <Content Include="Content\scss\vendors\react-select\multi.scss" />
+    <Content Include="Content\scss\vendors\react-select\select.scss" />
+    <Content Include="Content\scss\vendors\react-select\spinner.scss" />
+    <Content Include="Content\scss\vendors\select2\_select2.scss" />
+    <Content Include="Content\scss\vendors\spinkit\spinkit.scss" />
+    <Content Include="Content\scss\vendors\spinkit\spinners\1-rotating-plane.scss" />
+    <Content Include="Content\scss\vendors\spinkit\spinners\10-fading-circle.scss" />
+    <Content Include="Content\scss\vendors\spinkit\spinners\11-folding-cube.scss" />
+    <Content Include="Content\scss\vendors\spinkit\spinners\2-double-bounce.scss" />
+    <Content Include="Content\scss\vendors\spinkit\spinners\3-wave.scss" />
+    <Content Include="Content\scss\vendors\spinkit\spinners\4-wandering-cubes.scss" />
+    <Content Include="Content\scss\vendors\spinkit\spinners\5-pulse.scss" />
+    <Content Include="Content\scss\vendors\spinkit\spinners\6-chasing-dots.scss" />
+    <Content Include="Content\scss\vendors\spinkit\spinners\7-three-bounce.scss" />
+    <Content Include="Content\scss\vendors\spinkit\spinners\8-circle.scss" />
+    <Content Include="Content\scss\vendors\spinkit\spinners\9-cube-grid.scss" />
+    <Content Include="Content\scss\vendors\spinkit\_variables.scss" />
+    <Content Include="Content\scss\vendors\toastr\toastr.scss" />
+    <Content Include="Content\scss\vendors\_vendors.scss" />
+    <Content Include="Content\scss\_bootstrap-variables.scss" />
+    <Content Include="Content\scss\_custom-variables.scss" />
+    <Content Include="Content\scss\_custom.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="tsconfig.json" />
+    <Content Include="tslint.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

@@ -1,113 +1,78 @@
-'use strict'
-
-var gulp = require('gulp');
-var browserSync = require('browser-sync').create();
+/// <binding BeforeBuild='build' />
+/*
+This file in the main entry point for defining Gulp tasks and using Gulp plugins.
+Click here to learn more. http://go.microsoft.com/fwlink/?LinkId=518007
+*/
+var gulp = require("gulp");
+var clean = require('gulp-clean');
 var sass = require('gulp-sass');
-var concat = require('gulp-concat');
-var filter = require('gulp-filter');
-var mainBowerFiles = require('main-bower-files');
-var uglify = require('gulp-uglify');
-var rename = require('gulp-rename');
-var del = require('del');
-var runSequence = require('run-sequence');
-var replace = require('gulp-replace');
+var tsc = require("gulp-typescript");
+var sourcemaps = require('gulp-sourcemaps');
+var tsProject = tsc.createProject("tsconfig.json");
+var tslint = require('gulp-tslint');
 
-gulp.paths = {
-    dist: 'dist',
-};
+/// RUN, DEPLOY tasks
+gulp.task('default', ['build', 'dist-libs', 'watch']);
 
-var paths = gulp.paths;
-
-// Static Server + watching scss/html files
-gulp.task('serve', ['sass'], function() {
-
-    browserSync.init({
-        server: "./"
-    });
-
-    gulp.watch('scss/**/*.scss', ['sass']);
-    gulp.watch('**/*.html').on('change', browserSync.reload);
-    gulp.watch('js/**/*.js').on('change', browserSync.reload);
-
+gulp.task('clean-libs', function () {
+    return gulp.src('./dist/libs')
+        .pipe(clean());
 });
 
-// Static Server without watching scss files
-gulp.task('serve:lite', function() {
-
-    browserSync.init({
-        server: "./"
-    });
-
-    gulp.watch('**/*.css').on('change', browserSync.reload);
-    gulp.watch('**/*.html').on('change', browserSync.reload);
-    gulp.watch('js/**/*.js').on('change', browserSync.reload);
-
+gulp.task("dist-libs", () => {
+    gulp.src([
+            'core-js/client/**',
+            'systemjs/dist/system.src.js',
+            'reflect-metadata/**',
+            'rxjs/**',
+            'zone.js/dist/**',
+            '@angular/**',
+            '@ngrx/**',
+            'deep-freeze-strict/**',
+            'ngrx-store-freeze/**',
+            '@swimlane/ngx-datatable/release/**',
+            'tassign/**',
+            'lodash/**',
+            'jquery/dist/jquery.*js'
+    ], {
+        cwd: "node_modules/**"
+    })
+        .pipe(gulp.dest('./dist/libs'));
 });
 
-gulp.task('sass', function () {
-    return gulp.src('./scss/style.scss')
+var tsProject = ts.createProject('app/tsconfig.json', {
+    typescript: require('typescript')
+});
+
+/// BUILD tasks
+gulp.task('build-ts', function (done) {
+    //var tsResult = tsProject.src()
+    var tsResult = gulp.src([
+            "./app/**/*.ts",
+            "!./app/**/_*.ts"
+    ])
+        .pipe(ts(tsProject), undefined, ts.reporter.fullReporter());
+    return tsResult.js.pipe(gulp.dest('./dist/js/'));
+});
+gulp.task('build-sass', function () {
+    gulp.src([
+        './app/**/*.scss',
+        '!./app/**/_*.scss'
+    ])
         .pipe(sass())
-        .pipe(gulp.dest('./css'))
-        .pipe(browserSync.stream());
+        .pipe(gulp.dest('./dist/css/'))
 });
-
-gulp.task('sass:watch', function () {
-    gulp.watch('./scss/**/*.scss');
+gulp.task('build-html', function () {
+    gulp.src("./app/**/*.html")
+        .pipe(gulp.dest('./dist/js/'))
 });
+gulp.task('build', ['build-ts', 'build-html', 'build-sass']);
 
-gulp.task('clean:dist', function () {
-    return del(paths.dist);
+/// WATCH tasks
+gulp.task('watch-sass', function () {
+    gulp.watch('./app/**/*.scss', ['build-sass'])
 });
-
-gulp.task('copy:bower', function () {
-    return gulp.src(mainBowerFiles(['**/*.js', '!**/*.min.js']))
-        .pipe(gulp.dest(paths.dist+'/js/libs'))
-        .pipe(uglify())
-        .pipe(rename({ suffix: '.min' }))
-        .pipe(gulp.dest(paths.dist+'/js/libs'));
+gulp.task('watch-ts', ['build-ts'], function () {
+    return gulp.watch('app/**/*.ts', ['build-ts']);
 });
-
-gulp.task('copy:css', function() {
-   return gulp.src('./css/**/*')
-   .pipe(gulp.dest(paths.dist+'/css'));
-});
-
-gulp.task('copy:img', function() {
-   return gulp.src('./img/**/*')
-   .pipe(gulp.dest(paths.dist+'/img'));
-});
-
-gulp.task('copy:fonts', function() {
-   return gulp.src('./fonts/**/*')
-   .pipe(gulp.dest(paths.dist+'/fonts'));
-});
-
-gulp.task('copy:js', function() {
-   return gulp.src('./js/**/*')
-   .pipe(gulp.dest(paths.dist+'/js'));
-});
-
-gulp.task('copy:views', function() {
-   return gulp.src('./views/**/*')
-   .pipe(gulp.dest(paths.dist+'/views'));
-});
-
-gulp.task('copy:html', function() {
-   return gulp.src('index.html')
-   .pipe(gulp.dest(paths.dist+'/'));
-});
-
-gulp.task('replace:bower', function(){
-    return gulp.src([
-        './dist/**/*.html',
-        './dist/**/*.js',
-    ], {base: './'})
-    .pipe(replace(/bower_components+.+(\/[a-z0-9][^/]*\.[a-z0-9]+(\'|\"))/ig, 'js/libs$1'))
-    .pipe(gulp.dest('./'));
-});
-
-gulp.task('build:dist', function(callback) {
-    runSequence('clean:dist', 'copy:bower', 'copy:css', 'copy:img', 'copy:fonts', 'copy:js', 'copy:views', 'copy:html', 'replace:bower', callback);
-});
-
-gulp.task('default', ['serve']);
+gulp.task('watch', ['watch-ts', 'watch-sass']);
