@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../App/index.ts"],"names":[],"mappings":";;;;;AAAA,qCAAgC;AAChC,kCAA6B","file":"index.js","sourcesContent":["export * from './app.component';\nexport * from './app.module';\n"],"sourceRoot":"/App"}

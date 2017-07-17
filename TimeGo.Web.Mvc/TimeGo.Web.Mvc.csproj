@@ -28,7 +28,8 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <ApplicationInsightsResourceId />
-    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.4</TypeScriptToolsVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -247,7 +248,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\MeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -317,6 +317,7 @@
     <Content Include="Content\img\sort_desc.png" />
     <Content Include="Content\img\sort_desc_disabled.png" />
     <Content Include="Content\img\sprite-skin-modern.png" />
+    <Content Include="Content\scripts\systemjs.config.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -339,6 +340,8 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="gulpfile.js" />
+    <Content Include="karma.conf.js" />
+    <Content Include="protractor.conf.js" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -352,17 +355,7 @@
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Home\_Home.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Views\Manage\ChangePassword.cshtml" />
-    <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\ManageLogins.cshtml" />
-    <Content Include="Views\Manage\SetPassword.cshtml" />
-    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\Lockout.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Web.config">
       <SubType>Designer</SubType>
@@ -377,7 +370,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\Shared\_NgLayout.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -385,91 +380,91 @@
     <Content Include="package.json" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="App\app.component.spec.ts" />
-    <TypeScriptCompile Include="App\app.component.ts" />
-    <TypeScriptCompile Include="App\app.module.ts" />
-    <TypeScriptCompile Include="App\app.routing.ts" />
-    <TypeScriptCompile Include="App\chartjs\chartjs-routing.module.ts" />
-    <TypeScriptCompile Include="App\chartjs\chartjs.component.ts" />
-    <TypeScriptCompile Include="App\chartjs\chartjs.module.ts" />
-    <TypeScriptCompile Include="App\components\buttons.component.ts" />
-    <TypeScriptCompile Include="App\components\cards.component.ts" />
-    <TypeScriptCompile Include="App\components\components-routing.module.ts" />
-    <TypeScriptCompile Include="App\components\components.module.ts" />
-    <TypeScriptCompile Include="App\components\forms.component.ts" />
-    <TypeScriptCompile Include="App\components\modals.component.ts" />
-    <TypeScriptCompile Include="App\components\social-buttons.component.ts" />
-    <TypeScriptCompile Include="App\components\switches.component.ts" />
-    <TypeScriptCompile Include="App\components\tables.component.ts" />
-    <TypeScriptCompile Include="App\components\tabs.component.ts" />
-    <TypeScriptCompile Include="App\dashboard\dashboard-routing.module.ts" />
-    <TypeScriptCompile Include="App\dashboard\dashboard.component.ts" />
-    <TypeScriptCompile Include="App\dashboard\dashboard.module.ts" />
-    <TypeScriptCompile Include="App\forms\advanced-forms\advanced-forms-routing.module.ts" />
-    <TypeScriptCompile Include="App\forms\advanced-forms\advanced-forms.component.ts" />
-    <TypeScriptCompile Include="App\forms\advanced-forms\advanced-forms.module.ts" />
-    <TypeScriptCompile Include="App\forms\basic-forms\basic-forms-routing.module.ts" />
-    <TypeScriptCompile Include="App\forms\basic-forms\basic-forms.component.ts" />
-    <TypeScriptCompile Include="App\forms\basic-forms\basic-forms.module.ts" />
-    <TypeScriptCompile Include="App\forms\forms-routing.module.ts" />
-    <TypeScriptCompile Include="App\forms\forms.module.ts" />
-    <TypeScriptCompile Include="App\icons\font-awesome.component.ts" />
-    <TypeScriptCompile Include="App\icons\glyphicons-filetypes.component.ts" />
-    <TypeScriptCompile Include="App\icons\glyphicons-social.component.ts" />
-    <TypeScriptCompile Include="App\icons\glyphicons.component.ts" />
-    <TypeScriptCompile Include="App\icons\icons-routing.module.ts" />
-    <TypeScriptCompile Include="App\icons\icons.module.ts" />
-    <TypeScriptCompile Include="App\icons\simple-line-icons.component.ts" />
-    <TypeScriptCompile Include="App\index.ts" />
-    <TypeScriptCompile Include="App\layouts\full-layout.component.ts" />
-    <TypeScriptCompile Include="App\layouts\simple-layout.component.ts" />
-    <TypeScriptCompile Include="App\pages\404.component.ts" />
-    <TypeScriptCompile Include="App\pages\500.component.ts" />
-    <TypeScriptCompile Include="App\pages\login.component.ts" />
-    <TypeScriptCompile Include="App\pages\pages-routing.module.ts" />
-    <TypeScriptCompile Include="App\pages\pages.module.ts" />
-    <TypeScriptCompile Include="App\pages\register.component.ts" />
-    <TypeScriptCompile Include="App\plugins\calendar\calendar-routing.module.ts" />
-    <TypeScriptCompile Include="App\plugins\calendar\calendar.component.ts" />
-    <TypeScriptCompile Include="App\plugins\calendar\calendar.module.ts" />
-    <TypeScriptCompile Include="App\plugins\datatable\datafilterpipe.ts" />
-    <TypeScriptCompile Include="App\plugins\datatable\datatable-routing.module.ts" />
-    <TypeScriptCompile Include="App\plugins\datatable\datatable.component.ts" />
-    <TypeScriptCompile Include="App\plugins\datatable\datatable.module.ts" />
-    <TypeScriptCompile Include="App\plugins\draggable-cards\draggable-cards-routing.module.ts" />
-    <TypeScriptCompile Include="App\plugins\draggable-cards\draggable-cards.component.ts" />
-    <TypeScriptCompile Include="App\plugins\draggable-cards\draggable-cards.module.ts" />
-    <TypeScriptCompile Include="App\plugins\loading-buttons\loading-buttons-routing.module.ts" />
-    <TypeScriptCompile Include="App\plugins\loading-buttons\loading-buttons.component.ts" />
-    <TypeScriptCompile Include="App\plugins\loading-buttons\loading-buttons.module.ts" />
-    <TypeScriptCompile Include="App\plugins\notifications\notifications-routing.module.ts" />
-    <TypeScriptCompile Include="App\plugins\notifications\notifications.component.ts" />
-    <TypeScriptCompile Include="App\plugins\notifications\notifications.module.ts" />
-    <TypeScriptCompile Include="App\plugins\plugins-routing.module.ts" />
-    <TypeScriptCompile Include="App\plugins\plugins.module.ts" />
-    <TypeScriptCompile Include="App\plugins\spinners\spinners-routing.module.ts" />
-    <TypeScriptCompile Include="App\plugins\spinners\spinners.component.ts" />
-    <TypeScriptCompile Include="App\plugins\spinners\spinners.module.ts" />
-    <TypeScriptCompile Include="App\shared\aside.directive.ts" />
-    <TypeScriptCompile Include="App\shared\breadcrumb.component.ts" />
-    <TypeScriptCompile Include="App\shared\nav-dropdown.directive.ts" />
-    <TypeScriptCompile Include="App\shared\sidebar.directive.ts" />
-    <TypeScriptCompile Include="App\uikits\email\compose.component.ts" />
-    <TypeScriptCompile Include="App\uikits\email\email-routing.module.ts" />
-    <TypeScriptCompile Include="App\uikits\email\email.module.ts" />
-    <TypeScriptCompile Include="App\uikits\email\inbox.component.ts" />
-    <TypeScriptCompile Include="App\uikits\email\message.component.ts" />
-    <TypeScriptCompile Include="App\uikits\invoicing\invoice-routing.module.ts" />
-    <TypeScriptCompile Include="App\uikits\invoicing\invoice.component.ts" />
-    <TypeScriptCompile Include="App\uikits\invoicing\invoice.module.ts" />
-    <TypeScriptCompile Include="App\uikits\uikits-routing.module.ts" />
-    <TypeScriptCompile Include="App\uikits\uikits.module.ts" />
-    <TypeScriptCompile Include="App\widgets\widgets-routing.module.ts" />
-    <TypeScriptCompile Include="App\widgets\widgets.component.ts" />
-    <TypeScriptCompile Include="App\widgets\widgets.module.ts" />
-    <TypeScriptCompile Include="main.ts" />
-    <TypeScriptCompile Include="polyfills.ts" />
-    <TypeScriptCompile Include="test.ts" />
+    <None Include="App\app.component.spec.ts" />
+    <None Include="App\app.component.ts" />
+    <None Include="App\app.module.ts" />
+    <None Include="App\app.routing.ts" />
+    <None Include="App\chartjs\chartjs-routing.module.ts" />
+    <None Include="App\chartjs\chartjs.component.ts" />
+    <None Include="App\chartjs\chartjs.module.ts" />
+    <None Include="App\components\buttons.component.ts" />
+    <None Include="App\components\cards.component.ts" />
+    <None Include="App\components\components-routing.module.ts" />
+    <None Include="App\components\components.module.ts" />
+    <None Include="App\components\forms.component.ts" />
+    <None Include="App\components\modals.component.ts" />
+    <None Include="App\components\social-buttons.component.ts" />
+    <None Include="App\components\switches.component.ts" />
+    <None Include="App\components\tables.component.ts" />
+    <None Include="App\components\tabs.component.ts" />
+    <None Include="App\dashboard\dashboard-routing.module.ts" />
+    <None Include="App\dashboard\dashboard.component.ts" />
+    <None Include="App\dashboard\dashboard.module.ts" />
+    <None Include="App\forms\advanced-forms\advanced-forms-routing.module.ts" />
+    <None Include="App\forms\advanced-forms\advanced-forms.component.ts" />
+    <None Include="App\forms\advanced-forms\advanced-forms.module.ts" />
+    <None Include="App\forms\basic-forms\basic-forms-routing.module.ts" />
+    <None Include="App\forms\basic-forms\basic-forms.component.ts" />
+    <None Include="App\forms\basic-forms\basic-forms.module.ts" />
+    <None Include="App\forms\forms-routing.module.ts" />
+    <None Include="App\forms\forms.module.ts" />
+    <None Include="App\icons\font-awesome.component.ts" />
+    <None Include="App\icons\glyphicons-filetypes.component.ts" />
+    <None Include="App\icons\glyphicons-social.component.ts" />
+    <None Include="App\icons\glyphicons.component.ts" />
+    <None Include="App\icons\icons-routing.module.ts" />
+    <None Include="App\icons\icons.module.ts" />
+    <None Include="App\icons\simple-line-icons.component.ts" />
+    <None Include="App\index.ts" />
+    <None Include="App\layouts\full-layout.component.ts" />
+    <None Include="App\layouts\simple-layout.component.ts" />
+    <None Include="App\pages\404.component.ts" />
+    <None Include="App\pages\500.component.ts" />
+    <None Include="App\pages\login.component.ts" />
+    <None Include="App\pages\pages-routing.module.ts" />
+    <None Include="App\pages\pages.module.ts" />
+    <None Include="App\pages\register.component.ts" />
+    <None Include="App\plugins\calendar\calendar-routing.module.ts" />
+    <None Include="App\plugins\calendar\calendar.component.ts" />
+    <None Include="App\plugins\calendar\calendar.module.ts" />
+    <None Include="App\plugins\datatable\datafilterpipe.ts" />
+    <None Include="App\plugins\datatable\datatable-routing.module.ts" />
+    <None Include="App\plugins\datatable\datatable.component.ts" />
+    <None Include="App\plugins\datatable\datatable.module.ts" />
+    <None Include="App\plugins\draggable-cards\draggable-cards-routing.module.ts" />
+    <None Include="App\plugins\draggable-cards\draggable-cards.component.ts" />
+    <None Include="App\plugins\draggable-cards\draggable-cards.module.ts" />
+    <None Include="App\plugins\loading-buttons\loading-buttons-routing.module.ts" />
+    <None Include="App\plugins\loading-buttons\loading-buttons.component.ts" />
+    <None Include="App\plugins\loading-buttons\loading-buttons.module.ts" />
+    <None Include="App\plugins\notifications\notifications-routing.module.ts" />
+    <None Include="App\plugins\notifications\notifications.component.ts" />
+    <None Include="App\plugins\notifications\notifications.module.ts" />
+    <None Include="App\plugins\plugins-routing.module.ts" />
+    <None Include="App\plugins\plugins.module.ts" />
+    <None Include="App\plugins\spinners\spinners-routing.module.ts" />
+    <None Include="App\plugins\spinners\spinners.component.ts" />
+    <None Include="App\plugins\spinners\spinners.module.ts" />
+    <None Include="App\shared\aside.directive.ts" />
+    <None Include="App\shared\breadcrumb.component.ts" />
+    <None Include="App\shared\nav-dropdown.directive.ts" />
+    <None Include="App\shared\sidebar.directive.ts" />
+    <Content Include="App\tests\e2e\tsconfig.e2e.json" />
+    <Content Include="App\tests\e2e\tsconfig.json" />
+    <None Include="App\uikits\email\compose.component.ts" />
+    <None Include="App\uikits\email\email-routing.module.ts" />
+    <None Include="App\uikits\email\email.module.ts" />
+    <None Include="App\uikits\email\inbox.component.ts" />
+    <None Include="App\uikits\email\message.component.ts" />
+    <None Include="App\uikits\invoicing\invoice-routing.module.ts" />
+    <None Include="App\uikits\invoicing\invoice.component.ts" />
+    <None Include="App\uikits\invoicing\invoice.module.ts" />
+    <None Include="App\uikits\uikits-routing.module.ts" />
+    <None Include="App\uikits\uikits.module.ts" />
+    <None Include="App\widgets\widgets-routing.module.ts" />
+    <None Include="App\widgets\widgets.component.ts" />
+    <None Include="App\widgets\widgets.module.ts" />
+    <None Include="test.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -664,6 +659,15 @@
   <ItemGroup>
     <Content Include="tsconfig.json" />
     <Content Include="tslint.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\NgApp.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="App\main.ts" />
+    <TypeScriptCompile Include="App\polyfills.ts" />
+    <TypeScriptCompile Include="App\tests\e2e\app.e2e-spec.ts" />
+    <TypeScriptCompile Include="App\tests\e2e\app.po.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
