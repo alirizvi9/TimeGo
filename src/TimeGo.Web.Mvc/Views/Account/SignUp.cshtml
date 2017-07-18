@@ -1,0 +1,91 @@
+﻿@using TimeGo.Web.Mvc.Models
+@using TimeGo;
+@model SignUpViewModel
+@{
+    ViewBag.Title = Resource.SignUp;
+}
+
+@using (Html.BeginForm("SignUp", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mx-4">
+                <div class="card-block p-4">
+                    <h1>@Resource.SignUp</h1>
+                    <p class="text-muted">@Resource.CreateYourAccount</p>
+                    <div class="input-group mb-3">
+                        <span class="input-group-addon">
+                            <i class="icon-organization"></i>
+                        </span>
+                        @Html.TextBoxFor(m => m.CompanyName, new { Class = "form-control", @placeholder = Resource.CompanyName })
+                        @Html.ValidationMessageFor(m => m.CompanyName, "", new { @class = "" })
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-addon">
+                            <i class="icon-user"></i>
+                        </span>
+                        @Html.TextBoxFor(m => m.FirstName, new { Class = "form-control", @placeholder = Resource.FirstName })
+                        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "" })
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-addon">
+                            <i class="icon-user"></i>
+                        </span>
+                        @Html.TextBoxFor(m => m.LastName, new { Class = "form-control", @placeholder = Resource.LastName })
+                        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "" })
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-addon">@@</span>
+                        @Html.TextBoxFor(m => m.Email, new { Class = "form-control", @placeholder = Resource.Email })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "" })
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-addon">
+                            <i class="icon-lock"></i>
+                        </span>
+                        @Html.TextBoxFor(m => m.Password, new { Class = "form-control", @placeholder = Resource.Password })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "" })
+                    </div>
+                    <div class="input-group mb-4">
+                        <span class="input-group-addon">
+                            <i class="icon-lock"></i>
+                        </span>
+                        <input type="password" class="form-control" placeholder="@Resource.Password">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-addon">
+                            <i class="icon-phone"></i>
+                        </span>
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { Class = "form-control", @placeholder = Resource.PhoneNumber })
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "" })
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-addon">
+                            <i class="icon-clock"></i>
+                        </span>
+                        @Html.DropDownListFor(m => m.TimezoneId, Model.Timezones, new { @Class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.TimezoneId, "", new { @class = "" })
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-addon">
+                            <i class="icon-calendar"></i>
+                        </span>
+                        @Html.EnumDropDownListFor(m => m.WorkweekStaryDay, new { @Class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.WorkweekStaryDay, "", new { @class = "" })
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-addon">
+                            <i class="">http://</i>
+                        </span>
+                        @Html.TextBoxFor(m => m.CompanyURL, new { @class = "form-control", @placeholder = Resource.CompanyURL })
+                        @Html.ValidationMessageFor(m => m.CompanyURL, "", new { @class = "" })
+                        <span class="input-group-addon">
+                            <i class="">.timego.com/</i>
+                        </span>
+                    </div>
+                    <button type="submit" class="btn btn-block btn-success">@Resource.CreateAccount</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

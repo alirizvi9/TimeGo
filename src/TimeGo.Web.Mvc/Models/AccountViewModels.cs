@@ -16,6 +16,12 @@ namespace TimeGo.Web.Mvc.Models
 
 
     public class SignUpViewModel : BaseViewModel {
+
+        public SignUpViewModel()
+        {
+            WorkweekStaryDay = WORK_WEEK.Monday;
+        }
+
         [Required]
         public new string CompanyName { get; set; }
 

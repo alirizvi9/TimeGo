@@ -9,22 +9,20 @@ using Microsoft.Owin.Security;
 using TimeGo.Web.Mvc.Models;
 using System.Collections.Generic;
 using TimeGo.Data;
+using TimeGo.Web.Mvc.Infrastructure.Services.Interfaces;
 
 namespace TimeGo.Web.Mvc.Controllers
 {
     [Authorize]
     public class AccountController : BaseController
     {
-
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private readonly TimeGoEntities _context;
 
-        public AccountController(TimeGoEntities context, ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, TimeGoEntities context, ICompanyService companyService):base(context, companyService)
         {
             UserManager = userManager;
             SignInManager = signInManager;
-            _context = context;
         }
 
         public ApplicationSignInManager SignInManager
@@ -62,7 +60,6 @@ namespace TimeGo.Web.Mvc.Controllers
                 Value = f.TimezoneId.ToString(),
                 Text = f.TimezoneName
             });
-            Model.WorkweekStaryDay = WORK_WEEK.Monday;
 
             PopulateModel(Model);
 
@@ -95,7 +92,6 @@ namespace TimeGo.Web.Mvc.Controllers
 
             _context.Entry(Company).State = System.Data.Entity.EntityState.Added;
             _context.SaveChanges();
-
             //Create login account for primary account
             Data.Employee Employee = new Data.Employee();
             Employee.CompanyId = Company.CompanyId;
@@ -161,8 +157,6 @@ namespace TimeGo.Web.Mvc.Controllers
                 ModelState.AddModelError("", "Invalid login attempt.");
                 return View(model);
             }
-
-
             Session["CompanyId"] = Company.CompanyId;
             Session["CompanyURL"] = Company.TimeGoURL;
             Session["CompanyName"] = Company.CompanyName;
@@ -182,7 +176,6 @@ namespace TimeGo.Web.Mvc.Controllers
         {
             Session.Abandon();
             Session.Clear();
-
             LoginViewModel Model = new LoginViewModel();
             PopulateModel(Model);
 
@@ -287,44 +280,6 @@ namespace TimeGo.Web.Mvc.Controllers
                     ModelState.AddModelError("", "Invalid code.");
                     return View(model);
             }
-        }
-
-        //
-        // GET: /Account/Register
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            return View();
-        }
-
-        //
-        // POST: /Account/Register
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
-                }
-                AddErrors(result);
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
         }
 
         //

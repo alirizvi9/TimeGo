@@ -1,11 +1,20 @@
 ﻿using System;
 using System.Web.Mvc;
+using TimeGo.Data;
+using TimeGo.Web.Mvc.Infrastructure.Services.Interfaces;
 using TimeGo.Web.Mvc.Models;
 
 namespace TimeGo.Web.Mvc.Controllers
 {
     public class BaseController : Controller {
-        protected Data.TimeGoEntities Context = new Data.TimeGoEntities();
+        protected TimeGoEntities _context;
+        protected ICompanyService _companyService;
+
+        public BaseController(TimeGoEntities context, ICompanyService companyService)
+        {
+            _companyService = companyService;
+            _context = context;
+        }
 
         public void PopulateModel(BaseViewModel Model) {
             if (Session["LoginId"] == null)
@@ -27,6 +36,15 @@ namespace TimeGo.Web.Mvc.Controllers
                 return RedirectPermanent("/");
             else
                 return RedirectPermanent("/"+ CompanyURL);
+        }
+
+        public Company Company
+        {
+            get
+            {
+                var url = Url.RequestContext.HttpContext.Request.Url.AbsoluteUri;
+                return _companyService.GetCompanyFromUrl(url);
+            }
         }
     }
 }

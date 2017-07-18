@@ -21,6 +21,8 @@ using TimeGo.ApplicationDomain.Services.Implementation;
 using TimeGo.Data;
 using TimeGo.Web.Mvc;
 using TimeGo.Web.Mvc.Models;
+using TimeGo.Web.Mvc.Infrastructure.Services.Interfaces;
+using TimeGo.Web.Mvc.Infrastructure.Services;
 
 namespace TimeGo
 {
@@ -43,6 +45,7 @@ namespace TimeGo
             builder.RegisterType<FileSystemStorageProvider>().As<IStorageProvider>().InstancePerRequest();
             builder.RegisterType<TimeGoEntities>().AsSelf().As<DbContext>().InstancePerRequest();
             builder.RegisterType<Repository>().As<IRepository>().InstancePerRequest();
+            builder.RegisterType<CompanyService>().As<ICompanyService>().InstancePerRequest();
 
             //Register identity
             builder.RegisterType<UserStore<ApplicationUser>>().AsImplementedInterfaces().InstancePerRequest();

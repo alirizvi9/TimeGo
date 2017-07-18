@@ -146,6 +146,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Nustache.Core, Version=1.16.0.4, Culture=neutral, PublicKeyToken=efd6f3d8f76ecd9f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nustache.1.16.0.4\lib\net20\Nustache.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Owin">
       <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
@@ -262,8 +265,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Services\AccountService.cs" />
+    <Compile Include="Infrastructure\Services\CompanyService.cs" />
+    <Compile Include="Infrastructure\Services\EmailService.cs" />
+    <Compile Include="Infrastructure\Services\Interfaces\IAccountService.cs" />
+    <Compile Include="Infrastructure\Services\Interfaces\ICompanyService.cs" />
+    <Compile Include="Infrastructure\Services\Interfaces\IEmailService.cs" />
+    <Compile Include="Infrastructure\TimeGoServiceConfiguration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
+    <Compile Include="Models\BaseEmailModel.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -976,6 +987,7 @@
     <Content Include="Content\scss\_custom-variables.scss" />
     <Content Include="Content\scss\_custom.scss" />
     <None Include="test.ts" />
+    <Content Include="Views\Account\SignUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -994,6 +1006,10 @@
     <TypeScriptCompile Include="App\tests\e2e\app.po.ts" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LanguageResurses\TimeGo.LanguageResurses.csproj">
+      <Project>{42c82720-28d4-4106-b601-84a7c10701f0}</Project>
+      <Name>TimeGo.LanguageResurses</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TimeGo.ApplicationDomain\TimeGo.ApplicationDomain.csproj">
       <Project>{74d6754d-57ef-4afc-b639-a967066b8589}</Project>
       <Name>TimeGo.ApplicationDomain</Name>
