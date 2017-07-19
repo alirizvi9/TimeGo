@@ -1,7 +1,6 @@
 ﻿using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
-using System.Web.Optimization;
 using System.Web.Routing;
 
 namespace TimeGo.Web.Mvc
@@ -10,8 +9,8 @@ namespace TimeGo.Web.Mvc
     {
         protected void Application_Start()
         {
-        //    TimeGo.Data.TimeGoEntities context = new TimeGo.Data.TimeGoEntities();
-        //    new TimeGo.DataModel.UpdateDatabase(context.Database.Connection.ConnectionString);
+            TimeGo.Data.TimeGoEntities context = new TimeGo.Data.TimeGoEntities();
+            new TimeGo.DataModel.UpdateDatabase(context.Database.Connection.ConnectionString);
 
             AutofacConfig.ConfigureContainer();
             AreaRegistration.RegisterAllAreas();

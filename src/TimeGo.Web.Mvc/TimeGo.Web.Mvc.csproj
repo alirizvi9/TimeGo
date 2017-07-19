@@ -146,9 +146,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Nustache.Core, Version=1.16.0.4, Culture=neutral, PublicKeyToken=efd6f3d8f76ecd9f, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Nustache.1.16.0.4\lib\net20\Nustache.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Owin">
       <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
@@ -226,9 +223,8 @@
   <ItemGroup>
     <Compile Include="App_Start\AutofacConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\OwinConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
@@ -261,20 +257,12 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Services\AccountService.cs" />
-    <Compile Include="Infrastructure\Services\CompanyService.cs" />
-    <Compile Include="Infrastructure\Services\EmailService.cs" />
-    <Compile Include="Infrastructure\Services\Interfaces\IAccountService.cs" />
-    <Compile Include="Infrastructure\Services\Interfaces\ICompanyService.cs" />
-    <Compile Include="Infrastructure\Services\Interfaces\IEmailService.cs" />
-    <Compile Include="Infrastructure\TimeGoServiceConfiguration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
-    <Compile Include="Models\BaseEmailModel.cs" />
+    <Compile Include="Models\AuthorizationResponse.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -285,6 +273,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Services\IAuthorizationService.cs" />
+    <Compile Include="Services\Implementation\AuthorizationService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -680,17 +670,9 @@
     <Content Include="protractor.conf.js" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\SendCode.cshtml" />
-    <Content Include="Views\Account\VerifyCode.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\CompanyLogin.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Web.config">
@@ -988,6 +970,7 @@
     <Content Include="Content\scss\_custom.scss" />
     <None Include="test.ts" />
     <Content Include="Views\Account\SignUp.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
@@ -1006,9 +989,9 @@
     <TypeScriptCompile Include="App\tests\e2e\app.po.ts" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LanguageResurses\TimeGo.LanguageResurses.csproj">
+    <ProjectReference Include="..\LanguageResurses\TimeGo.Localization.csproj">
       <Project>{42c82720-28d4-4106-b601-84a7c10701f0}</Project>
-      <Name>TimeGo.LanguageResurses</Name>
+      <Name>TimeGo.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\TimeGo.ApplicationDomain\TimeGo.ApplicationDomain.csproj">
       <Project>{74d6754d-57ef-4afc-b639-a967066b8589}</Project>

@@ -1,16 +1,13 @@
 ﻿using FluentMigrator;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using FluentMigrator.Runner;
 using FluentMigrator.Runner.Announcers;
 using FluentMigrator.Runner.Initialization;
 using FluentMigrator.Runner.Processors;
 
-namespace TimeGo.DataModel {
+namespace TimeGo.DataModel
+{
     public class UpdateDatabase {
         public UpdateDatabase(String ConnectionString) {
             var announcer = new TextWriterAnnouncer(s => System.Console.WriteLine(s));

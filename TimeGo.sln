@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeGo.Web.MVC", "src\TimeG
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeGo.Web.Angular", "src\TimeGo.Web.Angular\TimeGo.Web.Angular.csproj", "{73AEEA5D-8984-44AF-B40F-DE9FD79FAC3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeGo.LanguageResurses", "src\LanguageResurses\TimeGo.LanguageResurses.csproj", "{42C82720-28D4-4106-B601-84A7C10701F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeGo.Localization", "src\LanguageResurses\TimeGo.Localization.csproj", "{42C82720-28D4-4106-B601-84A7C10701F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

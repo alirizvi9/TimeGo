@@ -53,6 +53,9 @@
       <HintPath>..\..\packages\\NLog.4.4.11\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Nustache.Core, Version=1.16.0.4, Culture=neutral, PublicKeyToken=efd6f3d8f76ecd9f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nustache.1.16.0.4\lib\net20\Nustache.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
@@ -99,6 +102,10 @@
     <Compile Include="IO\IStorageFile.cs" />
     <Compile Include="IO\IStorageFolder.cs" />
     <Compile Include="IO\IStorageProvider.cs" />
+    <Compile Include="Models\EmailModels\BaseEmailModel.cs" />
+    <Compile Include="Models\ViewModels\SignUpViewModel.cs" />
+    <Compile Include="Models\ViewModels\ViewError.cs" />
+    <Compile Include="Models\ViewModels\WorkWeek.cs" />
     <Compile Include="Persistance\IAuditable.cs" />
     <Compile Include="Persistance\IIdentifiable.cs" />
     <Compile Include="Persistance\Implementation\Repository.cs" />
@@ -111,13 +118,23 @@
     <Compile Include="Persistance\SoftDelete\DeletableQueries.cs" />
     <Compile Include="Persistance\SoftDelete\IDeletable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IAccountService.cs" />
+    <Compile Include="Services\ICompanyService.cs" />
+    <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\IHttpContextProvider.cs" />
+    <Compile Include="Services\Implementation\AccountService.cs" />
+    <Compile Include="Services\Implementation\CompanyService.cs" />
+    <Compile Include="Services\Implementation\EmailService.cs" />
     <Compile Include="Services\Implementation\HttpContextProvider.cs" />
     <Compile Include="TimeGoSettings.cs" />
     <Compile Include="Web\ActionFilters\UnitOfWorkFilter.cs" />
     <Compile Include="Web\Attributes\IsolationLevelAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LanguageResurses\TimeGo.Localization.csproj">
+      <Project>{42c82720-28d4-4106-b601-84a7c10701f0}</Project>
+      <Name>TimeGo.Localization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TimeGo.Data\TimeGo.Data.csproj">
       <Project>{217fe23a-77ea-44da-b439-c36c98b7fd5b}</Project>
       <Name>TimeGo.Data</Name>

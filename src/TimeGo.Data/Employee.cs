@@ -67,6 +67,10 @@ namespace TimeGo.Data
         [StringLength(100)]
         public string UserName { get; set; }
 
+        public bool? ConfirmEmail { get; set; }
+
+        public string Code { get; set; }
+
         public virtual Company Company { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

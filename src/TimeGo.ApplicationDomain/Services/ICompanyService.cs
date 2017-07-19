@@ -1,6 +1,6 @@
 ﻿using TimeGo.Data;
 
-namespace TimeGo.Web.Mvc.Infrastructure.Services.Interfaces
+namespace TimeGo.ApplicationDomain
 {
     public interface ICompanyService
     {

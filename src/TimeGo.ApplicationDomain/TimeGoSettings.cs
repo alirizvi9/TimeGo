@@ -45,5 +45,6 @@ namespace TimeGo.ApplicationDomain
         }
 
         public string ConnectionString { get; set; }
+        public string EmailTemplateLocation { get; set; }
     }
 }

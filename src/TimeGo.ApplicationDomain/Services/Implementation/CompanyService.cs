@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using TimeGo.Data;
-using TimeGo.Web.Mvc.Infrastructure.Services.Interfaces;
 
-namespace TimeGo.Web.Mvc.Infrastructure.Services
+namespace TimeGo.ApplicationDomain
 {
     public class CompanyService : ICompanyService
     {

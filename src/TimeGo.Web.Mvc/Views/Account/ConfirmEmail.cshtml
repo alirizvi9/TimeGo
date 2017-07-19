@@ -1,10 +1,18 @@
-﻿@{
-    ViewBag.Title = "Confirm Email";
+﻿@using TimeGo;
+@{
+    ViewBag.Title = Resource.ConfirmEmail;
 }
-
-<h2>@ViewBag.Title.</h2>
-<div>
-    <p>
-        Thank you for confirming your email. Please @Html.ActionLink("Click here to Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
-    </p>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card-group mb-0">
+            <div class="card p-4">
+                <div class="card-block">
+                    <h1>@Resource.ConfirmEmail</h1>
+                    <p>
+                        @Resource.ConfirmEmailMessage @Html.ActionLink(Resource.ClickToLogIn, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

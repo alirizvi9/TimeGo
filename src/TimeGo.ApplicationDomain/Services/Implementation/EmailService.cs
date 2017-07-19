@@ -3,18 +3,16 @@ using System;
 using System.IO;
 using System.Net.Mail;
 using TimeGo.ApplicationDomain.Services;
-using TimeGo.Web.Mvc.Infrastructure.Services.Interfaces;
-using TimeGo.Web.Mvc.Models;
 
-namespace TimeGo.Web.Mvc.Infrastructure.Services
+namespace TimeGo.ApplicationDomain
 {
     public class EmailService : IEmailService
     {
         private const string InspectionComplete = "inspection_complete";
         private readonly IHttpContextProvider _httpContextProvider;
-        private readonly TimeGoServiceConfiguration _settings;
+        private readonly TimeGoSettings _settings;
 
-        public EmailService(IHttpContextProvider httpContextProvider, TimeGoServiceConfiguration settings)
+        public EmailService(IHttpContextProvider httpContextProvider, TimeGoSettings settings)
         {
             if (settings == null)
                 throw new ArgumentNullException("settings");

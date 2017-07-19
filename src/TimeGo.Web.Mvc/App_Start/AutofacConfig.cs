@@ -6,9 +6,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
-using Microsoft.Owin.Security.DataProtection;
 using TimeGo.ApplicationDomain;
 using TimeGo.ApplicationDomain.Dependency;
 using TimeGo.ApplicationDomain.Dependency.Autofac;
@@ -21,8 +19,8 @@ using TimeGo.ApplicationDomain.Services.Implementation;
 using TimeGo.Data;
 using TimeGo.Web.Mvc;
 using TimeGo.Web.Mvc.Models;
-using TimeGo.Web.Mvc.Infrastructure.Services.Interfaces;
-using TimeGo.Web.Mvc.Infrastructure.Services;
+using TimeGo.Web.Mvc.Services.Implementation;
+using TimeGo.Web.Mvc.Services;
 
 namespace TimeGo
 {
@@ -46,14 +44,12 @@ namespace TimeGo
             builder.RegisterType<TimeGoEntities>().AsSelf().As<DbContext>().InstancePerRequest();
             builder.RegisterType<Repository>().As<IRepository>().InstancePerRequest();
             builder.RegisterType<CompanyService>().As<ICompanyService>().InstancePerRequest();
+            builder.RegisterType<AccountService>().As<IAccountService>().InstancePerRequest();
+            builder.RegisterType<AuthorizationService>().As<IAuthorizationService>().InstancePerRequest();
+            builder.RegisterType<EmailService>().As<IEmailService>().InstancePerRequest();
 
             //Register identity
             builder.RegisterType<UserStore<ApplicationUser>>().AsImplementedInterfaces().InstancePerRequest();
-            builder.Register(x => new IdentityFactoryOptions<ApplicationUserManager>
-            {
-                DataProtectionProvider = new DpapiDataProtectionProvider("TimeGo.Web.MVC")
-            }).InstancePerRequest();
-            builder.RegisterType<ApplicationUserManager>().InstancePerRequest();
             builder.Register(ctx => HttpContext.Current.GetOwinContext()).As<IOwinContext>();
 
             //Register filters
