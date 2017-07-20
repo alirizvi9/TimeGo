@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using TimeGo.ApplicationDomain;
 using TimeGo.ApplicationDomain.Dependency;
@@ -18,7 +17,6 @@ using TimeGo.ApplicationDomain.Services;
 using TimeGo.ApplicationDomain.Services.Implementation;
 using TimeGo.Data;
 using TimeGo.Web.Mvc;
-using TimeGo.Web.Mvc.Models;
 using TimeGo.Web.Mvc.Services.Implementation;
 using TimeGo.Web.Mvc.Services;
 
@@ -49,7 +47,6 @@ namespace TimeGo
             builder.RegisterType<EmailService>().As<IEmailService>().InstancePerRequest();
 
             //Register identity
-            builder.RegisterType<UserStore<ApplicationUser>>().AsImplementedInterfaces().InstancePerRequest();
             builder.Register(ctx => HttpContext.Current.GetOwinContext()).As<IOwinContext>();
 
             //Register filters

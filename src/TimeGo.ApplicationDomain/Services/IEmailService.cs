@@ -1,8 +1,11 @@
-﻿namespace TimeGo.ApplicationDomain
+﻿using TimeGo.Data;
+
+namespace TimeGo.ApplicationDomain
 {
     public interface IEmailService
     {
-        void SendWelcomeEmail();
-        void SendConfirmEmail();
+        void SendWelcomeEmail(Employee user);
+        void SendConfirmEmail(Employee user, string code);
+        void SendForgotPasswordEmail(Employee user, string code);
     }
 }

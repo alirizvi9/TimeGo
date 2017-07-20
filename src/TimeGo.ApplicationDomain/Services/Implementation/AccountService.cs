@@ -10,6 +10,9 @@ namespace TimeGo.ApplicationDomain
     {
         private readonly TimeGoEntities _context;
         private readonly IEmailService _emailService;
+        private Random random = new Random();
+        private string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        private int lengthCode = 8;
 
         public AccountService(TimeGoEntities context, IEmailService emailService)
         {
@@ -22,7 +25,7 @@ namespace TimeGo.ApplicationDomain
             return _context.Timezones.ToList();
         }
 
-        public ViewError SignUp(SignUpViewModel model)
+        public ViewError SignUp(SignUpModel model)
         {
             var company = _context.Companies.FirstOrDefault(x=>x.TimeGoURL == model.CompanyURL);
             if (company != null)
@@ -31,7 +34,7 @@ namespace TimeGo.ApplicationDomain
             if(user != null)
                 return new ViewError() { Name = "Email", Message = Resource.EmailAlreadyExist };
 
-            Company Company = new Company();
+            var Company = new Company();
             Company.CompanyName = model.CompanyName;
             Company.ContactName = model.FullName;
             Company.EmailAddress = model.Email;
@@ -46,7 +49,9 @@ namespace TimeGo.ApplicationDomain
             _context.Entry(Company).State = System.Data.Entity.EntityState.Added;
             _context.SaveChanges();
 
-            Employee Employee = new Employee();
+            var confirmEmailCode = GenereteCode();
+
+            var Employee = new Employee();
             Employee.CompanyId = Company.CompanyId;
             Employee.EmailAddress = model.Email;
             Employee.Phonenumber = model.PhoneNumber;
@@ -54,30 +59,55 @@ namespace TimeGo.ApplicationDomain
             Employee.FirstName = model.FullName;
             Employee.IsActive = true;
             Employee.RoleId = 2;
+            Employee.Code = confirmEmailCode;
 
             _context.Entry(Employee).State = System.Data.Entity.EntityState.Added;
             _context.SaveChanges();
+
+            _emailService.SendConfirmEmail(Employee, confirmEmailCode);
+
             return null;
         }
 
-        public bool ForgotPassword()
+        public ViewError ForgotPassword(string email)
         {
-            return true;
+            var user = _context.Employees.FirstOrDefault(x => x.EmailAddress == email);
+            if (user == null)
+                return new ViewError() { Name = "Email", Message = Resource.NotFounEmail };
+            var forgotPasswordCode = GenereteCode();
+            user.Code = forgotPasswordCode;
+            _context.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            _context.SaveChanges();
+            _emailService.SendForgotPasswordEmail(user, forgotPasswordCode);
+            return null;
         }
 
-        public void ConfirEmail(int userId, string code)
+        public void ConfirmEmail(int userId, string code)
         {
-
+            var user = _context.Employees.FirstOrDefault(x => x.EmployeeId == userId);
+            if(user != null && user.Code == code)
+            {
+                user.ConfirmEmail = true;
+                _context.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                _context.SaveChanges();
+                _emailService.SendWelcomeEmail(user);
+            }
         }
 
-        public void ResetPassword(int userId, string password)
+        public void ResetPassword(int userId, string code, string password)
         {
-
+            var user = _context.Employees.FirstOrDefault(x => x.EmployeeId == userId);
+            if (user != null && user.Code == code)
+            {
+                user.Password = password;
+                _context.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                _context.SaveChanges();
+            }
         }
 
         public string GenereteCode()
         {
-            return string.Empty;
+            return new string(Enumerable.Repeat(chars, lengthCode).Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

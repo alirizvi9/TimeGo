@@ -27,16 +27,17 @@ namespace TimeGo.Web.Mvc.Models
 
     public class ResetPasswordViewModel
     {
+        public string UserId { get; set; }
         public string Code { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 9)]
+        [StringLength(100, ErrorMessageResourceName = "PasswordLengthValid", ErrorMessageResourceType = typeof(Resource), MinimumLength = 9)]
         public string Password { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [System.Web.Mvc.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.Web.Mvc.Compare("Password", ErrorMessageResourceName = "PasswordConfirmFaild", ErrorMessageResourceType = typeof(Resource))]
         public string ConfirmPassword { get; set; }
     }
 }

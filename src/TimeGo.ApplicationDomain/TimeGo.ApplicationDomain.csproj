@@ -103,9 +103,11 @@
     <Compile Include="IO\IStorageFolder.cs" />
     <Compile Include="IO\IStorageProvider.cs" />
     <Compile Include="Models\EmailModels\BaseEmailModel.cs" />
-    <Compile Include="Models\ViewModels\SignUpViewModel.cs" />
-    <Compile Include="Models\ViewModels\ViewError.cs" />
-    <Compile Include="Models\ViewModels\WorkWeek.cs" />
+    <Compile Include="Models\EmailModels\ConfirmEmailModel.cs" />
+    <Compile Include="Models\EmailModels\ForgotPasswordEmailModel.cs" />
+    <Compile Include="Models\SignUpModel.cs" />
+    <Compile Include="Models\ViewError.cs" />
+    <Compile Include="Enums\WorkWeek.cs" />
     <Compile Include="Persistance\IAuditable.cs" />
     <Compile Include="Persistance\IIdentifiable.cs" />
     <Compile Include="Persistance\Implementation\Repository.cs" />

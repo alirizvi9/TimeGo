@@ -1,7 +1,20 @@
-﻿namespace TimeGo.ApplicationDomain
+﻿using TimeGo.Data;
+
+namespace TimeGo.ApplicationDomain
 {
     public class BaseEmailModel
     {
+        public BaseEmailModel() { }
+
+        public BaseEmailModel(Employee user, TimeGoSettings settings)
+        {
+            SendFrom = settings.EmailFrom;
+            SendFromName = settings.EmailFromName;
+            SendTo = user.EmailAddress;
+            SendToName = user.FirstName;
+            ReplyTo = string.Empty;
+        }
+
         public string SendFrom { get; set; }
         public string SendTo { get; set; }
         public string ReplyTo { get; set; }

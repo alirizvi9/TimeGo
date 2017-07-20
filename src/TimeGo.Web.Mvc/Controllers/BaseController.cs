@@ -9,10 +9,12 @@ namespace TimeGo.Web.Mvc.Controllers
     public class BaseController : Controller
     {
         protected ICompanyService _companyService;
+        private readonly TimeGoSettings _settings;
 
-        public BaseController(ICompanyService companyService)
+        public BaseController(ICompanyService companyService, TimeGoSettings settings)
         {
             _companyService = companyService;
+            _settings = settings;
         }
 
         public Company Company
@@ -26,8 +28,7 @@ namespace TimeGo.Web.Mvc.Controllers
 
         public ActionResult RedirectToSubDomain(string subdomain, string route = "")
         {
-            var urlSite = "localhost:51816/";
-            var url = string.Format("http://{0}.{1}{2}", subdomain, urlSite, route);
+            var url = string.Format("http://{0}.{1}{2}", subdomain, _settings.TimeGoUrl, route);
             return Redirect(url);
         }
 

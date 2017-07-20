@@ -106,6 +106,15 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm Email. TimeGo.
+        /// </summary>
+        public static string ConfirmEmailTitle {
+            get {
+                return ResourceManager.GetString("ConfirmEmailTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm password.
         /// </summary>
         public static string ConfirmPassword {
@@ -205,6 +214,15 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Forgot password. TimeGo.
+        /// </summary>
+        public static string ForgotPasswordEmail {
+            get {
+                return ResourceManager.GetString("ForgotPasswordEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fullname.
         /// </summary>
         public static string FullName {
@@ -246,6 +264,15 @@ namespace TimeGo {
         public static string NewPassword {
             get {
                 return ResourceManager.GetString("NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email not found.
+        /// </summary>
+        public static string NotFounEmail {
+            get {
+                return ResourceManager.GetString("NotFounEmail", resourceCulture);
             }
         }
         
@@ -354,6 +381,15 @@ namespace TimeGo {
         public static string Username {
             get {
                 return ResourceManager.GetString("Username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome in TimeGo.
+        /// </summary>
+        public static string WelcomeEmail {
+            get {
+                return ResourceManager.GetString("WelcomeEmail", resourceCulture);
             }
         }
     }

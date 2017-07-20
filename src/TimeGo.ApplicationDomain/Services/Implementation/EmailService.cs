@@ -1,8 +1,11 @@
 ﻿using Nustache.Core;
 using System;
 using System.IO;
+using System.Net;
 using System.Net.Mail;
+using TimeGo.ApplicationDomain.Models.EmailModels;
 using TimeGo.ApplicationDomain.Services;
+using TimeGo.Data;
 
 namespace TimeGo.ApplicationDomain
 {
@@ -21,14 +24,27 @@ namespace TimeGo.ApplicationDomain
             _settings = settings;
         }
 
-        public void SendWelcomeEmail()
+        public void SendWelcomeEmail(Employee user)
         {
-
+            var emailModel = new BaseEmailModel(user, _settings);
+            emailModel.Subject = Resource.WelcomeEmail;
+            SendEmail(emailModel, "WelcomeEmail");
         }
 
-        public void SendConfirmEmail()
+        public void SendConfirmEmail(Employee user, string code)
         {
+            var url = string.Format("http://{0}/Account/ConfirmEmail?userId={1}&code={2}", _settings.TimeGoUrl, user.EmployeeId, code);
+            var emailModel = new ConfirmEmailModel(user, _settings, url);
+            emailModel.Subject = Resource.ConfirmEmailTitle;
+            SendEmail(emailModel, "ConfirmEmail");
+        }
 
+        public void SendForgotPasswordEmail(Employee user, string code)
+        {
+            var url = string.Format("http://{0}/Account/ResetPassword?userId={1}&code={2}", _settings.TimeGoUrl, user.EmployeeId, code);
+            var emailModel = new ForgotPasswordEmailModel(user, _settings, url);
+            emailModel.Subject = Resource.ForgotPasswordEmail;
+            SendEmail(emailModel, "ChangePasswordEmail");
         }
 
         protected void SendEmail<T>(T model, string templateName, bool sendAsHtml = false) where T : BaseEmailModel
@@ -64,7 +80,14 @@ namespace TimeGo.ApplicationDomain
 
             try
             {
-                var smtpClient = new SmtpClient();
+                var smtpClient = new SmtpClient()
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    Credentials = new NetworkCredential("TimeGoTest","Testpassword"),
+                    DeliveryMethod = SmtpDeliveryMethod.Network
+                };
                 smtpClient.Send(message);
             }
             catch (Exception ex)

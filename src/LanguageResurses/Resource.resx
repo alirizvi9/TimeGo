@@ -216,4 +216,16 @@
   <data name="LoginError" xml:space="preserve">
     <value>Authentication error. Incorrect name or password.</value>
   </data>
+  <data name="NotFounEmail" xml:space="preserve">
+    <value>Email not found</value>
+  </data>
+  <data name="ConfirmEmailTitle" xml:space="preserve">
+    <value>Confirm Email. TimeGo</value>
+  </data>
+  <data name="ForgotPasswordEmail" xml:space="preserve">
+    <value>Forgot password. TimeGo</value>
+  </data>
+  <data name="WelcomeEmail" xml:space="preserve">
+    <value>Welcome in TimeGo</value>
+  </data>
 </root>

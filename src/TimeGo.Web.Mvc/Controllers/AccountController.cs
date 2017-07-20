@@ -6,6 +6,7 @@ using TimeGo.Data;
 using TimeGo.ApplicationDomain;
 using TimeGo.Web.Mvc.Services;
 using TimeGo.ApplicationDomain.Models.ViewModels;
+using AutoMapper;
 
 namespace TimeGo.Web.Mvc.Controllers
 {
@@ -15,7 +16,7 @@ namespace TimeGo.Web.Mvc.Controllers
         private IAccountService _accountService;
         private IAuthorizationService _authorizationService;
 
-        public AccountController(ICompanyService companyService, IAccountService accountService, IAuthorizationService authorizationService) :base(companyService)
+        public AccountController(ICompanyService companyService, IAccountService accountService, IAuthorizationService authorizationService, TimeGoSettings settings) :base(companyService, settings)
         {
             _accountService = accountService;
             _authorizationService = authorizationService;
@@ -41,12 +42,23 @@ namespace TimeGo.Web.Mvc.Controllers
         {
             if (!ModelState.IsValid)
             {
+                model.Timezones = _accountService.GetTimeZones().Select(f => new SelectListItem
+                {
+                    Value = f.TimezoneId.ToString(),
+                    Text = f.TimezoneName
+                });
                 return View(model);
             }
-            var error = _accountService.SignUp(model);
+            var newUser = Mapper.Map<SignUpModel>(model);
+            var error = _accountService.SignUp(newUser);
             if(error != null)
             {
                 AddError(error);
+                model.Timezones = _accountService.GetTimeZones().Select(f => new SelectListItem
+                {
+                    Value = f.TimezoneId.ToString(),
+                    Text = f.TimezoneName
+                });
                 return View(model);
             }
             return RedirectToSubDomain(model.CompanyURL);
@@ -86,13 +98,20 @@ namespace TimeGo.Web.Mvc.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
-            return View(true ? "ConfirmEmail" : "Error");
+            _accountService.ConfirmEmail(int.Parse(userId), code);
+            return View();
         }
 
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
         public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult ForgotPasswordConfirmation()
         {
             return View();
         }
@@ -105,7 +124,15 @@ namespace TimeGo.Web.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                var error = _accountService.ForgotPassword(model.Email);
+                if(error != null)
+                {
+                    AddError(error);
+                }
+                else
+                {
+                    return RedirectToAction("ForgotPasswordConfirmation");
+                }
             }
 
             return View(model);
@@ -114,7 +141,7 @@ namespace TimeGo.Web.Mvc.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string userId, string code)
         {
-            return View();
+            return View(new ResetPasswordViewModel() { UserId = userId, Code = code});
         }
 
         [HttpPost]
@@ -123,7 +150,8 @@ namespace TimeGo.Web.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                _accountService.ResetPassword(int.Parse(model.UserId), model.Code, model.Password);
+                return RedirectToAction("CompayLogin");
             }
 
             return View(model);
