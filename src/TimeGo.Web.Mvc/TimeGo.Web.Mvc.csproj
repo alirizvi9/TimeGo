@@ -281,41 +281,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App\app.component.html" />
-    <Content Include="App\chartjs\chartjs.component.html" />
-    <Content Include="App\components\buttons.component.html" />
-    <Content Include="App\components\cards.component.html" />
-    <Content Include="App\components\forms.component.html" />
-    <Content Include="App\components\modals.component.html" />
-    <Content Include="App\components\social-buttons.component.html" />
-    <Content Include="App\components\switches.component.html" />
-    <Content Include="App\components\tables.component.html" />
-    <Content Include="App\components\tabs.component.html" />
-    <Content Include="App\dashboard\dashboard.component.html" />
-    <Content Include="App\forms\advanced-forms\advanced-forms.component.html" />
-    <Content Include="App\forms\basic-forms\basic-forms.component.html" />
-    <Content Include="App\icons\font-awesome.component.html" />
-    <Content Include="App\icons\glyphicons-filetypes.component.html" />
-    <Content Include="App\icons\glyphicons-social.component.html" />
-    <Content Include="App\icons\glyphicons.component.html" />
-    <Content Include="App\icons\simple-line-icons.component.html" />
-    <Content Include="App\layouts\full-layout.component.html" />
-    <Content Include="App\layouts\simple-layout.component.html" />
-    <Content Include="App\pages\404.component.html" />
-    <Content Include="App\pages\500.component.html" />
-    <Content Include="App\pages\login.component.html" />
-    <Content Include="App\pages\register.component.html" />
-    <Content Include="App\plugins\calendar\calendar.component.html" />
-    <Content Include="App\plugins\datatable\datatable.component.html" />
-    <Content Include="App\plugins\draggable-cards\draggable-cards.component.html" />
-    <Content Include="App\plugins\loading-buttons\loading-buttons.component.html" />
-    <Content Include="App\plugins\notifications\notifications.component.html" />
-    <Content Include="App\plugins\spinners\spinners.component.html" />
-    <Content Include="App\uikits\email\compose.component.html" />
-    <Content Include="App\uikits\email\inbox.component.html" />
-    <Content Include="App\uikits\email\message.component.html" />
-    <Content Include="App\uikits\invoicing\invoice.component.html" />
-    <Content Include="App\widgets\widgets.component.html" />
     <Content Include="App_Data\Logs\readme.txt" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
@@ -668,9 +633,6 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <Content Include="gulpfile.js" />
-    <Content Include="karma.conf.js" />
-    <Content Include="protractor.conf.js" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
@@ -698,93 +660,6 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="package.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App\app.component.spec.ts" />
-    <None Include="App\app.component.ts" />
-    <None Include="App\app.module.ts" />
-    <None Include="App\app.routing.ts" />
-    <None Include="App\chartjs\chartjs-routing.module.ts" />
-    <None Include="App\chartjs\chartjs.component.ts" />
-    <None Include="App\chartjs\chartjs.module.ts" />
-    <None Include="App\components\buttons.component.ts" />
-    <None Include="App\components\cards.component.ts" />
-    <None Include="App\components\components-routing.module.ts" />
-    <None Include="App\components\components.module.ts" />
-    <None Include="App\components\forms.component.ts" />
-    <None Include="App\components\modals.component.ts" />
-    <None Include="App\components\social-buttons.component.ts" />
-    <None Include="App\components\switches.component.ts" />
-    <None Include="App\components\tables.component.ts" />
-    <None Include="App\components\tabs.component.ts" />
-    <None Include="App\dashboard\dashboard-routing.module.ts" />
-    <None Include="App\dashboard\dashboard.component.ts" />
-    <None Include="App\dashboard\dashboard.module.ts" />
-    <None Include="App\forms\advanced-forms\advanced-forms-routing.module.ts" />
-    <None Include="App\forms\advanced-forms\advanced-forms.component.ts" />
-    <None Include="App\forms\advanced-forms\advanced-forms.module.ts" />
-    <None Include="App\forms\basic-forms\basic-forms-routing.module.ts" />
-    <None Include="App\forms\basic-forms\basic-forms.component.ts" />
-    <None Include="App\forms\basic-forms\basic-forms.module.ts" />
-    <None Include="App\forms\forms-routing.module.ts" />
-    <None Include="App\forms\forms.module.ts" />
-    <None Include="App\icons\font-awesome.component.ts" />
-    <None Include="App\icons\glyphicons-filetypes.component.ts" />
-    <None Include="App\icons\glyphicons-social.component.ts" />
-    <None Include="App\icons\glyphicons.component.ts" />
-    <None Include="App\icons\icons-routing.module.ts" />
-    <None Include="App\icons\icons.module.ts" />
-    <None Include="App\icons\simple-line-icons.component.ts" />
-    <None Include="App\index.ts" />
-    <None Include="App\layouts\full-layout.component.ts" />
-    <None Include="App\layouts\simple-layout.component.ts" />
-    <None Include="App\pages\404.component.ts" />
-    <None Include="App\pages\500.component.ts" />
-    <None Include="App\pages\login.component.ts" />
-    <None Include="App\pages\pages-routing.module.ts" />
-    <None Include="App\pages\pages.module.ts" />
-    <None Include="App\pages\register.component.ts" />
-    <None Include="App\plugins\calendar\calendar-routing.module.ts" />
-    <None Include="App\plugins\calendar\calendar.component.ts" />
-    <None Include="App\plugins\calendar\calendar.module.ts" />
-    <None Include="App\plugins\datatable\datafilterpipe.ts" />
-    <None Include="App\plugins\datatable\datatable-routing.module.ts" />
-    <None Include="App\plugins\datatable\datatable.component.ts" />
-    <None Include="App\plugins\datatable\datatable.module.ts" />
-    <None Include="App\plugins\draggable-cards\draggable-cards-routing.module.ts" />
-    <None Include="App\plugins\draggable-cards\draggable-cards.component.ts" />
-    <None Include="App\plugins\draggable-cards\draggable-cards.module.ts" />
-    <None Include="App\plugins\loading-buttons\loading-buttons-routing.module.ts" />
-    <None Include="App\plugins\loading-buttons\loading-buttons.component.ts" />
-    <None Include="App\plugins\loading-buttons\loading-buttons.module.ts" />
-    <None Include="App\plugins\notifications\notifications-routing.module.ts" />
-    <None Include="App\plugins\notifications\notifications.component.ts" />
-    <None Include="App\plugins\notifications\notifications.module.ts" />
-    <None Include="App\plugins\plugins-routing.module.ts" />
-    <None Include="App\plugins\plugins.module.ts" />
-    <None Include="App\plugins\spinners\spinners-routing.module.ts" />
-    <None Include="App\plugins\spinners\spinners.component.ts" />
-    <None Include="App\plugins\spinners\spinners.module.ts" />
-    <None Include="App\shared\aside.directive.ts" />
-    <None Include="App\shared\breadcrumb.component.ts" />
-    <None Include="App\shared\nav-dropdown.directive.ts" />
-    <None Include="App\shared\sidebar.directive.ts" />
-    <Content Include="App\tests\e2e\tsconfig.e2e.json" />
-    <Content Include="App\tests\e2e\tsconfig.json" />
-    <None Include="App\uikits\email\compose.component.ts" />
-    <None Include="App\uikits\email\email-routing.module.ts" />
-    <None Include="App\uikits\email\email.module.ts" />
-    <None Include="App\uikits\email\inbox.component.ts" />
-    <None Include="App\uikits\email\message.component.ts" />
-    <None Include="App\uikits\invoicing\invoice-routing.module.ts" />
-    <None Include="App\uikits\invoicing\invoice.component.ts" />
-    <None Include="App\uikits\invoicing\invoice.module.ts" />
-    <None Include="App\uikits\uikits-routing.module.ts" />
-    <None Include="App\uikits\uikits.module.ts" />
-    <None Include="App\widgets\widgets-routing.module.ts" />
-    <None Include="App\widgets\widgets.component.ts" />
-    <None Include="App\widgets\widgets.module.ts" />
     <Content Include="Content\css\font-awesome.css.map" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
@@ -974,7 +849,6 @@
     <Content Include="App_Data\Emails\ChangePasswordEmail.nustache" />
     <Content Include="App_Data\Emails\ConfirmEmail.nustache" />
     <Content Include="App_Data\Emails\WelcomeEmail.nustache" />
-    <None Include="test.ts" />
     <Content Include="Views\Account\SignUp.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
   </ItemGroup>
@@ -982,17 +856,7 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="tsconfig.json" />
-    <Content Include="tslint.json" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Home\NgApp.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="App\main.ts" />
-    <TypeScriptCompile Include="App\polyfills.ts" />
-    <TypeScriptCompile Include="App\tests\e2e\app.e2e-spec.ts" />
-    <TypeScriptCompile Include="App\tests\e2e\app.po.ts" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LanguageResurses\TimeGo.Localization.csproj">
@@ -1012,7 +876,10 @@
       <Name>TimeGo.Data</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App\" />
+    <Folder Include="Content\ng-app\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

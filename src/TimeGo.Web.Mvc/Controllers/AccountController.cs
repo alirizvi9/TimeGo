@@ -13,8 +13,8 @@ namespace TimeGo.Web.Mvc.Controllers
     [Authorize]
     public class AccountController : BaseController
     {
-        private IAccountService _accountService;
-        private IAuthorizationService _authorizationService;
+        private readonly IAccountService _accountService;
+        private readonly IAuthorizationService _authorizationService;
 
         public AccountController(ICompanyService companyService, IAccountService accountService, IAuthorizationService authorizationService, TimeGoSettings settings) :base(companyService, settings)
         {
@@ -25,15 +25,18 @@ namespace TimeGo.Web.Mvc.Controllers
         [AllowAnonymous]
         public ActionResult SignUp()
         {
-            SignUpViewModel Model = new SignUpViewModel();
-
-            Model.Timezones = _accountService.GetTimeZones().Select(f => new SelectListItem
+            var model = new SignUpViewModel
             {
-                Value = f.TimezoneId.ToString(),
-                Text = f.TimezoneName
-            });
+                Timezones = _accountService.GetTimeZones()
+                    .Select(f => new SelectListItem
+                    {
+                        Value = f.TimezoneId.ToString(),
+                        Text = f.TimezoneName
+                    })
+            };
 
-            return View(Model);
+
+            return View(model);
         }
 
         [HttpPost]
