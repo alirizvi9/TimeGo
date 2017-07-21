@@ -133,13 +133,13 @@
     <Compile Include="Web\Attributes\IsolationLevelAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LanguageResurses\TimeGo.Localization.csproj">
-      <Project>{42c82720-28d4-4106-b601-84a7c10701f0}</Project>
-      <Name>TimeGo.Localization</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TimeGo.Data\TimeGo.Data.csproj">
       <Project>{217fe23a-77ea-44da-b439-c36c98b7fd5b}</Project>
       <Name>TimeGo.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TimeGo.Localization\TimeGo.Localization.csproj">
+      <Project>{42c82720-28d4-4106-b601-84a7c10701f0}</Project>
+      <Name>TimeGo.Localization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

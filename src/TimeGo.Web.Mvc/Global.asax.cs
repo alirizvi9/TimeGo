@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
+using System.Web.Optimization;
 using System.Web.Routing;
 
 namespace TimeGo.Web.Mvc
@@ -12,12 +13,14 @@ namespace TimeGo.Web.Mvc
         {
             TimeGo.Data.TimeGoEntities context = new TimeGo.Data.TimeGoEntities();
             new TimeGo.DataModel.UpdateDatabase(context.Database.Connection.ConnectionString);
+
             Mapper.Initialize(x => x.AddProfile(new AutoMappingProfile()));
             AutofacConfig.ConfigureContainer();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
 }
