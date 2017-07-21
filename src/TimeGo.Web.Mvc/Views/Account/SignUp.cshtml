@@ -2,6 +2,7 @@
 @model TimeGo.ApplicationDomain.Models.ViewModels.SignUpViewModel
 @{
     ViewBag.Title = Resource.SignUp;
+    Layout = "~/Views/Shared/_SignUpLayout.cshtml";
 }
 
 @using (Html.BeginForm("SignUp", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

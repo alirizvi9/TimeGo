@@ -3,6 +3,7 @@
 @model LoginViewModel
 @{
     ViewBag.Title = Resource.LogIn;
+    Layout = "~/Views/Shared/_SignUpLayout.cshtml";
 }
 
 @using (Html.BeginForm("CompanyLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

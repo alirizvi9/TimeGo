@@ -3,11 +3,11 @@
 namespace TimeGo.Web.Mvc.Controllers
 {
     [AllowAnonymous]
-    public class HomeController : Controller
+    public class AppController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Run()
         {
-            return View("NgApp");
+            return View();
         }
     }
 }

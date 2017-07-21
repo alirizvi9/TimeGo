@@ -8,22 +8,39 @@ namespace TimeGo.Web.Mvc
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/app")
+            //SignUp pages
+            bundles.Add(new ScriptBundle("~/bundles/signup")
+                .Include(
+                    "~/Content/scrips/jquery.min.js",
+                    "~/Content/scrips/tether.min.js",
+                    "~/Content/scrips/bootstrap.min.js",
+                    "~/Content/scrips/pace.min.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/signup").Include(
+                    "~/Content/css/font-awesome.min.css",
+                    "~/Content/css/simple-line-icons.css",
+                    "~/Content/css/glyphicons.css",
+                    "~/Content/css/glyphicons-filetypes.css",
+                    "~/Content/css/glyphicons-social.css",
+                    "~/Content/css/style.css"));
+
+            //TimeGo App
+            bundles.Add(new ScriptBundle("~/bundles/timego")
                 .IncludeDirectory("~/Content/", "*.chunk.js")
                 .Include(
-                      "~/Content/inline.bundle.js",
-                      "~/Content/polyfills.bundle.js",
-                      "~/Content/scripts.bundle.js",
-                      "~/Content/styles.bundle.js",
-                      "~/Content/vendor.bundle.js",
-                      "~/Content/main.bundle.js"));
+                    "~/Content/timego/inline.bundle.js",
+                    "~/Content/timego/polyfills.bundle.js",
+                    "~/Content/timego/scripts.bundle.js",
+                    "~/Content/timego/styles.bundle.js",
+                    "~/Content/timego/vendor.bundle.js",
+                    "~/Content/timego/main.bundle.js"));
 
-            bundles.Add(new StyleBundle("~/bundles/css").Include(
-                      "~/Content/assets/css/font-awesome.min.css",
-                      "~/Content/assets/css/simple-line-icons.css",
-                      "~/Content/assets/css/glyphicons.css",
-                      "~/Content/assets/css/glyphicons-filetypes.css",
-                      "~/Content/assets/css/glyphicons-social.css"));
+            bundles.Add(new StyleBundle("~/bundles/timego").Include(
+                    "~/Content/timego/assets/css/font-awesome.min.css",
+                    "~/Content/timego/assets/css/simple-line-icons.css",
+                    "~/Content/timego/assets/css/glyphicons.css",
+                    "~/Content/timego/assets/css/glyphicons-filetypes.css",
+                    "~/Content/timego/assets/css/glyphicons-social.css"));
         }
     }
 }

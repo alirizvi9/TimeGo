@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using TimeGo.Web.Mvc.Models;
-using TimeGo.Data;
 using TimeGo.ApplicationDomain;
 using TimeGo.Web.Mvc.Services;
 using TimeGo.ApplicationDomain.Models.ViewModels;
@@ -93,7 +92,7 @@ namespace TimeGo.Web.Mvc.Controllers
                 AddError(new ViewError() { Name = "Email", Message = Resource.LoginError });
                 return View(model);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Run", "App");
         }
 
         //
@@ -154,7 +153,7 @@ namespace TimeGo.Web.Mvc.Controllers
             if (ModelState.IsValid)
             {
                 _accountService.ResetPassword(int.Parse(model.UserId), model.Code, model.Password);
-                return RedirectToAction("CompayLogin");
+                return RedirectToAction("CompanyLogin");
             }
 
             return View(model);
@@ -166,7 +165,7 @@ namespace TimeGo.Web.Mvc.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Run", "App");
         }
     }
 }
