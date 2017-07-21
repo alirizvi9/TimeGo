@@ -358,15 +358,6 @@ namespace TimeGo {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to test.
-        /// </summary>
-        public static string test {
-            get {
-                return ResourceManager.GetString("test", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Url already exist.
         /// </summary>
         public static string UrlAlreadyExist {

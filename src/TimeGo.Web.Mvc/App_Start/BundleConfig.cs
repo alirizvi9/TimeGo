@@ -8,15 +8,15 @@ namespace TimeGo.Web.Mvc
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            //SignUp pages
-            bundles.Add(new ScriptBundle("~/bundles/signup")
+            //SignUp pages and Super Admin
+            bundles.Add(new ScriptBundle("~/bundles/static")
                 .Include(
                     "~/Content/scrips/jquery.min.js",
                     "~/Content/scrips/tether.min.js",
                     "~/Content/scrips/bootstrap.min.js",
                     "~/Content/scrips/pace.min.js"));
 
-            bundles.Add(new StyleBundle("~/bundles/signup").Include(
+            bundles.Add(new StyleBundle("~/bundles/static").Include(
                     "~/Content/css/font-awesome.min.css",
                     "~/Content/css/simple-line-icons.css",
                     "~/Content/css/glyphicons.css",
