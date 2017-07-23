@@ -4,7 +4,7 @@ using System.IO;
 using System.Net;
 using System.Net.Mail;
 using TimeGo.ApplicationDomain.Entities;
-using TimeGo.ApplicationDomain.Models.EmailModels;
+using TimeGo.ApplicationDomain.Models.Email;
 using TimeGo.ApplicationDomain.Services;
 
 namespace TimeGo.ApplicationDomain

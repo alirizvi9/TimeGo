@@ -1,4 +1,4 @@
-﻿namespace TimeGo.ApplicationDomain.Models.ViewModels
+﻿namespace TimeGo.ApplicationDomain.Models
 {
     public class ViewError
     {

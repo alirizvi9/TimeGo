@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using TimeGo.ApplicationDomain.Entities;
-using TimeGo.ApplicationDomain.Models.ViewModels;
+using TimeGo.ApplicationDomain.Models;
 
 namespace TimeGo.ApplicationDomain
 {

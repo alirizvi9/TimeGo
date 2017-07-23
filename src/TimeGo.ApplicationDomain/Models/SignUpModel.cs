@@ -1,6 +1,6 @@
 ﻿using TimeGo.ApplicationDomain.Enums;
 
-namespace TimeGo.ApplicationDomain.Models.ViewModels
+namespace TimeGo.ApplicationDomain.Models
 {
     public class SignUpModel
     {
@@ -8,7 +8,7 @@ namespace TimeGo.ApplicationDomain.Models.ViewModels
         {
             WorkweekStaryDay = Weekdays.Monday;
         }
-        public new string CompanyName { get; set; }
+        public string CompanyName { get; set; }
         
         public string FullName { get; set; }
         
@@ -24,6 +24,6 @@ namespace TimeGo.ApplicationDomain.Models.ViewModels
         
         public Weekdays WorkweekStaryDay { get; set; }
         
-        public new string CompanyURL { get; set; }
+        public string CompanyUrl { get; set; }
     }
 }

@@ -156,6 +156,13 @@
     <Compile Include="IO\IStorageFile.cs" />
     <Compile Include="IO\IStorageFolder.cs" />
     <Compile Include="IO\IStorageProvider.cs" />
+    <Compile Include="Mapping\AutoMapperBaseMapper.cs" />
+    <Compile Include="Mapping\AutoMapperMapRegistry.cs" />
+    <Compile Include="Mapping\IHideObjectMethodsFromEditor.cs" />
+    <Compile Include="Mapping\IMapper.cs" />
+    <Compile Include="Mapping\IMapRegistryConfigurator.cs" />
+    <Compile Include="Mapping\MapperExtension.cs" />
+    <Compile Include="Mapping\MapRegistryConfigurator.cs" />
     <Compile Include="Models\EmailModels\BaseEmailModel.cs" />
     <Compile Include="Models\EmailModels\ConfirmEmailModel.cs" />
     <Compile Include="Models\EmailModels\ForgotPasswordEmailModel.cs" />

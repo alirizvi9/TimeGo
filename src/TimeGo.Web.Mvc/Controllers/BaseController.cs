@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using TimeGo.ApplicationDomain;
 using TimeGo.ApplicationDomain.Dependency;
 using TimeGo.ApplicationDomain.Entities;
-using TimeGo.ApplicationDomain.Models.ViewModels;
+using TimeGo.ApplicationDomain.Models;
 using TimeGo.ApplicationDomain.Services;
 
 namespace TimeGo.Web.Mvc.Controllers
