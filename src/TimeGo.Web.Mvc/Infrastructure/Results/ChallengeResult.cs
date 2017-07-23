@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace TimeGo.Web.Mvc.Results
+namespace TimeGo.Web.Mvc.Infrastructure.Results
 {
     public class ChallengeResult : IHttpActionResult
     {

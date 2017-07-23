@@ -10,6 +10,11 @@ namespace TimeGo.ApplicationDomain.Entities
         {
         }
 
+        public TimeGoEntities(string connectionString)
+            : base(connectionString)
+        {
+        }
+
         public virtual DbSet<ApprovalStatus> ApprovalStatus { get; set; }
         public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<CompanyApproved> CompanyApproved { get; set; }

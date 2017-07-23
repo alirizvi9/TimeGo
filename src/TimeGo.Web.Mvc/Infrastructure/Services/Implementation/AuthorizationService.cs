@@ -1,13 +1,13 @@
-﻿using Microsoft.Owin.Security;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.Owin.Security;
 using TimeGo.ApplicationDomain;
 using TimeGo.ApplicationDomain.Entities;
 using TimeGo.Web.Mvc.Models;
 
-namespace TimeGo.Web.Mvc.Services.Implementation
+namespace TimeGo.Web.Mvc.Infrastructure.Services.Implementation
 {
     public class AuthorizationService : IAuthorizationService
     {

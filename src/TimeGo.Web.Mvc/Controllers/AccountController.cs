@@ -2,9 +2,9 @@
 using System.Web.Mvc;
 using TimeGo.Web.Mvc.Models;
 using TimeGo.ApplicationDomain;
-using TimeGo.Web.Mvc.Services;
-using TimeGo.ApplicationDomain.Models.ViewModels;
 using AutoMapper;
+using TimeGo.ApplicationDomain.Models;
+using TimeGo.Web.Mvc.Infrastructure.Services;
 
 namespace TimeGo.Web.Mvc.Controllers
 {

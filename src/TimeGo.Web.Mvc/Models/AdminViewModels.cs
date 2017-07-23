@@ -20,7 +20,7 @@ namespace TimeGo.Web.Mvc.Models
         public string Email { get; set; }
 
         [Required]
-        public new string CompanyURL { get; set; }
+        public new string CompanyUrl { get; set; }
 
         [Required]
         public string VacationApproverEmail { get; set; }

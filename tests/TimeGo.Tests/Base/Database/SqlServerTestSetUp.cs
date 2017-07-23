@@ -1,5 +1,5 @@
-using System.Data.SqlClient;
 using System.Reflection;
+using TimeGo.ApplicationDomain.Entities;
 using TimeGo.Tests.Base.Extensions;
 
 namespace TimeGo.Tests.Base.Database
@@ -7,18 +7,18 @@ namespace TimeGo.Tests.Base.Database
     public class SqlServerTestSetUp : IDbSetUp
     {
         private const string DropAllTablesResourceName = "TimeGo.Tests.Base.Database.MsSqlDropAllTables.sql";
-        private readonly string _connectionString;
+        private readonly TimeGoEntities _context;
 
         public SqlServerTestSetUp(string connectionString)
         {
-            _connectionString = connectionString;
+           _context = new TimeGoEntities(connectionString);
         }
 
         public void SetUp()
         {
             DropAllTables();
 
-            //_initializer.CreateSchema();
+            _context.Database.Create();
         }
 
         public void TearDown()
@@ -28,15 +28,8 @@ namespace TimeGo.Tests.Base.Database
 
         private void DropAllTables()
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = Assembly.GetAssembly(typeof(SqlServerTestSetUp)).LoadResourceAsText(DropAllTablesResourceName);
-                    command.ExecuteNonQuery();
-                }
-            }
+            var script = Assembly.GetAssembly(typeof(SqlServerTestSetUp)).LoadResourceAsText(DropAllTablesResourceName);
+            _context.Database.ExecuteSqlCommand(script);
         }
     }
 }

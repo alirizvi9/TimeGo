@@ -1,6 +1,6 @@
 ﻿using TimeGo.ApplicationDomain.Entities;
 
-namespace TimeGo.ApplicationDomain
+namespace TimeGo.ApplicationDomain.Models.Email
 {
     public class BaseEmailModel
     {

@@ -3,7 +3,7 @@ using System.Security.Claims;
 using TimeGo.ApplicationDomain.Entities;
 using TimeGo.Web.Mvc.Models;
 
-namespace TimeGo.Web.Mvc.Services
+namespace TimeGo.Web.Mvc.Infrastructure.Services
 {
     public interface IAuthorizationService
     {

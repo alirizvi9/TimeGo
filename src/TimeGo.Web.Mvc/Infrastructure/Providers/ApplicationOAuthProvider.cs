@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.Owin.Security.OAuth;
 
-namespace TimeGo.Web.Mvc.Providers
+namespace TimeGo.Web.Mvc.Infrastructure.Providers
 {
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {

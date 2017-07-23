@@ -1,7 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Web.Configuration;
+using System.Reflection;
+using Ninject;
 using TimeGo.ApplicationDomain.Dependency;
+using TimeGo.ApplicationDomain.Dependency.Ninject;
+using TimeGo.ApplicationDomain.Mapping;
 using TimeGo.ApplicationDomain.Persistance;
 using TimeGo.Tests.Base.Database;
 
@@ -10,12 +14,21 @@ namespace TimeGo.Tests.Base.Controllers
     public abstract class BaseDatabaseOrientedTest : IDisposable
     {
         protected IDbSetUp DbSetUp;
+        protected IKernel Kernel;
+
+        #region Abstract methods
+        protected abstract NinjectComponentContainer CreateNinjectComponentContainer();
+        protected abstract IEnumerable<Assembly> GetAutoMapperMaggingsAssemblies();
+        protected abstract IDbSetUp GetDbSetup();
+        #endregion
 
         protected BaseDatabaseOrientedTest()
         {
-            DatabaseInitialize();
-
             AutoMapperInitialize();
+
+            ComponentContainer.Current = CreateNinjectComponentContainer();
+
+            DatabaseInitialize();
         }
 
         public void Dispose()
@@ -31,19 +44,14 @@ namespace TimeGo.Tests.Base.Controllers
             DbSetUp.SetUp();
         }
 
-        private IDbSetUp GetDbSetup()
-        {
-            return new SqlServerTestSetUp();
-        }
-
         private void AutoMapperInitialize()
         {
-            //var autoMapperMappingAssemblies = GetAutoMapperMaggingsAssemblies();
-            //foreach (var autoMapperMappingAssembly in autoMapperMappingAssemblies)
-            //{
-            //    var assembly = autoMapperMappingAssembly;
-            //    AutoMapperMapRegistry.RegisterAllMappings(conf => conf.Include(assembly));
-            //}
+            var autoMapperMappingAssemblies = GetAutoMapperMaggingsAssemblies();
+            foreach (var autoMapperMappingAssembly in autoMapperMappingAssemblies)
+            {
+                var assembly = autoMapperMappingAssembly;
+                AutoMapperMapRegistry.RegisterAllMappings(conf => conf.Include(assembly));
+            }
         }
         #endregion
 
@@ -55,7 +63,7 @@ namespace TimeGo.Tests.Base.Controllers
         /// <param name="obj">Mock instance</param>
         protected void MockService<TService>(TService obj)
         {
-            //Kernel.Rebind<TService>().ToConstant(obj);
+            Kernel.Rebind<TService>().ToConstant(obj);
         }
 
         /// <summary>
@@ -91,7 +99,7 @@ namespace TimeGo.Tests.Base.Controllers
         /// <returns></returns>
         protected T GetService<T>() where T : class
         {
-            return Get.Component<T>();
+            return Kernel.Get<T>();
         }
 
         /// <summary>
@@ -102,7 +110,7 @@ namespace TimeGo.Tests.Base.Controllers
         /// <returns></returns>
         protected T Find<T>(object id) where T : class, IIdentifiable
         {
-            return Get.Component<IRepository>().Find<T>(id);
+            return Kernel.Get<IRepository>().Find<T>(id);
         }
 
         /// <summary>
@@ -112,12 +120,12 @@ namespace TimeGo.Tests.Base.Controllers
         /// <returns></returns>
         protected IQueryable<T> Find<T>() where T : class, IIdentifiable
         {
-            return Get.Component<IRepository>().Find<T>();
+            return Kernel.Get<IRepository>().Find<T>();
         }
 
         protected T FindForUpdate<T>(object id) where T : class, IIdentifiable
         {
-            return Get.Component<IRepository>().FindForUpdate<T>(id);
+            return Kernel.Get<IRepository>().FindForUpdate<T>(id);
         }
 
         /// <summary>
@@ -126,7 +134,7 @@ namespace TimeGo.Tests.Base.Controllers
         /// <typeparam name="T"></typeparam>
         protected void Delete<T>(T obj) where T : class, IIdentifiable
         {
-            var repository = Get.Component<IRepository>();
+            var repository = Kernel.Get<IRepository>();
             repository.Delete(obj);
             repository.Save();
         }

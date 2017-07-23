@@ -9,7 +9,7 @@ using TimeGo.ApplicationDomain.Dependency;
 
 namespace TimeGo.Tests.Base.Controllers
 {
-    public abstract class BaseDatabaseOrientedControllerTest<TController> : BaseDatabaseOrientedTest where TController : Controller
+    public abstract class BaseDatabaseOrientedControllerTest<TController> : BaseDatabaseOrientedTest where TController : System.Web.Mvc.Controller
     {
         private readonly Lazy<TController> _controller;
         protected TController Controller => _controller.Value;

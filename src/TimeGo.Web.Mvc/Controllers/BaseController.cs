@@ -25,7 +25,7 @@ namespace TimeGo.Web.Mvc.Controllers
 
         public ActionResult RedirectToSubDomain(string subdomain, string route = "")
         {
-            var url = $"http://{subdomain}.{_settings.TimeGoUrl}{route}";
+            var url = $"http://{subdomain}.{_settings.SiteUrl}{route}";
             return Redirect(url);
         }
 

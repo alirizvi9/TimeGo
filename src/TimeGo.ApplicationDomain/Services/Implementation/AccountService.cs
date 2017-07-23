@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TimeGo.ApplicationDomain.Entities;
-using TimeGo.ApplicationDomain.Models.ViewModels;
+using TimeGo.ApplicationDomain.Models;
 
 namespace TimeGo.ApplicationDomain.Services.Implementation
 {
@@ -27,7 +27,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
 
         public ViewError SignUp(SignUpModel model)
         {
-            var company = _context.Companies.FirstOrDefault(x=>x.TimeGoUrl == model.CompanyURL);
+            var company = _context.Companies.FirstOrDefault(x=>x.TimeGoUrl == model.CompanyUrl);
             if (company != null)
                 return new ViewError() { Name = "CompanyURL", Message = Resource.UrlAlreadyExist };
             var user = _context.Employees.FirstOrDefault(x => x.EmailAddress == model.Email);
@@ -39,7 +39,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             Company.ContactName = model.FullName;
             Company.EmailAddress = model.Email;
             Company.PhoneNumber = model.PhoneNumber;
-            Company.TimeGoUrl = model.CompanyURL;
+            Company.TimeGoUrl = model.CompanyUrl;
 
             Company.TimezoneId = model.TimezoneId;
             Company.WorkweekStaryDay = model.WorkweekStaryDay;
