@@ -133,6 +133,9 @@
     <Compile Include="Base\Facotries\IFactory.cs" />
     <Compile Include="Base\Helpers\TestDataHelper.cs" />
     <Compile Include="Controllers\AccountControllerTests.cs" />
+    <Compile Include="Factories\LockStatusFactory.cs" />
+    <Compile Include="Factories\SubscriptionPlanFactory.cs" />
+    <Compile Include="Factories\TimezoneFactory.cs" />
     <Compile Include="Factories\RoleFactory.cs" />
     <Compile Include="Factories\EmployeeFactory.cs" />
     <Compile Include="Factories\CompanyApprovedFactory.cs" />

@@ -17,10 +17,11 @@ namespace TimeGo.Tests.Factories
             return new Employee
             {
                 FirstName = "John",
-                LastName = "Dou",
+                LastName = "Dou " + Counter,
                 EmailAddress = "email@test.local",
                 IsActive = true,
                 Company = Factory.Create<Company>(),
+                Role = Factory.Create<Role>(),
                 CreatedOn = DateTime.UtcNow
             };
         }

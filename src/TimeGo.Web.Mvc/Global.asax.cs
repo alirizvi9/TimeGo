@@ -10,7 +10,6 @@ namespace TimeGo.Web.Mvc
     {
         protected void Application_Start()
         {
-            NinjectConfig.ConfigureKernel();
             AutoMapperConfig.RegisterMappings();
             DatabaseConfig.Initialize();
             AreaRegistration.RegisterAllAreas();

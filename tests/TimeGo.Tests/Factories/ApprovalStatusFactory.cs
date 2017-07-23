@@ -5,18 +5,18 @@ using TimeGo.Tests.Base.Facotries;
 
 namespace TimeGo.Tests.Factories
 {
-    public class ApprovalStatusFactory : BaseFactory<ApprovalStatus>
+    public class TimezoneFactory : BaseFactory<Timezone>
     {
-        public ApprovalStatusFactory(IRepository repository)
+        public TimezoneFactory(IRepository repository)
             : base(repository)
         {
         }
 
-        protected override ApprovalStatus CreateNew()
+        protected override Timezone CreateNew()
         {
-            return new ApprovalStatus
+            return new Timezone
             {
-                ApprovalStatusType = "Approved",
+                TimezoneName = "Timezone " + Counter,
                 CreatedOn = DateTime.UtcNow
             };
         }

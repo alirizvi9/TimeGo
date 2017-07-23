@@ -5,18 +5,18 @@ using TimeGo.Tests.Base.Facotries;
 
 namespace TimeGo.Tests.Factories
 {
-    public class RoleFactory : BaseFactory<Role>
+    public class ApprovalStatusFactory : BaseFactory<ApprovalStatus>
     {
-        public RoleFactory(IRepository repository)
+        public ApprovalStatusFactory(IRepository repository)
             : base(repository)
         {
         }
 
-        protected override Role CreateNew()
+        protected override ApprovalStatus CreateNew()
         {
-            return new Role
+            return new ApprovalStatus
             {
-                RoleType = "Role " + Counter,
+                ApprovalStatusType = "Status " + Counter,
                 CreatedOn = DateTime.UtcNow
             };
         }

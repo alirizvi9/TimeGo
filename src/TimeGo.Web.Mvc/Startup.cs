@@ -5,7 +5,7 @@ using Owin;
 
 namespace TimeGo.Web.Mvc
 {
-    public partial class Startup
+    public class Startup
     {
         public void Configuration(IAppBuilder app)
         {

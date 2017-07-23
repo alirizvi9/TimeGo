@@ -1,4 +1,4 @@
-﻿using System.Configuration;
+using System.Configuration;
 using System.Web.Http;
 using System.Web.Mvc;
 using Microsoft.AspNet.SignalR;
@@ -9,21 +9,47 @@ using TimeGo.ApplicationDomain;
 using TimeGo.ApplicationDomain.Dependency;
 using TimeGo.ApplicationDomain.Dependency.Ninject;
 using TimeGo.ApplicationDomain.Domain;
+using TimeGo.Web.Mvc;
 using TimeGo.Web.Mvc.Infrastructure.Dependency;
+
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectConfig), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectConfig), "Stop")]
 
 namespace TimeGo.Web.Mvc
 {
-    public class NinjectConfig
+    public static class NinjectConfig 
     {
         private static readonly Bootstrapper Bootstrapper = new Bootstrapper();
 
-        public static void ConfigureKernel()
+        /// <summary>
+        /// Starts the application
+        /// </summary>
+        public static void Start() 
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
-            Bootstrapper.Initialize(CreateKernel);
 
-            var kernel = CreateKernel();
+            Bootstrapper.Initialize(CreateKernel);
+        }
+        
+        /// <summary>
+        /// Stops the application.
+        /// </summary>
+        public static void Stop()
+        {
+            Bootstrapper.ShutDown();
+        }
+        
+        /// <summary>
+        /// Creates the kernel that will manage your application.
+        /// </summary>
+        /// <returns>The created kernel.</returns>
+        private static IKernel CreateKernel()
+        {
+            var settings = TimeGoSettings.FromWebConfig(ConfigurationManager.AppSettings);
+
+            var coreModule = new CoreModule(settings);
+            var kernel = new StandardKernel(coreModule);
 
             ComponentContainer.Current = new NinjectComponentContainer(kernel, new[] {
                 typeof(Entity<, >).Assembly,
@@ -31,19 +57,26 @@ namespace TimeGo.Web.Mvc
             });
 
             var dependencyResolver = new NinjectResolver(kernel);
-            GlobalConfiguration.Configuration.DependencyResolver = new NinjectResolver(kernel);
-            DependencyResolver.SetResolver(dependencyResolver);
+            GlobalConfiguration.Configuration.DependencyResolver = dependencyResolver;
+            //DependencyResolver.SetResolver(dependencyResolver);
             GlobalHost.DependencyResolver = new SignalRNinjectResolver(kernel);
 
             ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory(kernel));
-        }
 
-        private static IKernel CreateKernel()
-        {
-            var settings = TimeGoSettings.FromWebConfig(ConfigurationManager.AppSettings);
+            return kernel;
+            //try
+            //{
+            //    kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
+            //    kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
-            var coreModule = new CoreModule(settings);
-            return new StandardKernel(coreModule);
-        }
+            //    RegisterServices(kernel);
+            //    return kernel;
+            //}
+            //catch
+            //{
+            //    kernel.Dispose();
+            //    throw;
+            //}
+        } 
     }
 }

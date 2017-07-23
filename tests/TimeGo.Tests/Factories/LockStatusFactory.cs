@@ -5,18 +5,18 @@ using TimeGo.Tests.Base.Facotries;
 
 namespace TimeGo.Tests.Factories
 {
-    public class RoleFactory : BaseFactory<Role>
+    public class LockStatusFactory : BaseFactory<LockStatus>
     {
-        public RoleFactory(IRepository repository)
+        public LockStatusFactory(IRepository repository)
             : base(repository)
         {
         }
 
-        protected override Role CreateNew()
+        protected override LockStatus CreateNew()
         {
-            return new Role
+            return new LockStatus
             {
-                RoleType = "Role " + Counter,
+                LockStatusType = "LockStatus " + Counter,
                 CreatedOn = DateTime.UtcNow
             };
         }

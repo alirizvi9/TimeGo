@@ -5,18 +5,18 @@ using TimeGo.Tests.Base.Facotries;
 
 namespace TimeGo.Tests.Factories
 {
-    public class RoleFactory : BaseFactory<Role>
+    public class SubscriptionPlanFactory : BaseFactory<SubscriptionPlan>
     {
-        public RoleFactory(IRepository repository)
+        public SubscriptionPlanFactory(IRepository repository)
             : base(repository)
         {
         }
 
-        protected override Role CreateNew()
+        protected override SubscriptionPlan CreateNew()
         {
-            return new Role
+            return new SubscriptionPlan
             {
-                RoleType = "Role " + Counter,
+                SubscriptionPlanType = "Plan " + Counter,
                 CreatedOn = DateTime.UtcNow
             };
         }

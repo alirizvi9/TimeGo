@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using AutoMapper;
 using TimeGo.Web.Mvc.Models;
 using TimeGo.ApplicationDomain;
-using AutoMapper;
 using TimeGo.ApplicationDomain.Models;
 using TimeGo.Web.Mvc.Infrastructure.Services;
 
@@ -37,8 +37,6 @@ namespace TimeGo.Web.Mvc.Controllers
                         Text = f.TimezoneName
                     })
             };
-
-
             return View(model);
         }
 
