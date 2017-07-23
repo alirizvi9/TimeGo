@@ -12,6 +12,7 @@ namespace TimeGo.Web.Mvc
         {
             NinjectConfig.ConfigureKernel();
             AutoMapperConfig.RegisterMappings();
+            DatabaseConfig.Initialize();
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

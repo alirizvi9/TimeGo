@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using AutoMapper;
+using AutoMapper.Configuration;
 
 namespace TimeGo.ApplicationDomain.Mapping
 {
@@ -13,15 +15,14 @@ namespace TimeGo.ApplicationDomain.Mapping
             var assemblies = configurator.Assemblies.Union(new[] {Assembly.GetExecutingAssembly()}).Distinct();
             var mapperTypes = assemblies.SelectMany(x => x.GetTypes()).Where(IsMapper);
 
+            var cfg = new MapperConfigurationExpression();
             foreach (var mapperType in mapperTypes)
             {
                 var mapper = (IMapper) Activator.CreateInstance(mapperType);
-                mapper.Register();
+                mapper.Register(cfg);
             }
-        }
 
-        public static void ResetMappings()
-        {
+            Mapper.Initialize(cfg);
         }
 
         private static bool IsMapper(Type type)

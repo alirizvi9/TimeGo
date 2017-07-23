@@ -234,6 +234,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\DatabaseConfig.cs" />
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\NinjectConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -638,7 +639,6 @@
     <Content Include="Content\fonts\glyphicons-social-regular.svg" />
     <Content Include="Content\fonts\Simple-Line-Icons.svg" />
     <Content Include="Content\scripts\bootstrap.min.js" />
-    <Content Include="Content\scripts\jquery-1.6.4.min.js" />
     <Content Include="Content\scripts\jquery.min.js" />
     <Content Include="Content\scripts\pace.min.js" />
     <Content Include="Content\scripts\tether.min.js" />

@@ -1,7 +1,9 @@
-﻿namespace TimeGo.ApplicationDomain.Mapping
+﻿using AutoMapper.Configuration;
+
+namespace TimeGo.ApplicationDomain.Mapping
 {
     public interface IMapper
     {
-        void Register();
+        void Register(MapperConfigurationExpression cfg);
     }
 }

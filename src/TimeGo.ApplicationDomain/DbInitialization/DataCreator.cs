@@ -1,4 +1,5 @@
-﻿using TimeGo.ApplicationDomain.Entities;
+﻿using TimeGo.ApplicationDomain.Dependency;
+using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.Persistance;
 
 namespace TimeGo.ApplicationDomain.DbInitialization
@@ -6,10 +7,14 @@ namespace TimeGo.ApplicationDomain.DbInitialization
     public static partial class DataCreator
     {
         private static IRepository _repository;
+        private static TimeGoEntities _context;
 
-        public static void FillDatabaseWithData(IRepository repository)
+        public static void FillDatabaseWithData()
         {
-            _repository = repository;
+            _repository = Get.Component<IRepository>();
+            _context = Get.Component<TimeGoEntities>();
+
+            _context.Database.CreateIfNotExists();
 
             CreateCompanies();
         }

@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
+using AutoMapper.Configuration;
 
 namespace TimeGo.ApplicationDomain.Mapping
 {
     public abstract class AutoMapperBaseMapper<TSource, TDestination> : IMapper
     {
-        public void Register()
+        public void Register(MapperConfigurationExpression cfg)
         {
-            new MapperConfiguration(x => Configure(x.CreateMap<TSource, TDestination>()));
+            Configure(cfg.CreateMap<TSource, TDestination>());
         }
 
         protected virtual void Configure(IMappingExpression<TSource, TDestination> cfg)

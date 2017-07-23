@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Configuration;
 using System.Reflection;
+using System.Security.Principal;
 using System.Web.Mvc;
+using Moq;
 using Ninject;
 using TimeGo.ApplicationDomain.Dependency.Ninject;
 using TimeGo.ApplicationDomain.Domain;
+using TimeGo.ApplicationDomain.Entities;
 using TimeGo.Tests.Base.Database;
 using TimeGo.Tests.Base.Helpers;
 using TimeGo.Web.Mvc;
@@ -46,20 +50,20 @@ namespace TimeGo.Tests.Base.Controllers
             return (IDbSetUp)Activator.CreateInstance(type, connectionString);
         }
 
-        //protected void SetCurrentUser(Employee employee)
-        //{
-        //    var mockContext = Mock.Get(Controller.HttpContext);
-        //    mockContext.Setup(x => x.).Returns(new GenericPrincipal(new GenericIdentity(employee.EmailAddress), new string[0]));
-        //    var mockRequest = Mock.Get(Controller.HttpContext.Request);
-        //    mockRequest.Setup(x => x.IsAuthenticated).Returns(true);
-        //}
+        protected void SetCurrentUser(Employee employee)
+        {
+            var mockContext = Mock.Get(Controller.HttpContext);
+            mockContext.Setup(x => x.User).Returns(new GenericPrincipal(new GenericIdentity(employee.EmailAddress), new string[0]));
+            var mockRequest = Mock.Get(Controller.HttpContext.Request);
+            mockRequest.Setup(x => x.IsAuthenticated).Returns(true);
+        }
 
-        //protected void MockIpAddress(string ip)
-        //{
-        //    var mockRequest = Mock.Get(Controller.Request);
-        //    var variables = new NameValueCollection { { "X_FORWARDED_FOR", "" } };
-        //    mockRequest.SetupGet(x => x.UserHostAddress).Returns(ip);
-        //    mockRequest.SetupGet(x => x.ServerVariables).Returns(variables);
-        //}
+        protected void MockIpAddress(string ip)
+        {
+            var mockRequest = Mock.Get(Controller.Request);
+            var variables = new NameValueCollection { { "X_FORWARDED_FOR", "" } };
+            mockRequest.SetupGet(x => x.UserHostAddress).Returns(ip);
+            mockRequest.SetupGet(x => x.ServerVariables).Returns(variables);
+        }
     }
 }

@@ -40,6 +40,7 @@ namespace TimeGo.Web.Mvc.Infrastructure.Dependency
             Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
             Bind<DbContext>().To<TimeGoEntities>().InRequestScope();
+            Bind<TimeGoEntities>().ToSelf().InRequestScope();
             Bind<IRepository>().To<Repository>().InRequestScope();
             Bind<IUnitOfWorkProvider>().To<UnitOfWorkProvider>().InRequestScope();
 
