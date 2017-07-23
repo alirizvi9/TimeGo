@@ -34,7 +34,7 @@ namespace TimeGo.Tests.Base.Controllers
 
         protected override IDbSetUp GetDbSetup()
         {
-            var cs = ConfigurationManager.ConnectionStrings["TestDb"];
+            var cs = ConfigurationManager.ConnectionStrings["TimeGoEntities"];
             if (cs == null)
                 throw new ArgumentException("Connection string TestDb is not defined");
 
