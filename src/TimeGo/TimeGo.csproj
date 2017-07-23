@@ -114,6 +114,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.4.4.11\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
@@ -181,9 +184,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http.Formatting">
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
@@ -365,10 +365,6 @@
     <ProjectReference Include="..\TimeGo.DataModel\TimeGo.DataModel.csproj">
       <Project>{8dd6d06b-baad-4e42-85e6-8a5d32960a12}</Project>
       <Name>TimeGo.DataModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TimeGo.Data\TimeGo.Data.csproj">
-      <Project>{217fe23a-77ea-44da-b439-c36c98b7fd5b}</Project>
-      <Name>TimeGo.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

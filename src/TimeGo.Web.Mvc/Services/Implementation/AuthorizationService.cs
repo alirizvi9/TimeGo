@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using TimeGo.ApplicationDomain;
-using TimeGo.Data;
+using TimeGo.ApplicationDomain.Entities;
 using TimeGo.Web.Mvc.Models;
 
 namespace TimeGo.Web.Mvc.Services.Implementation
@@ -23,11 +23,11 @@ namespace TimeGo.Web.Mvc.Services.Implementation
         public Employee GetUser(IEnumerable<Claim> claims)
         {
             var id = Convert.ToInt64(claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).SingleOrDefault());
-            var user = _context.Employees.SingleOrDefault(x => x.EmployeeId == id);
+            var user = _context.Employees.SingleOrDefault(x => x.Id == id);
             return user;
         }
 
-        public AuthorizationResponse Authorization(string login, string password, int companyId)
+        public AuthorizationResponse Authorization(string login, string password, long companyId)
         {
             var employee = _context.Employees.SingleOrDefault(e => e.CompanyId == companyId && e.IsActive == true && (e.EmailAddress == login || e.UserName == login) && e.Password == password);
             if (employee != null)
@@ -36,7 +36,7 @@ namespace TimeGo.Web.Mvc.Services.Implementation
                 {
                     new Claim(ClaimTypes.Name, employee.EmailAddress ?? string.Empty),
                     new Claim(ClaimTypes.Role, employee.RoleId.ToString()),
-                    new Claim(ClaimTypes.NameIdentifier, employee.EmployeeId.ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, employee.Id.ToString()),
                     new Claim(ClaimTypes.Email, employee.EmailAddress ?? string.Empty)
                 };
 

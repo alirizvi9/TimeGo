@@ -12,13 +12,13 @@ using Microsoft.Owin.Security.DataProtection;
 using TimeGo.ApplicationDomain;
 using TimeGo.ApplicationDomain.Dependency;
 using TimeGo.ApplicationDomain.Dependency.Autofac;
+using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.IO;
 using TimeGo.ApplicationDomain.IO.FileSystem;
 using TimeGo.ApplicationDomain.Persistance;
 using TimeGo.ApplicationDomain.Persistance.Implementation;
 using TimeGo.ApplicationDomain.Services;
 using TimeGo.ApplicationDomain.Services.Implementation;
-using TimeGo.Data;
 using TimeGo.Models;
 
 namespace TimeGo

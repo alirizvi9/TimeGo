@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using TimeGo.ApplicationDomain.Entities;
 
 namespace TimeGo.Models
 {
     public class TimeoffViewModel : BaseViewModel
     {
-        public List<Data.TimeoffRequest> TimeoffRequests { get; set; }
+        public List<TimeoffRequest> TimeoffRequests { get; set; }
         [Required]
         public DateTime? StartDate { get; set; }
         [Required]

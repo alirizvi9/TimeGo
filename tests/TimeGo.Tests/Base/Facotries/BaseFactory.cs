@@ -1,8 +1,10 @@
 ﻿using System;
+using TimeGo.ApplicationDomain.Dependency.Ninject;
 using TimeGo.ApplicationDomain.Persistance;
 
 namespace TimeGo.Tests.Base.Facotries
 {
+    [Injectable]
     public abstract class BaseFactory<T> : IFactory<T> where T : class, IIdentifiable
     {
         private readonly IRepository _repository;

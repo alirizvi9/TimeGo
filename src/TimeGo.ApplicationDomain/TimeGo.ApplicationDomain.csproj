@@ -49,6 +49,12 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\\NLog.4.4.11\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
@@ -65,6 +71,7 @@
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
@@ -89,13 +96,60 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMapper\AutoMappingProfile.cs" />
-    <Compile Include="Dependency\Autofac\AutofacComponentContainer.cs" />
     <Compile Include="Dependency\ComponentContainer.cs" />
+    <Compile Include="Dependency\ComponentRegistrator.cs" />
     <Compile Include="Dependency\Get.cs" />
     <Compile Include="Dependency\IComponentContainer.cs" />
+    <Compile Include="Dependency\Ninject\InjectableAttribute.cs" />
+    <Compile Include="Dependency\Ninject\NinjectComponentContainer.cs" />
+    <Compile Include="Dependency\Ninject\NinjectComponentRegistrator.cs" />
+    <Compile Include="Dependency\Ninject\NinjectControllerFactory.cs" />
+    <Compile Include="Dependency\Ninject\NinjectResolver.cs" />
+    <Compile Include="Dependency\Ninject\NinjectScope.cs" />
+    <Compile Include="Domain\BaseObject.cs" />
+    <Compile Include="Domain\DomainSignatureAttribute.cs" />
+    <Compile Include="Domain\DomainSignatureIgnoreAttribute.cs" />
+    <Compile Include="Domain\Entity.cs" />
+    <Compile Include="Domain\IAuditable.cs" />
+    <Compile Include="Domain\IPermissionCheckable.cs" />
+    <Compile Include="Entities\ApprovalStatus.cs" />
+    <Compile Include="Entities\Company.cs" />
+    <Compile Include="Entities\CompanyApproved.cs" />
+    <Compile Include="Entities\Email.cs" />
+    <Compile Include="Entities\Employee.cs" />
+    <Compile Include="Entities\EmployeeRate.cs" />
+    <Compile Include="Entities\LockStatus.cs" />
+    <Compile Include="Entities\Mappings\TimesheetLineMap.cs" />
+    <Compile Include="Entities\Mappings\TimesheetMap.cs" />
+    <Compile Include="Entities\Mappings\TimeoffRequestMap.cs" />
+    <Compile Include="Entities\Mappings\TimezoneMap.cs" />
+    <Compile Include="Entities\Mappings\TaskAllowedMap.cs" />
+    <Compile Include="Entities\Mappings\TaskMap.cs" />
+    <Compile Include="Entities\Mappings\SubscriptionPlanMap.cs" />
+    <Compile Include="Entities\Mappings\RoleMap.cs" />
+    <Compile Include="Entities\Mappings\PeriodMap.cs" />
+    <Compile Include="Entities\Mappings\LockStatusMap.cs" />
+    <Compile Include="Entities\Mappings\EmployeeRateMap.cs" />
+    <Compile Include="Entities\Mappings\EmployeeMap.cs" />
+    <Compile Include="Entities\Mappings\EmailMap.cs" />
+    <Compile Include="Entities\Mappings\CompanyApprovedMap.cs" />
+    <Compile Include="Entities\Mappings\CompanyMap.cs" />
+    <Compile Include="Entities\Mappings\ApprovalStatusMap.cs" />
+    <Compile Include="Entities\Period.cs" />
+    <Compile Include="Entities\Role.cs" />
+    <Compile Include="Entities\SubscriptionPlan.cs" />
+    <Compile Include="Entities\Task.cs" />
+    <Compile Include="Entities\TaskAllowed.cs" />
+    <Compile Include="Entities\TimeGoEntities.cs" />
+    <Compile Include="Entities\TimeoffRequest.cs" />
+    <Compile Include="Entities\Timesheet.cs" />
+    <Compile Include="Entities\TimesheetLine.cs" />
+    <Compile Include="Entities\Timezone.cs" />
     <Compile Include="Extensions\NumberExtensions.cs" />
+    <Compile Include="Extensions\RandomExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="IO\FileSystem\FileSystemStorageFile.cs" />
     <Compile Include="IO\FileSystem\FileSystemStorageFolder.cs" />
     <Compile Include="IO\FileSystem\FileSystemStorageProvider.cs" />
@@ -107,8 +161,7 @@
     <Compile Include="Models\EmailModels\ForgotPasswordEmailModel.cs" />
     <Compile Include="Models\SignUpModel.cs" />
     <Compile Include="Models\ViewError.cs" />
-    <Compile Include="Enums\WorkWeek.cs" />
-    <Compile Include="Persistance\IAuditable.cs" />
+    <Compile Include="Enums\Weekdays.cs" />
     <Compile Include="Persistance\IIdentifiable.cs" />
     <Compile Include="Persistance\Implementation\Repository.cs" />
     <Compile Include="Persistance\Implementation\UnitOfWork.cs" />
@@ -133,10 +186,6 @@
     <Compile Include="Web\Attributes\IsolationLevelAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TimeGo.Data\TimeGo.Data.csproj">
-      <Project>{217fe23a-77ea-44da-b439-c36c98b7fd5b}</Project>
-      <Name>TimeGo.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TimeGo.Localization\TimeGo.Localization.csproj">
       <Project>{42c82720-28d4-4106-b601-84a7c10701f0}</Project>
       <Name>TimeGo.Localization</Name>

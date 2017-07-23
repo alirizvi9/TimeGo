@@ -5,6 +5,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using AutoMapper;
 using TimeGo.ApplicationDomain.AutoMapper;
+using TimeGo.ApplicationDomain.Entities;
 
 namespace TimeGo
 {
@@ -18,7 +19,7 @@ namespace TimeGo
 
         protected void Application_Start()
         {
-            TimeGo.Data.TimeGoEntities context=new TimeGo.Data.TimeGoEntities();
+            TimeGoEntities context=new TimeGoEntities();
             new TimeGo.DataModel.UpdateDatabase(context.Database.Connection.ConnectionString);
 
             AutofacConfig.ConfigureContainer();

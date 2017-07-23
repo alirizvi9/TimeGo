@@ -3,9 +3,9 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
+using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.Models.EmailModels;
 using TimeGo.ApplicationDomain.Services;
-using TimeGo.Data;
 
 namespace TimeGo.ApplicationDomain
 {
@@ -33,7 +33,7 @@ namespace TimeGo.ApplicationDomain
 
         public void SendConfirmEmail(Employee user, string code)
         {
-            var url = string.Format("http://{0}/Account/ConfirmEmail?userId={1}&code={2}", _settings.TimeGoUrl, user.EmployeeId, code);
+            var url = string.Format("http://{0}/Account/ConfirmEmail?userId={1}&code={2}", _settings.TimeGoUrl, user.Id, code);
             var emailModel = new ConfirmEmailModel(user, _settings, url);
             emailModel.Subject = Resource.ConfirmEmailTitle;
             SendEmail(emailModel, "ConfirmEmail");
@@ -41,7 +41,7 @@ namespace TimeGo.ApplicationDomain
 
         public void SendForgotPasswordEmail(Employee user, string code)
         {
-            var url = string.Format("http://{0}/Account/ResetPassword?userId={1}&code={2}", _settings.TimeGoUrl, user.EmployeeId, code);
+            var url = string.Format("http://{0}/Account/ResetPassword?userId={1}&code={2}", _settings.TimeGoUrl, user.Id, code);
             var emailModel = new ForgotPasswordEmailModel(user, _settings, url);
             emailModel.Subject = Resource.ForgotPasswordEmail;
             SendEmail(emailModel, "ChangePasswordEmail");

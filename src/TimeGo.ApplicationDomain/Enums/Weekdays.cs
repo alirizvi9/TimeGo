@@ -1,6 +1,6 @@
-﻿namespace TimeGo.ApplicationDomain.Models.ViewModels
+﻿namespace TimeGo.ApplicationDomain.Enums
 {
-    public enum WorkWeek
+    public enum Weekdays
     {
         Monday = 1,
         Tuesday = 2,

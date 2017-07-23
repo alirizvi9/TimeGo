@@ -1,34 +1,31 @@
 ﻿using Microsoft.AspNet.Identity;
 using System.Web.Mvc;
 using TimeGo.ApplicationDomain;
+using TimeGo.ApplicationDomain.Dependency;
+using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.Models.ViewModels;
-using TimeGo.Data;
+using TimeGo.ApplicationDomain.Services;
 
 namespace TimeGo.Web.Mvc.Controllers
 {
     public class BaseController : Controller
     {
-        protected ICompanyService _companyService;
+        private readonly ICompanyService _companyService;
+        private readonly IHttpContextProvider _contextProvider;
         private readonly TimeGoSettings _settings;
 
-        public BaseController(ICompanyService companyService, TimeGoSettings settings)
+        public BaseController()
         {
-            _companyService = companyService;
-            _settings = settings;
+            _companyService = Get.Component<ICompanyService>();
+            _contextProvider = Get.Component<IHttpContextProvider>();
+            _settings = Get.Component<TimeGoSettings>();
         }
 
-        public Company Company
-        {
-            get
-            {
-                var url = Url.RequestContext.HttpContext.Request.Url.AbsoluteUri;
-                return _companyService.GetCompanyFromUrl(url);
-            }
-        }
+        public Company Company => _companyService.GetCompanyFromUrl(_contextProvider.GetHttpRequest().RawUrl);
 
         public ActionResult RedirectToSubDomain(string subdomain, string route = "")
         {
-            var url = string.Format("http://{0}.{1}{2}", subdomain, _settings.TimeGoUrl, route);
+            var url = $"http://{subdomain}.{_settings.TimeGoUrl}{route}";
             return Redirect(url);
         }
 

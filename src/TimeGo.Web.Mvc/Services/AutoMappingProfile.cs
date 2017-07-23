@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using TimeGo.ApplicationDomain.Models.ViewModels;
+using TimeGo.Web.Mvc.Models;
 
 namespace TimeGo.Web.Mvc
 {

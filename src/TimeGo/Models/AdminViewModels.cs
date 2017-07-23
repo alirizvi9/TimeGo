@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TimeGo.ApplicationDomain.Entities;
 
 namespace TimeGo.Models {
     public class AdminViewModel : BaseViewModel {
@@ -31,9 +32,9 @@ namespace TimeGo.Models {
 
 
     public class AdminCodesViewModel : BaseViewModel {
-        public List<Data.Task> Tasks { get; set; }
+        public List<Task> Tasks { get; set; }
 
-        public Data.Task SelectedTask { get; set; } = new Data.Task();
+        public Task SelectedTask { get; set; } = new Task();
 
         public List<System.Web.Mvc.SelectListItem> Employees { get; set; }
 
@@ -52,23 +53,23 @@ namespace TimeGo.Models {
     }
 
     public class AdminUsersViewModel : BaseViewModel {
-        public List<Data.Employee> Employees { get; set; }
-        public Data.Employee SelectedEmployee { get; set; } = new Data.Employee();
+        public List<Employee> Employees { get; set; }
+        public Employee SelectedEmployee { get; set; } = new Employee();
         public List<System.Web.Mvc.SelectListItem> Roles { get; set; }
     }
 
     public class AdminUserRatesViewModel : BaseViewModel {
-        public List<Data.EmployeeRate> EmployeeRates { get; set; }
+        public List<EmployeeRate> EmployeeRates { get; set; }
         public List<System.Web.Mvc.SelectListItem> Employees { get; set; }
         public int EmployeeId { get; set; }
-        public Data.EmployeeRate SelectedEmployeeRate   { get; set; } = new Data.EmployeeRate();
+        public EmployeeRate SelectedEmployeeRate   { get; set; } = new EmployeeRate();
     }
 
     public class AdminPeriodsViewModel : BaseViewModel {
-        public List<Data.Period> Periods { get; set; }
+        public List<Period> Periods { get; set; }
         public IEnumerable<SelectListItem> LockedPeriods { get; set; }
         public IEnumerable<SelectListItem> UnlockedPeriods { get; set; }
-        public Data.Period SelectedPeriod { get; set; }
+        public Period SelectedPeriod { get; set; }
 
         public int LockedPeriodId;
         public int UnlockedPeriodId;

@@ -1,4 +1,4 @@
-﻿using TimeGo.Data;
+﻿using TimeGo.ApplicationDomain.Entities;
 
 namespace TimeGo.ApplicationDomain.Models.EmailModels
 {

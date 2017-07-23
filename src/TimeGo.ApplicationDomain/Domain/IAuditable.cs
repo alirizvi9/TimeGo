@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TimeGo.ApplicationDomain.Persistance
+namespace TimeGo.ApplicationDomain.Domain
 {
     public interface IAuditable : ICreateAuditable, IEditAuditable
     {

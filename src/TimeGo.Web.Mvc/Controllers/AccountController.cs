@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using TimeGo.Web.Mvc.Models;
 using TimeGo.ApplicationDomain;
@@ -15,13 +14,18 @@ namespace TimeGo.Web.Mvc.Controllers
         private readonly IAccountService _accountService;
         private readonly IAuthorizationService _authorizationService;
 
-        public AccountController(ICompanyService companyService, IAccountService accountService, IAuthorizationService authorizationService, TimeGoSettings settings) :base(companyService, settings)
+        public AccountController(
+            ICompanyService companyService,
+            IAccountService accountService,
+            IAuthorizationService authorizationService,
+            TimeGoSettings settings)
         {
             _accountService = accountService;
             _authorizationService = authorizationService;
         }
 
         [AllowAnonymous]
+        [Route("signup")]
         public ActionResult SignUp()
         {
             var model = new SignUpViewModel
@@ -29,7 +33,7 @@ namespace TimeGo.Web.Mvc.Controllers
                 Timezones = _accountService.GetTimeZones()
                     .Select(f => new SelectListItem
                     {
-                        Value = f.TimezoneId.ToString(),
+                        Value = f.Id.ToString(),
                         Text = f.TimezoneName
                     })
             };
@@ -40,13 +44,14 @@ namespace TimeGo.Web.Mvc.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        [Route("signup")]
         public ActionResult SignUp(SignUpViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 model.Timezones = _accountService.GetTimeZones().Select(f => new SelectListItem
                 {
-                    Value = f.TimezoneId.ToString(),
+                    Value = f.Id.ToString(),
                     Text = f.TimezoneName
                 });
                 return View(model);
@@ -58,82 +63,78 @@ namespace TimeGo.Web.Mvc.Controllers
                 AddError(error);
                 model.Timezones = _accountService.GetTimeZones().Select(f => new SelectListItem
                 {
-                    Value = f.TimezoneId.ToString(),
+                    Value = f.Id.ToString(),
                     Text = f.TimezoneName
                 });
                 return View(model);
             }
-            return RedirectToSubDomain(model.CompanyURL);
+            return RedirectToSubDomain(model.CompanyUrl);
         }
 
         [AllowAnonymous]
+        [Route("")]
+        [Route("login")]
         public ActionResult CompanyLogin()
         {
             if (Company == null)
                 return RedirectToAction("SignUp");
+
             ViewBag.CompanyName = Company.CompanyName;
             return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
+        [Route("login")]
         public ActionResult CompanyLogin(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            var company = Company;
+
             if(Company == null)
                 return RedirectToAction("SignUp");
-            var tokenModel = _authorizationService.Authorization(model.Email, model.Password, Company.CompanyId);
+
+            var tokenModel = _authorizationService.Authorization(model.Email, model.Password, Company.Id);
             if(tokenModel == null)
             {
-                AddError(new ViewError() { Name = "Email", Message = Resource.LoginError });
+                AddError(new ViewError { Name = "Email", Message = Resource.LoginError });
                 return View(model);
             }
             return RedirectToAction("Run", "App");
         }
 
-        //
-        // GET: /Account/ConfirmEmail
         [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        [Route("account/confirm")]
+        public ActionResult ConfirmEmail(string userId, string code)
         {
             _accountService.ConfirmEmail(int.Parse(userId), code);
             return View();
         }
 
-        //
-        // GET: /Account/ForgotPassword
         [AllowAnonymous]
+        [Route("account/forgot")]
         public ActionResult ForgotPassword()
         {
             return View();
         }
 
-        [AllowAnonymous]
-        public ActionResult ForgotPasswordConfirmation()
-        {
-            return View();
-        }
-
-        //
-        // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        [Route("account/forgot")]
+        public ActionResult ForgotPassword(ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var error = _accountService.ForgotPassword(model.Email);
-                if(error != null)
+                if (error != null)
                 {
                     AddError(error);
                 }
                 else
                 {
-                    return RedirectToAction("ForgotPasswordConfirmation");
+                    return RedirectToAction("ForgotPassword");
                 }
             }
 
@@ -141,6 +142,7 @@ namespace TimeGo.Web.Mvc.Controllers
         }
 
         [AllowAnonymous]
+        [Route("account/reset")]
         public ActionResult ResetPassword(string userId, string code)
         {
             return View(new ResetPasswordViewModel() { UserId = userId, Code = code});
@@ -148,7 +150,8 @@ namespace TimeGo.Web.Mvc.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
+        [Route("account/reset")]
+        public ActionResult ResetPassword(ResetPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -159,13 +162,13 @@ namespace TimeGo.Web.Mvc.Controllers
             return View(model);
         }
 
-        private ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            return RedirectToAction("Run", "App");
-        }
+        //private ActionResult RedirectToLocal(string returnUrl)
+        //{
+        //    if (Url.IsLocalUrl(returnUrl))
+        //    {
+        //        return Redirect(returnUrl);
+        //    }
+        //    return RedirectToAction("Run", "App");
+        //}
     }
 }

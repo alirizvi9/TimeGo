@@ -53,6 +53,5 @@ namespace TimeGo.ApplicationDomain
         public string TimeGoUrl { get; set; }
         public string EmailFrom { get; set; }
         public string EmailFromName { get; set; }
-
     }
 }

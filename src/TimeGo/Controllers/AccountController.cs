@@ -8,7 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TimeGo.Models;
 using System.Collections.Generic;
-using TimeGo.Data;
+using TimeGo.ApplicationDomain.Entities;
 
 namespace TimeGo.Controllers
 {
@@ -76,7 +76,7 @@ namespace TimeGo.Controllers
             }
 
             //Create New Company
-            Data.Company Company = new Data.Company();
+            Company Company = new Company();
             Company.CompanyName = Model.CompanyName;
             Company.ContactName = Model.FirstName + " " + Model.LastName;
             Company.EmailAddress = Model.Email;
@@ -92,7 +92,7 @@ namespace TimeGo.Controllers
             _context.SaveChanges();
 
             //Create login account for primary account
-            Data.Employee Employee = new Data.Employee();
+            Employee Employee = new Employee();
             Employee.CompanyId = Company.CompanyId;
             Employee.EmailAddress = Model.Email;
             Employee.Phonenumber = Model.PhoneNumber;

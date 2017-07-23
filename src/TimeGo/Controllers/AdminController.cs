@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TimeGo.ApplicationDomain.Entities;
 using TimeGo.Models;
 
 namespace TimeGo.Controllers
@@ -17,7 +18,7 @@ namespace TimeGo.Controllers
                 return Expired(CompanyURL);
 
 
-            Data.Company Company = Context.Companies.Where(c => c.CompanyId == Model.CompanyId).FirstOrDefault();
+            Company Company = Context.Companies.Where(c => c.CompanyId == Model.CompanyId).FirstOrDefault();
             Model.CompanyName = Company.CompanyName;
             Model.ContactName = Company.ContactName;
             Model.PhoneNumber = Company.PhoneNumber;
@@ -40,7 +41,7 @@ namespace TimeGo.Controllers
             if (!ModelState.IsValid)
                 return View(Model);
 
-            Data.Company Company = Context.Companies.Where(c => c.TimeGoURL == PriorModel.CompanyURL).FirstOrDefault();
+            Company Company = Context.Companies.Where(c => c.TimeGoURL == PriorModel.CompanyURL).FirstOrDefault();
             Company.CompanyName = Model.CompanyName;
             Company.ContactName = Model.ContactName;
             Company.PhoneNumber = Model.PhoneNumber;
@@ -104,7 +105,7 @@ namespace TimeGo.Controllers
             }
 
             if (TaskId == null) {
-                Model.SelectedTask = new Data.Task() { Approver1Id = 0, Approver2Id = 0 };
+                Model.SelectedTask = new Task() { Approver1Id = 0, Approver2Id = 0 };
             } else {
                 Model.SelectedTask = Context.Tasks.Where(t => t.TaskId == TaskId).FirstOrDefault();
                 if (Model.SelectedTask.Approver1Id == null) Model.SelectedTask.Approver1Id = 0;
@@ -134,7 +135,7 @@ namespace TimeGo.Controllers
 
 
 
-            var Task = new Data.Task();
+            var Task = new Task();
             Task.TaskId = Model.SelectedTask.TaskId;
             Task.CompanyId = Model.CompanyId;
             Task.TaskName = Model.SelectedTask.TaskName;
@@ -227,7 +228,7 @@ namespace TimeGo.Controllers
 
             foreach (var id in ids) {
                 if (!TaskAlloweds.Any(t => t.TaskId.ToString() == id)) {
-                    var TaskAllowed = new Data.TaskAllowed();
+                    var TaskAllowed = new TaskAllowed();
                     TaskAllowed.EmployeeId = Model.EmployeeId;
                     TaskAllowed.TaskId = int.Parse(id);
                     TaskAllowed.IsActive = true;
@@ -261,7 +262,7 @@ namespace TimeGo.Controllers
 
 
             if (EmployeeId == null) {
-                Model.SelectedEmployee = new Data.Employee();
+                Model.SelectedEmployee = new Employee();
                 Model.SelectedEmployee.RoleId = 0;
                 Model.SelectedEmployee.IsActive = true;
                 Model.SelectedEmployee.IsOvertimeCalculated = true;
@@ -289,7 +290,7 @@ namespace TimeGo.Controllers
 
 
 
-            var Employee = new Data.Employee();
+            var Employee = new Employee();
             Employee.EmployeeId = Model.SelectedEmployee.EmployeeId;
             Employee.CompanyId = Model.CompanyId;
             Employee.FirstName = Model.SelectedEmployee.FirstName;
@@ -338,7 +339,7 @@ namespace TimeGo.Controllers
 
 
             if (RateId == null) {
-                Model.SelectedEmployeeRate = new Data.EmployeeRate();
+                Model.SelectedEmployeeRate = new EmployeeRate();
                 Model.SelectedEmployeeRate.EffectiveStartDate = DateTime.Today;
             } else
                 Model.SelectedEmployeeRate = Context.EmployeeRates.Where(r => r.RateId == RateId).FirstOrDefault();
@@ -384,7 +385,7 @@ namespace TimeGo.Controllers
                     Context.Entry(PriorEmployeeRate).State = System.Data.Entity.EntityState.Modified;
                 }
             }
-            var EmployeeRate = new Data.EmployeeRate();
+            var EmployeeRate = new EmployeeRate();
             EmployeeRate.RateId = Model.SelectedEmployeeRate.RateId;
             EmployeeRate.EmployeeId = Model.SelectedEmployeeRate.EmployeeId;
             EmployeeRate.CompanyId = Model.CompanyId;
@@ -414,7 +415,7 @@ namespace TimeGo.Controllers
             Model.Periods = Context.Periods.Where(r => r.CompanyId == Model.CompanyId).OrderBy(r => r.PeriodStart).ThenBy(r => r.PeriodEnd).ToList();
             var LastPeriod = Model.Periods.LastOrDefault();
 
-            Model.SelectedPeriod = new Data.Period();
+            Model.SelectedPeriod = new Period();
             if (LastPeriod != null) {
                 Model.SelectedPeriod.PeriodStart = ((DateTime)LastPeriod.PeriodStart).AddDays(1);
                 Model.SelectedPeriod.PeriodEnd = ((DateTime)LastPeriod.PeriodEnd).AddDays(1);
@@ -446,7 +447,7 @@ namespace TimeGo.Controllers
             if (!ModelState.IsValid)
                 return View(Model);
 
-            var Period = new Data.Period();
+            var Period = new Period();
             Period.CompanyId = Model.CompanyId;
             Period.PeriodStart = Model.SelectedPeriod.PeriodStart;
             Period.PeriodEnd = ((DateTime)Model.SelectedPeriod.PeriodStart).AddDays(6);
@@ -526,7 +527,7 @@ namespace TimeGo.Controllers
 
             var Email = Context.Emails.Where(e => e.CompanyId == Model.CompanyId && e.EmailName == Model.Key).FirstOrDefault();
             if (Email == null) {
-                Email = new Data.Email();
+                Email = new Email();
 
                 Email.CompanyId = Model.CompanyId;
                 Email.EmailName = Model.Caption;

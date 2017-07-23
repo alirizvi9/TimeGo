@@ -146,8 +146,11 @@
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -979,14 +982,6 @@
       <Project>{74d6754d-57ef-4afc-b639-a967066b8589}</Project>
       <Name>TimeGo.ApplicationDomain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TimeGo.DataModel\TimeGo.DataModel.csproj">
-      <Project>{8dd6d06b-baad-4e42-85e6-8a5d32960a12}</Project>
-      <Name>TimeGo.DataModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TimeGo.Data\TimeGo.Data.csproj">
-      <Project>{217fe23a-77ea-44da-b439-c36c98b7fd5b}</Project>
-      <Name>TimeGo.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TimeGo.Localization\TimeGo.Localization.csproj">
       <Project>{42c82720-28d4-4106-b601-84a7c10701f0}</Project>
       <Name>TimeGo.Localization</Name>
@@ -1285,7 +1280,6 @@
     <Content Include="App\.editorconfig" />
     <Content Include="App\data.json" />
     <Content Include="App\package.json" />
-    <Content Include="App\tsconfig.json" />
     <Content Include="App\tslint.json" />
   </ItemGroup>
   <ItemGroup>

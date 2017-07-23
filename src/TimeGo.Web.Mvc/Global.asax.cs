@@ -11,9 +11,6 @@ namespace TimeGo.Web.Mvc
     {
         protected void Application_Start()
         {
-            TimeGo.Data.TimeGoEntities context = new TimeGo.Data.TimeGoEntities();
-            new TimeGo.DataModel.UpdateDatabase(context.Database.Connection.ConnectionString);
-
             Mapper.Initialize(x => x.AddProfile(new AutoMappingProfile()));
             AutofacConfig.ConfigureContainer();
             AreaRegistration.RegisterAllAreas();

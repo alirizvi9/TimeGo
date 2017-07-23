@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.Models.ViewModels;
-using TimeGo.Data;
 
-namespace TimeGo.ApplicationDomain
+namespace TimeGo.ApplicationDomain.Services.Implementation
 {
     public class AccountService : IAccountService
     {
@@ -27,7 +27,7 @@ namespace TimeGo.ApplicationDomain
 
         public ViewError SignUp(SignUpModel model)
         {
-            var company = _context.Companies.FirstOrDefault(x=>x.TimeGoURL == model.CompanyURL);
+            var company = _context.Companies.FirstOrDefault(x=>x.TimeGoUrl == model.CompanyURL);
             if (company != null)
                 return new ViewError() { Name = "CompanyURL", Message = Resource.UrlAlreadyExist };
             var user = _context.Employees.FirstOrDefault(x => x.EmailAddress == model.Email);
@@ -39,11 +39,10 @@ namespace TimeGo.ApplicationDomain
             Company.ContactName = model.FullName;
             Company.EmailAddress = model.Email;
             Company.PhoneNumber = model.PhoneNumber;
-            Company.TimeGoURL = model.CompanyURL;
-            Company.UpdatedOn = DateTime.UtcNow;
+            Company.TimeGoUrl = model.CompanyURL;
 
             Company.TimezoneId = model.TimezoneId;
-            Company.WorkweekStaryDay = (int?)model.WorkweekStaryDay;
+            Company.WorkweekStaryDay = model.WorkweekStaryDay;
 
 
             _context.Entry(Company).State = System.Data.Entity.EntityState.Added;
@@ -52,9 +51,9 @@ namespace TimeGo.ApplicationDomain
             var confirmEmailCode = GenereteCode();
 
             var Employee = new Employee();
-            Employee.CompanyId = Company.CompanyId;
+            Employee.CompanyId = Company.Id;
             Employee.EmailAddress = model.Email;
-            Employee.Phonenumber = model.PhoneNumber;
+            Employee.PhoneNumber = model.PhoneNumber;
             Employee.Password = model.Password;
             Employee.FirstName = model.FullName;
             Employee.IsActive = true;
@@ -84,7 +83,7 @@ namespace TimeGo.ApplicationDomain
 
         public void ConfirmEmail(int userId, string code)
         {
-            var user = _context.Employees.FirstOrDefault(x => x.EmployeeId == userId);
+            var user = _context.Employees.FirstOrDefault(x => x.Id == userId);
             if(user != null && user.Code == code)
             {
                 user.ConfirmEmail = true;
@@ -96,7 +95,7 @@ namespace TimeGo.ApplicationDomain
 
         public void ResetPassword(int userId, string code, string password)
         {
-            var user = _context.Employees.FirstOrDefault(x => x.EmployeeId == userId);
+            var user = _context.Employees.FirstOrDefault(x => x.Id == userId);
             if (user != null && user.Code == code)
             {
                 user.Password = password;

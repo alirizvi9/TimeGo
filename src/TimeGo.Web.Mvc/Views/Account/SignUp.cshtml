@@ -1,5 +1,5 @@
 ﻿@using TimeGo;
-@model TimeGo.ApplicationDomain.Models.ViewModels.SignUpViewModel
+@model TimeGo.Web.Mvc.Models.SignUpViewModel
 @{
     ViewBag.Title = Resource.SignUp;
     Layout = "~/Views/Shared/_SignUpLayout.cshtml";
@@ -73,8 +73,8 @@
                             @Html.ValidationMessageFor(m => m.WorkweekStaryDay, "", new { @class = "" })
                         </div>
                         <div class="input-group mb-3">
-                            @Html.TextBoxFor(m => m.CompanyURL, new { @class = "form-control", @placeholder = Resource.CompanyURL })
-                            @Html.ValidationMessageFor(m => m.CompanyURL, "", new { @class = "" })
+                            @Html.TextBoxFor(m => m.CompanyUrl, new { @class = "form-control", @placeholder = Resource.CompanyURL })
+                            @Html.ValidationMessageFor(m => m.CompanyUrl, "", new { @class = "" })
                             <span class="input-group-addon">
                                 <i class="">.timego.com/</i>
                             </span>

@@ -1,6 +1,8 @@
-﻿namespace TimeGo.Web.Mvc.Models
+﻿using TimeGo.ApplicationDomain.Entities;
+
+namespace TimeGo.Web.Mvc.Models
 {
     public class UserViewModel : BaseViewModel {
-        public Data.Employee Employee { get; set; }
+        public Employee Employee { get; set; }
     }
 }

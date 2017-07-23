@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TimeGo.ApplicationDomain.Entities;
 using TimeGo.Models;
 
 namespace TimeGo.Controllers {
     public class BaseController : Controller {
-        protected Data.TimeGoEntities Context = new Data.TimeGoEntities();
+        protected TimeGoEntities Context = new TimeGoEntities();
 
         public void PopulateModel(BaseViewModel Model) {
             if (Session["LoginId"] == null)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TimeGo.ApplicationDomain.Entities;
 using TimeGo.Models;
 
 namespace TimeGo.Controllers {
@@ -84,7 +85,7 @@ namespace TimeGo.Controllers {
                 var Lines = Context.TimesheetLines.Where(tl => tl.TimesheetId == Timesheet.TimesheetId);
                 String TimesheetData = "";
 
-                foreach (Data.TimesheetLine Line in Lines) {
+                foreach (TimesheetLine Line in Lines) {
                     TimesheetData += Line.LineId + "|";
                     TimesheetData += ((DateTime)Line.StartTime).ToString("MM/dd/yyyy HH:mm") + "|";
                     TimesheetData += ((DateTime)Line.EndTime).ToString("MM/dd/yyyy HH:mm") + "|";
@@ -139,7 +140,7 @@ namespace TimeGo.Controllers {
         public void SaveTimesheet(String CompanyURL, Models.TimesheetViewModel Model) {
             var Timesheet = Context.Timesheets.Where(t => t.PeriodId == Model.SelectedPeriodId && t.EmployeeId == Model.SelectedEmployeeId).FirstOrDefault();
             if (Timesheet == null) {
-                Timesheet = new Data.Timesheet();
+                Timesheet = new Timesheet();
 
                 Timesheet.CompanyId = Model.CompanyId;
                 Timesheet.PeriodId = Model.SelectedPeriodId;
@@ -176,7 +177,7 @@ namespace TimeGo.Controllers {
                     if (TimeLine != "") {
                         var LineDetails = TimeLine.Split('|');
 
-                        var Line = new Data.TimesheetLine();
+                        var Line = new TimesheetLine();
                         if (LineDetails[0] != "") {
                             int tmpLineId = int.Parse(LineDetails[0]);
                             Line = Context.TimesheetLines.Where(tl => tl.LineId == tmpLineId).FirstOrDefault();
@@ -254,7 +255,7 @@ namespace TimeGo.Controllers {
             if(Model.IsSave) {
                 var Timesheet = Context.Timesheets.Where(ts => ts.PeriodId == Model.SelectedPeriodId && ts.EmployeeId == Model.SelectedEmployeeId).FirstOrDefault();
                 if (Timesheet == null) {
-                    Timesheet = new Data.Timesheet();
+                    Timesheet = new Timesheet();
                     Timesheet.PeriodId = Model.SelectedPeriodId;
                     Timesheet.EmployeeId = Model.SelectedEmployeeId;
                     Timesheet.ApproverNotes = Model.PayroleNotes;

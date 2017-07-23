@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using TimeGo.ApplicationDomain.Entities;
 
 namespace TimeGo.Controllers {
     public class TimeoffController : BaseController {
@@ -30,7 +31,7 @@ namespace TimeGo.Controllers {
             if (!ModelState.IsValid)
                 return View(Model);
 
-            Data.TimeoffRequest Timeoff = new Data.TimeoffRequest();
+            TimeoffRequest Timeoff = new TimeoffRequest();
             Timeoff.EmployeeId = Model.LoginId;
             Timeoff.CompanyId = Model.CompanyId;
             Timeoff.FromDate = (DateTime)Model.StartDate;

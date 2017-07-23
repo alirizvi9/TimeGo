@@ -54,6 +54,9 @@
       <HintPath>..\..\packages\\Moq.4.2.1312.1622\lib\net40\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -115,6 +118,11 @@
     <Compile Include="Base\Facotries\Factory.cs" />
     <Compile Include="Base\Facotries\IFactory.cs" />
     <Compile Include="Controller\AdminControllerTests.cs" />
+    <Compile Include="Factories\RoleFactory.cs" />
+    <Compile Include="Factories\EmployeeFactory.cs" />
+    <Compile Include="Factories\CompanyApprovedFactory.cs" />
+    <Compile Include="Factories\ApprovalStatusFactory.cs" />
+    <Compile Include="Factories\CompanyFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -122,22 +130,18 @@
       <Project>{74d6754d-57ef-4afc-b639-a967066b8589}</Project>
       <Name>TimeGo.ApplicationDomain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\TimeGo.Data\TimeGo.Data.csproj">
-      <Project>{217fe23a-77ea-44da-b439-c36c98b7fd5b}</Project>
-      <Name>TimeGo.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\TimeGo\TimeGo.csproj">
-      <Project>{fa8843c4-acf0-4511-858d-30d6c6db3e7e}</Project>
-      <Name>TimeGo</Name>
+    <ProjectReference Include="..\..\src\TimeGo.Web.MVC\TimeGo.Web.MVC.csproj">
+      <Project>{0c141081-924b-420e-a8d8-c89574934452}</Project>
+      <Name>TimeGo.Web.MVC</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Factories\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Base\Database\MsSqlDropAllTables.sql" />
   </ItemGroup>
