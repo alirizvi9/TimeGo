@@ -32,7 +32,6 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
         {
             var url = _settings.SiteUrl + $"/Account/ConfirmEmail?userId={user.Id}&code={code}";
             var emailModel = new ConfirmEmailModel(user, _settings, url) {Subject = Resource.ConfirmEmailTitle};
-            emailModel.SendTo = "Lyosha1992@gmail.com";
             SendEmail(emailModel, "ConfirmEmail");
         }
 
