@@ -13,7 +13,7 @@ using TimeGo.Web.Mvc;
 using TimeGo.Web.Mvc.Infrastructure.Dependency;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectConfig), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectConfig), "Stop")]
+[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(NinjectConfig), "Stop")]
 
 namespace TimeGo.Web.Mvc
 {
@@ -47,36 +47,17 @@ namespace TimeGo.Web.Mvc
         private static IKernel CreateKernel()
         {
             var settings = TimeGoSettings.FromWebConfig(ConfigurationManager.AppSettings);
-
-            var coreModule = new CoreModule(settings);
-            var kernel = new StandardKernel(coreModule);
+            var kernel = new StandardKernel(new CoreModule(settings));
 
             ComponentContainer.Current = new NinjectComponentContainer(kernel, new[] {
                 typeof(Entity<, >).Assembly,
                 typeof(TimeGoApplication).Assembly
             });
 
-            var dependencyResolver = new NinjectResolver(kernel);
-            GlobalConfiguration.Configuration.DependencyResolver = dependencyResolver;
-            //DependencyResolver.SetResolver(dependencyResolver);
+            GlobalConfiguration.Configuration.DependencyResolver = new NinjectResolver(kernel);
             GlobalHost.DependencyResolver = new SignalRNinjectResolver(kernel);
-
             ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory(kernel));
-
             return kernel;
-            //try
-            //{
-            //    kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
-            //    kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
-
-            //    RegisterServices(kernel);
-            //    return kernel;
-            //}
-            //catch
-            //{
-            //    kernel.Dispose();
-            //    throw;
-            //}
         } 
     }
 }

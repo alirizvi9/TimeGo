@@ -20,18 +20,19 @@ namespace TimeGo.ApplicationDomain.DbInitialization
             _repository = Get.Component<IRepository>();
             _context = Get.Component<TimeGoEntities>();
 
-            _context.Database.CreateIfNotExists();
-
-            CreateCompanyApproved();
-            CreateAprovalStatuses();
-            CreateRoles();
-            CreateLockStatuses();
-            CreateTimeZones();
-            CreateSubscriptionPlans();
-            CreateCompanies();
-            CreateEmployees();
-            CreateEmployeeRates();
-            CreateTasks();
+            if (_context.Database.CreateIfNotExists())
+            {
+                CreateCompanyApproved();
+                CreateAprovalStatuses();
+                CreateRoles();
+                CreateLockStatuses();
+                CreateTimeZones();
+                CreateSubscriptionPlans();
+                CreateCompanies();
+                CreateEmployees();
+                CreateEmployeeRates();
+                CreateTasks();
+            }
         }
 
         private static void CreateCompanyApproved()
