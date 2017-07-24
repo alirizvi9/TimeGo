@@ -1,10 +1,62 @@
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Web;
 
 namespace TimeGo.ApplicationDomain.Extensions
 {
     public static class StringExtensions
     {
+        private static readonly Regex HtmlRegex = new Regex("<.*?>", RegexOptions.Compiled);
+        private static readonly Regex Upcase = new Regex("([A-Z])");
+
+        public static string ToTitleCase(this string str)
+        {
+            var words = str.Split(' ');
+
+            return string.Join(" ", words.Select(RaiseFirstLetter).ToArray());
+        }
+
+        public static string SplitCamel(this string str)
+        {
+            return Upcase.Replace(str, " $1").Trim();
+        }
+
+        private static string RaiseFirstLetter(string word)
+        {
+            var first = word[0];
+            first = char.ToUpper(first);
+
+            return first + word.Substring(1);
+        }
+
+        public static string MaxChars(this string text, int maxChars, string ellipsis = "...", int ellipsisLength = 3)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return text;
+
+            if (text.Length > maxChars)
+            {
+                text = string.Concat(text.Substring(0, maxChars - ellipsisLength), ellipsis);
+            }
+            return text;
+        }
+
+        public static string StripHtmlTags(this string source)
+        {
+            return HtmlRegex.Replace(source, string.Empty);
+        }
+
+        public static string AddQueryString(this string url, string name, object value)
+        {
+            url = url ?? "";
+
+            var join = '?';
+            if (url.Contains('?'))
+                join = '&';
+
+            return string.Concat(url, join, name, "=", HttpUtility.UrlEncode(value.ToString()));
+        }
+
         public static string Duplicate(this string src, char character, int count)
         {
             return new string(character, count);

@@ -28,16 +28,19 @@ namespace TimeGo.Web.Mvc.Controllers
         [Route("signup")]
         public ActionResult SignUp()
         {
-            var model = new SignUpViewModel
-            {
-                Timezones = _accountService.GetTimeZones()
-                    .Select(f => new SelectListItem
-                    {
-                        Value = f.Id.ToString(),
-                        Text = f.TimezoneName
-                    })
-            };
-            return View(model);
+            //var model = new SignUpViewModel
+            //{
+            //    Timezones = 
+            //        .Select(f => new SelectListItem
+            //        {
+            //            Value = f.Id.ToString(),
+            //            Text = f.TimezoneName
+            //        })
+            //};
+            var timezones = _accountService.GetTimeZones();
+            ViewBag.Timezones = timezones.ToSelectList(x => x.Id, x => x.TimezoneName); 
+
+            return View();
         }
 
         [HttpPost]
