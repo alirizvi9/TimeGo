@@ -1,4 +1,4 @@
-﻿using TimeGo.ApplicationDomain.Mapping;
+﻿using TimeGo.Web.Mvc.Infrastructure.Mapping;
 
 namespace TimeGo.Web.Mvc
 {

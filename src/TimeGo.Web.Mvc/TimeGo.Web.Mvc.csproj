@@ -276,6 +276,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Dependency\CoreModule.cs" />
+    <Compile Include="Infrastructure\Mapping\AutoMapperMapRegistry.cs" />
     <Compile Include="Infrastructure\Mapping\SignUpViewModelMapper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
@@ -973,9 +974,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Emails\ChangePasswordEmail.nustache" />
-    <Content Include="App_Data\Emails\ConfirmEmail.nustache" />
-    <Content Include="App_Data\Emails\WelcomeEmail.nustache" />
+    <Content Include="App_Data\Emails\ChangePasswordEmail.html" />
+    <Content Include="App_Data\Emails\ConfirmEmail.html" />
+    <Content Include="App_Data\Emails\WelcomeEmail.html" />
     <Content Include="Views\Account\SignUp.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
   </ItemGroup>

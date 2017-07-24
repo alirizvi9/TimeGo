@@ -15,7 +15,8 @@ namespace TimeGo.ApplicationDomain
                 var configuration = new TimeGoSettings
                 {
                     ConnectionString = connectionString,
-                    SiteUrl = ConfigurationManager.AppSettings["SiteUrl"],
+                    SiteUrl = $"http://{ConfigurationManager.AppSettings["SiteUrl"]}",
+                    SieUrlForSubdomen = $"http://{{0}}.{ConfigurationManager.AppSettings["SiteUrl"]}",
                     UserFileLocation = ConfigurationManager.AppSettings["UserFileLocation"],
                     EmailTemplateLocation = ConfigurationManager.AppSettings["EmailTemplateLocation"],
                     EmailFrom = ConfigurationManager.AppSettings["EmailFrom"],
@@ -51,6 +52,7 @@ namespace TimeGo.ApplicationDomain
 
         public string ConnectionString { get; set; }
         public string SiteUrl { get; set; }
+        public string SieUrlForSubdomen { get; set; }
         public string UserFileLocation { get; set; }
         public string EmailTemplateLocation { get; set; }
         public string EmailFrom { get; set; }

@@ -9,8 +9,7 @@ namespace TimeGo.Web.Mvc.Infrastructure.Mapping
     {
         protected override void Configure(IMappingExpression<SignUpViewModel, SignUpModel> cfg)
         {
-            cfg
-                .ForMember(x => x.CompanyName, m => m.MapFrom(x => x.CompanyName));
+            cfg.ForMember(x => x.CompanyName, m => m.MapFrom(x => x.CompanyName));
         }
     }
 }

@@ -4,6 +4,7 @@ using TimeGo.Web.Mvc.Models;
 using TimeGo.ApplicationDomain;
 using TimeGo.ApplicationDomain.Models;
 using TimeGo.Web.Mvc.Infrastructure.Services;
+using TimeGo.ApplicationDomain.Enums;
 
 namespace TimeGo.Web.Mvc.Controllers
 {
@@ -45,9 +46,12 @@ namespace TimeGo.Web.Mvc.Controllers
             }
             var newUser = Mapper.Map<SignUpModel>(model);
             var error = _accountService.SignUp(newUser);
-            if(error != null)
+            if(error.Code != ErrorCodes.Success)
             {
-                ModelState.AddModelError(error.Name, error.Message);
+                if(error.Code == ErrorCodes.EmailAlreadyExists)
+                    ModelState.AddModelError<SignUpViewModel>(x => x.Email, Resource.EmailAlreadyExist);
+                if (error.Code == ErrorCodes.CompanyAlreadyExists)
+                    ModelState.AddModelError<SignUpViewModel>(x => x.CompanyUrl, Resource.UrlAlreadyExist);
                 ViewBag.Timezones = timezones.ToSelectList(x => x.Id, x => x.TimezoneName);
                 return View(model);
             }
@@ -111,9 +115,11 @@ namespace TimeGo.Web.Mvc.Controllers
             if (ModelState.IsValid)
             {
                 var error = _accountService.ForgotPassword(model.Email);
-                if (error != null)
+
+                if (error.Code != ErrorCodes.Success)
                 {
-                    ModelState.AddModelError(error.Name, error.Message);
+                    if (error.Code == ErrorCodes.NotFoundEmail)
+                        ModelState.AddModelError<ForgotPasswordViewModel>(x => x.Email, Resource.NotFounEmail);
                 }
                 else
                 {

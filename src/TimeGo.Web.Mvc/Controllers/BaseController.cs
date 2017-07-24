@@ -6,7 +6,9 @@ using System.Web.Mvc;
 using TimeGo.ApplicationDomain;
 using TimeGo.ApplicationDomain.Dependency;
 using TimeGo.ApplicationDomain.Entities;
+using TimeGo.ApplicationDomain.Enums;
 using TimeGo.ApplicationDomain.Exceptions.Handling;
+using TimeGo.ApplicationDomain.Models;
 using TimeGo.ApplicationDomain.Services;
 using TimeGo.ApplicationDomain.Web.ActionFilters;
 using TimeGo.ApplicationDomain.Web.ActionResults;
@@ -26,11 +28,11 @@ namespace TimeGo.Web.Mvc.Controllers
             Settings = Get.Component<TimeGoSettings>();
         }
 
-        public Company Company => _companyService.GetCompanyFromUrl(ContextProvider.GetHttpRequest().RawUrl);
+        public Company Company => _companyService.GetCompanyFromUrl(ContextProvider.GetHttpRequest().Url.AbsoluteUri);
 
         public ActionResult RedirectToSubDomain(string subdomain, string route = "")
         {
-            var url = $"http://{subdomain}.{Settings.SiteUrl}{route}";
+            var url = string.Format(Settings.SieUrlForSubdomen, subdomain) + route;
             return Redirect(url);
         }
 
@@ -40,11 +42,6 @@ namespace TimeGo.Web.Mvc.Controllers
         //    {
         //        ModelState.AddModelError("", error);
         //    }
-        //}
-
-        //protected void AddError(ViewError error)
-        //{
-        //    ModelState.AddModelError(error.Name, error.Message);
         //}
 
         #region Handlers

@@ -1,8 +1,9 @@
-﻿namespace TimeGo.ApplicationDomain.Models
+﻿using TimeGo.ApplicationDomain.Enums;
+
+namespace TimeGo.ApplicationDomain.Models
 {
     public class ViewError
     {
-        public string Name { get; set; }
-        public string Message { get; set; }
+        public ErrorCodes Code { get; set; }
     }
 }

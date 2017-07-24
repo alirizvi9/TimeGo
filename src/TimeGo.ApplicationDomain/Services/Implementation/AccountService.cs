@@ -28,10 +28,15 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
         {
             var company = _repository.Find<Company>().SingleOrDefault(x=>x.TimeGoUrl == model.CompanyUrl);
             if (company != null)
-                return new ViewError() { Name = "CompanyURL", Message = Resource.UrlAlreadyExist };
+                return new ViewError() { Code = Enums.ErrorCodes.CompanyAlreadyExists};
             var user = _repository.Find<Employee>().SingleOrDefault(x => x.EmailAddress == model.Email);
             if(user != null)
-                return new ViewError() { Name = "Email", Message = Resource.EmailAlreadyExist };
+                return new ViewError() { Code = Enums.ErrorCodes.EmailAlreadyExists };
+
+
+            var companyApproved = _repository.Find<CompanyApproved>().First(x=>x.Id == 1);
+            var subscriptionPlan = _repository.Find<SubscriptionPlan>().First(x=>x.Id == 2);
+            var timeZone = _repository.Find<Timezone>().First(x=>x.Id == model.TimezoneId);
 
             var сompany = new Company
             {
@@ -40,12 +45,14 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                 EmailAddress = model.Email,
                 PhoneNumber = model.PhoneNumber,
                 TimeGoUrl = model.CompanyUrl,
-                TimezoneId = model.TimezoneId,
-                WorkweekStaryDay = model.WorkweekStaryDay
+                WorkweekStaryDay = model.WorkweekStaryDay,
+                CompanyApproved = companyApproved,
+                SubscriptionPlan = subscriptionPlan,
+                Timezone = timeZone
             };
 
-            _context.Entry(сompany).State = System.Data.Entity.EntityState.Added;
-            _context.SaveChanges();
+            _repository.Add(сompany);
+            _repository.Save();
 
             var random = new Random();
             var confirmEmailCode = random.NextString();
@@ -62,49 +69,46 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                 Code = confirmEmailCode
             };
 
-            _context.Entry(employee).State = System.Data.Entity.EntityState.Added;
-            _context.SaveChanges();
+            _repository.Add(employee);
+            _repository.Save();
 
             _emailService.SendConfirmEmail(employee, confirmEmailCode);
 
-            return null;
+            return new ViewError() { Code = Enums.ErrorCodes.Success };
         }
 
         public ViewError ForgotPassword(string email)
         {
-            var user = _context.Employees.FirstOrDefault(x => x.EmailAddress == email);
+            var user = _repository.Find<Employee>(x => x.EmailAddress == email).SingleOrDefault();
             if (user == null)
-                return new ViewError() { Name = "Email", Message = Resource.NotFounEmail };
+                return new ViewError() { Code = Enums.ErrorCodes.NotFoundEmail };
 
             var random = new Random();
             var forgotPasswordCode = random.NextString();
             user.Code = forgotPasswordCode;
-            _context.Entry(user).State = System.Data.Entity.EntityState.Modified;
-            _context.SaveChanges();
+            _repository.Save();
             _emailService.SendForgotPasswordEmail(user, forgotPasswordCode);
-            return null;
+            return new ViewError() { Code = Enums.ErrorCodes.Success }; ;
         }
 
         public void ConfirmEmail(int userId, string code)
         {
-            var user = _context.Employees.FirstOrDefault(x => x.Id == userId);
+            var user = _repository.FindForUpdate<Employee>(userId);
             if(user != null && user.Code == code)
             {
                 user.ConfirmEmail = true;
-                _context.Entry(user).State = System.Data.Entity.EntityState.Modified;
-                _context.SaveChanges();
+                _repository.Save();
                 _emailService.SendWelcomeEmail(user);
             }
         }
 
         public void ResetPassword(int userId, string code, string password)
         {
-            var user = _context.Employees.FirstOrDefault(x => x.Id == userId);
+            var user = _repository.FindForUpdate<Employee>(userId);
             if (user != null && user.Code == code)
             {
                 user.Password = password;
-                _context.Entry(user).State = System.Data.Entity.EntityState.Modified;
-                _context.SaveChanges();
+                _repository.Save();
             }
         }
     }

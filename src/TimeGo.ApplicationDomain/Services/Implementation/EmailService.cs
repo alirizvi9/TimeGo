@@ -5,6 +5,7 @@ using System.Net.Mail;
 using Nustache.Core;
 using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.Models.Email;
+using TimeGo.ApplicationDomain.Extensions;
 
 namespace TimeGo.ApplicationDomain.Services.Implementation
 {
@@ -17,9 +18,6 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
 
         public EmailService(IHttpContextProvider httpContextProvider, TimeGoSettings settings)
         {
-            if (settings == null)
-                throw new ArgumentNullException(nameof(settings));
-
             _httpContextProvider = httpContextProvider;
             _settings = settings;
         }
@@ -32,14 +30,15 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
 
         public void SendConfirmEmail(Employee user, string code)
         {
-            var url = $"http://{_settings.SiteUrl}/Account/ConfirmEmail?userId={user.Id}&code={code}";
+            var url = _settings.SiteUrl + $"/Account/ConfirmEmail?userId={user.Id}&code={code}";
             var emailModel = new ConfirmEmailModel(user, _settings, url) {Subject = Resource.ConfirmEmailTitle};
+            emailModel.SendTo = "Lyosha1992@gmail.com";
             SendEmail(emailModel, "ConfirmEmail");
         }
 
         public void SendForgotPasswordEmail(Employee user, string code)
         {
-            var url = $"http://{_settings.SiteUrl}/Account/ResetPassword?userId={user.Id}&code={code}";
+            var url = _settings.SiteUrl + $"/Account/ResetPassword?userId={user.Id}&code={code}";
             var emailModel = new ForgotPasswordEmailModel(user, _settings, url);
             emailModel.Subject = Resource.ForgotPasswordEmail;
             SendEmail(emailModel, "ChangePasswordEmail");
@@ -63,8 +62,8 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                 message = new MailMessage(from, to)
                 {
                     ReplyToList = { reply },
-                    Body = emailBodyText,
-                    Subject = model.Subject
+                    Subject = model.Subject,
+                    IsBodyHtml = true
                 };
             }
             else
@@ -72,6 +71,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                 message = new MailMessage(from, to)
                 {
                     Body = emailBodyText,
+                    IsBodyHtml = true,
                     Subject = model.Subject
                 };
             }
@@ -96,7 +96,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
 
         protected string RenderEmailTemplate<T>(T model, string templateName) where T : BaseEmailModel
         {
-            var templatePath = Path.Combine(_httpContextProvider.MapPath(_settings.EmailTemplateLocation), templateName + ".nustache");
+            var templatePath = Path.Combine(_httpContextProvider.MapPath(_settings.EmailTemplateLocation), templateName + ".html");
             return Render.FileToString(templatePath, model);
         }
     }

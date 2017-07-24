@@ -181,6 +181,8 @@ namespace TimeGo.ApplicationDomain.Extensions
         public static string Truncate(this string text, int maxLength)
         {
             return text.Length <= maxLength ? text : text.Substring(0, maxLength);
-        } 
+        }
     }
+
+
 }
