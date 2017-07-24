@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 
-namespace FreeSurvey.Core.Exceptions.Handling
+namespace TimeGo.ApplicationDomain.Exceptions.Handling
 {
     public abstract class ExceptionHandler
     {

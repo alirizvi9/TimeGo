@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using AutoMapper;
 using TimeGo.Web.Mvc.Models;
 using TimeGo.ApplicationDomain;
@@ -15,10 +14,8 @@ namespace TimeGo.Web.Mvc.Controllers
         private readonly IAuthorizationService _authorizationService;
 
         public AccountController(
-            ICompanyService companyService,
             IAccountService accountService,
-            IAuthorizationService authorizationService,
-            TimeGoSettings settings)
+            IAuthorizationService authorizationService)
         {
             _accountService = accountService;
             _authorizationService = authorizationService;
@@ -28,15 +25,6 @@ namespace TimeGo.Web.Mvc.Controllers
         [Route("signup")]
         public ActionResult SignUp()
         {
-            //var model = new SignUpViewModel
-            //{
-            //    Timezones = 
-            //        .Select(f => new SelectListItem
-            //        {
-            //            Value = f.Id.ToString(),
-            //            Text = f.TimezoneName
-            //        })
-            //};
             var timezones = _accountService.GetTimeZones();
             ViewBag.Timezones = timezones.ToSelectList(x => x.Id, x => x.TimezoneName); 
 
@@ -48,25 +36,19 @@ namespace TimeGo.Web.Mvc.Controllers
         [Route("signup")]
         public ActionResult SignUp(SignUpViewModel model)
         {
+            var timezones = _accountService.GetTimeZones();
+
             if (!ModelState.IsValid)
             {
-                model.Timezones = _accountService.GetTimeZones().Select(f => new SelectListItem
-                {
-                    Value = f.Id.ToString(),
-                    Text = f.TimezoneName
-                });
+                ViewBag.Timezones = timezones.ToSelectList(x => x.Id, x => x.TimezoneName);
                 return View(model);
             }
             var newUser = Mapper.Map<SignUpModel>(model);
             var error = _accountService.SignUp(newUser);
             if(error != null)
             {
-                AddError(error);
-                model.Timezones = _accountService.GetTimeZones().Select(f => new SelectListItem
-                {
-                    Value = f.Id.ToString(),
-                    Text = f.TimezoneName
-                });
+                ModelState.AddModelError(error.Name, error.Message);
+                ViewBag.Timezones = timezones.ToSelectList(x => x.Id, x => x.TimezoneName);
                 return View(model);
             }
             return RedirectToSubDomain(model.CompanyUrl);
@@ -100,7 +82,7 @@ namespace TimeGo.Web.Mvc.Controllers
             var tokenModel = _authorizationService.Authorization(model.Email, model.Password, Company.Id);
             if(tokenModel == null)
             {
-                AddError(new ViewError { Name = "Email", Message = Resource.LoginError });
+                ModelState.AddModelError<LoginViewModel>(x => x.Email, Resource.LoginError);
                 return View(model);
             }
             return RedirectToAction("Run", "App");
@@ -131,7 +113,7 @@ namespace TimeGo.Web.Mvc.Controllers
                 var error = _accountService.ForgotPassword(model.Email);
                 if (error != null)
                 {
-                    AddError(error);
+                    ModelState.AddModelError(error.Name, error.Message);
                 }
                 else
                 {
@@ -146,7 +128,10 @@ namespace TimeGo.Web.Mvc.Controllers
         [Route("account/reset")]
         public ActionResult ResetPassword(string userId, string code)
         {
-            return View(new ResetPasswordViewModel() { UserId = userId, Code = code});
+            return View(new ResetPasswordViewModel {
+                UserId = userId,
+                Code = code
+            });
         }
 
         [HttpPost]

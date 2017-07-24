@@ -11,6 +11,7 @@ using TimeGo.ApplicationDomain.Dependency.Ninject;
 using TimeGo.ApplicationDomain.Domain;
 using TimeGo.ApplicationDomain.Entities;
 using TimeGo.Tests.Base.Database;
+using TimeGo.Tests.Base.Facotries;
 using TimeGo.Tests.Base.Helpers;
 using TimeGo.Web.Mvc;
 using TimeGo.Web.Mvc.Infrastructure.Dependency;
@@ -26,8 +27,9 @@ namespace TimeGo.Tests.Base.Controllers
             Kernel = new StandardKernel(new CoreModule(settings));
 
             return new NinjectComponentContainer(Kernel, new[] {
-                typeof(TimeGoApplication).Assembly,
                 typeof(Entity<,>).Assembly,
+                typeof(TimeGoApplication).Assembly,
+                typeof(BaseFactory<>).Assembly
             });
         }
 

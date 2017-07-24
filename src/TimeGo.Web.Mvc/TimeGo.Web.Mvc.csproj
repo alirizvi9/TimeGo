@@ -280,6 +280,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
     <Compile Include="Models\AuthorizationResponse.cs" />
+    <Compile Include="Models\BaseApiModel.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Setting.cs" />
     <Compile Include="Models\SignUpViewModel.cs" />

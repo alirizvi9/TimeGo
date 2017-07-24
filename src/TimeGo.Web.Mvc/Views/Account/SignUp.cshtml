@@ -62,15 +62,15 @@
                             <span class="input-group-addon">
                                 <i class="icon-clock"></i>
                             </span>
-                            @Html.DropDownListFor(m => m.TimezoneId, Model.Timezones, new { @Class = "form-control" })
+                            @Html.DropDownListFor(m => m.TimezoneId, (SelectList)ViewBag.Timezones, new { @Class = "form-control" })
                             @Html.ValidationMessageFor(m => m.TimezoneId, "", new { @class = "" })
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-addon">
                                 <i class="icon-calendar"></i>
                             </span>
-                            @Html.EnumDropDownListFor(m => m.WorkweekStaryDay, new { @Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.WorkweekStaryDay, "", new { @class = "" })
+                            @Html.EnumDropDownListFor(m => m.Weekdays, new { @Class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Weekdays, "", new { @class = "" })
                         </div>
                         <div class="input-group mb-3">
                             @Html.TextBoxFor(m => m.CompanyUrl, new { @class = "form-control", @placeholder = Resource.CompanyURL })

@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace FreeSurvey.Core.Web.ActionFilters
+namespace TimeGo.ApplicationDomain.Web.ActionFilters
 {
     public class ImportModelStateFromTempData : ModelStateTempDataTransfer
     {

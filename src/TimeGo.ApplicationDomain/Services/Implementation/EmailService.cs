@@ -1,24 +1,24 @@
-﻿using Nustache.Core;
-using System;
+﻿using System;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
+using Nustache.Core;
 using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.Models.Email;
-using TimeGo.ApplicationDomain.Services;
 
-namespace TimeGo.ApplicationDomain
+namespace TimeGo.ApplicationDomain.Services.Implementation
 {
     public class EmailService : IEmailService
     {
         private const string InspectionComplete = "inspection_complete";
+
         private readonly IHttpContextProvider _httpContextProvider;
         private readonly TimeGoSettings _settings;
 
         public EmailService(IHttpContextProvider httpContextProvider, TimeGoSettings settings)
         {
             if (settings == null)
-                throw new ArgumentNullException("settings");
+                throw new ArgumentNullException(nameof(settings));
 
             _httpContextProvider = httpContextProvider;
             _settings = settings;
@@ -26,22 +26,20 @@ namespace TimeGo.ApplicationDomain
 
         public void SendWelcomeEmail(Employee user)
         {
-            var emailModel = new BaseEmailModel(user, _settings);
-            emailModel.Subject = Resource.WelcomeEmail;
+            var emailModel = new BaseEmailModel(user, _settings) {Subject = Resource.WelcomeEmail};
             SendEmail(emailModel, "WelcomeEmail");
         }
 
         public void SendConfirmEmail(Employee user, string code)
         {
-            var url = string.Format("http://{0}/Account/ConfirmEmail?userId={1}&code={2}", _settings.SiteUrl, user.Id, code);
-            var emailModel = new ConfirmEmailModel(user, _settings, url);
-            emailModel.Subject = Resource.ConfirmEmailTitle;
+            var url = $"http://{_settings.SiteUrl}/Account/ConfirmEmail?userId={user.Id}&code={code}";
+            var emailModel = new ConfirmEmailModel(user, _settings, url) {Subject = Resource.ConfirmEmailTitle};
             SendEmail(emailModel, "ConfirmEmail");
         }
 
         public void SendForgotPasswordEmail(Employee user, string code)
         {
-            var url = string.Format("http://{0}/Account/ResetPassword?userId={1}&code={2}", _settings.SiteUrl, user.Id, code);
+            var url = $"http://{_settings.SiteUrl}/Account/ResetPassword?userId={user.Id}&code={code}";
             var emailModel = new ForgotPasswordEmailModel(user, _settings, url);
             emailModel.Subject = Resource.ForgotPasswordEmail;
             SendEmail(emailModel, "ChangePasswordEmail");

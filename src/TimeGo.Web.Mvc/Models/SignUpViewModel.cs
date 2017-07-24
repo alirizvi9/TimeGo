@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
 using TimeGo.ApplicationDomain.Enums;
 
 namespace TimeGo.Web.Mvc.Models
@@ -9,7 +7,7 @@ namespace TimeGo.Web.Mvc.Models
     {
         public SignUpViewModel()
         {
-            WorkweekStaryDay = Weekdays.Monday;
+            Weekdays = Weekdays.Monday;
         }
 
         [Required]
@@ -37,14 +35,12 @@ namespace TimeGo.Web.Mvc.Models
         public string ConfirmPassword { get; set; }
 
         [Required]
-        public int TimezoneId { get; set; }
+        public long TimezoneId { get; set; }
 
         [Required]
-        public Weekdays WorkweekStaryDay { get; set; }
+        public Weekdays Weekdays { get; set; }
 
         [Required]
         public string CompanyUrl { get; set; }
-
-        public IEnumerable<SelectListItem> Timezones { get; set; }
     }
 }

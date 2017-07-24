@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.AspNet.Identity;
 using System.Web.Mvc;
 using TimeGo.ApplicationDomain;
 using TimeGo.ApplicationDomain.Dependency;
 using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.Exceptions.Handling;
-using TimeGo.ApplicationDomain.Models;
 using TimeGo.ApplicationDomain.Services;
 using TimeGo.ApplicationDomain.Web.ActionFilters;
 using TimeGo.ApplicationDomain.Web.ActionResults;
@@ -18,36 +16,36 @@ namespace TimeGo.Web.Mvc.Controllers
     public class BaseController : Controller
     {
         private readonly ICompanyService _companyService;
-        private readonly IHttpContextProvider _contextProvider;
-        private readonly TimeGoSettings _settings;
+        protected readonly IHttpContextProvider ContextProvider;
+        protected readonly TimeGoSettings Settings;
 
         public BaseController()
         {
             _companyService = Get.Component<ICompanyService>();
-            _contextProvider = Get.Component<IHttpContextProvider>();
-            _settings = Get.Component<TimeGoSettings>();
+            ContextProvider = Get.Component<IHttpContextProvider>();
+            Settings = Get.Component<TimeGoSettings>();
         }
 
-        public Company Company => _companyService.GetCompanyFromUrl(_contextProvider.GetHttpRequest().RawUrl);
+        public Company Company => _companyService.GetCompanyFromUrl(ContextProvider.GetHttpRequest().RawUrl);
 
         public ActionResult RedirectToSubDomain(string subdomain, string route = "")
         {
-            var url = $"http://{subdomain}.{_settings.SiteUrl}{route}";
+            var url = $"http://{subdomain}.{Settings.SiteUrl}{route}";
             return Redirect(url);
         }
 
-        protected void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error);
-            }
-        }
+        //protected void AddErrors(IdentityResult result)
+        //{
+        //    foreach (var error in result.Errors)
+        //    {
+        //        ModelState.AddModelError("", error);
+        //    }
+        //}
 
-        protected void AddError(ViewError error)
-        {
-            ModelState.AddModelError(error.Name, error.Message);
-        }
+        //protected void AddError(ViewError error)
+        //{
+        //    ModelState.AddModelError(error.Name, error.Message);
+        //}
 
         #region Handlers
 

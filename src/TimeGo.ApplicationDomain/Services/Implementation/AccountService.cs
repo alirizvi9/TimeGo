@@ -1,69 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FreeSurvey.Core.Extensions;
 using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.Models;
+using TimeGo.ApplicationDomain.Persistance;
 
 namespace TimeGo.ApplicationDomain.Services.Implementation
 {
     public class AccountService : IAccountService
     {
-        private readonly TimeGoEntities _context;
+        private readonly IRepository _repository;
         private readonly IEmailService _emailService;
-        private Random random = new Random();
-        private string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        private int lengthCode = 8;
 
-        public AccountService(TimeGoEntities context, IEmailService emailService)
+        public AccountService(IRepository repository, IEmailService emailService)
         {
-            _context = context;
+            _repository = repository;
             _emailService = emailService;
         }
 
         public List<Timezone> GetTimeZones()
         {
-            return _context.Timezones.ToList();
+            return _repository.Find<Timezone>().ToList();
         }
 
         public ViewError SignUp(SignUpModel model)
         {
-            var company = _context.Companies.FirstOrDefault(x=>x.TimeGoUrl == model.CompanyUrl);
+            var company = _repository.Find<Company>().SingleOrDefault(x=>x.TimeGoUrl == model.CompanyUrl);
             if (company != null)
                 return new ViewError() { Name = "CompanyURL", Message = Resource.UrlAlreadyExist };
-            var user = _context.Employees.FirstOrDefault(x => x.EmailAddress == model.Email);
+            var user = _repository.Find<Employee>().SingleOrDefault(x => x.EmailAddress == model.Email);
             if(user != null)
                 return new ViewError() { Name = "Email", Message = Resource.EmailAlreadyExist };
 
-            var Company = new Company();
-            Company.CompanyName = model.CompanyName;
-            Company.ContactName = model.FullName;
-            Company.EmailAddress = model.Email;
-            Company.PhoneNumber = model.PhoneNumber;
-            Company.TimeGoUrl = model.CompanyUrl;
+            var сompany = new Company
+            {
+                CompanyName = model.CompanyName,
+                ContactName = model.FullName,
+                EmailAddress = model.Email,
+                PhoneNumber = model.PhoneNumber,
+                TimeGoUrl = model.CompanyUrl,
+                TimezoneId = model.TimezoneId,
+                WorkweekStaryDay = model.WorkweekStaryDay
+            };
 
-            Company.TimezoneId = model.TimezoneId;
-            Company.WorkweekStaryDay = model.WorkweekStaryDay;
-
-
-            _context.Entry(Company).State = System.Data.Entity.EntityState.Added;
+            _context.Entry(сompany).State = System.Data.Entity.EntityState.Added;
             _context.SaveChanges();
 
-            var confirmEmailCode = GenereteCode();
+            var random = new Random();
+            var confirmEmailCode = random.NextString();
 
-            var Employee = new Employee();
-            Employee.CompanyId = Company.Id;
-            Employee.EmailAddress = model.Email;
-            Employee.PhoneNumber = model.PhoneNumber;
-            Employee.Password = model.Password;
-            Employee.FirstName = model.FullName;
-            Employee.IsActive = true;
-            Employee.RoleId = 2;
-            Employee.Code = confirmEmailCode;
+            var employee = new Employee
+            {
+                CompanyId = сompany.Id,
+                EmailAddress = model.Email,
+                PhoneNumber = model.PhoneNumber,
+                Password = model.Password,
+                FirstName = model.FullName,
+                IsActive = true,
+                RoleId = 2,
+                Code = confirmEmailCode
+            };
 
-            _context.Entry(Employee).State = System.Data.Entity.EntityState.Added;
+            _context.Entry(employee).State = System.Data.Entity.EntityState.Added;
             _context.SaveChanges();
 
-            _emailService.SendConfirmEmail(Employee, confirmEmailCode);
+            _emailService.SendConfirmEmail(employee, confirmEmailCode);
 
             return null;
         }
@@ -73,7 +75,9 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             var user = _context.Employees.FirstOrDefault(x => x.EmailAddress == email);
             if (user == null)
                 return new ViewError() { Name = "Email", Message = Resource.NotFounEmail };
-            var forgotPasswordCode = GenereteCode();
+
+            var random = new Random();
+            var forgotPasswordCode = random.NextString();
             user.Code = forgotPasswordCode;
             _context.Entry(user).State = System.Data.Entity.EntityState.Modified;
             _context.SaveChanges();
@@ -102,11 +106,6 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                 _context.Entry(user).State = System.Data.Entity.EntityState.Modified;
                 _context.SaveChanges();
             }
-        }
-
-        public string GenereteCode()
-        {
-            return new string(Enumerable.Repeat(chars, lengthCode).Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

@@ -162,6 +162,8 @@
     <Compile Include="Entities\Timesheet.cs" />
     <Compile Include="Entities\TimesheetLine.cs" />
     <Compile Include="Entities\Timezone.cs" />
+    <Compile Include="Exceptions\Handling\ExceptionHandler.cs" />
+    <Compile Include="Exceptions\Handling\SimpleExceptionHandler.cs" />
     <Compile Include="Extensions\NumberExtensions.cs" />
     <Compile Include="Extensions\RandomExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
@@ -208,8 +210,15 @@
     <Compile Include="SignalR\ICollaborationHub.cs" />
     <Compile Include="SignalR\Implementation\CollaborateHub.cs" />
     <Compile Include="TimeGoSettings.cs" />
+    <Compile Include="Web\ActionFilters\ExportModelStateToTempData.cs" />
+    <Compile Include="Web\ActionFilters\ImportModelStateFromTempData.cs" />
+    <Compile Include="Web\ActionFilters\ModelStateTempDataTransfer.cs" />
     <Compile Include="Web\ActionFilters\UnitOfWorkFilter.cs" />
+    <Compile Include="Web\ActionResults\JsonNetResult.cs" />
     <Compile Include="Web\Attributes\IsolationLevelAttribute.cs" />
+    <Compile Include="Web\Helpers\EnumHelpers.cs" />
+    <Compile Include="Web\Helpers\ListExtensions.cs" />
+    <Compile Include="Web\Helpers\ModelStateExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TimeGo.Localization\TimeGo.Localization.csproj">
