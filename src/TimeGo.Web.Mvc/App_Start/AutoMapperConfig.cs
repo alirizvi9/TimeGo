@@ -1,4 +1,4 @@
-﻿using TimeGo.Web.Mvc.Infrastructure.Mapping;
+﻿using TimeGo.ApplicationDomain.Mapping;
 
 namespace TimeGo.Web.Mvc
 {
@@ -6,7 +6,12 @@ namespace TimeGo.Web.Mvc
     {
         public static void RegisterMappings()
         {
-            AutoMapperMapRegistry.RegisterAllMappings();
+            var autoMapperAssemblies = new[] {typeof(TimeGoApplication).Assembly};
+            foreach (var autoMapperAssembly in autoMapperAssemblies)
+            {
+                var assembly = autoMapperAssembly;
+                AutoMapperMapRegistry.RegisterAllMappings(x => x.Include(assembly));
+            }
         }
     }
 }

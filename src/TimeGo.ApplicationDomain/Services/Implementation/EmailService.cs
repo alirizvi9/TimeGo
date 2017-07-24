@@ -1,18 +1,13 @@
-﻿using System;
-using System.IO;
-using System.Net;
+﻿using System.IO;
 using System.Net.Mail;
 using Nustache.Core;
 using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.Models.Email;
-using TimeGo.ApplicationDomain.Extensions;
 
 namespace TimeGo.ApplicationDomain.Services.Implementation
 {
     public class EmailService : IEmailService
     {
-        private const string InspectionComplete = "inspection_complete";
-
         private readonly IHttpContextProvider _httpContextProvider;
         private readonly TimeGoSettings _settings;
 
@@ -38,8 +33,10 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
         public void SendForgotPasswordEmail(Employee user, string code)
         {
             var url = _settings.SiteUrl + $"/Account/ResetPassword?userId={user.Id}&code={code}";
-            var emailModel = new ForgotPasswordEmailModel(user, _settings, url);
-            emailModel.Subject = Resource.ForgotPasswordEmail;
+            var emailModel =new ForgotPasswordEmailModel(user, _settings, url)
+            {
+                Subject = Resource.ForgotPasswordEmail
+            };
             SendEmail(emailModel, "ChangePasswordEmail");
         }
 
@@ -75,28 +72,15 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                 };
             }
 
-            try
-            {
-                var smtpClient = new SmtpClient()
-                {
-                    Host = "smtp.gmail.com",
-                    Port = 587,
-                    EnableSsl = true,
-                    Credentials = new NetworkCredential("TimeGoTest","Testpassword"),
-                    DeliveryMethod = SmtpDeliveryMethod.Network
-                };
-                smtpClient.Send(message);
-            }
-            catch (Exception ex)
-            {
-
-            }
+            var smtpClient = new SmtpClient();
+            smtpClient.Send(message);
         }
 
         protected string RenderEmailTemplate<T>(T model, string templateName) where T : BaseEmailModel
         {
-            var templatePath = Path.Combine(_httpContextProvider.MapPath(_settings.EmailTemplateLocation), templateName + ".html");
-            return Render.FileToString(templatePath, model);
+            var templatePath = _httpContextProvider.MapPath(_settings.EmailTemplateLocation);
+            var template = Path.Combine(templatePath, templateName + ".html");
+            return Render.FileToString(template, model);
         }
     }
 }

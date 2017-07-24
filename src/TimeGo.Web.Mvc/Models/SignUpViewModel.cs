@@ -31,7 +31,7 @@ namespace TimeGo.Web.Mvc.Models
 
         [Required]
         [DataType(DataType.Password)]
-        [System.Web.Mvc.Compare("Password", ErrorMessageResourceName = "PasswordConfirmFaild", ErrorMessageResourceType = typeof(Resource))]
+        [Compare("Password", ErrorMessageResourceName = "PasswordConfirmFaild", ErrorMessageResourceType = typeof(Resource))]
         public string ConfirmPassword { get; set; }
 
         [Required]

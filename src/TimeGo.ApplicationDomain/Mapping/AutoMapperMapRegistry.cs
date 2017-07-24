@@ -3,9 +3,8 @@ using System.Linq;
 using System.Reflection;
 using AutoMapper;
 using AutoMapper.Configuration;
-using TimeGo.ApplicationDomain.Mapping;
 
-namespace TimeGo.Web.Mvc.Infrastructure.Mapping
+namespace TimeGo.ApplicationDomain.Mapping
 {
     public static class AutoMapperMapRegistry
     {
@@ -19,7 +18,7 @@ namespace TimeGo.Web.Mvc.Infrastructure.Mapping
             var cfg = new MapperConfigurationExpression();
             foreach (var mapperType in mapperTypes)
             {
-                var mapper = (ApplicationDomain.Mapping.IMapper) Activator.CreateInstance(mapperType);
+                var mapper = (IMapper) Activator.CreateInstance(mapperType);
                 mapper.Register(cfg);
             }
 

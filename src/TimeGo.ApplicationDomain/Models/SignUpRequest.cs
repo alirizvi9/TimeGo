@@ -2,9 +2,9 @@
 
 namespace TimeGo.ApplicationDomain.Models
 {
-    public class SignUpModel
+    public class SignUpRequest
     {
-        public SignUpModel()
+        public SignUpRequest()
         {
             WorkweekStaryDay = Weekdays.Monday;
         }

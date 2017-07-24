@@ -19,5 +19,6 @@ namespace TimeGo.ApplicationDomain.Entities
         public virtual Employee ApprovedBy { get; set; }
         public virtual LockStatus LockStatus { get; set; }
         public virtual Timesheet Timesheet { get; set; }
+        public virtual Task Task { get; set; }
     }
 }

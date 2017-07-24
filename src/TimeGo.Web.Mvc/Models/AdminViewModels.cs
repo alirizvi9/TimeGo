@@ -20,7 +20,7 @@ namespace TimeGo.Web.Mvc.Models
         public string Email { get; set; }
 
         [Required]
-        public new string CompanyUrl { get; set; }
+        public string CompanyUrl { get; set; }
 
         [Required]
         public string VacationApproverEmail { get; set; }
@@ -35,7 +35,7 @@ namespace TimeGo.Web.Mvc.Models
 
         public Task SelectedTask { get; set; } = new Task();
 
-        public List<System.Web.Mvc.SelectListItem> Employees { get; set; }
+        public List<SelectListItem> Employees { get; set; }
 
         public bool EditTaskName { get; set; }
 
@@ -44,7 +44,7 @@ namespace TimeGo.Web.Mvc.Models
 
 
     public class AdminAllowedCodesViewModel : BaseViewModel {
-        public List<System.Web.Mvc.SelectListItem> Employees { get; set; }
+        public List<SelectListItem> Employees { get; set; }
         public int EmployeeId { get; set; }
 
         public List<System.Web.Mvc.SelectListItem> Tasks { get; set; }
@@ -54,12 +54,12 @@ namespace TimeGo.Web.Mvc.Models
     public class AdminUsersViewModel : BaseViewModel {
         public List<Employee> Employees { get; set; }
         public Employee SelectedEmployee { get; set; } = new Employee();
-        public List<System.Web.Mvc.SelectListItem> Roles { get; set; }
+        public List<SelectListItem> Roles { get; set; }
     }
 
     public class AdminUserRatesViewModel : BaseViewModel {
         public List<EmployeeRate> EmployeeRates { get; set; }
-        public List<System.Web.Mvc.SelectListItem> Employees { get; set; }
+        public List<SelectListItem> Employees { get; set; }
         public int EmployeeId { get; set; }
         public EmployeeRate SelectedEmployeeRate   { get; set; } = new EmployeeRate();
     }

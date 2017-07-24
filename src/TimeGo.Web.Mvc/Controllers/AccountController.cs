@@ -1,10 +1,10 @@
 ﻿using System.Web.Mvc;
 using AutoMapper;
 using TimeGo.Web.Mvc.Models;
-using TimeGo.ApplicationDomain;
 using TimeGo.ApplicationDomain.Models;
 using TimeGo.Web.Mvc.Infrastructure.Services;
 using TimeGo.ApplicationDomain.Enums;
+using TimeGo.ApplicationDomain.Services;
 
 namespace TimeGo.Web.Mvc.Controllers
 {
@@ -44,13 +44,13 @@ namespace TimeGo.Web.Mvc.Controllers
                 ViewBag.Timezones = timezones.ToSelectList(x => x.Id, x => x.TimezoneName);
                 return View(model);
             }
-            var newUser = Mapper.Map<SignUpModel>(model);
+            var newUser = Mapper.Map<SignUpRequest>(model);
             var error = _accountService.SignUp(newUser);
-            if(error.Code != ErrorCodes.Success)
+            if(error != ErrorCodes.Success)
             {
-                if(error.Code == ErrorCodes.EmailAlreadyExists)
+                if(error == ErrorCodes.EmailAlreadyExists)
                     ModelState.AddModelError<SignUpViewModel>(x => x.Email, Resource.EmailAlreadyExist);
-                if (error.Code == ErrorCodes.CompanyAlreadyExists)
+                if (error == ErrorCodes.CompanyAlreadyExists)
                     ModelState.AddModelError<SignUpViewModel>(x => x.CompanyUrl, Resource.UrlAlreadyExist);
                 ViewBag.Timezones = timezones.ToSelectList(x => x.Id, x => x.TimezoneName);
                 return View(model);
@@ -116,9 +116,9 @@ namespace TimeGo.Web.Mvc.Controllers
             {
                 var error = _accountService.ForgotPassword(model.Email);
 
-                if (error.Code != ErrorCodes.Success)
+                if (error != ErrorCodes.Success)
                 {
-                    if (error.Code == ErrorCodes.NotFoundEmail)
+                    if (error == ErrorCodes.NotFoundEmail)
                         ModelState.AddModelError<ForgotPasswordViewModel>(x => x.Email, Resource.NotFounEmail);
                 }
                 else
@@ -153,14 +153,5 @@ namespace TimeGo.Web.Mvc.Controllers
 
             return View(model);
         }
-
-        //private ActionResult RedirectToLocal(string returnUrl)
-        //{
-        //    if (Url.IsLocalUrl(returnUrl))
-        //    {
-        //        return Redirect(returnUrl);
-        //    }
-        //    return RedirectToAction("Run", "App");
-        //}
     }
 }

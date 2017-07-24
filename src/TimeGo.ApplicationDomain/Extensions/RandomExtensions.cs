@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace FreeSurvey.Core.Extensions
+namespace TimeGo.ApplicationDomain.Extensions
 {
     public static class RandomExtensions
     {
@@ -33,7 +33,7 @@ namespace FreeSurvey.Core.Extensions
             const int byteSize = 0x100;
             var allowedCharSet = new HashSet<char>(dictionary).ToArray();
             if (byteSize < allowedCharSet.Length)
-                throw new ArgumentException(String.Format("allowedChars may contain no more than {0} characters.", byteSize));
+                throw new ArgumentException($"allowedChars may contain no more than {byteSize} characters.");
 
             // Guid.NewGuid and System.Random are not particularly random. By using a
             // cryptographically-secure random number generator, the caller is always

@@ -6,9 +6,7 @@ using System.Web.Mvc;
 using TimeGo.ApplicationDomain;
 using TimeGo.ApplicationDomain.Dependency;
 using TimeGo.ApplicationDomain.Entities;
-using TimeGo.ApplicationDomain.Enums;
 using TimeGo.ApplicationDomain.Exceptions.Handling;
-using TimeGo.ApplicationDomain.Models;
 using TimeGo.ApplicationDomain.Services;
 using TimeGo.ApplicationDomain.Web.ActionFilters;
 using TimeGo.ApplicationDomain.Web.ActionResults;
@@ -35,14 +33,6 @@ namespace TimeGo.Web.Mvc.Controllers
             var url = string.Format(Settings.SieUrlForSubdomen, subdomain) + route;
             return Redirect(url);
         }
-
-        //protected void AddErrors(IdentityResult result)
-        //{
-        //    foreach (var error in result.Errors)
-        //    {
-        //        ModelState.AddModelError("", error);
-        //    }
-        //}
 
         #region Handlers
 

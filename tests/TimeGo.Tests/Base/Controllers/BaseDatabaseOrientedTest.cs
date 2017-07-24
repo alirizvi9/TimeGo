@@ -8,6 +8,7 @@ using TimeGo.ApplicationDomain.Dependency.Ninject;
 using TimeGo.ApplicationDomain.Mapping;
 using TimeGo.ApplicationDomain.Persistance;
 using TimeGo.Tests.Base.Database;
+using TimeGo.Web.Mvc.Infrastructure.Mapping;
 
 namespace TimeGo.Tests.Base.Controllers
 {

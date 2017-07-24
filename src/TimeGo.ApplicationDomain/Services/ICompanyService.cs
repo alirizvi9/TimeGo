@@ -1,6 +1,6 @@
 ﻿using TimeGo.ApplicationDomain.Entities;
 
-namespace TimeGo.ApplicationDomain
+namespace TimeGo.ApplicationDomain.Services
 {
     public interface ICompanyService
     {

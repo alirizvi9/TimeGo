@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FreeSurvey.Core.Extensions;
 using TimeGo.ApplicationDomain.Entities;
+using TimeGo.ApplicationDomain.Enums;
+using TimeGo.ApplicationDomain.Extensions;
 using TimeGo.ApplicationDomain.Models;
 using TimeGo.ApplicationDomain.Persistance;
 
@@ -24,15 +25,14 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             return _repository.Find<Timezone>().ToList();
         }
 
-        public ViewError SignUp(SignUpModel model)
+        public ErrorCodes SignUp(SignUpRequest model)
         {
             var company = _repository.Find<Company>().SingleOrDefault(x=>x.TimeGoUrl == model.CompanyUrl);
             if (company != null)
-                return new ViewError() { Code = Enums.ErrorCodes.CompanyAlreadyExists};
+                return ErrorCodes.CompanyAlreadyExists;
             var user = _repository.Find<Employee>().SingleOrDefault(x => x.EmailAddress == model.Email);
             if(user != null)
-                return new ViewError() { Code = Enums.ErrorCodes.EmailAlreadyExists };
-
+                return ErrorCodes.EmailAlreadyExists;
 
             var companyApproved = _repository.Find<CompanyApproved>().First(x=>x.Id == 1);
             var subscriptionPlan = _repository.Find<SubscriptionPlan>().First(x=>x.Id == 2);
@@ -74,21 +74,21 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
 
             _emailService.SendConfirmEmail(employee, confirmEmailCode);
 
-            return new ViewError() { Code = Enums.ErrorCodes.Success };
+            return ErrorCodes.Success;
         }
 
-        public ViewError ForgotPassword(string email)
+        public ErrorCodes ForgotPassword(string email)
         {
             var user = _repository.Find<Employee>(x => x.EmailAddress == email).SingleOrDefault();
             if (user == null)
-                return new ViewError() { Code = Enums.ErrorCodes.NotFoundEmail };
+                return ErrorCodes.NotFoundEmail;
 
             var random = new Random();
             var forgotPasswordCode = random.NextString();
             user.Code = forgotPasswordCode;
             _repository.Save();
             _emailService.SendForgotPasswordEmail(user, forgotPasswordCode);
-            return new ViewError() { Code = Enums.ErrorCodes.Success }; ;
+            return ErrorCodes.Success;
         }
 
         public void ConfirmEmail(int userId, string code)
@@ -98,6 +98,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             {
                 user.ConfirmEmail = true;
                 _repository.Save();
+
                 _emailService.SendWelcomeEmail(user);
             }
         }
