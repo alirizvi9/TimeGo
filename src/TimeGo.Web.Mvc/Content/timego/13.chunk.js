@@ -1,13 +1,13 @@
 webpackJsonp([13],{
 
-/***/ "../../../../../src/app/forms/basic-forms/basic-forms-routing.module.ts":
+/***/ "../../../../../src/app/dashboard/dashboard-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__basic_forms_component__ = __webpack_require__("../../../../../src/app/forms/basic-forms/basic-forms.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BasicFormsRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dashboard_component__ = __webpack_require__("../../../../../src/app/dashboard/dashboard.component.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DashboardRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -20,41 +20,41 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var routes = [
     {
         path: '',
-        component: __WEBPACK_IMPORTED_MODULE_2__basic_forms_component__["a" /* BasicFormsComponent */],
+        component: __WEBPACK_IMPORTED_MODULE_2__dashboard_component__["a" /* DashboardComponent */],
         data: {
-            title: 'Basic Forms'
+            title: 'Dashboard'
         }
     }
 ];
-var BasicFormsRoutingModule = (function () {
-    function BasicFormsRoutingModule() {
+var DashboardRoutingModule = (function () {
+    function DashboardRoutingModule() {
     }
-    return BasicFormsRoutingModule;
+    return DashboardRoutingModule;
 }());
-BasicFormsRoutingModule = __decorate([
+DashboardRoutingModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)],
         exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
     })
-], BasicFormsRoutingModule);
+], DashboardRoutingModule);
 
-//# sourceMappingURL=basic-forms-routing.module.js.map
+//# sourceMappingURL=dashboard-routing.module.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/forms/basic-forms/basic-forms.component.html":
+/***/ "../../../../../src/app/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"animated fadeIn\">\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-6\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <strong>Credit Card</strong>\r\n          <small>Form</small>\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <div class=\"row\">\r\n            <div class=\"col-sm-12\">\r\n              <div class=\"form-group\">\r\n                <label for=\"name\">Name</label>\r\n                <input type=\"text\" class=\"form-control\" id=\"name\" placeholder=\"Enter your name\">\r\n              </div>\r\n            </div>\r\n          </div><!--/.row-->\r\n          <div class=\"row\">\r\n            <div class=\"col-sm-12\">\r\n              <div class=\"form-group\">\r\n                <label for=\"ccnumber\">Credit Card Number</label>\r\n                <input type=\"text\" class=\"form-control\" id=\"ccnumber\" placeholder=\"0000 0000 0000 0000\">\r\n              </div>\r\n            </div>\r\n          </div><!--/.row-->\r\n          <div class=\"row\">\r\n            <div class=\"form-group col-sm-4\">\r\n              <label for=\"ccmonth\">Month</label>\r\n              <select class=\"form-control\" id=\"ccmonth\">\r\n                <option>1</option>\r\n                <option>2</option>\r\n                <option>3</option>\r\n                <option>4</option>\r\n                <option>5</option>\r\n                <option>6</option>\r\n                <option>7</option>\r\n                <option>8</option>\r\n                <option>9</option>\r\n                <option>10</option>\r\n                <option>11</option>\r\n                <option>12</option>\r\n              </select>\r\n            </div>\r\n            <div class=\"form-group col-sm-4\">\r\n              <label for=\"ccyear\">Year</label>\r\n              <select class=\"form-control\" id=\"ccyear\">\r\n                <option>2014</option>\r\n                <option>2015</option>\r\n                <option>2016</option>\r\n                <option>2017</option>\r\n                <option>2018</option>\r\n                <option>2019</option>\r\n                <option>2020</option>\r\n                <option>2021</option>\r\n                <option>2022</option>\r\n                <option>2023</option>\r\n                <option>2024</option>\r\n                <option>2025</option>\r\n              </select>\r\n            </div>\r\n            <div class=\"col-sm-4\">\r\n              <div class=\"form-group\">\r\n                <label for=\"cvv\">CVV/CVC</label>\r\n                <input type=\"text\" class=\"form-control\" id=\"cvv\" placeholder=\"123\">\r\n              </div>\r\n            </div>\r\n          </div><!--/.row-->\r\n        </div>\r\n      </div>\r\n    </div><!--/.col-->\r\n    <div class=\"col-sm-6\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <strong>Company</strong>\r\n          <small>Form</small>\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <div class=\"form-group\">\r\n            <label for=\"company\">Company</label>\r\n            <input type=\"text\" class=\"form-control\" id=\"company\" placeholder=\"Enter your company name\">\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"vat\">VAT</label>\r\n            <input type=\"text\" class=\"form-control\" id=\"vat\" placeholder=\"PL1234567890\">\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"street\">Street</label>\r\n            <input type=\"text\" class=\"form-control\" id=\"street\" placeholder=\"Enter street name\">\r\n          </div>\r\n          <div class=\"row\">\r\n            <div class=\"form-group col-sm-8\">\r\n              <label for=\"city\">City</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"city\" placeholder=\"Enter your city\">\r\n            </div>\r\n            <div class=\"form-group col-sm-4\">\r\n              <label for=\"postal-code\">Postal Code</label>\r\n              <input type=\"text\" class=\"form-control\" id=\"postal-code\" placeholder=\"Postal Code\">\r\n            </div>\r\n          </div><!--/.row-->\r\n          <div class=\"form-group\">\r\n            <label for=\"country\">Country</label>\r\n            <input type=\"text\" class=\"form-control\" id=\"country\" placeholder=\"Country name\">\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div><!--/.col-->\r\n  </div><!--/.row-->\r\n  <div class=\"row\">\r\n    <div class=\"col-md-6\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <strong>Basic Form</strong> Elements\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <form action=\"\" method=\"post\" enctype=\"multipart/form-data\" class=\"form-horizontal\">\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\">Static</label>\r\n              <div class=\"col-md-9\">\r\n                <p class=\"form-control-static\">Username</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\" for=\"text-input\">Text Input</label>\r\n              <div class=\"col-md-9\">\r\n                <input type=\"text\" id=\"text-input\" name=\"text-input\" class=\"form-control\" placeholder=\"Text\">\r\n                <span class=\"help-block\">This is a help text</span>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\" for=\"email-input\">Email Input</label>\r\n              <div class=\"col-md-9\">\r\n                <input type=\"email\" id=\"email-input\" name=\"email-input\" class=\"form-control\" placeholder=\"Enter Email\">\r\n                <span class=\"help-block\">Please enter your email</span>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\" for=\"password-input\">Password</label>\r\n              <div class=\"col-md-9\">\r\n                <input type=\"password\" id=\"password-input\" name=\"password-input\" class=\"form-control\" placeholder=\"Password\">\r\n                <span class=\"help-block\">Please enter a complex password</span>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\" for=\"disabled-input\">Disabled Input</label>\r\n              <div class=\"col-md-9\">\r\n                <input type=\"text\" id=\"disabled-input\" name=\"disabled-input\" class=\"form-control\" placeholder=\"Disabled\" disabled>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\" for=\"textarea-input\">Textarea</label>\r\n              <div class=\"col-md-9\">\r\n                <textarea id=\"textarea-input\" name=\"textarea-input\" rows=\"9\" class=\"form-control\" placeholder=\"Content..\"></textarea>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\" for=\"select\">Select</label>\r\n              <div class=\"col-md-9\">\r\n                <select id=\"select\" name=\"select\" class=\"form-control\">\r\n                  <option value=\"0\">Please select</option>\r\n                  <option value=\"1\">Option #1</option>\r\n                  <option value=\"2\">Option #2</option>\r\n                  <option value=\"3\">Option #3</option>\r\n                </select>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\" for=\"select\">Select Large</label>\r\n              <div class=\"col-md-9\">\r\n                <select id=\"select\" name=\"select\" class=\"form-control form-control-lg\">\r\n                  <option value=\"0\">Please select</option>\r\n                  <option value=\"1\">Option #1</option>\r\n                  <option value=\"2\">Option #2</option>\r\n                  <option value=\"3\">Option #3</option>\r\n                </select>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\" for=\"select\">Select Small</label>\r\n              <div class=\"col-md-9\">\r\n                <select id=\"select\" name=\"select\" class=\"form-control form-control-sm\">\r\n                  <option value=\"0\">Please select</option>\r\n                  <option value=\"1\">Option #1</option>\r\n                  <option value=\"2\">Option #2</option>\r\n                  <option value=\"3\">Option #3</option>\r\n                </select>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\" for=\"select\">Disabled Select</label>\r\n              <div class=\"col-md-9\">\r\n                <select id=\"disabledSelect\" class=\"form-control\" disabled>\r\n                  <option value=\"0\">Please select</option>\r\n                  <option value=\"1\">Option #1</option>\r\n                  <option value=\"2\">Option #2</option>\r\n                  <option value=\"3\">Option #3</option>\r\n                </select>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\" for=\"multiple-select\">Multiple select</label>\r\n              <div class=\"col-md-9\">\r\n                <select id=\"multiple-select\" name=\"multiple-select\" class=\"form-control\" size=\"5\" multiple>\r\n                  <option value=\"1\">Option #1</option>\r\n                  <option value=\"2\">Option #2</option>\r\n                  <option value=\"3\">Option #3</option>\r\n                  <option value=\"4\">Option #4</option>\r\n                  <option value=\"5\">Option #5</option>\r\n                  <option value=\"6\">Option #6</option>\r\n                  <option value=\"7\">Option #7</option>\r\n                  <option value=\"8\">Option #8</option>\r\n                  <option value=\"9\">Option #9</option>\r\n                  <option value=\"10\">Option #10</option>\r\n                </select>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\">Radios</label>\r\n              <div class=\"col-md-9\">\r\n                <div class=\"radio\">\r\n                  <label for=\"radio1\">\r\n                    <input type=\"radio\" id=\"radio1\" name=\"radios\" value=\"option1\"> Option 1\r\n                  </label>\r\n                </div>\r\n                <div class=\"radio\">\r\n                  <label for=\"radio2\">\r\n                    <input type=\"radio\" id=\"radio2\" name=\"radios\" value=\"option2\"> Option 2\r\n                  </label>\r\n                </div>\r\n                <div class=\"radio\">\r\n                  <label for=\"radio3\">\r\n                    <input type=\"radio\" id=\"radio3\" name=\"radios\" value=\"option3\"> Option 3\r\n                  </label>\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\">Inline Radios</label>\r\n              <div class=\"col-md-9\">\r\n                <label class=\"radio-inline\" for=\"inline-radio1\">\r\n                  <input type=\"radio\" id=\"inline-radio1\" name=\"inline-radios\" value=\"option1\"> One\r\n                </label>\r\n                <label class=\"radio-inline\" for=\"inline-radio2\">\r\n                  <input type=\"radio\" id=\"inline-radio2\" name=\"inline-radios\" value=\"option2\"> Two\r\n                </label>\r\n                <label class=\"radio-inline\" for=\"inline-radio3\">\r\n                  <input type=\"radio\" id=\"inline-radio3\" name=\"inline-radios\" value=\"option3\"> Three\r\n                </label>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\">Checkboxes</label>\r\n              <div class=\"col-md-9\">\r\n                <div class=\"checkbox\">\r\n                  <label for=\"checkbox1\">\r\n                    <input type=\"checkbox\" id=\"checkbox1\" name=\"checkbox1\" value=\"option1\"> Option 1\r\n                  </label>\r\n                </div>\r\n                <div class=\"checkbox\">\r\n                  <label for=\"checkbox2\">\r\n                    <input type=\"checkbox\" id=\"checkbox2\" name=\"checkbox2\" value=\"option2\"> Option 2\r\n                  </label>\r\n                </div>\r\n                <div class=\"checkbox\">\r\n                  <label for=\"checkbox3\">\r\n                    <input type=\"checkbox\" id=\"checkbox3\" name=\"checkbox3\" value=\"option3\"> Option 3\r\n                  </label>\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\">Inline Checkboxes</label>\r\n              <div class=\"col-md-9\">\r\n                <label class=\"checkbox-inline\" for=\"inline-checkbox1\">\r\n                  <input type=\"checkbox\" id=\"inline-checkbox1\" name=\"inline-checkbox1\" value=\"option1\">One\r\n                </label>\r\n                <label class=\"checkbox-inline\" for=\"inline-checkbox2\">\r\n                  <input type=\"checkbox\" id=\"inline-checkbox2\" name=\"inline-checkbox2\" value=\"option2\">Two\r\n                </label>\r\n                <label class=\"checkbox-inline\" for=\"inline-checkbox3\">\r\n                  <input type=\"checkbox\" id=\"inline-checkbox3\" name=\"inline-checkbox3\" value=\"option3\">Three\r\n                </label>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\" for=\"file-input\">File input</label>\r\n              <div class=\"col-md-9\">\r\n                <input type=\"file\" id=\"file-input\" name=\"file-input\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\" for=\"file-multiple-input\">Multiple File input</label>\r\n              <div class=\"col-md-9\">\r\n                <input type=\"file\" id=\"file-multiple-input\" name=\"file-multiple-input\" multiple>\r\n              </div>\r\n            </div>\r\n          </form>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <button type=\"submit\" class=\"btn btn-sm btn-primary\"><i class=\"fa fa-dot-circle-o\"></i> Submit</button>\r\n          <button type=\"reset\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-ban\"></i> Reset</button>\r\n        </div>\r\n      </div>\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <strong>Inline</strong> Form\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <form action=\"\" method=\"post\" class=\"form-inline\">\r\n            <div class=\"form-group\">\r\n              <label class=\"sr-only\" for=\"if-email\">Email</label>\r\n              <input type=\"email\" id=\"if-email\" name=\"if-email\" class=\"form-control\" placeholder=\"Enter Email..\">\r\n            </div>\r\n            <div class=\"form-group\">\r\n              <label class=\"sr-only\" for=\"if-password\">Password</label>\r\n              <input type=\"password\" id=\"if-password\" name=\"if-password\" class=\"form-control\" placeholder=\"Enter Password..\">\r\n            </div>\r\n          </form>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <button type=\"submit\" class=\"btn btn-sm btn-primary\"><i class=\"fa fa-dot-circle-o\"></i> Submit</button>\r\n          <button type=\"reset\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-ban\"></i> Reset</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-md-6\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <strong>Horizontal</strong> Form\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <form action=\"\" method=\"post\" class=\"form-horizontal\">\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\" for=\"hf-email\">Email</label>\r\n              <div class=\"col-md-9\">\r\n                <input type=\"email\" id=\"hf-email\" name=\"hf-email\" class=\"form-control\" placeholder=\"Enter Email..\">\r\n                <span class=\"help-block\">Please enter your email</span>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-md-3 form-control-label\" for=\"hf-password\">Password</label>\r\n              <div class=\"col-md-9\">\r\n                <input type=\"password\" id=\"hf-password\" name=\"hf-password\" class=\"form-control\" placeholder=\"Enter Password..\">\r\n                <span class=\"help-block\">Please enter your password</span>\r\n              </div>\r\n            </div>\r\n          </form>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <button type=\"submit\" class=\"btn btn-sm btn-primary\"><i class=\"fa fa-dot-circle-o\"></i> Submit</button>\r\n          <button type=\"reset\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-ban\"></i> Reset</button>\r\n        </div>\r\n      </div>\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <strong>Normal</strong> Form\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <form action=\"\" method=\"post\">\r\n            <div class=\"form-group\">\r\n              <label for=\"nf-email\">Email</label>\r\n              <input type=\"email\" id=\"nf-email\" name=\"nf-email\" class=\"form-control\" placeholder=\"Enter Email..\">\r\n              <span class=\"help-block\">Please enter your email</span>\r\n            </div>\r\n            <div class=\"form-group\">\r\n              <label for=\"nf-password\">Password</label>\r\n              <input type=\"password\" id=\"nf-password\" name=\"nf-password\" class=\"form-control\" placeholder=\"Enter Password..\">\r\n              <span class=\"help-block\">Please enter your password</span>\r\n            </div>\r\n          </form>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <button type=\"submit\" class=\"btn btn-sm btn-primary\"><i class=\"fa fa-dot-circle-o\"></i> Submit</button>\r\n          <button type=\"reset\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-ban\"></i> Reset</button>\r\n        </div>\r\n      </div>\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          Input\r\n          <strong>Grid</strong>\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <form action=\"\" method=\"post\" class=\"form-horizontal\">\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-sm-3\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-sm-3\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-sm-4\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-sm-4\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-sm-5\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-sm-5\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-sm-6\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-sm-6\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-sm-7\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-sm-7\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-sm-8\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-sm-8\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-sm-9\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-sm-9\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-sm-10\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-sm-10\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-sm-11\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-sm-11\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-sm-12\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-sm-12\">\r\n              </div>\r\n            </div>\r\n          </form>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <button type=\"submit\" class=\"btn btn-sm btn-primary\"><i class=\"fa fa-user\"></i> Login</button>\r\n          <button type=\"reset\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-ban\"></i> Reset</button>\r\n        </div>\r\n      </div>\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          Input\r\n          <strong>Sizes</strong>\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <form action=\"\" method=\"post\" class=\"form-horizontal\">\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-sm-5 form-control-label\" for=\"input-small\">Small Input</label>\r\n              <div class=\"col-sm-6\">\r\n                <input type=\"text\" id=\"input-small\" name=\"input-small\" class=\"form-control form-control-sm\" placeholder=\".form-control-sm\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-sm-5 form-control-label\" for=\"input-normal\">Normal Input</label>\r\n              <div class=\"col-sm-6\">\r\n                <input type=\"text\" id=\"input-normal\" name=\"input-normal\" class=\"form-control\" placeholder=\"Normal\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <label class=\"col-sm-5 form-control-label\" for=\"input-large\">Large Input</label>\r\n              <div class=\"col-sm-6\">\r\n                <input type=\"text\" id=\"input-large\" name=\"input-large\" class=\"form-control form-control-lg\" placeholder=\".form-control-lg\">\r\n              </div>\r\n            </div>\r\n          </form>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <button type=\"submit\" class=\"btn btn-sm btn-primary\"><i class=\"fa fa-dot-circle-o\"></i> Submit</button>\r\n          <button type=\"reset\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-ban\"></i> Reset</button>\r\n        </div>\r\n      </div>\r\n    </div><!--/.col-->\r\n  </div><!--/.row-->\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-6\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <strong>Validation states</strong> Form\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <div class=\"form-group has-success\">\r\n            <label class=\"form-form-control-label\" for=\"inputSuccess1\">Input with success</label>\r\n            <input type=\"text\" class=\"form-control\" id=\"inputSuccess1\">\r\n          </div>\r\n          <div class=\"form-group has-warning\">\r\n            <label class=\"form-form-control-label\" for=\"inputWarning1\">Input with warning</label>\r\n            <input type=\"text\" class=\"form-control\" id=\"inputWarning1\">\r\n          </div>\r\n          <div class=\"form-group has-danger\">\r\n            <label class=\"form-form-control-label\" for=\"inputError1\">Input with error</label>\r\n            <input type=\"text\" class=\"form-control\" id=\"inputError1\">\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div><!--/.col-->\r\n    <div class=\"col-sm-6\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <strong>Validation states</strong> with optional icons\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <div class=\"form-group has-success\">\r\n            <label class=\"form-form-control-label\" for=\"inputSuccess2\">Input with success</label>\r\n            <input type=\"text\" class=\"form-control form-control-success\" id=\"inputSuccess2\">\r\n          </div>\r\n          <div class=\"form-group has-warning\">\r\n            <label class=\"form-form-control-label\" for=\"inputWarning2\">Input with warning</label>\r\n            <input type=\"text\" class=\"form-control form-control-warning\" id=\"inputWarning2\">\r\n          </div>\r\n          <div class=\"form-group has-danger has-feedback\">\r\n            <label class=\"form-form-control-label\" for=\"inputError2\">Input with error</label>\r\n            <input type=\"text\" class=\"form-control form-control-danger\" id=\"inputError2\">\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div><!--/.col-->\r\n  </div>\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-4\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <strong>Icon/Text</strong> Groups\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <form action=\"\" method=\"post\" class=\"form-horizontal\">\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-md-12\">\r\n                <div class=\"input-group\">\r\n                  <span class=\"input-group-addon\"><i class=\"fa fa-user\"></i></span>\r\n                  <input type=\"text\" id=\"input1-group1\" name=\"input1-group1\" class=\"form-control\" placeholder=\"Username\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-md-12\">\r\n                <div class=\"input-group\">\r\n                  <input type=\"email\" id=\"input2-group1\" name=\"input2-group1\" class=\"form-control\" placeholder=\"Email\">\r\n                  <span class=\"input-group-addon\"><i class=\"fa fa-envelope-o\"></i></span>\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-md-12\">\r\n                <div class=\"input-group\">\r\n                  <span class=\"input-group-addon\"><i class=\"fa fa-euro\"></i></span>\r\n                  <input type=\"text\" id=\"input3-group1\" name=\"input3-group1\" class=\"form-control\" placeholder=\"..\">\r\n                  <span class=\"input-group-addon\">.00</span>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </form>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <button type=\"submit\" class=\"btn btn-sm btn-success\"><i class=\"fa fa-dot-circle-o\"></i> Submit</button>\r\n          <button type=\"reset\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-ban\"></i> Reset</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-sm-4\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <strong>Buttons</strong> Groups\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <form action=\"\" method=\"post\" class=\"form-horizontal\">\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-md-12\">\r\n                <div class=\"input-group\">\r\n                  <span class=\"input-group-btn\">\r\n                    <button type=\"button\" class=\"btn btn-primary\"><i class=\"fa fa-search\"></i> Search</button>\r\n                  </span>\r\n                  <input type=\"text\" id=\"input1-group2\" name=\"input1-group2\" class=\"form-control\" placeholder=\"Username\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-md-12\">\r\n                <div class=\"input-group\">\r\n                  <input type=\"email\" id=\"input2-group2\" name=\"input2-group2\" class=\"form-control\" placeholder=\"Email\">\r\n                  <span class=\"input-group-btn\">\r\n                    <button type=\"button\" class=\"btn btn-primary\">Submit</button>\r\n                  </span>\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-md-12\">\r\n                <div class=\"input-group\">\r\n                  <span class=\"input-group-btn\">\r\n                    <button type=\"button\" class=\"btn btn-primary\"><i class=\"fa fa-facebook\"></i></button>\r\n                  </span>\r\n                  <input type=\"text\" id=\"input3-group2\" name=\"input3-group2\" class=\"form-control\" placeholder=\"Search\">\r\n                  <span class=\"input-group-btn\">\r\n                    <button type=\"button\" class=\"btn btn-primary\"><i class=\"fa fa-twitter\"></i></button>\r\n                  </span>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </form>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <button type=\"submit\" class=\"btn btn-sm btn-success\"><i class=\"fa fa-dot-circle-o\"></i> Submit</button>\r\n          <button type=\"reset\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-ban\"></i> Reset</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-sm-4\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <strong>Dropdowns</strong> Groups\r\n        </div>\r\n        <div class=\"card-block\">\r\n\r\n          <form action=\"\" method=\"post\" class=\"form-horizontal\">\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-md-12\">\r\n                <div class=\"input-group\">\r\n                  <div class=\"input-group-btn\" dropdown>\r\n                    <button type=\"button\" class=\"btn btn-primary dropdown-toggle\" dropdownToggle>Action\r\n                      <span class=\"caret\"></span>\r\n                    </button>\r\n                    <div class=\"dropdown-menu\" *dropdownMenu>\r\n                      <a class=\"dropdown-item\" href=\"#\">Action</a>\r\n                      <a class=\"dropdown-item\" href=\"#\">Another action</a>\r\n                      <a class=\"dropdown-item\" href=\"#\">Something else here</a>\r\n                      <div role=\"separator\" class=\"dropdown-divider\"></div>\r\n                      <a class=\"dropdown-item\" href=\"#\">Separated link</a>\r\n                    </div>\r\n                  </div>\r\n                  <input type=\"text\" id=\"input1-group3\" name=\"input1-group3\" class=\"form-control\" placeholder=\"Username\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-md-12\">\r\n                <div class=\"input-group\">\r\n                  <input type=\"email\" id=\"input2-group3\" name=\"input2-group3\" class=\"form-control\" placeholder=\"Email\">\r\n                  <div class=\"input-group-btn\" dropdown>\r\n                    <button type=\"button\" class=\"btn btn-primary dropdown-toggle\" dropdownToggle>Action\r\n                      <span class=\"caret\"></span>\r\n                    </button>\r\n                    <div class=\"dropdown-menu\" *dropdownMenu>\r\n                      <a class=\"dropdown-item\" href=\"#\">Action</a>\r\n                      <a class=\"dropdown-item\" href=\"#\">Another action</a>\r\n                      <a class=\"dropdown-item\" href=\"#\">Something else here</a>\r\n                      <div role=\"separator\" class=\"dropdown-divider\"></div>\r\n                      <a class=\"dropdown-item\" href=\"#\">Separated link</a>\r\n                    </div>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-md-12\">\r\n                <div class=\"input-group\">\r\n                  <div class=\"input-group-btn\" dropdown>\r\n                    <button type=\"button\" class=\"btn btn-primary\">Action</button>\r\n                    <button type=\"button\" dropdownToggle class=\"btn btn-primary dropdown-toggle dropdown-toggle-split\">\r\n                      <span class=\"caret\"></span>\r\n                      <span class=\"sr-only\">Split button!</span>\r\n                    </button>\r\n                    <div class=\"dropdown-menu\" *dropdownMenu>\r\n                      <a class=\"dropdown-item\" href=\"#\">Action</a>\r\n                      <a class=\"dropdown-item\" href=\"#\">Another action</a>\r\n                      <a class=\"dropdown-item\" href=\"#\">Something else here</a>\r\n                      <div role=\"separator\" class=\"dropdown-divider\"></div>\r\n                      <a class=\"dropdown-item\" href=\"#\">Separated link</a>\r\n                    </div>\r\n                  </div>\r\n                  <input type=\"text\" id=\"input3-group3\" name=\"input3-group3\" class=\"form-control\" placeholder=\"..\">\r\n                  <div class=\"input-group-btn\" dropdown>\r\n                    <button type=\"button\" class=\"btn btn-primary dropdown-toggle\" dropdownToggle>Action\r\n                      <span class=\"caret\"></span>\r\n                    </button>\r\n                    <div class=\"dropdown-menu\" *dropdownMenu>\r\n                      <a class=\"dropdown-item\" href=\"#\">Action</a>\r\n                      <a class=\"dropdown-item\" href=\"#\">Another action</a>\r\n                      <a class=\"dropdown-item\" href=\"#\">Something else here</a>\r\n                      <div role=\"separator\" class=\"dropdown-divider\"></div>\r\n                      <a class=\"dropdown-item\" href=\"#\">Separated link</a>\r\n                    </div>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </form>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <button type=\"submit\" class=\"btn btn-sm btn-success\"><i class=\"fa fa-dot-circle-o\"></i> Submit</button>\r\n          <button type=\"reset\" class=\"btn btn-sm btn-danger\"><i class=\"fa fa-ban\"></i> Reset</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"row\">\r\n    <div class=\"col-md-6\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          Use the grid for big devices!\r\n          <small>\r\n            <code>.col-lg-*</code>\r\n            <code>.col-md-*</code>\r\n            <code>.col-sm-*</code>\r\n          </small>\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <form action=\"\" method=\"post\" class=\"form-horizontal\">\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-md-8\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-md-8\">\r\n              </div>\r\n              <div class=\"col-md-4\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-md-4\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-md-7\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-md-7\">\r\n              </div>\r\n              <div class=\"col-md-5\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-md-5\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-md-6\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-md-6\">\r\n              </div>\r\n              <div class=\"col-md-6\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-md-6\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-md-5\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-md-5\">\r\n              </div>\r\n              <div class=\"col-md-7\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-md-7\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-md-4\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-md-4\">\r\n              </div>\r\n              <div class=\"col-md-8\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-md-8\">\r\n              </div>\r\n            </div>\r\n          </form>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <button type=\"submit\" class=\"btn btn-sm btn-primary\">Action</button>\r\n          <button type=\"button\" class=\"btn btn-sm btn-danger\">Action</button>\r\n          <button type=\"button\" class=\"btn btn-sm btn-warning\">Action</button>\r\n          <button type=\"button\" class=\"btn btn-sm btn-info\">Action</button>\r\n          <button type=\"button\" class=\"btn btn-sm btn-success\">Action</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-md-6\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          Input Grid for small devices!\r\n          <small>\r\n            <code>.col-*</code>\r\n          </small>\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <form action=\"\" method=\"post\" class=\"form-horizontal\">\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-4\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-4\">\r\n              </div>\r\n              <div class=\"col-8\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-8\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-5\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-5\">\r\n              </div>\r\n              <div class=\"col-7\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-7\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-6\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-6\">\r\n              </div>\r\n              <div class=\"col-6\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-6\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-7\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-5\">\r\n              </div>\r\n              <div class=\"col-5\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-5\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group row\">\r\n              <div class=\"col-8\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-8\">\r\n              </div>\r\n              <div class=\"col-4\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\".col-4\">\r\n              </div>\r\n            </div>\r\n          </form>\r\n        </div>\r\n        <div class=\"card-footer\">\r\n          <button type=\"submit\" class=\"btn btn-sm btn-primary\">Action</button>\r\n          <button type=\"button\" class=\"btn btn-sm btn-danger\">Action</button>\r\n          <button type=\"button\" class=\"btn btn-sm btn-warning\">Action</button>\r\n          <button type=\"button\" class=\"btn btn-sm btn-info\">Action</button>\r\n          <button type=\"button\" class=\"btn btn-sm btn-success\">Action</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-4\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          Example Form\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <form action=\"\" method=\"post\">\r\n            <div class=\"form-group\">\r\n              <div class=\"input-group\">\r\n                <span class=\"input-group-addon\">Username</span>\r\n                <input type=\"text\" id=\"username3\" name=\"username3\" class=\"form-control\">\r\n                <span class=\"input-group-addon\"><i class=\"fa fa-user\"></i></span>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n              <div class=\"input-group\">\r\n                <span class=\"input-group-addon\">Email</span>\r\n                <input type=\"email\" id=\"email3\" name=\"email3\" class=\"form-control\">\r\n                <span class=\"input-group-addon\"><i class=\"fa fa-envelope\"></i></span>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n              <div class=\"input-group\">\r\n                <span class=\"input-group-addon\">Password</span>\r\n                <input type=\"password\" id=\"password3\" name=\"password3\" class=\"form-control\">\r\n                <span class=\"input-group-addon\"><i class=\"fa fa-asterisk\"></i></span>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group form-actions\">\r\n              <button type=\"submit\" class=\"btn btn-sm btn-primary\">Submit</button>\r\n            </div>\r\n          </form>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-sm-4\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          Example Form\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <form action=\"\" method=\"post\">\r\n            <div class=\"form-group\">\r\n              <div class=\"input-group\">\r\n                <input type=\"text\" id=\"username2\" name=\"username2\" class=\"form-control\" placeholder=\"Username\">\r\n                <span class=\"input-group-addon\"><i class=\"fa fa-user\"></i></span>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n              <div class=\"input-group\">\r\n                <input type=\"email\" id=\"email2\" name=\"email2\" class=\"form-control\" placeholder=\"Email\">\r\n                <span class=\"input-group-addon\"><i class=\"fa fa-envelope\"></i></span>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n              <div class=\"input-group\">\r\n                <input type=\"password\" id=\"password2\" name=\"password2\" class=\"form-control\" placeholder=\"Password\">\r\n                <span class=\"input-group-addon\"><i class=\"fa fa-asterisk\"></i></span>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group form-actions\">\r\n              <button type=\"submit\" class=\"btn btn-sm btn-default\">Submit</button>\r\n            </div>\r\n          </form>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-sm-4\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          Example Form\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <form action=\"\" method=\"post\">\r\n            <div class=\"form-group\">\r\n              <div class=\"input-group\">\r\n                <span class=\"input-group-addon\"><i class=\"fa fa-user\"></i></span>\r\n                <input type=\"text\" id=\"username\" name=\"username\" class=\"form-control\" placeholder=\"Username\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n              <div class=\"input-group\">\r\n                <span class=\"input-group-addon\"><i class=\"fa fa-envelope\"></i></span>\r\n                <input type=\"email\" id=\"email\" name=\"email\" class=\"form-control\" placeholder=\"Email\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n              <div class=\"input-group\">\r\n                <span class=\"input-group-addon\"><i class=\"fa fa-asterisk\"></i></span>\r\n                <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" placeholder=\"Password\">\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group form-actions\">\r\n              <button type=\"submit\" class=\"btn btn-sm btn-success\">Submit</button>\r\n            </div>\r\n          </form>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <!--/.row-->\r\n  <div class=\"row\">\r\n    <div class=\"col-lg-12\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <i class=\"fa fa-edit\"></i>Form Elements\r\n          <div class=\"card-actions\">\r\n            <a href=\"#\" class=\"btn-setting\"><i class=\"icon-settings\"></i></a>\r\n            <a href=\"#\" class=\"btn-minimize\"><i class=\"icon-arrow-up\"></i></a>\r\n            <a href=\"#\" class=\"btn-close\"><i class=\"icon-close\"></i></a>\r\n          </div>\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <form class=\"form-2orizontal\">\r\n            <div class=\"form-group\">\r\n              <label class=\"form-control-label\" for=\"prependedInput\">Prepended text</label>\r\n              <div class=\"controls\">\r\n                <div class=\"input-prepend input-group\">\r\n                  <span class=\"input-group-addon\">@</span>\r\n                  <input id=\"prependedInput\" class=\"form-control\" size=\"16\" type=\"text\">\r\n                </div>\r\n                <p class=\"help-block\">Here's some help text</p>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n              <label class=\"form-control-label\" for=\"appendedInput\">Appended text</label>\r\n              <div class=\"controls\">\r\n                <div class=\"input-group\">\r\n                  <input id=\"appendedInput\" class=\"form-control\" size=\"16\" type=\"text\">\r\n                  <span class=\"input-group-addon\">.00</span>\r\n                </div>\r\n                <span class=\"help-block\">Here's more help text</span>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n              <label class=\"form-control-label\" for=\"appendedPrependedInput\">Append and prepend</label>\r\n              <div class=\"controls\">\r\n                <div class=\"input-prepend input-group\">\r\n                  <span class=\"input-group-addon\">$</span>\r\n                  <input id=\"appendedPrependedInput\" class=\"form-control\" size=\"16\" type=\"text\">\r\n                  <span class=\"input-group-addon\">.00</span>\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n              <label class=\"form-control-label\" for=\"appendedInputButton\">Append with button</label>\r\n              <div class=\"controls\">\r\n                <div class=\"input-group\">\r\n                  <input id=\"appendedInputButton\" class=\"form-control\" size=\"16\" type=\"text\">\r\n                  <span class=\"input-group-btn\">\r\n                    <button class=\"btn btn-default\" type=\"button\">Go!</button>\r\n                  </span>\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-group\">\r\n              <label class=\"form-control-label\" for=\"appendedInputButtons\">Two-button append</label>\r\n              <div class=\"controls\">\r\n                <div class=\"input-group\">\r\n                  <input id=\"appendedInputButtons\" size=\"16\" class=\"form-control\" type=\"text\">\r\n                  <span class=\"input-group-btn\">\r\n                    <button class=\"btn btn-default\" type=\"button\">Search</button>\r\n                    <button class=\"btn btn-default\" type=\"button\">Options</button>\r\n                  </span>\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"form-actions\">\r\n              <button type=\"submit\" class=\"btn btn-primary\">Save changes</button>\r\n              <button class=\"btn btn-default\" type=\"button\">Cancel</button>\r\n            </div>\r\n          </form>\r\n        </div>\r\n      </div>\r\n    </div> <!--/.col-->\r\n  </div><!--/.row-->\r\n</div>\r\n"
+module.exports = "<div class=\"animated fadeIn\">\r\n  <div class=\"row\">\r\n    <div class=\"col-md-12\">\n      <div class=\"card\">\n        <div class=\"card-block\">\n          <div class=\"row table-col\">\n \n          </div>\n        </div>\n      </div>\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/forms/basic-forms/basic-forms.component.ts":
+/***/ "../../../../../src/app/dashboard/dashboard.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BasicFormsComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DashboardComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -65,31 +65,288 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var BasicFormsComponent = (function () {
-    function BasicFormsComponent() {
+var DashboardComponent = (function () {
+    function DashboardComponent() {
+        this.brandPrimary = '#20a8d8';
+        this.brandSuccess = '#4dbd74';
+        this.brandInfo = '#63c2de';
+        this.brandWarning = '#f8cb00';
+        this.brandDanger = '#f86c6b';
+        // dropdown buttons
+        this.status = { isopen: false };
+        this.mainChartElements = 27;
+        this.mainChartData1 = [];
+        this.mainChartData2 = [];
+        this.mainChartData3 = [];
+        this.mainChartData = [
+            {
+                data: this.mainChartData1,
+                label: 'Current'
+            },
+            {
+                data: this.mainChartData2,
+                label: 'Previous'
+            },
+            {
+                data: this.mainChartData3,
+                label: 'BEP'
+            }
+        ];
+        this.mainChartLabels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Thursday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        this.mainChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                xAxes: [{
+                        gridLines: {
+                            drawOnChartArea: false,
+                        },
+                        ticks: {
+                            callback: function (value) {
+                                return value.charAt(0);
+                            }
+                        }
+                    }],
+                yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            maxTicksLimit: 5,
+                            stepSize: Math.ceil(250 / 5),
+                            max: 250
+                        }
+                    }]
+            },
+            elements: {
+                line: {
+                    borderWidth: 2
+                },
+                point: {
+                    radius: 0,
+                    hitRadius: 10,
+                    hoverRadius: 4,
+                    hoverBorderWidth: 3,
+                }
+            },
+            legend: {
+                display: false
+            }
+        };
+        this.mainChartColours = [
+            {
+                backgroundColor: this.convertHex(this.brandInfo, 10),
+                borderColor: this.brandInfo,
+                pointHoverBackgroundColor: '#fff'
+            },
+            {
+                backgroundColor: 'transparent',
+                borderColor: this.brandSuccess,
+                pointHoverBackgroundColor: '#fff'
+            },
+            {
+                backgroundColor: 'transparent',
+                borderColor: this.brandDanger,
+                pointHoverBackgroundColor: '#fff',
+                borderWidth: 1,
+                borderDash: [8, 5]
+            }
+        ];
+        this.mainChartLegend = false;
+        this.mainChartType = 'line';
+        // social box charts
+        this.socialChartData1 = [
+            {
+                data: [65, 59, 84, 84, 51, 55, 40],
+                label: 'Facebook'
+            }
+        ];
+        this.socialChartData2 = [
+            {
+                data: [1, 13, 9, 17, 34, 41, 38],
+                label: 'Twitter'
+            }
+        ];
+        this.socialChartData3 = [
+            {
+                data: [78, 81, 80, 45, 34, 12, 40],
+                label: 'LinkedIn'
+            }
+        ];
+        this.socialChartData4 = [
+            {
+                data: [35, 23, 56, 22, 97, 23, 64],
+                label: 'Google+'
+            }
+        ];
+        this.socialChartLabels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+        this.socialChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                xAxes: [{
+                        display: false,
+                    }],
+                yAxes: [{
+                        display: false,
+                    }]
+            },
+            elements: {
+                line: {
+                    borderWidth: 2
+                },
+                point: {
+                    radius: 0,
+                    hitRadius: 10,
+                    hoverRadius: 4,
+                    hoverBorderWidth: 3,
+                }
+            },
+            legend: {
+                display: false
+            }
+        };
+        this.socialChartColours = [
+            {
+                backgroundColor: 'rgba(255,255,255,.1)',
+                borderColor: 'rgba(255,255,255,.55)',
+                pointHoverBackgroundColor: '#fff'
+            }
+        ];
+        this.socialChartLegend = false;
+        this.socialChartType = 'line';
+        // sparkline charts
+        this.sparklineChartData1 = [
+            {
+                data: [35, 23, 56, 22, 97, 23, 64],
+                label: 'Clients'
+            }
+        ];
+        this.sparklineChartData2 = [
+            {
+                data: [65, 59, 84, 84, 51, 55, 40],
+                label: 'Clients'
+            }
+        ];
+        this.sparklineChartLabels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+        this.sparklineChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                xAxes: [{
+                        display: false,
+                    }],
+                yAxes: [{
+                        display: false,
+                    }]
+            },
+            elements: {
+                line: {
+                    borderWidth: 2
+                },
+                point: {
+                    radius: 0,
+                    hitRadius: 10,
+                    hoverRadius: 4,
+                    hoverBorderWidth: 3,
+                }
+            },
+            legend: {
+                display: false
+            }
+        };
+        this.sparklineChartDefault = [
+            {
+                backgroundColor: 'transparent',
+                borderColor: '#d1d4d7',
+            }
+        ];
+        this.sparklineChartPrimary = [
+            {
+                backgroundColor: 'transparent',
+                borderColor: this.brandPrimary,
+            }
+        ];
+        this.sparklineChartInfo = [
+            {
+                backgroundColor: 'transparent',
+                borderColor: this.brandInfo,
+            }
+        ];
+        this.sparklineChartDanger = [
+            {
+                backgroundColor: 'transparent',
+                borderColor: this.brandDanger,
+            }
+        ];
+        this.sparklineChartWarning = [
+            {
+                backgroundColor: 'transparent',
+                borderColor: this.brandWarning,
+            }
+        ];
+        this.sparklineChartSuccess = [
+            {
+                backgroundColor: 'transparent',
+                borderColor: this.brandSuccess,
+            }
+        ];
+        this.sparklineChartLegend = false;
+        this.sparklineChartType = 'line';
     }
-    return BasicFormsComponent;
+    DashboardComponent.prototype.toggleDropdown = function ($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        this.status.isopen = !this.status.isopen;
+    };
+    //convert Hex to RGBA
+    DashboardComponent.prototype.convertHex = function (hex, opacity) {
+        hex = hex.replace('#', '');
+        var r = parseInt(hex.substring(0, 2), 16);
+        var g = parseInt(hex.substring(2, 4), 16);
+        var b = parseInt(hex.substring(4, 6), 16);
+        var rgba = 'rgba(' + r + ',' + g + ',' + b + ',' + opacity / 100 + ')';
+        return rgba;
+    };
+    // events
+    DashboardComponent.prototype.chartClicked = function (e) {
+        console.log(e);
+    };
+    DashboardComponent.prototype.chartHovered = function (e) {
+        console.log(e);
+    };
+    // mainChart
+    DashboardComponent.prototype.random = function (min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    };
+    DashboardComponent.prototype.ngOnInit = function () {
+        //generate random values for mainChart
+        for (var i = 0; i <= this.mainChartElements; i++) {
+            this.mainChartData1.push(this.random(50, 200));
+            this.mainChartData2.push(this.random(80, 100));
+            this.mainChartData3.push(65);
+        }
+    };
+    return DashboardComponent;
 }());
-BasicFormsComponent = __decorate([
+DashboardComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-        template: __webpack_require__("../../../../../src/app/forms/basic-forms/basic-forms.component.html")
+        template: __webpack_require__("../../../../../src/app/dashboard/dashboard.component.html")
     }),
     __metadata("design:paramtypes", [])
-], BasicFormsComponent);
+], DashboardComponent);
 
-//# sourceMappingURL=basic-forms.component.js.map
+//# sourceMappingURL=dashboard.component.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/forms/basic-forms/basic-forms.module.ts":
+/***/ "../../../../../src/app/dashboard/dashboard.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__basic_forms_routing_module__ = __webpack_require__("../../../../../src/app/forms/basic-forms/basic-forms-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__basic_forms_component__ = __webpack_require__("../../../../../src/app/forms/basic-forms/basic-forms.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BasicFormsModule", function() { return BasicFormsModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dashboard_component__ = __webpack_require__("../../../../../src/app/dashboard/dashboard.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dashboard_routing_module__ = __webpack_require__("../../../../../src/app/dashboard/dashboard-routing.module.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DashboardModule", function() { return DashboardModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -97,26 +354,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 
-//Routing
 
 
-var BasicFormsModule = (function () {
-    function BasicFormsModule() {
+var DashboardModule = (function () {
+    function DashboardModule() {
     }
-    return BasicFormsModule;
+    return DashboardModule;
 }());
-BasicFormsModule = __decorate([
+DashboardModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1__basic_forms_routing_module__["a" /* BasicFormsRoutingModule */]
+            __WEBPACK_IMPORTED_MODULE_2__dashboard_routing_module__["a" /* DashboardRoutingModule */]
         ],
-        declarations: [
-            __WEBPACK_IMPORTED_MODULE_2__basic_forms_component__["a" /* BasicFormsComponent */]
-        ]
+        declarations: [__WEBPACK_IMPORTED_MODULE_1__dashboard_component__["a" /* DashboardComponent */]]
     })
-], BasicFormsModule);
+], DashboardModule);
 
-//# sourceMappingURL=basic-forms.module.js.map
+//# sourceMappingURL=dashboard.module.js.map
 
 /***/ })
 

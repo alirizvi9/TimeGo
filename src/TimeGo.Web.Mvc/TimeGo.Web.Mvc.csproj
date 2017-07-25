@@ -299,7 +299,6 @@
     <Content Include="App\karma.conf.js" />
     <Content Include="App\protractor.conf.js" />
     <Content Include="App\src\app\app.component.html" />
-    <Content Include="App\src\app\chartjs\chartjs.component.html" />
     <Content Include="App\src\app\components\buttons.component.html" />
     <Content Include="App\src\app\components\cards.component.html" />
     <Content Include="App\src\app\components\forms.component.html" />
@@ -317,7 +316,6 @@
     <Content Include="App\src\app\icons\glyphicons.component.html" />
     <Content Include="App\src\app\icons\simple-line-icons.component.html" />
     <Content Include="App\src\app\layouts\full-layout.component.html" />
-    <Content Include="App\src\app\layouts\simple-layout.component.html" />
     <Content Include="App\src\app\pages\404.component.html" />
     <Content Include="App\src\app\pages\500.component.html" />
     <Content Include="App\src\app\pages\login.component.html" />
@@ -1198,9 +1196,6 @@
     <TypeScriptCompile Include="App\src\app\app.component.ts" />
     <TypeScriptCompile Include="App\src\app\app.module.ts" />
     <TypeScriptCompile Include="App\src\app\app.routing.ts" />
-    <TypeScriptCompile Include="App\src\app\chartjs\chartjs-routing.module.ts" />
-    <TypeScriptCompile Include="App\src\app\chartjs\chartjs.component.ts" />
-    <TypeScriptCompile Include="App\src\app\chartjs\chartjs.module.ts" />
     <TypeScriptCompile Include="App\src\app\components\buttons.component.ts" />
     <TypeScriptCompile Include="App\src\app\components\cards.component.ts" />
     <TypeScriptCompile Include="App\src\app\components\components-routing.module.ts" />
@@ -1231,7 +1226,6 @@
     <TypeScriptCompile Include="App\src\app\icons\simple-line-icons.component.ts" />
     <TypeScriptCompile Include="App\src\app\index.ts" />
     <TypeScriptCompile Include="App\src\app\layouts\full-layout.component.ts" />
-    <TypeScriptCompile Include="App\src\app\layouts\simple-layout.component.ts" />
     <TypeScriptCompile Include="App\src\app\pages\404.component.ts" />
     <TypeScriptCompile Include="App\src\app\pages\500.component.ts" />
     <TypeScriptCompile Include="App\src\app\pages\login.component.ts" />

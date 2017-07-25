@@ -1,12 +1,12 @@
 webpackJsonp([16],{
 
-/***/ "../../../../../src/app/uikits/uikits-routing.module.ts":
+/***/ "../../../../../src/app/forms/forms-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UIKitsRoutingModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormsRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -19,44 +19,44 @@ var routes = [
     {
         path: '',
         data: {
-            title: 'UIKits'
+            title: 'Forms'
         },
         children: [
             {
-                path: 'email',
-                loadChildren: './email/email.module#EmailModule'
+                path: 'basic-forms',
+                loadChildren: './basic-forms/basic-forms.module#BasicFormsModule'
             },
             {
-                path: 'invoicing',
-                loadChildren: './invoicing/invoice.module#InvoiceModule'
+                path: 'advanced-forms',
+                loadChildren: './advanced-forms/advanced-forms.module#AdvancedFormsModule'
             }
         ]
     }
 ];
-var UIKitsRoutingModule = (function () {
-    function UIKitsRoutingModule() {
+var FormsRoutingModule = (function () {
+    function FormsRoutingModule() {
     }
-    return UIKitsRoutingModule;
+    return FormsRoutingModule;
 }());
-UIKitsRoutingModule = __decorate([
+FormsRoutingModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)],
         exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
     })
-], UIKitsRoutingModule);
+], FormsRoutingModule);
 
-//# sourceMappingURL=uikits-routing.module.js.map
+//# sourceMappingURL=forms-routing.module.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/uikits/uikits.module.ts":
+/***/ "../../../../../src/app/forms/forms.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__uikits_routing_module__ = __webpack_require__("../../../../../src/app/uikits/uikits-routing.module.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UIKitsModule", function() { return UIKitsModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__forms_routing_module__ = __webpack_require__("../../../../../src/app/forms/forms-routing.module.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormsModule", function() { return FormsModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -66,21 +66,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 //Routing
 
-var UIKitsModule = (function () {
-    function UIKitsModule() {
+var FormsModule = (function () {
+    function FormsModule() {
     }
-    return UIKitsModule;
+    return FormsModule;
 }());
-UIKitsModule = __decorate([
+FormsModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1__uikits_routing_module__["a" /* UIKitsRoutingModule */]
+            __WEBPACK_IMPORTED_MODULE_1__forms_routing_module__["a" /* FormsRoutingModule */]
         ],
         declarations: []
     })
-], UIKitsModule);
+], FormsModule);
 
-//# sourceMappingURL=uikits.module.js.map
+//# sourceMappingURL=forms.module.js.map
 
 /***/ })
 

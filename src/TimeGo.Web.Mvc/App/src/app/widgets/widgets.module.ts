@@ -1,13 +1,11 @@
-import { NgModule } from '@angular/core';
-import { ChartsModule } from 'ng2-charts/ng2-charts';
+﻿import { NgModule } from '@angular/core';
 
 import { WidgetsComponent } from './widgets.component';
 import { WidgetsRoutingModule } from './widgets-routing.module';
 
 @NgModule({
   imports: [
-    WidgetsRoutingModule,
-    ChartsModule
+    WidgetsRoutingModule
   ],
   declarations: [ WidgetsComponent ]
 })

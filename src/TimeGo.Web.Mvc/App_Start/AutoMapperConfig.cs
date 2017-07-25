@@ -6,11 +6,10 @@ namespace TimeGo.Web.Mvc
     {
         public static void RegisterMappings()
         {
-            var autoMapperAssemblies = new[] {typeof(TimeGoApplication).Assembly};
+            var autoMapperAssemblies = new[] { typeof(TimeGoApplication).Assembly };
             foreach (var autoMapperAssembly in autoMapperAssemblies)
             {
-                var assembly = autoMapperAssembly;
-                AutoMapperMapRegistry.RegisterAllMappings(x => x.Include(assembly));
+                AutoMapperMapRegistry.RegisterAllMappings(x => x.Include(autoMapperAssembly));
             }
         }
     }

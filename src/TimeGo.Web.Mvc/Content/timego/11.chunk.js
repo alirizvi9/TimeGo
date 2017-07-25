@@ -1,13 +1,13 @@
 webpackJsonp([11],{
 
-/***/ "../../../../../src/app/uikits/invoicing/invoice-routing.module.ts":
+/***/ "../../../../../src/app/plugins/spinners/spinners-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__invoice_component__ = __webpack_require__("../../../../../src/app/uikits/invoicing/invoice.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return InvoiceRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__spinners_component__ = __webpack_require__("../../../../../src/app/plugins/spinners/spinners.component.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SpinnersRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -19,42 +19,42 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 var routes = [
     {
-        path: 'invoice',
-        component: __WEBPACK_IMPORTED_MODULE_2__invoice_component__["a" /* InvoiceComponent */],
+        path: '',
+        component: __WEBPACK_IMPORTED_MODULE_2__spinners_component__["a" /* SpinnersComponent */],
         data: {
-            title: 'Invoice'
+            title: 'Spinners'
         }
     }
 ];
-var InvoiceRoutingModule = (function () {
-    function InvoiceRoutingModule() {
+var SpinnersRoutingModule = (function () {
+    function SpinnersRoutingModule() {
     }
-    return InvoiceRoutingModule;
+    return SpinnersRoutingModule;
 }());
-InvoiceRoutingModule = __decorate([
+SpinnersRoutingModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)],
         exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
     })
-], InvoiceRoutingModule);
+], SpinnersRoutingModule);
 
-//# sourceMappingURL=invoice-routing.module.js.map
+//# sourceMappingURL=spinners-routing.module.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/uikits/invoicing/invoice.component.html":
+/***/ "../../../../../src/app/plugins/spinners/spinners.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"card\">\r\n    <div class=\"card-header\">\r\n        Invoice <strong>#90-98792</strong>\r\n        <a href=\"#\" class=\"btn btn-sm btn-info float-right\" onclick=\"javascript:window.print();\"><i class=\"fa fa-print\"></i> Print</a>\r\n        <a href=\"#\" class=\"btn btn-sm btn-info float-right\"><i class=\"fa fa-save\"></i> Save</a>\r\n    </div>\r\n    <div class=\"card-block\">\r\n        <div class=\"row mb-4\">\r\n\r\n            <div class=\"col-sm-4\">\r\n                <h6 class=\"mb-3\">From:</h6>\r\n                <div><strong>BootstrapMaster.com</strong></div>\r\n                <div>Konopnickiej 42</div>\r\n                <div>43-190 Mikolow, Poland</div>\r\n                <div>Email: lukasz@bootstrapmaster.com</div>\r\n                <div>Phone: +48 123 456 789</div>\r\n            </div><!--/.col-->\r\n\r\n            <div class=\"col-sm-4\">\r\n                <h6 class=\"mb-3\">To:</h6>\r\n                <div><strong>BootstrapMaster.com</strong></div>\r\n                <div>Konopnickiej 42</div>\r\n                <div>43-190 Mikolow, Poland</div>\r\n                <div>Email: lukasz@bootstrapmaster.com</div>\r\n                <div>Phone: +48 123 456 789</div>\r\n            </div><!--/.col-->\r\n\r\n            <div class=\"col-sm-4\">\r\n                <h6 class=\"mb-3\">Details:</h6>\r\n                <div>Invoice <strong>#90-98792</strong></div>\r\n                <div>March 30, 2013</div>\r\n                <div>VAT: PL9877281777</div>\r\n                <div>Account Name: BootstrapMaster.com</div>\r\n                <div><strong>SWIFT code: 99 8888 7777 6666 5555</strong></div>\r\n            </div><!--/.col-->\r\n\r\n        </div><!--/.row-->\r\n\r\n        <div class=\"table-responsive\">\r\n            <table class=\"table table-striped\">\r\n                <thead>\r\n                    <tr>\r\n                        <th class=\"center\">#</th>\r\n                        <th>Item</th>\r\n                        <th>Description</th>\r\n                        <th class=\"center\">Quantity</th>\r\n                        <th class=\"right\">Unit Cost</th>\r\n                        <th class=\"right\">Total</th>\r\n                    </tr>\r\n                </thead>\r\n                <tbody>\r\n                    <tr>\r\n                        <td class=\"center\">1</td>\r\n                        <td class=\"left\">Origin License</td>\r\n                        <td class=\"left\">Extended License</td>\r\n                        <td class=\"center\">1</td>\r\n                        <td class=\"right\">$999,00</td>\r\n                        <td class=\"right\">$999,00</td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td class=\"center\">2</td>\r\n                        <td class=\"left\">Custom Services</td>\r\n                        <td class=\"left\">Instalation and Customization (cost per hour)</td>\r\n                        <td class=\"center\">20</td>\r\n                        <td class=\"right\">$150,00</td>\r\n                        <td class=\"right\">$3.000,00</td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td class=\"center\">3</td>\r\n                        <td class=\"left\">Hosting</td>\r\n                        <td class=\"left\">1 year subcription</td>\r\n                        <td class=\"center\">1</td>\r\n                        <td class=\"right\">$499,00</td>\r\n                        <td class=\"right\">$499,00</td>\r\n                    </tr>\r\n                    <tr>\r\n                        <td class=\"center\">4</td>\r\n                        <td class=\"left\">Platinum Support</td>\r\n                        <td class=\"left\">1 year subcription 24/7</td>\r\n                        <td class=\"center\">1</td>\r\n                        <td class=\"right\">$3.999,00</td>\r\n                        <td class=\"right\">$3.999,00</td>\r\n                    </tr>\r\n                </tbody>\r\n            </table>\r\n        </div>\r\n\r\n        <div class=\"row\">\r\n\r\n            <div class=\"col-lg-4 col-sm-5\">\r\n                <div class=\"well\">\r\n                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\r\n                </div>\r\n            </div><!--/.col-->\r\n\r\n            <div class=\"col-lg-4 offset-lg-4 col-sm-5 offset-sm-2\">\r\n                <table class=\"table table-clear\">\r\n                    <tbody>\r\n                        <tr>\r\n                            <td class=\"left\"><strong>Subtotal</strong></td>\r\n                            <td class=\"right\">$8.497,00</td>\r\n                        </tr>\r\n                        <tr>\r\n                            <td class=\"left\"><strong>Discount (20%)</strong></td>\r\n                            <td class=\"right\">$1,699,40</td>\r\n                        </tr>\r\n                        <tr>\r\n                            <td class=\"left\"><strong>VAT (10%)</strong></td>\r\n                            <td class=\"right\">$679,76</td>\r\n                        </tr>\r\n                        <tr>\r\n                            <td class=\"left\"><strong>Total</strong></td>\r\n                            <td class=\"right\"><strong>$7.477,36</strong></td>\r\n                        </tr>\r\n                    </tbody>\r\n                </table>\r\n                <a href=\"#\" class=\"btn btn-success\"><i class=\"fa fa-usd\"></i> Proceed to Payment</a>\r\n            </div><!--/.col-->\r\n\r\n        </div><!--/.row-->\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"animated\">\r\n  <div class=\"card\">\r\n    <div class=\"card-header\">\r\n      <i class=\"fa fa-spinner\"></i> Spinners - SpinKit\r\n      <div class=\"card-actions\">\r\n        <a href=\"https://github.com/tobiasahlin/SpinKit\"><small class=\"text-muted\">docs</small></a>\r\n      </div>\r\n    </div>\r\n    <div class=\"card-block\">\r\n      <p>\r\n        Simple loading spinners animated with CSS. SpinKit uses hardware accelerated (translate and opacity) CSS animations to create smooth and easily customizable animations.\r\n      </p>\r\n    </div>\r\n  </div>\r\n  <div class=\"row\">\r\n    <div class=\"col-lg-4\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <i class=\"fa fa-spinner\"></i> Rotating plane\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <div class=\"sk-rotating-plane\"></div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-lg-4\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <i class=\"fa fa-spinner\"></i> Double bounce\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <div class=\"sk-double-bounce\">\r\n            <div class=\"sk-child sk-double-bounce1\"></div>\r\n            <div class=\"sk-child sk-double-bounce2\"></div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-lg-4\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <i class=\"fa fa-spinner\"></i> Wave\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <div class=\"sk-wave\">\r\n            <div class=\"sk-rect sk-rect1\"></div>\r\n            <div class=\"sk-rect sk-rect2\"></div>\r\n            <div class=\"sk-rect sk-rect3\"></div>\r\n            <div class=\"sk-rect sk-rect4\"></div>\r\n            <div class=\"sk-rect sk-rect5\"></div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-lg-4\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <i class=\"fa fa-spinner\"></i> Wandering cubes\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <div class=\"sk-wandering-cubes\">\r\n            <div class=\"sk-cube sk-cube1\"></div>\r\n            <div class=\"sk-cube sk-cube2\"></div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-lg-4\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <i class=\"fa fa-spinner\"></i> Pulse\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <div class=\"sk-spinner sk-spinner-pulse\"></div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-lg-4\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <i class=\"fa fa-spinner\"></i> Chasing dots\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <div class=\"sk-chasing-dots\">\r\n            <div class=\"sk-child sk-dot1\"></div>\r\n            <div class=\"sk-child sk-dot2\"></div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-lg-4\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <i class=\"fa fa-spinner\"></i> Three bounce\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <div class=\"sk-three-bounce\">\r\n            <div class=\"sk-child sk-bounce1\"></div>\r\n            <div class=\"sk-child sk-bounce2\"></div>\r\n            <div class=\"sk-child sk-bounce3\"></div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-lg-4\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <i class=\"fa fa-spinner\"></i> Circle\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <div class=\"sk-circle\">\r\n            <div class=\"sk-circle1 sk-child\"></div>\r\n            <div class=\"sk-circle2 sk-child\"></div>\r\n            <div class=\"sk-circle3 sk-child\"></div>\r\n            <div class=\"sk-circle4 sk-child\"></div>\r\n            <div class=\"sk-circle5 sk-child\"></div>\r\n            <div class=\"sk-circle6 sk-child\"></div>\r\n            <div class=\"sk-circle7 sk-child\"></div>\r\n            <div class=\"sk-circle8 sk-child\"></div>\r\n            <div class=\"sk-circle9 sk-child\"></div>\r\n            <div class=\"sk-circle10 sk-child\"></div>\r\n            <div class=\"sk-circle11 sk-child\"></div>\r\n            <div class=\"sk-circle12 sk-child\"></div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-lg-4\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <i class=\"fa fa-spinner\"></i> Cube grid\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <div class=\"sk-cube-grid\">\r\n            <div class=\"sk-cube sk-cube1\"></div>\r\n            <div class=\"sk-cube sk-cube2\"></div>\r\n            <div class=\"sk-cube sk-cube3\"></div>\r\n            <div class=\"sk-cube sk-cube4\"></div>\r\n            <div class=\"sk-cube sk-cube5\"></div>\r\n            <div class=\"sk-cube sk-cube6\"></div>\r\n            <div class=\"sk-cube sk-cube7\"></div>\r\n            <div class=\"sk-cube sk-cube8\"></div>\r\n            <div class=\"sk-cube sk-cube9\"></div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-lg-4\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <i class=\"fa fa-spinner\"></i> Fading circle\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <div class=\"sk-fading-circle\">\r\n            <div class=\"sk-circle1 sk-circle\"></div>\r\n            <div class=\"sk-circle2 sk-circle\"></div>\r\n            <div class=\"sk-circle3 sk-circle\"></div>\r\n            <div class=\"sk-circle4 sk-circle\"></div>\r\n            <div class=\"sk-circle5 sk-circle\"></div>\r\n            <div class=\"sk-circle6 sk-circle\"></div>\r\n            <div class=\"sk-circle7 sk-circle\"></div>\r\n            <div class=\"sk-circle8 sk-circle\"></div>\r\n            <div class=\"sk-circle9 sk-circle\"></div>\r\n            <div class=\"sk-circle10 sk-circle\"></div>\r\n            <div class=\"sk-circle11 sk-circle\"></div>\r\n            <div class=\"sk-circle12 sk-circle\"></div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-lg-4\">\r\n      <div class=\"card\">\r\n        <div class=\"card-header\">\r\n          <i class=\"fa fa-spinner\"></i> Folding Cube\r\n        </div>\r\n        <div class=\"card-block\">\r\n          <div class=\"sk-folding-cube\">\r\n            <div class=\"sk-cube1 sk-cube\"></div>\r\n            <div class=\"sk-cube2 sk-cube\"></div>\r\n            <div class=\"sk-cube4 sk-cube\"></div>\r\n            <div class=\"sk-cube3 sk-cube\"></div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/uikits/invoicing/invoice.component.ts":
+/***/ "../../../../../src/app/plugins/spinners/spinners.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return InvoiceComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SpinnersComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -62,31 +62,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 
-var InvoiceComponent = (function () {
-    function InvoiceComponent() {
+var SpinnersComponent = (function () {
+    function SpinnersComponent() {
     }
-    return InvoiceComponent;
+    return SpinnersComponent;
 }());
-InvoiceComponent = __decorate([
+SpinnersComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-        template: __webpack_require__("../../../../../src/app/uikits/invoicing/invoice.component.html")
+        template: __webpack_require__("../../../../../src/app/plugins/spinners/spinners.component.html")
     })
-], InvoiceComponent);
+], SpinnersComponent);
 
-//# sourceMappingURL=invoice.component.js.map
+//# sourceMappingURL=spinners.component.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/uikits/invoicing/invoice.module.ts":
+/***/ "../../../../../src/app/plugins/spinners/spinners.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__invoice_component__ = __webpack_require__("../../../../../src/app/uikits/invoicing/invoice.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__invoice_routing_module__ = __webpack_require__("../../../../../src/app/uikits/invoicing/invoice-routing.module.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InvoiceModule", function() { return InvoiceModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__spinners_component__ = __webpack_require__("../../../../../src/app/plugins/spinners/spinners.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__spinners_routing_module__ = __webpack_require__("../../../../../src/app/plugins/spinners/spinners-routing.module.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SpinnersModule", function() { return SpinnersModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -95,29 +95,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 
 
-// Invoice
+// Spinners
 
 //Routing
 
 //
-var InvoiceModule = (function () {
-    function InvoiceModule() {
+var SpinnersModule = (function () {
+    function SpinnersModule() {
     }
-    return InvoiceModule;
+    return SpinnersModule;
 }());
-InvoiceModule = __decorate([
+SpinnersModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_3__invoice_routing_module__["a" /* InvoiceRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_3__spinners_routing_module__["a" /* SpinnersRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
         ],
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_2__invoice_component__["a" /* InvoiceComponent */]
+            __WEBPACK_IMPORTED_MODULE_2__spinners_component__["a" /* SpinnersComponent */]
         ]
     })
-], InvoiceModule);
+], SpinnersModule);
 
-//# sourceMappingURL=invoice.module.js.map
+//# sourceMappingURL=spinners.module.js.map
 
 /***/ })
 

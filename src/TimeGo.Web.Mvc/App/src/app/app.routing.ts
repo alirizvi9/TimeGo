@@ -1,15 +1,14 @@
-import { NgModule } from '@angular/core';
+﻿import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 //Layouts
 import { FullLayoutComponent } from './layouts/full-layout.component';
-import { SimpleLayoutComponent } from './layouts/simple-layout.component';
 
 export const routes: Routes = [
   {
     path: '',
     redirectTo: 'dashboard',
-    pathMatch: 'full',
+    pathMatch: 'full'
   },
   {
     path: '',
@@ -43,25 +42,8 @@ export const routes: Routes = [
         loadChildren: './widgets/widgets.module#WidgetsModule'
       },
       {
-        path: 'charts',
-        loadChildren: './chartjs/chartjs.module#ChartJSModule'
-      },
-      {
         path: 'uikits',
         loadChildren: './uikits/uikits.module#UIKitsModule'
-      }
-    ]
-  },
-  {
-    path: 'pages',
-    component: SimpleLayoutComponent,
-    data: {
-      title: 'Pages'
-    },
-    children: [
-      {
-        path: '',
-        loadChildren: './pages/pages.module#PagesModule',
       }
     ]
   }
