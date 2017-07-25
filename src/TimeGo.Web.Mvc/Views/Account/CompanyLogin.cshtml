@@ -15,19 +15,19 @@
                     <div class="card-block">
                         <h1>@Resource.LogIn to @ViewBag.CompanyName</h1>
                         <p class="text-muted">@Resource.SignInToYourAccount</p>
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "validation-error" })
                         <div class="input-group mb-3">
                             <span class="input-group-addon">
                                 <i class="icon-user"></i>
                             </span>
                             @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = Resource.Email })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "" })
                         </div>
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "validation-error" })
                         <div class="input-group mb-4">
                             <span class="input-group-addon">
                                 <i class="icon-lock"></i>
                             </span>
                             @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = Resource.Password })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "" })
                         </div>
                         <div class="row">
                             <div class="col-6">

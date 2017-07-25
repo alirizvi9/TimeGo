@@ -25,14 +25,14 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
 
         public void SendConfirmEmail(Employee user, string code)
         {
-            var url = _settings.SiteUrl + $"/Account/ConfirmEmail?userId={user.Id}&code={code}";
+            var url = _settings.SiteUrl + $"Account/Confirm?userId={user.Id}&code={code}";
             var emailModel = new ConfirmEmailModel(user, _settings, url) {Subject = Resource.ConfirmEmailTitle};
             SendEmail(emailModel, "ConfirmEmail");
         }
 
         public void SendForgotPasswordEmail(Employee user, string code)
         {
-            var url = _settings.SiteUrl + $"/Account/ResetPassword?userId={user.Id}&code={code}";
+            var url = _settings.SiteUrl + $"Account/reset?userId={user.Id}&code={code}";
             var emailModel =new ForgotPasswordEmailModel(user, _settings, url)
             {
                 Subject = Resource.ForgotPasswordEmail

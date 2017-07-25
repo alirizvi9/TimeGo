@@ -14,67 +14,67 @@
             <div class="card-group mb-0">
                 <div class="card p-4">
                     <div class="card-block">
+                        @Html.ValidationMessageFor(m => m.CompanyName, "", new { @class = "validation-error" })
                         <div class="input-group mb-3">
                             <span class="input-group-addon">
                                 <i class="icon-organization"></i>
                             </span>
                             @Html.TextBoxFor(m => m.CompanyName, new { Class = "form-control", @placeholder = Resource.CompanyName })
-                            @Html.ValidationMessageFor(m => m.CompanyName, "", new { @class = "" })
                         </div>
+                        @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "validation-error" })
                         <div class="input-group mb-3">
                             <span class="input-group-addon">
                                 <i class="icon-user"></i>
                             </span>
                             @Html.TextBoxFor(m => m.FullName, new { Class = "form-control", @placeholder = Resource.FullName })
-                            @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "" })
                         </div>
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "validation-error" })
                         <div class="input-group mb-3">
                             <span class="input-group-addon">@@</span>
                             @Html.TextBoxFor(m => m.Email, new { Class = "form-control", @placeholder = Resource.Email })
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "" })
                         </div>
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "validation-error" })
                         <div class="input-group mb-3">
                             <span class="input-group-addon">
                                 <i class="icon-lock"></i>
                             </span>
                             @Html.PasswordFor(m => m.Password, new { Class = "form-control", @placeholder = Resource.Password })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "" })
                         </div>
+                        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "validation-error" })
                         <div class="input-group mb-3">
                             <span class="input-group-addon">
                                 <i class="icon-lock"></i>
                             </span>
                             @Html.PasswordFor(m => m.ConfirmPassword, new { Class = "form-control", @placeholder = Resource.ConfirmPassword })
-                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "" })
                         </div>
                     </div>
                 </div>
                 <div class="card p-4">
                     <div class="card-block">
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "validation-error" })
                         <div class="input-group mb-3">
                             <span class="input-group-addon">
                                 <i class="icon-phone"></i>
                             </span>
                             @Html.TextBoxFor(m => m.PhoneNumber, new { Class = "form-control", @placeholder = Resource.PhoneNumber })
-                            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "" })
                         </div>
+                        @Html.ValidationMessageFor(m => m.TimezoneId, "", new { @class = "validation-error" })
                         <div class="input-group mb-3">
                             <span class="input-group-addon">
                                 <i class="icon-clock"></i>
                             </span>
                             @Html.DropDownListFor(m => m.TimezoneId, (SelectList)ViewBag.Timezones, new { @Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.TimezoneId, "", new { @class = "" })
                         </div>
+                        @Html.ValidationMessageFor(m => m.Weekdays, "", new { @class = "validation-error" })
                         <div class="input-group mb-3">
                             <span class="input-group-addon">
                                 <i class="icon-calendar"></i>
                             </span>
                             @Html.EnumDropDownListFor(m => m.Weekdays, new { @Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Weekdays, "", new { @class = "" })
                         </div>
+                        @Html.ValidationMessageFor(m => m.CompanyUrl, "", new { @class = "validation-error" })
                         <div class="input-group mb-3">
                             @Html.TextBoxFor(m => m.CompanyUrl, new { @class = "form-control", @placeholder = Resource.CompanyURL })
-                            @Html.ValidationMessageFor(m => m.CompanyUrl, "", new { @class = "" })
                             <span class="input-group-addon">
                                 <i class="">.timego.com/</i>
                             </span>

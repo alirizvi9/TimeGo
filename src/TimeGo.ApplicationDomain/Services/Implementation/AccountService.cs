@@ -57,6 +57,10 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             var random = new Random();
             var confirmEmailCode = random.NextString();
 
+            var managerRole = _repository
+               .Find<Role>(x => x.RoleType == "Task Manager")
+               .Single();
+
             var employee = new Employee
             {
                 CompanyId = сompany.Id,
@@ -66,7 +70,11 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                 FirstName = model.FullName,
                 IsActive = true,
                 RoleId = 2,
-                Code = confirmEmailCode
+                Code = confirmEmailCode,
+                Company = сompany,
+                Role = managerRole,
+                IsAdmin = true,
+                IsOvertimeCalculated = true,
             };
 
             _repository.Add(employee);

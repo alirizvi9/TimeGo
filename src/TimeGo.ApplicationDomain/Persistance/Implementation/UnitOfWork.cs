@@ -11,12 +11,12 @@ namespace TimeGo.ApplicationDomain.Persistance.Implementation
 
         public UnitOfWork()
         {
-            _transactionScope = new TransactionScope();
+            _transactionScope = new TransactionScope(TransactionScopeOption.Required, TimeSpan.FromSeconds(60));
         }
 
         public UnitOfWork(IsolationLevel isolationLevel)
         {
-            var transactionOptions = new TransactionOptions {IsolationLevel = isolationLevel};
+            var transactionOptions = new TransactionOptions {IsolationLevel = isolationLevel, Timeout = TimeSpan.FromSeconds(60) };
             _transactionScope = new TransactionScope(TransactionScopeOption.Required, transactionOptions);
         }
 

@@ -22,6 +22,7 @@ namespace TimeGo.Web.Mvc.Models
 
         [Required]
         [DataType(DataType.EmailAddress, ErrorMessageResourceName = "EmailNotValid", ErrorMessageResourceType = typeof(Resource))]
+        [RegularExpression("^.+@.+\\..+$", ErrorMessageResourceName = "EmailNotValid", ErrorMessageResourceType = typeof(Resource))]
         public string Email { get; set; }
 
         [Required]

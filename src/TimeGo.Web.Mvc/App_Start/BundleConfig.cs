@@ -21,7 +21,8 @@ namespace TimeGo.Web.Mvc
                     "~/Content/css/glyphicons.css",
                     "~/Content/css/glyphicons-filetypes.css",
                     "~/Content/css/glyphicons-social.css",
-                    "~/Content/css/style.css"));
+                    "~/Content/css/style.css",
+                    "~/Content/css/TimeGo.css"));
 
             //TimeGo App
             bundles.Add(new ScriptBundle("~/bundles/timego")
