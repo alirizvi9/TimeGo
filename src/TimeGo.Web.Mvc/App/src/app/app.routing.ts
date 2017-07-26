@@ -1,7 +1,6 @@
 ﻿import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-//Layouts
 import { FullLayoutComponent } from './layouts/full-layout.component';
 
 export const routes: Routes = [
@@ -22,28 +21,16 @@ export const routes: Routes = [
         loadChildren: './dashboard/dashboard.module#DashboardModule'
       },
       {
-        path: 'components',
-        loadChildren: './components/components.module#ComponentsModule'
+        path: 'timesheets',
+        loadChildren: './timesheets/timesheets.module#TimesheetsModule'
       },
       {
-        path: 'icons',
-        loadChildren: './icons/icons.module#IconsModule'
-      },
-      {
-        path: 'forms',
-        loadChildren: './forms/forms.module#FormsModule'
-      },
-      {
-        path: 'plugins',
-        loadChildren: './plugins/plugins.module#PluginsModule'
+        path: 'tasks',
+        loadChildren: './tasks/tasks.module#TasksModule'
       },
       {
         path: 'widgets',
         loadChildren: './widgets/widgets.module#WidgetsModule'
-      },
-      {
-        path: 'uikits',
-        loadChildren: './uikits/uikits.module#UIKitsModule'
       }
     ]
   }

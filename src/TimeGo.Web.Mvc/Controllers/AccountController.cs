@@ -26,8 +26,9 @@ namespace TimeGo.Web.Mvc.Controllers
         [Route("signup")]
         public ActionResult SignUp()
         {
-            var timezones = _accountService.GetTimeZones();
-            ViewBag.Timezones = timezones.ToSelectList(x => x.Id, x => x.TimezoneName); 
+            ViewBag.Timezones = _accountService
+                .GetTimeZones()
+                .ToSelectList(x => x.Id, x => x.TimezoneName);
 
             return View();
         }
@@ -37,11 +38,12 @@ namespace TimeGo.Web.Mvc.Controllers
         [Route("signup")]
         public ActionResult SignUp(SignUpViewModel model)
         {
-            var timezones = _accountService.GetTimeZones();
+            ViewBag.Timezones = _accountService
+                .GetTimeZones()
+                .ToSelectList(x => x.Id, x => x.TimezoneName);
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Timezones = timezones.ToSelectList(x => x.Id, x => x.TimezoneName);
                 return View(model);
             }
             var newUser = Mapper.Map<SignUpRequest>(model);
@@ -52,7 +54,6 @@ namespace TimeGo.Web.Mvc.Controllers
                     ModelState.AddModelError<SignUpViewModel>(x => x.Email, Resource.EmailAlreadyExist);
                 if (error == ErrorCodes.CompanyAlreadyExists)
                     ModelState.AddModelError<SignUpViewModel>(x => x.CompanyUrl, Resource.UrlAlreadyExist);
-                ViewBag.Timezones = timezones.ToSelectList(x => x.Id, x => x.TimezoneName);
                 return View(model);
             }
             return RedirectToSubDomain(model.CompanyUrl);
@@ -112,19 +113,19 @@ namespace TimeGo.Web.Mvc.Controllers
         [Route("account/forgot")]
         public ActionResult ForgotPassword(ForgotPasswordViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var error = _accountService.ForgotPassword(model.Email);
+            if (!ModelState.IsValid)
+                return View(model);
 
-                if (error != ErrorCodes.Success)
-                {
-                    if (error == ErrorCodes.NotFoundEmail)
-                        ModelState.AddModelError<ForgotPasswordViewModel>(x => x.Email, Resource.NotFounEmail);
-                }
-                else
-                {
-                    return RedirectToAction("ForgotPassword");
-                }
+            var error = _accountService.ForgotPassword(model.Email);
+
+            if (error != ErrorCodes.Success)
+            {
+                if (error == ErrorCodes.NotFoundEmail)
+                    ModelState.AddModelError<ForgotPasswordViewModel>(x => x.Email, Resource.NotFounEmail);
+            }
+            else
+            {
+                return RedirectToAction("ForgotPassword");
             }
 
             return View(model);

@@ -1,4 +1,4 @@
-// IE10&11 Flexbox fix
+﻿// IE10&11 Flexbox fix
 @media all and (-ms-high-contrast:none) {
   html {
     display: flex;
@@ -17,6 +17,7 @@ app-root {
 
 .app-header {
   flex: 0 0 $navbar-height;
+  margin-bottom: 24px;
 }
 
 .app-footer {
