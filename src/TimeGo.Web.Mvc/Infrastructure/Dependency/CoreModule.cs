@@ -46,7 +46,7 @@ namespace TimeGo.Web.Mvc.Infrastructure.Dependency
 
             Bind<IOwinContext>().ToMethod(ctx => HttpContext.Current.GetOwinContext()).InRequestScope();
 
-            Kernel.BindFilter<UnitOfWorkFilter>(FilterScope.Action, 0);
+            //Kernel.BindFilter<UnitOfWorkFilter>(FilterScope.Action, 0);
             Kernel.BindFilter<HandleErrorAttribute>(FilterScope.Action, 1);
 
             Bind<TimeGoSettings>().ToConstant(_settings).InSingletonScope();

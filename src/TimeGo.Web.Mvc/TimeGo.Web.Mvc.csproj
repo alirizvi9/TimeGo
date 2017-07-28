@@ -239,6 +239,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\CompanyController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Admin\AdminAuthorizationAttribute.cs" />
+    <Compile Include="Areas\Admin\Models\AdminLoginViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\CompanyTableViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\EditCompanyViewModel.cs" />
     <Compile Include="Areas\AppApi\AppApiAreaRegistration.cs" />
     <Compile Include="Areas\AppApi\Controllers\ProfileController.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
@@ -276,6 +282,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Dependency\CoreModule.cs" />
+    <Compile Include="Infrastructure\Mapping\EditCompanyMapper.cs" />
     <Compile Include="Infrastructure\Mapping\SignUpViewModelMapper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
@@ -1286,8 +1293,6 @@
     <Content Include="App\tslint.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\Admin\Controllers\" />
-    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\AppApi\Models\" />
   </ItemGroup>
@@ -1346,6 +1351,8 @@
     <Content Include="Areas\Admin\Views\web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Views\Company\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Login\Index.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
   </ItemGroup>
   <PropertyGroup>

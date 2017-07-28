@@ -61,6 +61,33 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Approval Status.
+        /// </summary>
+        public static string ApprovalStatus {
+            get {
+                return ResourceManager.GetString("ApprovalStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Billing Address.
+        /// </summary>
+        public static string BillingAddress {
+            get {
+                return ResourceManager.GetString("BillingAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to City.
+        /// </summary>
+        public static string City {
+            get {
+                return ResourceManager.GetString("City", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Click here to Log in.
         /// </summary>
         public static string ClickToLogIn {
@@ -124,6 +151,24 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contact.
+        /// </summary>
+        public static string Contact {
+            get {
+                return ResourceManager.GetString("Contact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country.
+        /// </summary>
+        public static string Country {
+            get {
+                return ResourceManager.GetString("Country", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Account.
         /// </summary>
         public static string CreateAccount {
@@ -138,6 +183,15 @@ namespace TimeGo {
         public static string CreateYourAccount {
             get {
                 return ResourceManager.GetString("CreateYourAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit company.
+        /// </summary>
+        public static string EditCompany {
+            get {
+                return ResourceManager.GetString("EditCompany", resourceCulture);
             }
         }
         
@@ -241,6 +295,24 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Line1.
+        /// </summary>
+        public static string Line1 {
+            get {
+                return ResourceManager.GetString("Line1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Line2.
+        /// </summary>
+        public static string Line2 {
+            get {
+                return ResourceManager.GetString("Line2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string LogIn {
@@ -255,6 +327,15 @@ namespace TimeGo {
         public static string LoginError {
             get {
                 return ResourceManager.GetString("LoginError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage Companies.
+        /// </summary>
+        public static string ManageCompanies {
+            get {
+                return ResourceManager.GetString("ManageCompanies", resourceCulture);
             }
         }
         
@@ -331,6 +412,15 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PlanType.
+        /// </summary>
+        public static string PlanType {
+            get {
+                return ResourceManager.GetString("PlanType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reset password.
         /// </summary>
         public static string ResetPassword {
@@ -358,6 +448,24 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to State.
+        /// </summary>
+        public static string State {
+            get {
+                return ResourceManager.GetString("State", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timezone.
+        /// </summary>
+        public static string Timezone {
+            get {
+                return ResourceManager.GetString("Timezone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Url already exist.
         /// </summary>
         public static string UrlAlreadyExist {
@@ -376,11 +484,29 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Week start.
+        /// </summary>
+        public static string WeekStart {
+            get {
+                return ResourceManager.GetString("WeekStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Welcome in TimeGo.
         /// </summary>
         public static string WelcomeEmail {
             get {
                 return ResourceManager.GetString("WelcomeEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zip.
+        /// </summary>
+        public static string ZipCode {
+            get {
+                return ResourceManager.GetString("ZipCode", resourceCulture);
             }
         }
     }

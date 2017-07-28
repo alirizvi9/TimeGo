@@ -20,6 +20,16 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             _emailService = emailService;
         }
 
+        public List<CompanyApproved> GetCompanyApproves()
+        {
+            return _repository.Find<CompanyApproved>().ToList();
+        }
+
+        public List<SubscriptionPlan> GetSubscriptionPlans()
+        {
+            return _repository.Find<SubscriptionPlan>().ToList();
+        }
+
         public List<Timezone> GetTimeZones()
         {
             return _repository.Find<Timezone>().ToList();

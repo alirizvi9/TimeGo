@@ -225,4 +225,46 @@
   <data name="WelcomeEmail" xml:space="preserve">
     <value>Welcome in TimeGo</value>
   </data>
+  <data name="ApprovalStatus" xml:space="preserve">
+    <value>Approval Status</value>
+  </data>
+  <data name="BillingAddress" xml:space="preserve">
+    <value>Billing Address</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="EditCompany" xml:space="preserve">
+    <value>Edit company</value>
+  </data>
+  <data name="Line1" xml:space="preserve">
+    <value>Line1</value>
+  </data>
+  <data name="Line2" xml:space="preserve">
+    <value>Line2</value>
+  </data>
+  <data name="ManageCompanies" xml:space="preserve">
+    <value>Manage Companies</value>
+  </data>
+  <data name="PlanType" xml:space="preserve">
+    <value>PlanType</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="Timezone" xml:space="preserve">
+    <value>Timezone</value>
+  </data>
+  <data name="WeekStart" xml:space="preserve">
+    <value>Week start</value>
+  </data>
+  <data name="ZipCode" xml:space="preserve">
+    <value>Zip</value>
+  </data>
 </root>

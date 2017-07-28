@@ -74,7 +74,7 @@ namespace TimeGo.Web.Mvc.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("login")]
-        public ActionResult CompanyLogin(LoginViewModel model, string returnUrl)
+        public ActionResult CompanyLogin(LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {

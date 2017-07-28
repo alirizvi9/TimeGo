@@ -8,14 +8,14 @@ namespace TimeGo.Web.Mvc
         public static void RegisterBundles(BundleCollection bundles)
         {
             //SignUp pages and Super Admin
-            bundles.Add(new ScriptBundle("~/bundles/static")
+            bundles.Add(new ScriptBundle("~/bundles/staticJs")
                 .Include(
                     "~/Content/scrips/jquery.min.js",
                     "~/Content/scrips/tether.min.js",
                     "~/Content/scrips/bootstrap.min.js",
                     "~/Content/scrips/pace.min.js"));
 
-            bundles.Add(new StyleBundle("~/bundles/static").Include(
+            bundles.Add(new StyleBundle("~/bundles/staticCss").Include(
                     "~/Content/css/font-awesome.min.css",
                     "~/Content/css/simple-line-icons.css",
                     "~/Content/css/glyphicons.css",

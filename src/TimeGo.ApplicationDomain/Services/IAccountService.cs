@@ -9,6 +9,8 @@ namespace TimeGo.ApplicationDomain.Services
     {
         ErrorCodes SignUp(SignUpRequest model);
         List<Timezone> GetTimeZones();
+        List<SubscriptionPlan> GetSubscriptionPlans();
+        List<CompanyApproved> GetCompanyApproves();
         ErrorCodes ForgotPassword(string email);
         void ResetPassword(int userId, string code, string password);
         void ConfirmEmail(int userId, string code);

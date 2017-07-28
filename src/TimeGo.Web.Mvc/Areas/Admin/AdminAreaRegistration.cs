@@ -8,7 +8,13 @@ namespace TimeGo.Web.Mvc.Areas.Admin
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
-            context.Routes.MapMvcAttributeRoutes();
+            context.Routes.LowercaseUrls = true;
+            context.MapRoute(
+                "Admin_default",
+                "root/{controller}/{action}/{id}",
+                new { controller = "Company", action = "Index", id = UrlParameter.Optional },
+                new[] { "TimeGo.Web.Mvc.Areas.Admin.Controllers" }
+            );
         }
     }
 }

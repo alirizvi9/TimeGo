@@ -20,7 +20,9 @@ namespace TimeGo.ApplicationDomain
                     UserFileLocation = ConfigurationManager.AppSettings["UserFileLocation"],
                     EmailTemplateLocation = ConfigurationManager.AppSettings["EmailTemplateLocation"],
                     EmailFrom = ConfigurationManager.AppSettings["EmailFrom"],
-                    EmailFromName = ConfigurationManager.AppSettings["EmailFromName"]
+                    EmailFromName = ConfigurationManager.AppSettings["EmailFromName"],
+                    AdminLogin = ConfigurationManager.AppSettings["AdminLogin"],
+                    AdminPassword = ConfigurationManager.AppSettings["AdminPassword"],
                 };
 
                 return configuration;
@@ -57,5 +59,7 @@ namespace TimeGo.ApplicationDomain
         public string EmailTemplateLocation { get; set; }
         public string EmailFrom { get; set; }
         public string EmailFromName { get; set; }
+        public string AdminLogin { get; set; }
+        public string AdminPassword { get; set; }
     }
 }
