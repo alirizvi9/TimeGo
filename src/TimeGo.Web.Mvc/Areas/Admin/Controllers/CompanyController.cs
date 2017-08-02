@@ -12,6 +12,7 @@ namespace TimeGo.Web.Mvc.Areas.Admin.Controllers
     {
         protected ICompanyService _companyService;
         protected IAccountService _accountService;
+        protected const int PageSize = 10;
 
         public CompanyController(ICompanyService companyService, IAccountService accountService)
         {
@@ -20,30 +21,45 @@ namespace TimeGo.Web.Mvc.Areas.Admin.Controllers
         }
 
         // GET: Admin/Company
-        public ActionResult Index(int? idCompany = null, string sortBy = "CompanyName", bool ascending = true)
+        public ActionResult Index(int? idCompany = null, string sortBy = "CompanyName", bool ascending = true, int page = 0)
         {
             var model = new CompanyTableViewModel();
             model.SortBy = sortBy;
             model.IsAscending = ascending;
-            var companies = _companyService.GetAll(model.SortExpression, 0, 10).ToList();
+            var companies = _companyService.GetPage(model.SortExpression, page, PageSize).ToList();
             var editCompany = idCompany!= null ? companies.SingleOrDefault(x=>x.Id == idCompany) : companies.FirstOrDefault();
             model.Companies = companies;
-            model.SelectedCompany = Mapper.Map<EditCompanyViewModel>(editCompany);
-
+            model.CurrentPage = page;
+            model.CountPages = _companyService.Count() / PageSize + 1;
             FillViewBag();
 
             return View(model);
         }
 
-        [HttpPost]
-        public ActionResult Index(CompanyTableViewModel model)
+        public ActionResult EditCompany(long id)
         {
-            if(ModelState.IsValid)
+            var editCompany = _companyService.GetCompany(id);
+            var model = Mapper.Map<EditCompanyViewModel>(editCompany);
+            FillViewBag();
+            return PartialView("EditCompany", model);
+        }
+
+        [HttpPost]
+        public ActionResult EditCompany(EditCompanyViewModel model)
+        {
+            if (ModelState.IsValid)
             {
-               var error = _companyService.EditCompany(Mapper.Map<Company>(model.SelectedCompany));
+                var error = _companyService.EditCompany(Mapper.Map<Company>(model));
+                return RedirectToAction("Index");
             }
             FillViewBag();
-            return View(model);
+            return PartialView("EditCompany", model);
+        }
+
+        public ActionResult DeleteCompany(long id)
+        {
+            _companyService.DeleteCompany(id);
+            return RedirectToAction("Index");
         }
 
         private void FillViewBag()

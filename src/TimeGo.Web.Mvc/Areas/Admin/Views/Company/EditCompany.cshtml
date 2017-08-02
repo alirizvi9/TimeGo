@@ -1,0 +1,113 @@
+﻿@model TimeGo.Web.Mvc.Areas.Admin.Models.EditCompanyViewModel
+@using TimeGo;
+<div id="groupmodal">
+    @using (Ajax.BeginForm("EditCompany", null,
+                                                                                                            new AjaxOptions
+                                                                                                            {
+                                                                                                                UpdateTargetId = "groupmodal"
+                                                                                                            },
+                                                                                                            new
+                                                                                                            {
+                                                                                                                id = "groupform",
+                                                                                                                autocomplete = "off"
+                                                                                                            }))
+    {
+        <div class="modal-header">
+            <h4 class="modal-title">@Resource.EditCompany</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+                <div class="modal-body">
+
+                    <div class="card p-4">
+                        <div class="card-block">
+                            @Html.HiddenFor(x => x.Id)
+                            <div class="form-group mb-3">
+                                <label>@Resource.CompanyName</label>
+                                @Html.TextBoxFor(m => m.CompanyName, new { Class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.CompanyName, "", new { @class = "validation-error" })
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>@Resource.Email</label>
+                                @Html.TextBoxFor(m => m.EmailAddress, new { Class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.EmailAddress, "", new { @class = "validation-error" })
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>@Resource.Timezone</label>
+                                @Html.DropDownListFor(m => m.TimezoneId, (SelectList)ViewBag.Timezones, new { @Class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.TimezoneId, "", new { @class = "validation-error" })
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>@Resource.PlanType</label>
+                                @Html.DropDownListFor(m => m.SubscriptionPlanId, (SelectList)ViewBag.SubscriptionPlans, new { @Class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.SubscriptionPlanId, "", new { @class = "validation-error" })
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>@Resource.CompanyURL</label>
+                                @Html.TextBoxFor(m => m.TimeGoUrl, new { Class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.TimeGoUrl, "", new { @class = "validation-error" })
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>@Resource.FullName</label>
+                                @Html.TextBoxFor(m => m.ContactName, new { Class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.ContactName, "", new { @class = "validation-error" })
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>@Resource.PhoneNumber</label>
+                                @Html.TextBoxFor(m => m.PhoneNumber, new { Class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "validation-error" })
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>@Resource.WeekStart</label>
+                                @Html.EnumDropDownListFor(m => m.WorkweekStaryDay, new { @Class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.WorkweekStaryDay, "", new { @class = "validation-error" })
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>@Resource.ApprovalStatus</label>
+                                @Html.DropDownListFor(m => m.CompanyApprovedId, (SelectList)ViewBag.CompanyApproveds, new { @Class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.BillingAddressLine1, "", new { @class = "validation-error" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card p-4">
+                        <div class="card-block">
+                            <h2>@Resource.BillingAddress</h2>
+                            <div class="form-group mb-3">
+                                <label>@Resource.Country</label>
+                                @Html.TextBoxFor(m => m.BillingAddressCountry, new { Class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.BillingAddressCountry, "", new { @class = "validation-error" })
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>@Resource.State</label>
+                                @Html.TextBoxFor(m => m.BillingAddressState, new { Class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.BillingAddressState, "", new { @class = "validation-error" })
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>@Resource.City</label>
+                                @Html.TextBoxFor(m => m.BillingAddressCity, new { Class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.BillingAddressCity, "", new { @class = "validation-error" })
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>@Resource.ZipCode</label>
+                                @Html.TextBoxFor(m => m.BillingAddressZip, new { Class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.BillingAddressZip, "", new { @class = "validation-error" })
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>@Resource.Line1</label>
+                                @Html.TextBoxFor(m => m.BillingAddressLine1, new { Class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.BillingAddressLine1, "", new { @class = "validation-error" })
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>@Resource.Line2</label>
+                                @Html.TextBoxFor(m => m.BillingAddressLine2, new { Class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.BillingAddressLine2, "", new { @class = "validation-error" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">@Resource.EditCompany</button>
+                </div>
+    }
+</div>

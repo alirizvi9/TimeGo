@@ -1,11 +1,10 @@
 ﻿@model TimeGo.Web.Mvc.Areas.Admin.Models.CompanyTableViewModel
 @using TimeGo;
 @{
-    Layout = "~/Views/Shared/_SignUpLayout.cshtml";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
     ViewBag.Title = Resource.ManageCompanies;
 }
-@using (Html.BeginForm("Index", "Company", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
+<div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <h1>@Resource.ManageCompanies</h1>
@@ -17,38 +16,39 @@
                                 <tr>
                                     <td>
                                         @Resource.CompanyName
-                                        <a class="table-sort" href="@Url.Action("Index", new { sortBy = "CompanyName", ascending = Model.SortOrder("CompanyName") })"></a>
+                                        <a class="icon-arrow-down" href="@Url.Action("Index", new { sortBy = "CompanyName", ascending = Model.SortOrder("CompanyName"), page = Model.CurrentPage })"></a>
                                     </td>
 
                                     <td>
                                         @Resource.Contact
-                                        <a class="table-sort" href="@Url.Action("Index", new { sortBy = "ContactName", ascending = Model.SortOrder("ContactName") })"></a>
+                                        <a class="icon-arrow-down" href="@Url.Action("Index", new { sortBy = "ContactName", ascending = Model.SortOrder("ContactName"), page = Model.CurrentPage })"></a>
                                     </td>
 
                                     <td>
                                         @Resource.Email
-                                        <a class="table-sort" href="@Url.Action("Index", new { sortBy = "EmailAddress", ascending = Model.SortOrder("EmailAddress") })"></a>
+                                        <a class="icon-arrow-down" href="@Url.Action("Index", new { sortBy = "EmailAddress", ascending = Model.SortOrder("EmailAddress"), page = Model.CurrentPage })"></a>
                                     </td>
 
                                     <td>
                                         @Resource.PhoneNumber
-                                        <a class="table-sort" href="@Url.Action("Index", new { sortBy = "PhoneNumber", ascending = Model.SortOrder("PhoneNumber") })"></a>
+                                        <a class="icon-arrow-down" href="@Url.Action("Index", new { sortBy = "PhoneNumber", ascending = Model.SortOrder("PhoneNumber"), page = Model.CurrentPage })"></a>
                                     </td>
 
                                     <td>
                                         @Resource.CompanyURL
-                                        <a class="table-sort" href="@Url.Action("Index", new { sortBy = "TimeGoUrl", ascending = Model.SortOrder("TimeGoUrl") })"></a>
+                                        <a class="icon-arrow-down" href="@Url.Action("Index", new { sortBy = "TimeGoUrl", ascending = Model.SortOrder("TimeGoUrl"), page = Model.CurrentPage })"></a>
                                     </td>
 
                                     <td>
                                         @Resource.PlanType
-                                        <a class="table-sort" href="@Url.Action("Index", new { sortBy = "SubscriptionPlanId", ascending = Model.SortOrder("SubscriptionPlanId") })"></a>
+                                        <a class="icon-arrow-down" href="@Url.Action("Index", new { sortBy = "SubscriptionPlanId", ascending = Model.SortOrder("SubscriptionPlanId"), page = Model.CurrentPage })"></a>
                                     </td>
 
                                     <td>
                                         @Resource.WeekStart
-                                        <a class="table-sort" href="@Url.Action("Index", new { sortBy = "WorkweekStaryDay", ascending = Model.SortOrder("WorkweekStaryDay") })"></a>
+                                        <a class="icon-arrow-down" href="@Url.Action("Index", new { sortBy = "WorkweekStaryDay", ascending = Model.SortOrder("WorkweekStaryDay"), page = Model.CurrentPage })"></a>
                                     </td>
+                                    <td>@Resource.Actions</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,115 +62,101 @@
                                         <td>@Model.Companies[i].TimeGoUrl</td>
                                         <td>@Model.Companies[i].SubscriptionPlanId</td>
                                         <td>@Model.Companies[i].WorkweekStaryDay</td>
+                                        <td>
+                                            <a href="javascript:void(0);" class="fa fa-edit editCompany" data-id="@Model.Companies[i].Id"></a>
+                                            @*<a href="@Url.Action("EditCompany", "Company", new { id = Model.Companies[i].Id })" class="modal-link" title="edit" data-target="#modal-container" data-toggle="modal">edit</a>*@
+                                            <a href="@Url.Action("DeleteCompany", "Company", new {id = Model.Companies[i].Id})" class="fa fa-remove" title="delete"></a>
+                                        </td>
                                         @Html.HiddenFor(x => x.Companies[i].Id)
                                     </tr>
                                 }
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <h1>@Resource.EditCompany</h1>
-            <div class="card-group mb-0">
-                <div class="card p-4">
-                    <div class="card-block">
-                        @Html.HiddenFor(x => x.SelectedCompany.Id)
-                        <div class="form-group mb-3">
-                            <label>@Resource.CompanyName</label>
-                            @Html.TextBoxFor(m => m.SelectedCompany.CompanyName, new { Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.SelectedCompany.CompanyName, "", new { @class = "validation-error" })
+
+                        <div id='myModal' class='modal'>
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div id='myModalContent'></div>
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="form-group mb-3">
-                            <label>@Resource.Email</label>
-                            @Html.TextBoxFor(m => m.SelectedCompany.EmailAddress, new { Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.SelectedCompany.EmailAddress, "", new { @class = "validation-error" })
-                        </div>
-                        <div class="form-group mb-3">
-                            <label>@Resource.Timezone</label>
-                            @Html.DropDownListFor(m => m.SelectedCompany.TimezoneId, (SelectList)ViewBag.Timezones, new { @Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.SelectedCompany.TimezoneId, "", new { @class = "validation-error" })
-                        </div>
-                        <div class="form-group mb-3">
-                            <label>@Resource.PlanType</label>
-                            @Html.DropDownListFor(m => m.SelectedCompany.SubscriptionPlanId, (SelectList)ViewBag.SubscriptionPlans, new { @Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.SelectedCompany.SubscriptionPlanId, "", new { @class = "validation-error" })
-                        </div>
-                        <div class="form-group mb-3">
-                            <label>@Resource.CompanyURL</label>
-                            @Html.TextBoxFor(m => m.SelectedCompany.TimeGoUrl, new { Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.SelectedCompany.TimeGoUrl, "", new { @class = "validation-error" })
-                        </div>
-                        <div class="form-group mb-3">
-                            <label>@Resource.FullName</label>
-                            @Html.TextBoxFor(m => m.SelectedCompany.ContactName, new { Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.SelectedCompany.ContactName, "", new { @class = "validation-error" })
-                        </div>
-                        <div class="form-group mb-3">
-                            <label>@Resource.PhoneNumber</label>
-                            @Html.TextBoxFor(m => m.SelectedCompany.PhoneNumber, new { Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.SelectedCompany.PhoneNumber, "", new { @class = "validation-error" })
-                        </div>
-                        <div class="form-group mb-3">
-                            <label>@Resource.WeekStart</label>
-                            @Html.EnumDropDownListFor(m => m.SelectedCompany.WorkweekStaryDay, new { @Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.SelectedCompany.WorkweekStaryDay, "", new { @class = "validation-error" })
-                        </div>
-                        <div class="form-group mb-3">
-                            <label>@Resource.ApprovalStatus</label>
-                            @Html.DropDownListFor(m => m.SelectedCompany.CompanyApprovedId, (SelectList)ViewBag.CompanyApproveds, new { @Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.SelectedCompany.BillingAddressLine1, "", new { @class = "validation-error" })
-                        </div>
-                    </div>
-                </div>
-                <div class="card p-4">
-                    <div class="card-block">
-                        <h2>@Resource.BillingAddress</h2>
-                        <div class="form-group mb-3">
-                            <label>@Resource.Country</label>
-                            @Html.TextBoxFor(m => m.SelectedCompany.BillingAddressCountry, new { Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.SelectedCompany.BillingAddressCountry, "", new { @class = "validation-error" })
-                        </div>
-                        <div class="form-group mb-3">
-                            <label>@Resource.State</label>
-                            @Html.TextBoxFor(m => m.SelectedCompany.BillingAddressState, new { Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.SelectedCompany.BillingAddressState, "", new { @class = "validation-error" })
-                        </div>
-                        <div class="form-group mb-3">
-                            <label>@Resource.City</label>
-                            @Html.TextBoxFor(m => m.SelectedCompany.BillingAddressCity, new { Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.SelectedCompany.BillingAddressCity, "", new { @class = "validation-error" })
-                        </div>
-                        <div class="form-group mb-3">
-                            <label>@Resource.ZipCode</label>
-                            @Html.TextBoxFor(m => m.SelectedCompany.BillingAddressZip, new { Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.SelectedCompany.BillingAddressZip, "", new { @class = "validation-error" })
-                        </div>
-                        <div class="form-group mb-3">
-                            <label>@Resource.Line1</label>
-                            @Html.TextBoxFor(m => m.SelectedCompany.BillingAddressLine1, new { Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.SelectedCompany.BillingAddressLine1, "", new { @class = "validation-error" })
-                        </div>
-                        <div class="form-group mb-3">
-                            <label>@Resource.Line2</label>
-                            @Html.TextBoxFor(m => m.SelectedCompany.BillingAddressLine2, new { Class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.SelectedCompany.BillingAddressLine2, "", new { @class = "validation-error" })
-                        </div>
-                        <button type="submit" class="btn btn-block btn-success">@Resource.EditCompany</button>
+                        <nav>
+                            <ul class="pagination">
+                                @if (Model.CountPages > 1)
+                                {
+                                    if (Model.CurrentPage != 0)
+                                    {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index", new { sortBy = Model.SortBy, ascending = Model.IsAscending, page = Model.CurrentPage - 1 })">Prev</a>
+                                </li>
+                                    }
+                                    for (var i = 0; i < Model.CountPages; i++)
+                                    {
+                                        if (i == Model.CurrentPage)
+                                        {
+                                <li class="page-item active">
+                                    <a class="page-link" href="@Url.Action("Index", new { sortBy = Model.SortBy, ascending = Model.IsAscending, page = i })">@(i + 1) </a>
+                                </li>
+                                        }
+                                        else
+                                        {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index", new { sortBy = Model.SortBy, ascending = Model.IsAscending, page = i })">@(i + 1)</a>
+                                </li>
+                                        }
+                                    }
+                                    if (Model.CurrentPage < Model.CountPages)
+                                    {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Index", new { sortBy = Model.SortBy, ascending = Model.IsAscending, page = Model.CurrentPage + 1 })">Next</a>
+                                </li>
+                                    }
+                                }
+                            </ul>
+                        </nav>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-}
+</div>
 
 @section scripts {
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('table.table tr').click(function () {
-                window.location.href = $(this).data('url');
+    <script>
+        var EditURL = 'root/Company/EditCompany';
+        $(function () {
+            $(".editCompany").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: EditURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
             });
-        })
-    </script>}
+            //$("#closebtn").on('click',function(){
+            //    $('#myModal').modal('hide');
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+
+</script>  
+    }

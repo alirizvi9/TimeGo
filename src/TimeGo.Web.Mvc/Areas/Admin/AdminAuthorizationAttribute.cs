@@ -31,7 +31,7 @@ namespace TimeGo.Web.Mvc.Areas.Admin
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            const string loginUrl = "~/root/Login";
+            const string loginUrl = "~/root/AdminLogin";
 
             filterContext.Result = new RedirectResult(loginUrl + "?returnUrl=" + filterContext.HttpContext.Request.Url.PathAndQuery);
         }

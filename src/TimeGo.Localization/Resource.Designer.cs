@@ -61,6 +61,24 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Actions.
+        /// </summary>
+        public static string Actions {
+            get {
+                return ResourceManager.GetString("Actions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Admin.
+        /// </summary>
+        public static string Admin {
+            get {
+                return ResourceManager.GetString("Admin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Approval Status.
         /// </summary>
         public static string ApprovalStatus {
@@ -237,6 +255,15 @@ namespace TimeGo {
         public static string EnterYourEmail {
             get {
                 return ResourceManager.GetString("EnterYourEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter tour Email to restore password.
+        /// </summary>
+        public static string EnterYourEmailRestore {
+            get {
+                return ResourceManager.GetString("EnterYourEmailRestore", resourceCulture);
             }
         }
         
@@ -426,6 +453,24 @@ namespace TimeGo {
         public static string ResetPassword {
             get {
                 return ResourceManager.GetString("ResetPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restore.
+        /// </summary>
+        public static string Restore {
+            get {
+                return ResourceManager.GetString("Restore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restore password.
+        /// </summary>
+        public static string RestorePassword {
+            get {
+                return ResourceManager.GetString("RestorePassword", resourceCulture);
             }
         }
         

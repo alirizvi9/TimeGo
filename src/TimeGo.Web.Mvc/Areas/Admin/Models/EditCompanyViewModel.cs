@@ -1,12 +1,18 @@
-﻿using TimeGo.ApplicationDomain.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using TimeGo.ApplicationDomain.Enums;
 
 namespace TimeGo.Web.Mvc.Areas.Admin.Models
 {
     public class EditCompanyViewModel
     {
         public long Id { get; set; }
+        [Required]
         public string CompanyName { get; set; }
+        [Required]
+        [DataType(DataType.EmailAddress, ErrorMessageResourceName = "EmailNotValid", ErrorMessageResourceType = typeof(Resource))]
+        [RegularExpression("^.+@.+\\..+$", ErrorMessageResourceName = "EmailNotValid", ErrorMessageResourceType = typeof(Resource))]
         public string EmailAddress { get; set; }
+        [Required]
         public string ContactName { get; set; }
         public string BillingAddressLine1 { get; set; }
         public string BillingAddressLine2 { get; set; }
@@ -16,7 +22,9 @@ namespace TimeGo.Web.Mvc.Areas.Admin.Models
         public string BillingAddressCountry { get; set; }
         public long TimezoneId { get; set; }
         public Weekdays WorkweekStaryDay { get; set; }
+        [Required]
         public string PhoneNumber { get; set; }
+        [Required]
         public string TimeGoUrl { get; set; }
         public long CompanyApprovedId { get; set; }
         public long SubscriptionPlanId { get; set; }

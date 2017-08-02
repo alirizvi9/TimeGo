@@ -267,4 +267,19 @@
   <data name="ZipCode" xml:space="preserve">
     <value>Zip</value>
   </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="EnterYourEmailRestore" xml:space="preserve">
+    <value>Enter tour Email to restore password</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="RestorePassword" xml:space="preserve">
+    <value>Restore password</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
 </root>

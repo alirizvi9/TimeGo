@@ -4,11 +4,11 @@ using TimeGo.Web.Mvc.Areas.Admin.Models;
 
 namespace TimeGo.Web.Mvc.Areas.Admin.Controllers
 {
-    public class LoginController : Controller
+    public class AdminLoginController : Controller
     {
         protected readonly TimeGoSettings Settings;
 
-        public LoginController(TimeGoSettings settings)
+        public AdminLoginController(TimeGoSettings settings)
         {
             Settings = settings;
         }
@@ -29,6 +29,12 @@ namespace TimeGo.Web.Mvc.Areas.Admin.Controllers
             }
             ModelState.AddModelError<AdminLoginViewModel>(x => x.Login, Resource.LoginError);
             return View(model);
+        }
+
+        public ActionResult Logout()
+        {
+            Session[AdminAuthorizationAttribute.IS_ADMIN_SESSION_KEY] = null;
+            return RedirectToAction("Index");
         }
     }
 }

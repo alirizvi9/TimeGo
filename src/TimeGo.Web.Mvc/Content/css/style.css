@@ -1,4 +1,4 @@
-/**
+﻿/**
  * GenesisUI - Bootstrap 4 Admin Template
  * @version v1.8.4
  * @link https://genesisui.com
@@ -3078,8 +3078,7 @@ tbody.collapse.show {
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: #fff;
-  border: 1px solid #d1d4d7; }
+  background-color: #fff;}
 
 .card-block {
   flex: 1 1 auto;
@@ -12582,7 +12581,6 @@ base-chart.chart {
     padding: 0.5rem 1rem;
     margin-right: 0;
     background-color: #20a8d8;
-    background-image: url("../img/logo.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 70px auto;

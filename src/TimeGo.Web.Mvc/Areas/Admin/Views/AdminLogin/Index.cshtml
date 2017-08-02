@@ -5,10 +5,10 @@
     Layout = "~/Views/Shared/_SignUpLayout.cshtml";
 }
 
-@using (Html.BeginForm("Index", "Login", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Index", "AdminLogin", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="card-group mb-0">
                 <div class="card p-4">
                     <div class="card-block">

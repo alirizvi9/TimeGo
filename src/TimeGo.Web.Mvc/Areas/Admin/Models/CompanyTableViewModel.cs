@@ -7,7 +7,8 @@ namespace TimeGo.Web.Mvc.Areas.Admin.Models
     {
         public List<Company> Companies { get; set; }
 
-        public EditCompanyViewModel SelectedCompany { get; set; }
+        public int CountPages { get; set; }
+        public int CurrentPage { get; set; }
 
         public string SortBy { get; set; }
         public bool IsAscending { get; set; }

@@ -125,10 +125,17 @@ namespace TimeGo.Web.Mvc.Controllers
             }
             else
             {
-                return RedirectToAction("ForgotPassword");
+                return RedirectToAction("ForgotPasswordConfirmation");
             }
 
             return View(model);
+        }
+
+        [AllowAnonymous]
+        [Route("account/ForgotConfirm")]
+        public ActionResult ForgotPasswordConfirmation()
+        {
+            return View();
         }
 
         [AllowAnonymous]

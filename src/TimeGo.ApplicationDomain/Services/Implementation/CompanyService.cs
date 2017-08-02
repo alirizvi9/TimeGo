@@ -23,9 +23,19 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             return company;
         }
 
-        public IEnumerable<Company> GetAll(string sortExpression, int page, int pageSize)
+        public IEnumerable<Company> GetAll()
+        {
+            return _repository.Find<Company>();
+        }
+
+        public IEnumerable<Company> GetPage(string sortExpression, int page, int pageSize)
         {
             return _repository.Find<Company>().OrderBy(sortExpression).Skip(pageSize * page).Take(pageSize);
+        }
+
+        public int Count()
+        {
+            return _repository.Find<Company>().Count();
         }
 
         public ErrorCodes EditCompany(Company model)
@@ -48,6 +58,26 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             company.SubscriptionPlanId = model.SubscriptionPlanId;
             _repository.Save();
             return ErrorCodes.Success;
+        }
+
+        public Company GetCompany(long id)
+        {
+            return _repository.Find<Company>(x => x.Id == id).SingleOrDefault();
+        }
+
+        public void DeleteCompany(long id)
+        {
+            var company = _repository.Find<Company>(x => x.Id == id).SingleOrDefault();
+            if (company != null)
+            {
+                _repository.Delete(company);
+                var users = _repository.Find<Employee>(x => x.CompanyId == id);
+                foreach(var user in users)
+                {
+                    _repository.Delete(user);
+                }
+                _repository.Save();
+            }
         }
     }
 }
