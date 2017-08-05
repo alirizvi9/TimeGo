@@ -29,8 +29,13 @@ export const routes: Routes = [
         loadChildren: './tasks/tasks.module#TasksModule'
       },
       {
-        path: 'widgets',
-        loadChildren: './widgets/widgets.module#WidgetsModule'
+        path: 'timeoff',
+        loadChildren: './timeoff/timeoff.module#TimeoffModule'
+      }
+      ,
+      {
+        path: 'periods',
+        loadChildren: './periods/periods.module#PeriodsModule'
       }
     ]
   }
