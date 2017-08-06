@@ -10,79 +10,79 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card card-block">
-                <h1>@Resource.SignUp</h1>
-                <p class="text-muted">@Resource.CreateYourAccount</p>
+                <div class="card-header">
+                    <h1>@Resource.SignUp</h1>
+                    <p class="text-muted">@Resource.CreateYourAccount</p>
+                </div>
                 <div class="card-group mb-0">
-                    <div class="card p-4">
-                        <div class="card-block">
-                            @Html.ValidationMessageFor(m => m.CompanyName, "", new { @class = "validation-error" })
-                            <div class="input-group mb-3">
-                                <span class="input-group-addon">
-                                    <i class="icon-organization"></i>
-                                </span>
-                                @Html.TextBoxFor(m => m.CompanyName, new { Class = "form-control", @placeholder = Resource.CompanyName })
-                            </div>
-                            @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "validation-error" })
-                            <div class="input-group mb-3">
-                                <span class="input-group-addon">
-                                    <i class="icon-user"></i>
-                                </span>
-                                @Html.TextBoxFor(m => m.FullName, new { Class = "form-control", @placeholder = Resource.FullName })
-                            </div>
-                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "validation-error" })
-                            <div class="input-group mb-3">
-                                <span class="input-group-addon">@@</span>
-                                @Html.TextBoxFor(m => m.Email, new { Class = "form-control", @placeholder = Resource.Email })
-                            </div>
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "validation-error" })
-                            <div class="input-group mb-3">
-                                <span class="input-group-addon">
-                                    <i class="icon-lock"></i>
-                                </span>
-                                @Html.PasswordFor(m => m.Password, new { Class = "form-control", @placeholder = Resource.Password })
-                            </div>
-                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "validation-error" })
-                            <div class="input-group mb-3">
-                                <span class="input-group-addon">
-                                    <i class="icon-lock"></i>
-                                </span>
-                                @Html.PasswordFor(m => m.ConfirmPassword, new { Class = "form-control", @placeholder = Resource.ConfirmPassword })
-                            </div>
+                    <div class="card-block p-4 border-right">
+                        <div class="input-group mb-3 required">
+                            <span class="input-group-addon">
+                                <i class="icon-organization"></i>
+                            </span>
+                            @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control", @placeholder = Resource.CompanyName })
+                            @Html.ValidationMessageFor(m => m.CompanyName, "", new { @class = "tooltiptext tooltiptext-left" })
+                        </div>
+                        <div class="input-group mb-3 required">
+                            <span class="input-group-addon">
+                                <i class="icon-user"></i>
+                            </span>
+                            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", @placeholder = Resource.FullName })
+                            @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "tooltiptext tooltiptext-left" })
+                        </div>
+                        <div class="input-group mb-3 required">
+                            <span class="input-group-addon">@@</span>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = Resource.Email })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "tooltiptext tooltiptext-left" })
+                        </div>
+                        <div class="input-group mb-3 required">
+                            <span class="input-group-addon">
+                                <i class="icon-lock"></i>
+                            </span>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = Resource.Password })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "tooltiptext tooltiptext-left" })
+                        </div>
+                        <div class="input-group mb-3 required">
+                            <span class="input-group-addon">
+                                <i class="icon-lock"></i>
+                            </span>
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = Resource.ConfirmPassword })
+                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "tooltiptext tooltiptext-left" })
                         </div>
                     </div>
-                    <div class="card p-4">
-                        <div class="card-block">
-                            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "validation-error" })
-                            <div class="input-group mb-3">
-                                <span class="input-group-addon">
-                                    <i class="icon-phone"></i>
-                                </span>
-                                @Html.TextBoxFor(m => m.PhoneNumber, new { Class = "form-control", @placeholder = Resource.PhoneNumber })
-                            </div>
-                            @Html.ValidationMessageFor(m => m.TimezoneId, "", new { @class = "validation-error" })
-                            <div class="input-group mb-3">
-                                <span class="input-group-addon">
-                                    <i class="icon-clock"></i>
-                                </span>
-                                @Html.DropDownListFor(m => m.TimezoneId, (SelectList)ViewBag.Timezones, new { @Class = "form-control" })
-                            </div>
-                            @Html.ValidationMessageFor(m => m.Weekdays, "", new { @class = "validation-error" })
-                            <div class="input-group mb-3">
-                                <span class="input-group-addon">
-                                    <i class="icon-calendar"></i>
-                                </span>
-                                @Html.EnumDropDownListFor(m => m.Weekdays, new { @Class = "form-control" })
-                            </div>
-                            @Html.ValidationMessageFor(m => m.CompanyUrl, "", new { @class = "validation-error" })
-                            <div class="input-group mb-3">
-                                @Html.TextBoxFor(m => m.CompanyUrl, new { @class = "form-control", @placeholder = Resource.CompanyURL })
-                                <span class="input-group-addon">
-                                    <i class="">.timego.com/</i>
-                                </span>
-                            </div>
-                            <button type="submit" class="btn btn-block btn-success">@Resource.CreateAccount</button>
+                    <div class="card-block p-4">
+                        <div class="input-group mb-3 required">
+                            <span class="input-group-addon">
+                                <i class="icon-phone"></i>
+                            </span>
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = Resource.PhoneNumber })
+                            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "tooltiptext tooltiptext-right" })
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon required">
+                                <i class="icon-clock"></i>
+                            </span>
+                            @Html.DropDownListFor(m => m.TimezoneId, (SelectList)ViewBag.Timezones, @Resource.Timezone, new { @class = "form-control", @placeholder = Resource.Timezone })
+                            @Html.ValidationMessageFor(m => m.TimezoneId, "", new { @class = "tooltiptext tooltiptext-right" })
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon required">
+                                <i class="icon-calendar"></i>
+                            </span>
+                            @Html.DropDownListFor(m => m.Weekdays, (SelectList)ViewBag.Weekdays, Resource.WeekStart, new { @class = "form-control", @placeholder = Resource.WeekStart })
+                            @Html.ValidationMessageFor(m => m.Weekdays, "", new { @class = "tooltiptext tooltiptext-right" })
+                        </div>
+                        <div class="input-group mb-3 required">
+                            @Html.TextBoxFor(m => m.CompanyUrl, new { @class = "form-control", @placeholder = Resource.CompanyURL })
+                            <span class="input-group-addon">
+                                <i class="">.timego.com/</i>
+                            </span>
+                            @Html.ValidationMessageFor(m => m.CompanyUrl, "", new { @class = "tooltiptext tooltiptext-right" })
                         </div>
                     </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-success pull-right">@Resource.CreateAccount</button>
                 </div>
             </div>
         </div>

@@ -39,10 +39,18 @@
                         @Resource.Admin
                     </li>
                     <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle"><i class=""></i> Companies</a>
+                        <a class="nav-link nav-dropdown-toggle"><i class=""></i> @Resource.Companies</a>
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("Index","Company")"><i class=""></i> @Resource.ManageCompanies</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item nav-dropdown">
+                        <a class="nav-link nav-dropdown-toggle"><i class=""></i> @Resource.Employees</a>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index","Employee")"><i class=""></i> @Resource.ManageEmployee</a>
                             </li>
                         </ul>
                     </li>
@@ -56,10 +64,7 @@
         </main>
     </div>
 
-    <script src="~/Content/scripts/jquery.min.js"></script>
-    <script src="~/Content/scripts/bootstrap.min.js"></script>
-    <script src="~/Content/scripts/tether.min.js"></script>
-    <script src="~/Content/scripts/app.js"></script>
+    @Scripts.Render("~/bundles/staticJs")
     @RenderSection("scripts", required: false)
     <footer class="app-footer">
         © TimeGo 2017

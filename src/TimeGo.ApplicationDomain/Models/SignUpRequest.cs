@@ -20,7 +20,7 @@ namespace TimeGo.ApplicationDomain.Models
         
         public string ConfirmPassword { get; set; }
         
-        public int TimezoneId { get; set; }
+        public long TimezoneId { get; set; }
         
         public Weekdays WorkweekStaryDay { get; set; }
         

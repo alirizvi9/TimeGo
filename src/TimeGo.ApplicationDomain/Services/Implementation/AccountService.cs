@@ -46,7 +46,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
 
             var companyApproved = _repository.Find<CompanyApproved>().First(x=>x.Id == 1);
             var subscriptionPlan = _repository.Find<SubscriptionPlan>().First(x=>x.Id == 2);
-            var timeZone = _repository.Find<Timezone>().First(x=>x.Id == model.TimezoneId);
+            var timeZone = _repository.Find<Timezone>().FirstOrDefault(x=>x.Id == model.TimezoneId);
 
             var сompany = new Company
             {

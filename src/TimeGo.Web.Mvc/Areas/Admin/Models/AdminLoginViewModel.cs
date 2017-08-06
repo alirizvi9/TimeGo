@@ -4,11 +4,11 @@ namespace TimeGo.Web.Mvc.Areas.Admin.Models
 {
     public class AdminLoginViewModel
     {
-        [Required]
+        [Required(ErrorMessageResourceName = "FieldIsRequired", ErrorMessageResourceType = typeof(Resource))]
         [Display(Name = "Logn")]
         public string Login { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "FieldIsRequired", ErrorMessageResourceType = typeof(Resource))]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }

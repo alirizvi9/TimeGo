@@ -211,10 +211,12 @@
     <Compile Include="Services\IAccountService.cs" />
     <Compile Include="Services\ICompanyService.cs" />
     <Compile Include="Services\IEmailService.cs" />
+    <Compile Include="Services\IEmployeeService.cs" />
     <Compile Include="Services\IHttpContextProvider.cs" />
     <Compile Include="Services\Implementation\AccountService.cs" />
     <Compile Include="Services\Implementation\CompanyService.cs" />
     <Compile Include="Services\Implementation\EmailService.cs" />
+    <Compile Include="Services\Implementation\EmployeeService.cs" />
     <Compile Include="Services\Implementation\HttpContextProvider.cs" />
     <Compile Include="SignalR\ICollaborationHub.cs" />
     <Compile Include="SignalR\Implementation\CollaborateHub.cs" />
