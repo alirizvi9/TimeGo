@@ -434,7 +434,6 @@
     <Content Include="Content\timego\inline.bundle.js" />
     <Content Include="Content\timego\main.bundle.js" />
     <Content Include="Content\timego\polyfills.bundle.js" />
-    <Content Include="Content\timego\scripts.bundle.js" />
     <Content Include="Content\timego\styles.bundle.js" />
     <Content Include="Content\timego\vendor.bundle.js" />
     <Content Include="Content\scripts\jquery.validate.js" />
@@ -746,10 +745,7 @@
     <Content Include="App\src\app\dialogs\profile\profile.component.scss" />
     <Content Include="App\src\app\dialogs\subscription\subscription.component.scss" />
     <Content Include="Areas\Admin\Views\Employee\Index.cshtml" />
-    <Content Include="App\src\app\profile\profile.component.scss" />
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="App\e2e\app.e2e-spec.ts" />

@@ -294,4 +294,10 @@
   <data name="FieldIsRequired" xml:space="preserve">
     <value>Field is required</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
 </root>
