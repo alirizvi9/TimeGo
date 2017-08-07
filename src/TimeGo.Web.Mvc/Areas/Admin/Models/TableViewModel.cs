@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using TimeGo.ApplicationDomain.Entities;
+﻿using PagedList;
 
 namespace TimeGo.Web.Mvc.Areas.Admin.Models
 {
-    public class CompanyTableViewModel
+    public class TableViewModel<T>
     {
-        public List<Company> Companies { get; set; }
-
-        public int CountPages { get; set; }
-        public int CurrentPage { get; set; }
+        public StaticPagedList<T> List { get; set; }
 
         public string SortBy { get; set; }
         public bool IsAscending { get; set; }

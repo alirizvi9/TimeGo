@@ -5,6 +5,10 @@ using TimeGo.ApplicationDomain.Models;
 using TimeGo.Web.Mvc.Infrastructure.Services;
 using TimeGo.ApplicationDomain.Enums;
 using TimeGo.ApplicationDomain.Services;
+using System;
+using System.Linq;
+using System.Web.UI.WebControls;
+using System.Collections.Generic;
 
 namespace TimeGo.Web.Mvc.Controllers
 {
@@ -29,7 +33,7 @@ namespace TimeGo.Web.Mvc.Controllers
             ViewBag.Timezones = _accountService
                 .GetTimeZones()
                 .ToSelectList(x => x.Id, x => x.TimezoneName);
-
+            ViewBag.Weekdays = GetWeekDays();
             return View();
         }
 
@@ -41,6 +45,7 @@ namespace TimeGo.Web.Mvc.Controllers
             ViewBag.Timezones = _accountService
                 .GetTimeZones()
                 .ToSelectList(x => x.Id, x => x.TimezoneName);
+            ViewBag.Weekdays = GetWeekDays();
 
             if (!ModelState.IsValid)
             {
@@ -57,6 +62,23 @@ namespace TimeGo.Web.Mvc.Controllers
                 return View(model);
             }
             return RedirectToSubDomain(model.CompanyUrl);
+        }
+
+        private SelectList GetWeekDays()
+        {
+            Array values = Enum.GetValues(typeof(Weekdays));
+            List<ListItem> items = new List<ListItem>(values.Length);
+
+            foreach (var i in values)
+            {
+                items.Add(new ListItem
+                {
+                    Text = Enum.GetName(typeof(Weekdays), i),
+                    Value = ((int)i).ToString()
+                });
+            }
+
+            return new SelectList(items);
         }
 
         [AllowAnonymous]
@@ -87,7 +109,7 @@ namespace TimeGo.Web.Mvc.Controllers
             var tokenModel = _authorizationService.Authorization(model.Email, model.Password, Company.Id);
             if(tokenModel == null)
             {
-                ModelState.AddModelError<LoginViewModel>(x => x.Email, Resource.LoginError);
+                ModelState.AddModelError("", Resource.LoginError);
                 return View(model);
             }
             return RedirectToAction("Run", "App");

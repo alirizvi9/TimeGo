@@ -115,6 +115,15 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Companies.
+        /// </summary>
+        public static string Companies {
+            get {
+                return ResourceManager.GetString("Companies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Company name.
         /// </summary>
         public static string CompanyName {
@@ -250,6 +259,15 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employees.
+        /// </summary>
+        public static string Employees {
+            get {
+                return ResourceManager.GetString("Employees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter your email..
         /// </summary>
         public static string EnterYourEmail {
@@ -259,11 +277,20 @@ namespace TimeGo {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter tour Email to restore password.
+        ///   Looks up a localized string similar to Enter your Email to restore password.
         /// </summary>
         public static string EnterYourEmailRestore {
             get {
                 return ResourceManager.GetString("EnterYourEmailRestore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Field is required.
+        /// </summary>
+        public static string FieldIsRequired {
+            get {
+                return ResourceManager.GetString("FieldIsRequired", resourceCulture);
             }
         }
         
@@ -304,7 +331,7 @@ namespace TimeGo {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fullname.
+        ///   Looks up a localized string similar to Full Name.
         /// </summary>
         public static string FullName {
             get {
@@ -363,6 +390,15 @@ namespace TimeGo {
         public static string ManageCompanies {
             get {
                 return ResourceManager.GetString("ManageCompanies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage Employee.
+        /// </summary>
+        public static string ManageEmployee {
+            get {
+                return ResourceManager.GetString("ManageEmployee", resourceCulture);
             }
         }
         

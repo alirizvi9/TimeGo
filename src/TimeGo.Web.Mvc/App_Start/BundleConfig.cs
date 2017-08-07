@@ -10,9 +10,11 @@ namespace TimeGo.Web.Mvc
             //SignUp pages and Super Admin
             bundles.Add(new ScriptBundle("~/bundles/staticJs")
                 .Include(
-                    "~/Content/scrips/jquery.js",
-                    "~/Content/scrips/bootstrap.js",
-                    "~/Content/scrips/tether.js"));
+                    "~/Content/scripts/jquery-2.2.4.js",
+                    "~/Content/scripts/jquery.validate.js",
+                    "~/Content/scripts/bootstrap.min.js",
+                    "~/Content/scripts/tether.min.js",
+                    "~/Content/scripts/app.js"));
 
             bundles.Add(new StyleBundle("~/bundles/staticCss").Include(
                     "~/Content/css/font-awesome.css",

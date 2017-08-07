@@ -4,11 +4,11 @@ namespace TimeGo.Web.Mvc.Models
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessageResourceName = "FieldIsRequired", ErrorMessageResourceType = typeof(Resource))]
         [Display(Name = "Username")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "FieldIsRequired", ErrorMessageResourceType = typeof(Resource))]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -19,9 +19,9 @@ namespace TimeGo.Web.Mvc.Models
 
     public class ForgotPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
+        [Required(ErrorMessageResourceName = "FieldIsRequired", ErrorMessageResourceType = typeof(Resource))]
+        [DataType(DataType.EmailAddress, ErrorMessageResourceName = "EmailNotValid", ErrorMessageResourceType = typeof(Resource))]
+        [RegularExpression("^.+@.+\\..+$", ErrorMessageResourceName = "EmailNotValid", ErrorMessageResourceType = typeof(Resource))]
         public string Email { get; set; }
     }
 
@@ -30,12 +30,12 @@ namespace TimeGo.Web.Mvc.Models
         public string UserId { get; set; }
         public string Code { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "FieldIsRequired", ErrorMessageResourceType = typeof(Resource))]
         [DataType(DataType.Password)]
         [StringLength(100, ErrorMessageResourceName = "PasswordLengthValid", ErrorMessageResourceType = typeof(Resource), MinimumLength = 9)]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "FieldIsRequired", ErrorMessageResourceType = typeof(Resource))]
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessageResourceName = "PasswordConfirmFaild", ErrorMessageResourceType = typeof(Resource))]
         public string ConfirmPassword { get; set; }

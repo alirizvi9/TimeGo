@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PagedList;
 using System.Linq;
 using System.Web.Mvc;
 using TimeGo.ApplicationDomain.Entities;
@@ -12,7 +13,7 @@ namespace TimeGo.Web.Mvc.Areas.Admin.Controllers
     {
         protected ICompanyService _companyService;
         protected IAccountService _accountService;
-        protected const int PageSize = 10;
+        protected const int PageSize = 5;
 
         public CompanyController(ICompanyService companyService, IAccountService accountService)
         {
@@ -21,18 +22,13 @@ namespace TimeGo.Web.Mvc.Areas.Admin.Controllers
         }
 
         // GET: Admin/Company
-        public ActionResult Index(int? idCompany = null, string sortBy = "CompanyName", bool ascending = true, int page = 0)
+        public ActionResult Index(int? idCompany = null, string sortBy = "CompanyName", bool ascending = true, int page = 1)
         {
-            var model = new CompanyTableViewModel();
+            var model = new TableViewModel<Company>();
             model.SortBy = sortBy;
             model.IsAscending = ascending;
             var companies = _companyService.GetPage(model.SortExpression, page, PageSize).ToList();
-            var editCompany = idCompany!= null ? companies.SingleOrDefault(x=>x.Id == idCompany) : companies.FirstOrDefault();
-            model.Companies = companies;
-            model.CurrentPage = page;
-            model.CountPages = _companyService.Count() / PageSize + 1;
-            FillViewBag();
-
+            model.List = new StaticPagedList<Company>(companies, page, PageSize, _companyService.Count());
             return View(model);
         }
 
@@ -41,7 +37,7 @@ namespace TimeGo.Web.Mvc.Areas.Admin.Controllers
             var editCompany = _companyService.GetCompany(id);
             var model = Mapper.Map<EditCompanyViewModel>(editCompany);
             FillViewBag();
-            return PartialView("EditCompany", model);
+            return View(model);
         }
 
         [HttpPost]
@@ -53,7 +49,7 @@ namespace TimeGo.Web.Mvc.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             FillViewBag();
-            return PartialView("EditCompany", model);
+            return View(model);
         }
 
         public ActionResult DeleteCompany(long id)

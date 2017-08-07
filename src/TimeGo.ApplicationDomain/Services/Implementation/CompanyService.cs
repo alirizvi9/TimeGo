@@ -30,7 +30,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
 
         public IEnumerable<Company> GetPage(string sortExpression, int page, int pageSize)
         {
-            return _repository.Find<Company>().OrderBy(sortExpression).Skip(pageSize * page).Take(pageSize);
+            return _repository.Find<Company>().OrderBy(sortExpression).Skip(pageSize * (page - 1)).Take(pageSize);
         }
 
         public int Count()
