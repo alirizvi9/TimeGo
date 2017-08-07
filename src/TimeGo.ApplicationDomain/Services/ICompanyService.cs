@@ -10,6 +10,7 @@ namespace TimeGo.ApplicationDomain.Services
         IEnumerable<Company> GetAll();
         int Count();
         ErrorCodes EditCompany(Company model);
+        ErrorCodes EditBillingAddress(Company model);
         IEnumerable<Company> GetPage(string sortExpression, int page, int pageSize);
         Company GetCompany(long id);
         void DeleteCompany(long id);

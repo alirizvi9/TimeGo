@@ -26,17 +26,16 @@ namespace TimeGo.Web.Mvc
                     "~/Content/css/TimeGo.css"));
 
             //TimeGo App
-            bundles.Add(new ScriptBundle("~/bundles/timego")
+            bundles.Add(new ScriptBundle("~/bundles/timegoJs")
                 .IncludeDirectory("~/Content/", "*.chunk.js")
                 .Include(
                     "~/Content/timego/inline.bundle.js",
                     "~/Content/timego/polyfills.bundle.js",
-                    "~/Content/timego/scripts.bundle.js",
                     "~/Content/timego/styles.bundle.js",
                     "~/Content/timego/vendor.bundle.js",
                     "~/Content/timego/main.bundle.js"));
 
-            bundles.Add(new StyleBundle("~/bundles/timego").Include(
+            bundles.Add(new StyleBundle("~/bundles/timegoCss").Include(
                     "~/Content/timego/assets/css/font-awesome.min.css",
                     "~/Content/timego/assets/css/simple-line-icons.css",
                     "~/Content/timego/assets/css/glyphicons.css",

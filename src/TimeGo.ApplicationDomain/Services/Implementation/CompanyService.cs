@@ -44,18 +44,25 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             company.CompanyName = model.CompanyName;
             company.EmailAddress = model.EmailAddress;
             company.ContactName = model.ContactName;
-            company.BillingAddressLine1 = model.BillingAddressLine1;
-            company.BillingAddressLine2 = model.BillingAddressLine2;
-            company.BillingAddressCity = model.BillingAddressCity;
-            company.BillingAddressState = model.BillingAddressState;
-            company.BillingAddressZip = model.BillingAddressZip;
-            company.BillingAddressCountry = model.BillingAddressCountry;
             company.TimezoneId = model.TimezoneId;
             company.WorkweekStaryDay = model.WorkweekStaryDay;
             company.PhoneNumber = model.PhoneNumber;
             company.TimeGoUrl = model.TimeGoUrl;
             company.CompanyApprovedId = model.CompanyApprovedId;
             company.SubscriptionPlanId = model.SubscriptionPlanId;
+            _repository.Save();
+            return ErrorCodes.Success;
+        }
+
+        public ErrorCodes EditBillingAddress(Company model)
+        {
+            var company = _repository.FindForUpdate<Company>(model.Id);
+            company.BillingAddressLine1 = model.BillingAddressLine1;
+            company.BillingAddressLine2 = model.BillingAddressLine2;
+            company.BillingAddressCity = model.BillingAddressCity;
+            company.BillingAddressState = model.BillingAddressState;
+            company.BillingAddressZip = model.BillingAddressZip;
+            company.BillingAddressCountry = model.BillingAddressCountry;
             _repository.Save();
             return ErrorCodes.Success;
         }

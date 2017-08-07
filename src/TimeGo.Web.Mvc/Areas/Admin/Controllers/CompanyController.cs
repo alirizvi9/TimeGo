@@ -52,6 +52,13 @@ namespace TimeGo.Web.Mvc.Areas.Admin.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult EditBillingAddress(EditCompanyViewModel model)
+        {
+            var error = _companyService.EditBillingAddress(Mapper.Map<Company>(model));
+            return RedirectToAction("Index");
+        }
+
         public ActionResult DeleteCompany(long id)
         {
             _companyService.DeleteCompany(id);
