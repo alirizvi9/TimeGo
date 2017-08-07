@@ -36,6 +36,10 @@ export const routes: Routes = [
       {
         path: 'periods',
         loadChildren: './periods/periods.module#PeriodsModule'
+      },
+      {
+          path: 'profile',
+          loadChildren: './profile/profile.module#ProfileModule'
       }
     ]
   }

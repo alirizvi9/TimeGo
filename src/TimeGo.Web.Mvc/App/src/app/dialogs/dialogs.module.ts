@@ -1,12 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProfileComponent } from './profile/profile.component';
-import { SubscriptionComponent } from './subscription/subscription.component';
+import { ProfileDialogComponent } from './profile/profile.component';
+import { SubscriptionDialogComponent } from './subscription/subscription.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   imports: [
-    CommonModule
+      CommonModule,
+      ModalModule.forRoot(),
+    ],
+  exports: [
+      ProfileDialogComponent,
+      SubscriptionDialogComponent
   ],
-  declarations: [ProfileComponent, SubscriptionComponent]
+  declarations: [ProfileDialogComponent, SubscriptionDialogComponent]
 })
 export class DialogsModule { }
