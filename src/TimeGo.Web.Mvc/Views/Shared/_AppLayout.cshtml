@@ -7,7 +7,7 @@
     <title>@ViewBag.Title - TimeGo</title>
 
     <base href="/Content/timego/">
-    @Styles.Render("~/bundles/timego")
+    @Styles.Render("~/bundles/timegoCss")
 
     @RenderSection("head", required: false)
 </head>
@@ -15,7 +15,7 @@
     <script language="javascript">window.__theme = 'bs4';</script>
     @RenderBody()
 
-    @Scripts.Render("~/bundles/timego")
+    @Scripts.Render("~/bundles/timegoJs")
     @RenderSection("scripts", required: false)
 </body>
 </html>

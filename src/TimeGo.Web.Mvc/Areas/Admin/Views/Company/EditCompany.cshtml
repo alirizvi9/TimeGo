@@ -4,11 +4,12 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
     ViewBag.Title = Resource.EditCompany;
 }
-@using (Html.BeginForm("EditCompany", "Company", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
+
     <div class="row">
         <div class="col-md-6">
             <div class="card">
+@using (Html.BeginForm("EditCompany", "Company", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
                 <div class="card-header"><i class="fa fa-align-justify"></i>    @Resource.EditCompany</div>
                 <div class="card-block p-4">
                     @Html.HiddenFor(x => x.Id)
@@ -58,13 +59,21 @@
                         @Html.ValidationMessageFor(m => m.BillingAddressLine1, "", new { @class = "tooltiptext tooltiptext-left" })
                     </div>
                 </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-dot-circle-o"></i> @Resource.Save</button>
+                    <a href="@Url.Action("Index")" class="btn btn btn-danger"><i class="fa fa-ban"></i> @Resource.Cancel</a>
+                </div>
+}
             </div>
         </div>
 
         <div class="col-md-6">
             <div class="card">
+@using (Html.BeginForm("EditBillingAddress", "Company", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
                 <div class="card-header"><i class="fa fa-align-justify"></i>    @Resource.BillingAddress</div>
                 <div class="card-block p-4">
+                    @Html.HiddenFor(x => x.Id)
                     <div class="input-group mb-3">
                         <label class="col-md-2">@Resource.Country</label>
                         @Html.TextBoxFor(m => m.BillingAddressCountry, new { @class = "form-control" })
@@ -100,7 +109,7 @@
                     <button type="submit" class="btn btn-primary"><i class="fa fa-dot-circle-o"></i> @Resource.Save</button>
                     <a href="@Url.Action("Index")"class="btn btn btn-danger"><i class="fa fa-ban"></i> @Resource.Cancel</a>
                 </div>
+}
             </div>
         </div>
     </div>
-}

@@ -5,7 +5,7 @@ namespace TimeGo.Web.Mvc.Controllers
     [AllowAnonymous]
     public class AppController : Controller
     {
-        [Route("app")]
+        [Route("TimeGoApp")]
         public ActionResult Run()
         {
             return View();
