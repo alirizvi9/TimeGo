@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Web.Http;
+﻿using System.Web.Http;
+using System.Web.Http.Cors;
 using TimeGo.Web.Mvc.Infrastructure.Services;
-using System.Web.Http.Description;
 using AutoMapper;
-using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.Services;
-using TimeGo.ApplicationDomain.Web.ActionResults;
 using TimeGo.Web.Mvc.Areas.AppApi.Models;
 
 
 namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ProfileController : BaseApiController
     {
 
@@ -35,24 +33,24 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
             return Success(commentModel);
         }
 
-
+        [Authorize]
         public IHttpActionResult Get(int id)
         {
             var company = _companyService.GetCompany(id);
             return Success(company);
         }
 
-        // POST: api/Profile
+        [Authorize]
         public void Post([FromBody]string value)
         {
         }
 
-        // PUT: api/Profile/5
+        [Authorize]
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE: api/Profile/5
+        [Authorize]
         public void Delete(int id)
         {
 
