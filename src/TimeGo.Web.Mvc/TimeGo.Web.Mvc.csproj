@@ -284,7 +284,9 @@
     <Compile Include="Areas\Admin\Models\EditCompanyViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TableViewModel.cs" />
     <Compile Include="Areas\AppApi\AppApiAreaRegistration.cs" />
+    <Compile Include="Areas\AppApi\Controllers\BaseApiController.cs" />
     <Compile Include="Areas\AppApi\Controllers\ProfileController.cs" />
+    <Compile Include="Areas\AppApi\Models\CompanyProfileViewModel.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
     <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
@@ -320,6 +322,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Dependency\CoreModule.cs" />
+    <Compile Include="Infrastructure\Mapping\CompanyProfileMapper.cs" />
     <Compile Include="Infrastructure\Mapping\EditCompanyMapper.cs" />
     <Compile Include="Infrastructure\Mapping\SignUpViewModelMapper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -513,7 +516,6 @@
   <ItemGroup>
     <Folder Include="App\src\app\state\models\" />
     <Folder Include="App\src\app\state\reducers\" />
-    <Folder Include="Areas\AppApi\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
@@ -745,6 +747,7 @@
     <Content Include="App\src\app\dialogs\profile\profile.component.scss" />
     <Content Include="App\src\app\dialogs\subscription\subscription.component.scss" />
     <Content Include="Areas\Admin\Views\Employee\Index.cshtml" />
+    <Content Include="App\src\app\profile\profile.component.scss" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
   </ItemGroup>
   <ItemGroup>
@@ -768,10 +771,12 @@
     <TypeScriptCompile Include="App\src\app\periods\periods.component.spec.ts" />
     <TypeScriptCompile Include="App\src\app\periods\periods.component.ts" />
     <TypeScriptCompile Include="App\src\app\periods\periods.module.ts" />
+    <TypeScriptCompile Include="App\src\app\profile\models\company-profile.model.ts" />
     <TypeScriptCompile Include="App\src\app\profile\profile-routing.module.ts" />
     <TypeScriptCompile Include="App\src\app\profile\profile.component.spec.ts" />
     <TypeScriptCompile Include="App\src\app\profile\profile.component.ts" />
     <TypeScriptCompile Include="App\src\app\profile\profile.module.ts" />
+    <TypeScriptCompile Include="App\src\app\profile\profile.service.ts" />
     <TypeScriptCompile Include="App\src\app\shared\nav-dropdown.directive.ts" />
     <TypeScriptCompile Include="App\src\app\state\state.module.ts" />
     <TypeScriptCompile Include="App\src\app\tasks\tasks-routing.module.ts" />

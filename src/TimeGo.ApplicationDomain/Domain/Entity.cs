@@ -18,7 +18,7 @@ namespace TimeGo.ApplicationDomain.Domain
                     _createdOn = DateTime.UtcNow;
                 return _createdOn;
             }
-            set => _createdOn = value;
+            set { _createdOn = value; }
         }
 
         public virtual int TimeStamp { get; protected set; }

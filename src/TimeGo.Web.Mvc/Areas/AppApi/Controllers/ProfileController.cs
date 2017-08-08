@@ -1,30 +1,45 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using TimeGo.Web.Mvc.Infrastructure.Services;
+using System.Web.Http.Description;
+using AutoMapper;
+using TimeGo.ApplicationDomain.Entities;
+using TimeGo.ApplicationDomain.Services;
+using TimeGo.ApplicationDomain.Web.ActionResults;
+using TimeGo.Web.Mvc.Areas.AppApi.Models;
+
 
 namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
 {
-    public class ProfileController : ApiController
+    public class ProfileController : BaseApiController
     {
-        protected IAuthorizationService _authorizationService;
 
-        public ProfileController(IAuthorizationService authorizationService)
+        protected IAuthorizationService _authorizationService;
+        private readonly ICompanyService _companyService;
+
+        public ProfileController(IAuthorizationService authorizationService,
+            ICompanyService companyService)
         {
             _authorizationService = authorizationService;
+            _companyService = companyService;
         }
 
-        // GET: api/Profile
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET: api/Profile/5
         [Authorize]
-        public string Get(int id)
+        public IHttpActionResult Get()
         {
             var user = _authorizationService.GetUser();
-            return "value";
+            if (user.CompanyId == null)
+                return Success();
+            var company = _companyService.GetCompany(user.CompanyId.Value); 
+            var commentModel = Mapper.Map<CompanyProfileViewModel>(company);
+            return Success(commentModel);
+        }
+
+
+        public IHttpActionResult Get(int id)
+        {
+            var company = _companyService.GetCompany(id);
+            return Success(company);
         }
 
         // POST: api/Profile
