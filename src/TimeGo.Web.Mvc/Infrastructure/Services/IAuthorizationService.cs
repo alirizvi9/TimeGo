@@ -7,7 +7,7 @@ namespace TimeGo.Web.Mvc.Infrastructure.Services
 {
     public interface IAuthorizationService
     {
-        Employee GetUser(IEnumerable<Claim> claims);
+        Employee GetUser();
         AuthorizationResponse Authorization(string login, string password, long companyId);
     }
 }

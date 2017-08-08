@@ -6,6 +6,7 @@ using Microsoft.Owin.Security;
 using TimeGo.ApplicationDomain;
 using TimeGo.ApplicationDomain.Entities;
 using TimeGo.Web.Mvc.Models;
+using System.Threading;
 
 namespace TimeGo.Web.Mvc.Infrastructure.Services.Implementation
 {
@@ -20,9 +21,10 @@ namespace TimeGo.Web.Mvc.Infrastructure.Services.Implementation
             _configuration = configuration;
         }
 
-        public Employee GetUser(IEnumerable<Claim> claims)
+        public Employee GetUser()
         {
-            var id = Convert.ToInt64(claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).SingleOrDefault());
+            var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
+            var id = Convert.ToInt64(identity.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).SingleOrDefault());
             var user = _context.Employees.SingleOrDefault(x => x.Id == id);
             return user;
         }

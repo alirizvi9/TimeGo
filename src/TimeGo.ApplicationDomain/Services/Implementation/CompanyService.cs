@@ -72,6 +72,11 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             return _repository.Find<Company>(x => x.Id == id).SingleOrDefault();
         }
 
+        public Employee GetCompanyAdmin(long id)
+        {
+            return _repository.Find<Employee>(x => x.CompanyId == id && x.RoleId == 2).SingleOrDefault();
+        }
+
         public void DeleteCompany(long id)
         {
             var company = _repository.Find<Company>(x => x.Id == id).SingleOrDefault();

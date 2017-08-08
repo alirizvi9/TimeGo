@@ -1,10 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
+using TimeGo.Web.Mvc.Infrastructure.Services;
 
 namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
 {
     public class ProfileController : ApiController
     {
+        protected IAuthorizationService _authorizationService;
+
+        public ProfileController(IAuthorizationService authorizationService)
+        {
+            _authorizationService = authorizationService;
+        }
+
         // GET: api/Profile
         public IEnumerable<string> Get()
         {
@@ -12,8 +20,10 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
         }
 
         // GET: api/Profile/5
+        [Authorize]
         public string Get(int id)
         {
+            var user = _authorizationService.GetUser();
             return "value";
         }
 
@@ -30,6 +40,7 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
         // DELETE: api/Profile/5
         public void Delete(int id)
         {
+
         }
     }
 }

@@ -5,20 +5,24 @@ using System.Web.Mvc;
 using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.Services;
 using TimeGo.Web.Mvc.Areas.Admin.Models;
+using TimeGo.Web.Mvc.Controllers;
+using TimeGo.Web.Mvc.Infrastructure.Services;
 
 namespace TimeGo.Web.Mvc.Areas.Admin.Controllers
 {
     [AdminAuthorization]
-    public class CompanyController : Controller
+    public class CompanyController : BaseController
     {
         protected ICompanyService _companyService;
         protected IAccountService _accountService;
+        protected IAuthorizationService _authorizationService;
         protected const int PageSize = 5;
 
-        public CompanyController(ICompanyService companyService, IAccountService accountService)
+        public CompanyController(ICompanyService companyService, IAccountService accountService, IAuthorizationService authorizationService)
         {
             _companyService = companyService;
             _accountService = accountService;
+            _authorizationService = authorizationService;
         }
 
         // GET: Admin/Company
@@ -63,6 +67,15 @@ namespace TimeGo.Web.Mvc.Areas.Admin.Controllers
         {
             _companyService.DeleteCompany(id);
             return RedirectToAction("Index");
+        }
+
+        public ActionResult RedirectToCompany(long id)
+        {
+            var company = _companyService.GetCompany(id);
+            var emploee = _companyService.GetCompanyAdmin(id);
+            var tokenModel = _authorizationService.Authorization(emploee.EmailAddress, emploee.Password, company.Id);
+            return RedirectToSubDomain(company.TimeGoUrl, "TimeGoApp?token=" + tokenModel.Token);
+
         }
 
         private void FillViewBag()

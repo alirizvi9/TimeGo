@@ -14,5 +14,6 @@ namespace TimeGo.ApplicationDomain.Services
         IEnumerable<Company> GetPage(string sortExpression, int page, int pageSize);
         Company GetCompany(long id);
         void DeleteCompany(long id);
+        Employee GetCompanyAdmin(long id);
     }
 }

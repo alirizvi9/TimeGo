@@ -63,8 +63,9 @@
                                     <td>@Model.List[i].SubscriptionPlan.SubscriptionPlanType</td>
                                     <td>@Model.List[i].WorkweekStaryDay</td>
                                     <td>
-                                        <a href="@Url.Action("EditCompany", "Company", new {id = Model.List[i].Id})" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i>    Edit</a>
-                                        <a href="@Url.Action("DeleteCompany", "Company", new {id = Model.List[i].Id})" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i>    Delete</a>
+                                        <a href="@Url.Action("EditCompany", "Company", new {id = Model.List[i].Id})" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i>    @Resource.Edit</a>
+                                        <a href="@Url.Action("DeleteCompany", "Company", new {id = Model.List[i].Id})" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i>    @Resource.Delete</a>
+                                        <a href="@Url.Action("RedirectToCompany", "Company", new {id = Model.List[i].Id})" class="btn btn-success btn-sm"><i class="fa fa-sign-in"></i>    @Resource.Connect</a>
                                     </td>
                                     @Html.HiddenFor(x => x.List[i].Id)
                                 </tr>

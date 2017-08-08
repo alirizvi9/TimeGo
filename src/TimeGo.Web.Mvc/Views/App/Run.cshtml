@@ -2,3 +2,11 @@
     ViewBag.Title = "TimeGo";
     Layout = "~/Views/Shared/_AppLayout.cshtml";
 }
+@section Scripts
+{
+    <script>
+        var global = {
+            Token = @ViewBag.Token;
+        };
+    </script>
+}
