@@ -14,7 +14,7 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
     public class ProfileController : BaseApiController
     {
 
-        protected IAuthorizationService _authorizationService;
+        private readonly IAuthorizationService _authorizationService;
         private readonly ICompanyService _companyService;
 
         public ProfileController(IAuthorizationService authorizationService,
@@ -23,9 +23,9 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
             _authorizationService = authorizationService;
             _companyService = companyService;
         }
-
-        // GET: api/Profile/
+        
         [HttpGet]
+        [Route("api/Profile")]
         public IHttpActionResult Get()
         {
             var user = _authorizationService.GetUser();
@@ -35,9 +35,9 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
             var commentModel = Mapper.Map<CompanyProfileViewModel>(company);
             return Success(commentModel);
         }
-
-        // GET: api/Profile/5
+        
         [HttpGet]
+        [Route("api/Profile")]
         public IHttpActionResult Get(int id)
         {
             var company = _companyService.GetCompany(id);
@@ -46,21 +46,11 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
 
         // POST: api/Profile
         [HttpPost]
+        [Route("api/Profile")]
         public IHttpActionResult Edit(CompanyProfileViewModel model)
         {
             var result = _companyService.EditCompany(model);
-            return result == ErrorCodes.Success ? Success() : Error(result.ToString());
-        }
-
-        // PUT: api/Profile/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/Profile/5
-        public void Delete(int id)
-        {
-
+            return result == ErrorCodes.Success ? Success() : Error(result);
         }
     }
 }

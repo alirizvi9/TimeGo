@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using TimeGo.ApplicationDomain.Enums;
 
 namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
 {
@@ -6,7 +7,7 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
     {
         protected IHttpActionResult Success()
         {
-            return Json(new { success = true });
+            return Json(new { IsSuccess = true });
         }
 
         protected IHttpActionResult Success(object data)
@@ -14,9 +15,15 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
             return Json(data);
         }
 
-        protected IHttpActionResult Error(string message = "", string innerError = "")
+        protected IHttpActionResult Error(ErrorCodes errorCode, string message = "", string innerError = "")
         {
-            return Json(new { success = false, message, innerError });
+            return Json(new
+            {
+                IsSuccess = false,
+                Message = message,
+                InnerError = innerError,
+                ErrorCodes = errorCode
+            });
         }
     }
 }
