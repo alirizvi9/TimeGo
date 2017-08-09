@@ -4,6 +4,7 @@ using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.Enums;
 using TimeGo.ApplicationDomain.Persistance;
 using System.Linq.Dynamic;
+using TimeGo.ApplicationDomain.Models.CompanyProfile;
 
 namespace TimeGo.ApplicationDomain.Services.Implementation
 {
@@ -50,6 +51,22 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             company.TimeGoUrl = model.TimeGoUrl;
             company.CompanyApprovedId = model.CompanyApprovedId;
             company.SubscriptionPlanId = model.SubscriptionPlanId;
+            _repository.Save();
+            return ErrorCodes.Success;
+        }
+
+        public ErrorCodes EditCompany(CompanyProfileViewModel model)
+        {
+            var company = _repository.FindForUpdate<Company>(model.Id);
+            company.CompanyName = model.CompanyName;
+            company.ContactName = model.ContactName;
+            company.PhoneNumber = model.PhoneNumber;
+            company.EmailAddress = model.EmailAddress;
+            company.VacationApproverEmail = model.VacationApproverEmail;
+            if (model.WorkWeekStartDay != null)
+                company.WorkweekStaryDay = (Weekdays)model.WorkWeekStartDay;
+            company.TimePeriodsInFuture = model.TimesheetsWeeks;
+            company.TimeGoUrl = model.TimeGoUrl;
             _repository.Save();
             return ErrorCodes.Success;
         }

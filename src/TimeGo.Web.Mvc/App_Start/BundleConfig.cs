@@ -27,13 +27,18 @@ namespace TimeGo.Web.Mvc
 
             //TimeGo App
             bundles.Add(new ScriptBundle("~/bundles/timegoJs")
-                .IncludeDirectory("~/Content/", "*.chunk.js")
                 .Include(
                     "~/Content/timego/inline.bundle.js",
                     "~/Content/timego/polyfills.bundle.js",
                     "~/Content/timego/styles.bundle.js",
                     "~/Content/timego/vendor.bundle.js",
-                    "~/Content/timego/main.bundle.js"));
+                    "~/Content/timego/main.bundle.js",
+                    "~/Content/timego/0.chunk.js",
+                    "~/Content/timego/1.chunk.js",
+                    "~/Content/timego/2.chunk.js",
+                    "~/Content/timego/3.chunk.js",
+                    "~/Content/timego/4.chunk.js",
+                    "~/Content/timego/5.chunk.js"));
 
             bundles.Add(new StyleBundle("~/bundles/timegoCss").Include(
                     "~/Content/timego/assets/css/font-awesome.min.css",

@@ -294,7 +294,6 @@
     <Compile Include="Areas\AppApi\AppApiAreaRegistration.cs" />
     <Compile Include="Areas\AppApi\Controllers\BaseApiController.cs" />
     <Compile Include="Areas\AppApi\Controllers\ProfileController.cs" />
-    <Compile Include="Areas\AppApi\Models\CompanyProfileViewModel.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
     <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
@@ -765,6 +764,7 @@
     <TypeScriptCompile Include="App\src\app\app.component.ts" />
     <TypeScriptCompile Include="App\src\app\app.module.ts" />
     <TypeScriptCompile Include="App\src\app\app.routing.ts" />
+    <TypeScriptCompile Include="App\src\app\common\constants.ts" />
     <TypeScriptCompile Include="App\src\app\dashboard\dashboard-routing.module.ts" />
     <TypeScriptCompile Include="App\src\app\dashboard\dashboard.component.ts" />
     <TypeScriptCompile Include="App\src\app\dashboard\dashboard.module.ts" />

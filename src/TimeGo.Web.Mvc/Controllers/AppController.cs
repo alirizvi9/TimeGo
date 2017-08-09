@@ -6,9 +6,9 @@ namespace TimeGo.Web.Mvc.Controllers
     public class AppController : Controller
     {
         [Route("TimeGoApp")]
-        public ActionResult Run(string token)
+        public ActionResult Run()
         {
-            ViewBag.Token = token;
+            ViewBag.Token = TempData["authorizationToken"];
             return View();
         }
     }

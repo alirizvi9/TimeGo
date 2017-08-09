@@ -1,4 +1,5 @@
 ﻿export interface CompanyProfile {
+    id: number;
     companyName: string;
     contactName: string;
     phoneNumber: string;

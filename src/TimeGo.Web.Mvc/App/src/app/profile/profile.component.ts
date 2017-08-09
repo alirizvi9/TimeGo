@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ProfileService} from './profile.service'
 import {CompanyProfile} from './models/company-profile.model'
+import {AppConstants} from '../common/constants'
 
 @Component({
     selector: 'app-profile',
@@ -10,25 +11,23 @@ import {CompanyProfile} from './models/company-profile.model'
 })
 export class ProfileComponent implements OnInit {
 
-    weekDays: Array<any> = [{ text: 'Sunday' },
-        { text: 'Monday' },
-        { text: 'Tuesday' },
-        { text: 'Wednesday' },
-        { text: 'Thursday' },
-        { text: 'Friday' },
-        { text: 'Saturday' }];
+    weekDays = AppConstants.weekDays;
 
-    timesheets: Array<any> = [{ text: '1' },
-        { text: '2' }];
+    timesheets = AppConstants.timesheets;
 
     company: CompanyProfile;
 
-    constructor(private _profileService: ProfileService) { }
+
+    constructor(private profileService: ProfileService) {}
 
     ngOnInit() {
-        this._profileService.getCurrentProfile().subscribe(res => {
+        this.profileService.getCurrentProfile().subscribe((res : CompanyProfile) => {
             this.company = res;
         });
+    }
+
+    saveProfile() {
+        this.profileService.editCurrentProfile(this.company).subscribe();
     }
 
 }

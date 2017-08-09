@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.Enums;
+using TimeGo.ApplicationDomain.Models.CompanyProfile;
 
 namespace TimeGo.ApplicationDomain.Services
 {
@@ -10,6 +11,7 @@ namespace TimeGo.ApplicationDomain.Services
         IEnumerable<Company> GetAll();
         int Count();
         ErrorCodes EditCompany(Company model);
+        ErrorCodes EditCompany(CompanyProfileViewModel model);
         ErrorCodes EditBillingAddress(Company model);
         IEnumerable<Company> GetPage(string sortExpression, int page, int pageSize);
         Company GetCompany(long id);

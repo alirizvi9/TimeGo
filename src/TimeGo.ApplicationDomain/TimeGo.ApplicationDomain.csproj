@@ -192,6 +192,7 @@
     <Compile Include="Mapping\IMapRegistryConfigurator.cs" />
     <Compile Include="Mapping\MapperExtension.cs" />
     <Compile Include="Mapping\MapRegistryConfigurator.cs" />
+    <Compile Include="Models\CompanyProfile\CompanyProfileViewModel.cs" />
     <Compile Include="Models\Email\BaseEmailModel.cs" />
     <Compile Include="Models\Email\ConfirmEmailModel.cs" />
     <Compile Include="Models\Email\ForgotPasswordEmailModel.cs" />

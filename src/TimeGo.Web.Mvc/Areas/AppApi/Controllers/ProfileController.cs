@@ -2,13 +2,15 @@
 using System.Web.Http.Cors;
 using TimeGo.Web.Mvc.Infrastructure.Services;
 using AutoMapper;
+using TimeGo.ApplicationDomain.Enums;
+using TimeGo.ApplicationDomain.Models.CompanyProfile;
 using TimeGo.ApplicationDomain.Services;
-using TimeGo.Web.Mvc.Areas.AppApi.Models;
 
 
 namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [Authorize]
     public class ProfileController : BaseApiController
     {
 
@@ -22,35 +24,40 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
             _companyService = companyService;
         }
 
-        [Authorize]
+        // GET: api/Profile/
+        [HttpGet]
         public IHttpActionResult Get()
         {
             var user = _authorizationService.GetUser();
             if (user.CompanyId == null)
                 return Success();
-            var company = _companyService.GetCompany(user.CompanyId.Value); 
+            var company = _companyService.GetCompany(user.CompanyId.Value);
             var commentModel = Mapper.Map<CompanyProfileViewModel>(company);
             return Success(commentModel);
         }
 
-        [Authorize]
+        // GET: api/Profile/5
+        [HttpGet]
         public IHttpActionResult Get(int id)
         {
             var company = _companyService.GetCompany(id);
             return Success(company);
         }
 
-        [Authorize]
-        public void Post([FromBody]string value)
+        // POST: api/Profile
+        [HttpPost]
+        public IHttpActionResult Edit(CompanyProfileViewModel model)
         {
+            var result = _companyService.EditCompany(model);
+            return result == ErrorCodes.Success ? Success() : Error(result.ToString());
         }
 
-        [Authorize]
+        // PUT: api/Profile/5
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        [Authorize]
+        // DELETE: api/Profile/5
         public void Delete(int id)
         {
 

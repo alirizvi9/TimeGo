@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.Mapping;
-using TimeGo.Web.Mvc.Areas.AppApi.Models;
+using TimeGo.ApplicationDomain.Models.CompanyProfile;
 
 namespace TimeGo.Web.Mvc.Infrastructure.Mapping
 {

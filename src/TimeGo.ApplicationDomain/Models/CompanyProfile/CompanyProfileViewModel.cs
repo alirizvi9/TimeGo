@@ -1,8 +1,9 @@
 ﻿
-namespace TimeGo.Web.Mvc.Areas.AppApi.Models
+namespace TimeGo.ApplicationDomain.Models.CompanyProfile
 {
     public class CompanyProfileViewModel
     {
+        public long Id { get; set; }
         public string CompanyName { get; set; }
         public string ContactName { get; set; }
         public string PhoneNumber { get; set; }

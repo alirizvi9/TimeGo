@@ -13,5 +13,10 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
         {
             return Json(data);
         }
+
+        protected IHttpActionResult Error(string message = "", string innerError = "")
+        {
+            return Json(new { success = false, message, innerError });
+        }
     }
 }
