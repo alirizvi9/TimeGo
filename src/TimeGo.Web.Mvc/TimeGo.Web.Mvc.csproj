@@ -355,11 +355,10 @@
     <Content Include="TimeGo\protractor.conf.js" />
     <Content Include="TimeGo\src\app\app.component.html" />
     <Content Include="TimeGo\src\app\dashboard\dashboard.component.html" />
-    <Content Include="TimeGo\src\app\dialogs\profile\profile.component.html" />
     <Content Include="TimeGo\src\app\dialogs\subscription\subscription.component.html" />
     <Content Include="TimeGo\src\app\layouts\full-layout.component.html" />
     <Content Include="TimeGo\src\app\periods\periods.component.html" />
-    <Content Include="TimeGo\src\app\profile\profile.component.html" />
+    <Content Include="TimeGo\src\app\profile\components\profile-edit\profile-edit.html" />
     <Content Include="TimeGo\src\app\tasks\tasks.component.html" />
     <Content Include="TimeGo\src\app\timeoff\timeoff.component.html" />
     <Content Include="TimeGo\src\app\timesheets\timesheets.component.html" />
@@ -751,10 +750,9 @@
     <Content Include="Content\timego\assets\img\Sorting icons.psd" />
     <Content Include="TimeGo\src\app\timeoff\timeoff.component.scss" />
     <Content Include="TimeGo\src\app\periods\periods.component.scss" />
-    <Content Include="TimeGo\src\app\dialogs\profile\profile.component.scss" />
     <Content Include="TimeGo\src\app\dialogs\subscription\subscription.component.scss" />
     <Content Include="Areas\Admin\Views\Employee\Index.cshtml" />
-    <Content Include="TimeGo\src\app\profile\profile.component.scss" />
+    <Content Include="TimeGo\src\app\profile\components\profile-edit\profile-edit.scss" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
   </ItemGroup>
   <ItemGroup>
@@ -771,8 +769,6 @@
     <TypeScriptCompile Include="TimeGo\src\app\dashboard\dashboard.component.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\dashboard\dashboard.module.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\dialogs\dialogs.module.ts" />
-    <TypeScriptCompile Include="TimeGo\src\app\dialogs\profile\profile.component.spec.ts" />
-    <TypeScriptCompile Include="TimeGo\src\app\dialogs\profile\profile.component.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\dialogs\subscription\subscription.component.spec.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\dialogs\subscription\subscription.component.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\index.ts" />
@@ -781,12 +777,17 @@
     <TypeScriptCompile Include="TimeGo\src\app\periods\periods.component.spec.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\periods\periods.component.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\periods\periods.module.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\profile\actions\profile-edit.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\profile\components\index.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\profile\components\profile-edit\profile-edit.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\profile\containers\profile-page.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\profile\effects\profile-edit.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\profile\models\company-profile.model.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\profile\profile-routing.module.ts" />
-    <TypeScriptCompile Include="TimeGo\src\app\profile\profile.component.spec.ts" />
-    <TypeScriptCompile Include="TimeGo\src\app\profile\profile.component.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\profile\profile.module.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\profile\profile.service.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\profile\reducers\index.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\profile\reducers\profile-edit.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\shared\nav-dropdown.directive.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\state\state.module.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\tasks\tasks-routing.module.ts" />
