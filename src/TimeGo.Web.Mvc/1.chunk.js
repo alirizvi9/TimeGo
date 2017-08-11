@@ -102,7 +102,7 @@ ComponentsModule = __decorate([
 /***/ "../../../../../src/app/users/components/users-list/users-list.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-12\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        Employees\r\n      </div>\r\n      <div class=\"card-block\" *ngIf=\"isLoaded\">\r\n        <table class=\"table table-hover table-outline mb-0 hidden-sm-down\" *ngIf=\"isLoaded\">\r\n          <thead class=\"thead-default\">\r\n            <tr>\r\n              <td class=\"text-center\">Employee Id <a class=\"fa fa-sort\" (click)=\"order.emit('id')\"></a></td>\r\n              <td class=\"text-center\">First Name <a class=\"fa fa-sort\" (click)=\"order.emit('FirstName')\"></a></td>\r\n              <td class=\"text-center\">Last Name <a class=\"fa fa-sort\" (click)=\"order.emit('LastName')\"></a></td>\r\n              <td class=\"text-center\">Email <a class=\"fa fa-sort\" (click)=\"order.emit('EmailAddress')\"></a></td>\r\n              <td class=\"text-center\">Phone <a class=\"fa fa-sort\" (click)=\"order.emit('PhoneNumber')\"></a></td>\r\n              <td class=\"text-center\">Last4SS <a class=\"fa fa-sort\" (click)=\"order.emit('SocialSecurityNumber')\"></a></td>\r\n              <td class=\"text-center\">IsAdmin? <a class=\"fa fa-sort\" (click)=\"order.emit('IsAdmin')\"></a></td>\r\n              <td class=\"text-center\">IsActive? <a class=\"fa fa-sort\" (click)=\"order.emit('IsActive')\"></a></td>\r\n              <td class=\"text-center\">Calculate Overtime? <a class=\"fa fa-sort\" (click)=\"order.emit('IsOvertimeCalculated')\"></a></td>\r\n            </tr>\r\n          </thead>\r\n          <tbody>\r\n            <tr *ngFor=\"let user of users\">\r\n              <td class=\"text-center\">{{user.Id}}</td>\r\n              <td class=\"text-center\">{{user.FirstName}}</td>\r\n              <td class=\"text-center\">{{user.LastName}}</td>\r\n              <td class=\"text-center\">{{user.Email}}</td>\r\n              <td class=\"text-center\">{{user.Phone}}</td>\r\n              <td class=\"text-center\">{{user.Last4Ss}}</td>\r\n              <td class=\"text-center\">{{user.IsAdmin ? 'Yes' : 'No'}}</td>\r\n              <td class=\"text-center\">{{user.IsActive ? 'Yes' : 'No'}}</td>\r\n              <td class=\"text-center\">{{user.IsOvertimeCalculated ? 'Yes' : 'No'}}</td>\r\n            </tr>\r\n          </tbody>\r\n        </table>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"container\">\r\n    <div class=\"row\">\r\n        <div class=\"col-md-12\">\r\n            <div class=\"card\">\r\n                <div class=\"card-header\">\r\n                   Employees\r\n                </div>\r\n                <div class=\"card-block\" *ngIf=\"isLoaded\">\r\n                    <table class=\"table table-hover table-outline mb-0 hidden-sm-down\" *ngIf=\"isLoaded\">\r\n                        <thead class=\"thead-default\">\r\n                            <tr>\r\n                                <th class=\"text-center\">Employee Id</th>\r\n                                <th class=\"text-center\">First Name</th>\r\n                                <th class=\"text-center\">Last Name</th>\r\n                                <th class=\"text-center\">Email</th>\r\n                                <th class=\"text-center\">Phone</th>\r\n                                <th class=\"text-center\">Last4SS</th>\r\n                                <th class=\"text-center\">IsAdmin?</th>\r\n                                <th class=\"text-center\">IsActive?</th>\r\n                                <th class=\"text-center\">Calculate Overtime?</th>\r\n                            </tr>\r\n                        </thead>\r\n                        <tbody>\r\n                            <tr *ngFor=\"let user of users\">\r\n                                <td class=\"text-center\">{{user.Id}}</td>\r\n                                <td class=\"text-center\">{{user.FirstName}}</td>\r\n                                <td class=\"text-center\">{{user.LastName}}</td>\r\n                                <td class=\"text-center\">{{user.Email}}</td>\r\n                                <td class=\"text-center\">{{user.Phone}}</td>\r\n                                <td class=\"text-center\">{{user.Last4Ss}}</td>\r\n                                <td class=\"text-center\">{{user.IsAdmin ? 'Yes' : 'No'}}</td>\r\n                                <td class=\"text-center\">{{user.IsActive ? 'Yes' : 'No'}}</td>\r\n                                <td class=\"text-center\">{{user.IsOvertimeCalculated ? 'Yes' : 'No'}}</td>\r\n                            </tr>\r\n                        </tbody>\r\n                    </table>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -144,7 +144,6 @@ var UsersListComponent = (function () {
     function UsersListComponent() {
         this.isLoaded = false;
         this.loading = false;
-        this.order = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["d" /* EventEmitter */]();
     }
     return UsersListComponent;
 }());
@@ -160,10 +159,6 @@ __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["p" /* Input */])(),
     __metadata("design:type", Boolean)
 ], UsersListComponent.prototype, "loading", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_7" /* Output */])(),
-    __metadata("design:type", Object)
-], UsersListComponent.prototype, "order", void 0);
 UsersListComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_0" /* Component */])({
         selector: 'up-users-list',
@@ -207,25 +202,14 @@ var UsersPageComponent = (function () {
         this.users$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["b" /* getUsersList */]);
         this.isLoaded$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["c" /* getIsLoadedStatus */]);
         this.loading$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["d" /* getLoadingStatus */]);
-        this.pagingModel$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["e" /* getPagingModel */]);
     }
     UsersPageComponent.prototype.ngOnInit = function () {
-        var pagingModelView = {
+        var pagingModel = {
             orderBy: "id",
             page: 1,
-            pageSize: 10,
-            IsAscending: true
+            pageSize: 10
         };
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_users__["a" /* GetAction */](pagingModelView));
-    };
-    UsersPageComponent.prototype.orderUser = function (orderBy) {
-        var pagingModelView = {
-            orderBy: orderBy,
-            page: 1,
-            pageSize: 10,
-            IsAscending: true
-        };
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_users__["a" /* GetAction */](pagingModelView));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_users__["a" /* GetAction */](pagingModel));
     };
     return UsersPageComponent;
 }());
@@ -233,7 +217,7 @@ UsersPageComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["_0" /* Component */])({
         selector: 'users-page',
         changeDetection: __WEBPACK_IMPORTED_MODULE_1__angular_core__["_1" /* ChangeDetectionStrategy */].OnPush,
-        template: "\n    <up-users-list [users]=\"users$ | async\" [isLoaded]=\"isLoaded$ | async\" [loading]=\"loading$ | async\" (order)=\"orderUser($event)\"></up-users-list>\n  ",
+        template: "\n    <up-users-list [users]=\"users$ | async\" [isLoaded]=\"isLoaded$ | async\" [loading]=\"loading$ | async\" (save)=\"saveProfile($event)\"></up-users-list>\n  ",
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["b" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["b" /* Store */]) === "function" && _a || Object])
 ], UsersPageComponent);
@@ -334,7 +318,6 @@ var _a, _b, _c;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getUsersList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getLoadingStatus; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getIsLoadedStatus; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getPagingModel; });
 
 
 var reducers = {
@@ -345,7 +328,6 @@ var getUsersEntityState = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__ngr
 var getUsersList = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__ngrx_store__["d" /* createSelector */])(getUsersEntityState, __WEBPACK_IMPORTED_MODULE_1__users__["b" /* getUsers */]);
 var getLoadingStatus = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__ngrx_store__["d" /* createSelector */])(getUsersEntityState, __WEBPACK_IMPORTED_MODULE_1__users__["c" /* getLoadingStatus */]);
 var getIsLoadedStatus = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__ngrx_store__["d" /* createSelector */])(getUsersEntityState, __WEBPACK_IMPORTED_MODULE_1__users__["d" /* getIsLoadedStatus */]);
-var getPagingModel = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__ngrx_store__["d" /* createSelector */])(getUsersEntityState, __WEBPACK_IMPORTED_MODULE_1__users__["e" /* getPagingModel */]);
 //# sourceMappingURL=index.js.map
 
 /***/ }),
@@ -360,31 +342,21 @@ var getPagingModel = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__ngrx_sto
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getUsers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getLoadingStatus; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getIsLoadedStatus; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getPagingModel; });
 
 var initialState = {
     users: [],
     isLoaded: false,
-    loading: false,
-    pagingModel: {
-        orderBy: "id",
-        page: 1,
-        pageSize: 10,
-        IsAscending: true
-    }
+    loading: false
 };
 function reducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
         case __WEBPACK_IMPORTED_MODULE_0__actions_users__["b" /* GET */]:
-            var pagingModel = action.payload;
-            pagingModel.IsAscending = pagingModel != null ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
             {
                 return {
                     users: state.users,
                     isLoaded: true,
-                    loading: true,
-                    pagingModel: pagingModel,
+                    loading: true
                 };
             }
         case __WEBPACK_IMPORTED_MODULE_0__actions_users__["c" /* GET_COMPLETE */]: {
@@ -392,8 +364,7 @@ function reducer(state, action) {
             return {
                 users: loadedUsers,
                 isLoaded: true,
-                loading: false,
-                pagingModel: state.pagingModel
+                loading: false
             };
         }
         default: {
@@ -404,7 +375,6 @@ function reducer(state, action) {
 var getUsers = function (state) { return state.users; };
 var getLoadingStatus = function (state) { return state.loading; };
 var getIsLoadedStatus = function (state) { return state.isLoaded; };
-var getPagingModel = function (state) { return state.pagingModel; };
 //# sourceMappingURL=users.js.map
 
 /***/ }),

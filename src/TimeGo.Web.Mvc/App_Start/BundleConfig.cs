@@ -46,7 +46,9 @@ namespace TimeGo.Web.Mvc
                     "~/Content/timego/assets/css/simple-line-icons.css",
                     "~/Content/timego/assets/css/glyphicons.css",
                     "~/Content/timego/assets/css/glyphicons-filetypes.css",
-                    "~/Content/timego/assets/css/glyphicons-social.css"));
+                    "~/Content/timego/assets/css/glyphicons-social.css",
+                    "~/Content/css/style.css",
+                    "~/Content/css/TimeGo.css"));
         }
     }
 }

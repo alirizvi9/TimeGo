@@ -41,3 +41,7 @@ export const getIsLoadedStatus = createSelector(
     getUsersEntityState,
     fromUsers.getIsLoadedStatus
 );
+export const getPagingModel = createSelector(
+    getUsersEntityState,
+    fromUsers.getPagingModel
+);

@@ -13,27 +13,39 @@ import {UsersListItem} from '../models/users-list-item.model';
     selector: 'users-page',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <up-users-list [users]="users$ | async" [isLoaded]="isLoaded$ | async" [loading]="loading$ | async" (save)="saveProfile($event)"></up-users-list>
+    <up-users-list [users]="users$ | async" [isLoaded]="isLoaded$ | async" [loading]="loading$ | async" (order)="orderUser($event)"></up-users-list>
   `,
 })
 export class UsersPageComponent {
     users$: Observable<UsersListItem[]>;
     isLoaded$: Observable<boolean>;
     loading$: Observable<boolean>;
+    pagingModel$: Observable<UsersListPagingModel>;
 
     constructor(private store: Store<fromUsers.State>) {
         this.users$ = store.select(fromUsers.getUsersList);
         this.isLoaded$ = store.select(fromUsers.getIsLoadedStatus);
         this.loading$ = store.select(fromUsers.getLoadingStatus);
+        this.pagingModel$ = store.select(fromUsers.getPagingModel);
     }
 
     ngOnInit() {
-        let pagingModel: UsersListPagingModel = {
+        let pagingModelView: UsersListPagingModel = {
             orderBy: "id",
             page: 1,
-            pageSize: 10
+            pageSize: 10,
+            IsAscending: true
         }
-        this.store.dispatch(new usersActions.GetAction(pagingModel));
+        this.store.dispatch(new usersActions.GetAction(pagingModelView));
     }
-
+    
+    orderUser(orderBy: string) {
+        let pagingModelView: UsersListPagingModel = {
+            orderBy: orderBy,
+            page: 1,
+            pageSize: 10,
+            IsAscending: true
+        }
+        this.store.dispatch(new usersActions.GetAction(pagingModelView));
+    }
 }

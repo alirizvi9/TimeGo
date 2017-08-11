@@ -11,5 +11,6 @@ export class UsersListComponent {
     @Input() users: UsersListItem[];
     @Input() isLoaded: boolean = false;
     @Input() loading: boolean = false;
+    @Output() order = new EventEmitter<string>();
 }
 

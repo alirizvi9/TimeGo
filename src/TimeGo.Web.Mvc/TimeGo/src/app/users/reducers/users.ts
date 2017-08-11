@@ -1,17 +1,25 @@
 ﻿import { createSelector } from '@ngrx/store';
 import {UsersListItem} from '../models/users-list-item.model'
 import * as usersActions from '../actions/users';
+import { UsersListPagingModel } from "../models/users-list-paging.model";
 
 export interface State {
     users: UsersListItem[];
     isLoaded: boolean;
     loading: boolean;
+    pagingModel: UsersListPagingModel;
 }
 
 export const initialState: State = {
     users: [],
     isLoaded: false,
-    loading: false
+    loading: false,
+    pagingModel: {
+        orderBy: "id",
+        page: 1,
+        pageSize: 10,
+        IsAscending: true
+    }
 };
 
 export function reducer(
@@ -20,11 +28,14 @@ export function reducer(
 ): State {
     switch (action.type) {
         case usersActions.GET:
+            const pagingModel = action.payload as UsersListPagingModel;
+            pagingModel.IsAscending = pagingModel != null ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
             {
                 return {
                     users: state.users,
                     isLoaded: true,
-                    loading: true
+                    loading: true,
+                    pagingModel: pagingModel,
                 };
             }
 
@@ -33,7 +44,8 @@ export function reducer(
             return {
                 users: loadedUsers,
                 isLoaded: true,
-                loading: false
+                loading: false,
+                pagingModel: state.pagingModel
             };
         }
 
@@ -46,4 +58,6 @@ export function reducer(
 export const getUsers = (state: State) => state.users;
 export const getLoadingStatus = (state: State) => state.loading;
 export const getIsLoadedStatus = (state: State) => state.isLoaded;
+export const getPagingModel = (state: State) => state.pagingModel;
+
 
