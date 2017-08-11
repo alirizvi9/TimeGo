@@ -40,6 +40,10 @@ export const routes: Routes = [
       {
           path: 'profile',
           loadChildren: './profile/profile.module#ProfileModule'
+      },
+      {
+          path: 'users',
+          loadChildren: './users/users.module#UsersModule'
       }
     ]
   }

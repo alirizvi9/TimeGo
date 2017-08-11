@@ -294,6 +294,7 @@
     <Compile Include="Areas\AppApi\AppApiAreaRegistration.cs" />
     <Compile Include="Areas\AppApi\Controllers\BaseApiController.cs" />
     <Compile Include="Areas\AppApi\Controllers\ProfileController.cs" />
+    <Compile Include="Areas\AppApi\Controllers\UsersController.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
     <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
@@ -332,6 +333,7 @@
     <Compile Include="Infrastructure\Mapping\CompanyProfileMapper.cs" />
     <Compile Include="Infrastructure\Mapping\EditCompanyMapper.cs" />
     <Compile Include="Infrastructure\Mapping\SignUpViewModelMapper.cs" />
+    <Compile Include="Infrastructure\Mapping\UsersMapper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
     <Compile Include="Models\AuthorizationResponse.cs" />
@@ -362,6 +364,7 @@
     <Content Include="TimeGo\src\app\tasks\tasks.component.html" />
     <Content Include="TimeGo\src\app\timeoff\timeoff.component.html" />
     <Content Include="TimeGo\src\app\timesheets\timesheets.component.html" />
+    <Content Include="TimeGo\src\app\users\components\users-list\users-list.html" />
     <Content Include="TimeGo\src\assets\css\font-awesome.css" />
     <Content Include="TimeGo\src\assets\css\font-awesome.min.css" />
     <Content Include="TimeGo\src\assets\css\style.css" />
@@ -754,6 +757,7 @@
     <Content Include="Areas\Admin\Views\Employee\Index.cshtml" />
     <Content Include="TimeGo\src\app\profile\components\profile-edit\profile-edit.scss" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
+    <Content Include="TimeGo\src\app\users\components\users-list\users-list.scss" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="TimeGo\e2e\app.e2e-spec.ts" />
@@ -802,6 +806,18 @@
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\timesheets.component.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\timesheets-routing.module.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\timesheets.module.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\actions\users.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\components\index.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\components\users-list\users-list.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\containers\users-page.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\effects\users.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\models\users-list-item.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\models\users-list-paging.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\reducers\index.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\reducers\users.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\users.module.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\users.service.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\users-routing.module.ts" />
     <TypeScriptCompile Include="TimeGo\src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="TimeGo\src\environments\environment.ts" />
     <TypeScriptCompile Include="TimeGo\src\main.ts" />

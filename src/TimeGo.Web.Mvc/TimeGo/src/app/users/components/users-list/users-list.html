@@ -1,0 +1,41 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                   Employees
+                </div>
+                <div class="card-block" *ngIf="isLoaded">
+                    <table class="table table-hover table-outline mb-0 hidden-sm-down" *ngIf="isLoaded">
+                        <thead class="thead-default">
+                            <tr>
+                                <th class="text-center">Employee Id</th>
+                                <th class="text-center">First Name</th>
+                                <th class="text-center">Last Name</th>
+                                <th class="text-center">Email</th>
+                                <th class="text-center">Phone</th>
+                                <th class="text-center">Last4SS</th>
+                                <th class="text-center">IsAdmin?</th>
+                                <th class="text-center">IsActive?</th>
+                                <th class="text-center">Calculate Overtime?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of users">
+                                <td class="text-center">{{user.Id}}</td>
+                                <td class="text-center">{{user.FirstName}}</td>
+                                <td class="text-center">{{user.LastName}}</td>
+                                <td class="text-center">{{user.Email}}</td>
+                                <td class="text-center">{{user.Phone}}</td>
+                                <td class="text-center">{{user.Last4Ss}}</td>
+                                <td class="text-center">{{user.IsAdmin ? 'Yes' : 'No'}}</td>
+                                <td class="text-center">{{user.IsActive ? 'Yes' : 'No'}}</td>
+                                <td class="text-center">{{user.IsOvertimeCalculated ? 'Yes' : 'No'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

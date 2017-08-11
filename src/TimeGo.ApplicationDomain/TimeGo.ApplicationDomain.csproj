@@ -196,8 +196,10 @@
     <Compile Include="Models\Email\BaseEmailModel.cs" />
     <Compile Include="Models\Email\ConfirmEmailModel.cs" />
     <Compile Include="Models\Email\ForgotPasswordEmailModel.cs" />
+    <Compile Include="Models\PagingModel.cs" />
     <Compile Include="Models\SignUpRequest.cs" />
     <Compile Include="Enums\Weekdays.cs" />
+    <Compile Include="Models\Users\UsersListItemViewModel.cs" />
     <Compile Include="Persistance\IIdentifiable.cs" />
     <Compile Include="Persistance\Implementation\Repository.cs" />
     <Compile Include="Persistance\Implementation\UnitOfWork.cs" />

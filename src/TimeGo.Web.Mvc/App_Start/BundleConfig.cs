@@ -38,7 +38,8 @@ namespace TimeGo.Web.Mvc
                     "~/Content/timego/2.chunk.js",
                     "~/Content/timego/3.chunk.js",
                     "~/Content/timego/4.chunk.js",
-                    "~/Content/timego/5.chunk.js"));
+                    "~/Content/timego/5.chunk.js",
+                     "~/Content/timego/6.chunk.js"));
 
             bundles.Add(new StyleBundle("~/bundles/timegoCss").Include(
                     "~/Content/timego/assets/css/font-awesome.min.css",
