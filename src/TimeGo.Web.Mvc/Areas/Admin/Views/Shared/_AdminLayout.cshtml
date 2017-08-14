@@ -13,7 +13,7 @@
 <body class="app header-fixed aside-menu-fixed aside-menu-hidden">
     <header class="app-header navbar">
         <button class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button">☰</button>
-        <a class="navbar-brand" href="">TimeGo Admin</a>
+        <a class="navbar-brand" href="">TimeGo</a>
         <ul class="nav navbar-nav d-md-down-none">
             <li class="nav-item">
                 <a class="nav-link navbar-toggler sidebar-toggler" href="#">☰</a>
@@ -39,20 +39,10 @@
                         @Resource.Admin
                     </li>
                     <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle"><i class=""></i> @Resource.Companies</a>
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Index","Company")"><i class=""></i> @Resource.ManageCompanies</a>
-                            </li>
-                        </ul>
+                        <a class="nav-link" href="@Url.Action("Index","Company")"><i class="icon-organization"></i> @Resource.Companies</a>
                     </li>
                     <li class="nav-item nav-dropdown">
-                        <a class="nav-link nav-dropdown-toggle"><i class=""></i> @Resource.Employees</a>
-                        <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Index","Employee")"><i class=""></i> @Resource.ManageEmployee</a>
-                            </li>
-                        </ul>
+                        <a class="nav-link" href="@Url.Action("Index","Employee")"><i class="icon-people"></i> @Resource.Employees</a>
                     </li>
                 </ul>
             </nav>

@@ -511,7 +511,7 @@ namespace TimeGo {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to PlanType.
+        ///   Looks up a localized string similar to Plan Type.
         /// </summary>
         public static string PlanType {
             get {
