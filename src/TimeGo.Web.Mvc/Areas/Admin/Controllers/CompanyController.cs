@@ -73,9 +73,10 @@ namespace TimeGo.Web.Mvc.Areas.Admin.Controllers
         {
             var company = _companyService.GetCompany(id);
             var emploee = _companyService.GetCompanyAdmin(id);
+            if(company == null || emploee == null)
+                return RedirectToAction("Index");
             var tokenModel = _authorizationService.Authorization(emploee.EmailAddress, emploee.Password, company.Id);
-            TempData["authorizationToken"] = tokenModel.Token;
-            return RedirectToSubDomain(company.TimeGoUrl, "app");
+            return RedirectToSubDomain(company.TimeGoUrl, "app?token=" + tokenModel.Token);
 
         }
 

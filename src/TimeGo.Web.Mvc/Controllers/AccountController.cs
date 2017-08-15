@@ -112,8 +112,7 @@ namespace TimeGo.Web.Mvc.Controllers
                 ModelState.AddModelError("", Resource.LoginError);
                 return View(model);
             }
-            TempData["authorizationToken"] = tokenModel.Token;
-            return RedirectToAction("Run", "App");
+            return RedirectToAction("Run", "App", new { token = tokenModel.Token });
         }
 
         [AllowAnonymous]

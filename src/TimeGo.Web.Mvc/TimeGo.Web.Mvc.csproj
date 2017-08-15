@@ -408,7 +408,6 @@
     <Content Include="TimeGo\src\app\timesheets\timesheets.component.html" />
     <Content Include="TimeGo\src\app\users\components\users-list\users-list.html" />
     <Content Include="TimeGo\src\img\favicon.png" />
-    <Content Include="TimeGo\src\img\logo.png" />
     <Content Include="TimeGo\src\img\select.png" />
     <Content Include="TimeGo\src\img\select2-spinner.gif" />
     <Content Include="TimeGo\src\img\select2.png" />
