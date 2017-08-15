@@ -1,0 +1,110 @@
+﻿@using TimeGo;
+@using PagedList.Mvc;
+@using TimeGo.ApplicationDomain.Entities;
+@model TimeGo.Web.Mvc.Areas.Admin.Models.TableViewModel<Employee>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = Resource.ManageEmployee;
+}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header"><i class="fa fa-align-justify"></i>    @Resource.ManageEmployee</div>
+                <div class="card-block">
+                    <table class="table table-bordered table-striped table-condensed">
+                        <thead>
+                            <tr>
+                                <td>
+                                    @*@Resource.FullName*@
+                                    <a class="fa fa-sort" href="@Url.Action("Index", new { sortBy = "FirstName", ascending = Model.SortOrder("FirstName"), page = Model.List.PageNumber })"></a>
+                                </td>
+
+                                <td>
+                                    @Resource.CompanyName
+                                    <a class="fa fa-sort" href="@Url.Action("Index", new { sortBy = "CompanyId", ascending = Model.SortOrder("CompanyId"), page = Model.List.PageNumber })"></a>
+                                </td>
+
+                                <td>
+                                    @Resource.Email
+                                    <a class="fa fa-sort" href="@Url.Action("Index", new { sortBy = "EmailAddress", ascending = Model.SortOrder("EmailAddress"), page = Model.List.PageNumber })"></a>
+                                </td>
+
+                                <td>
+                                    @Resource.PhoneNumber
+                                    <a class="fa fa-sort" href="@Url.Action("Index", new { sortBy = "PhoneNumber", ascending = Model.SortOrder("PhoneNumber"), page = Model.List.PageNumber })"></a>
+                                </td>
+
+                                <td>@Resource.Actions</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (var i = 0; i < Model.List.Count(); i++)
+                            {
+                                <tr data-url="@Url.Action("Index", new { idEmployee = Model.List[i].Id, sortBy = Model.SortBy, ascending = Model.IsAscending })">
+                                    <td>@Model.List[i].FirstName</td>
+                                    <td>@Model.List[i].Company.CompanyName</td>
+                                    <td>@Model.List[i].EmailAddress</td>
+                                    <td>@Model.List[i].PhoneNumber</td>
+                                    <td>
+                                        @*<a href="javascript:void(0);" class="btn btn-primary btn-sm editCompany" data-id="@Model.List[i].Id"><i class="fa fa-edit"></i>    Edit</a>*@
+                                        <a href="@Url.Action("DeleteEmployee", "Employee", new {id = Model.List[i].Id})" class="btn btn-danger btn-sm" title="delete"><i class="fa fa-remove"></i>    Delete</a>
+                                    </td>
+                                    @Html.HiddenFor(x => x.List[i].Id)
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <div id='myModal' class='modal'>
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div id='myModalContent'></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    @Html.PagedListPager(Model.List, page => Url.Action("Index", new { sortBy = Model.SortBy, ascending = Model.IsAscending, page }))
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section scripts {
+    <script>
+        var EditURL = 'root/Employee/EditEmployee';
+        $(function () {
+            $(".editCompany").click(function () {
+                debugger;
+                var $buttonClicked = $(this);
+                var id = $buttonClicked.attr('data-id');
+                var options = { "backdrop": "static", keyboard: true };
+                $.ajax({
+                    type: "GET",
+                    url: EditURL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    datatype: "json",
+                    success: function (data) {
+                        debugger;
+                        $('#myModalContent').html(data);
+                        $('#myModal').modal(options);
+                        $('#myModal').modal('show');
+
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            });
+            //$("#closebtn").on('click',function(){
+            //    $('#myModal').modal('hide');
+
+            $("#closbtn").click(function () {
+                $('#myModal').modal('hide');
+            });
+        });
+
+    </script>
+}

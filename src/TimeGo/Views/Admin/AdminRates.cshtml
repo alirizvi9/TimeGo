@@ -1,0 +1,117 @@
+﻿@using TimeGo.Models
+@model AdminUserRatesViewModel
+@{
+    ViewBag.Title = "Manage User Rates";
+}
+
+<style>
+    .date {width: 140px;}
+
+    .single-line input, .single-line button {
+        display: inline-block
+    }
+
+    .rate {
+        width: 140px;
+    }
+    
+    .single-line button { width: auto;}
+</style>
+
+<h1>@Model.CompanyName</h1>
+
+<h3>ADMIN - Manage User Rates</h3>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th width="50"></th>
+            <th>Employee #</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Effective Start</th>
+            <th>Effective End</th>
+            <th>Rate</th>
+        </tr>
+    </thead>
+    @foreach (var EmployeeRate in Model.EmployeeRates) {
+        <tr>
+            <td> 
+                <a href='@Url.Action("AdminRates", "Admin", new { RateId=EmployeeRate.RateId })'>
+                    <span class="glyphicon glyphicon-cog"></span>
+                </a>
+            </td>
+            <td>@EmployeeRate.Employee.EmployeeNumber</td>
+            <td>@EmployeeRate.Employee.FirstName</td>
+            <td>@EmployeeRate.Employee.LastName</td>
+            <td>@EmployeeRate.EffectiveStartDate.ToString("dd-MMM-yy")</td>
+
+            @if (EmployeeRate.EffectiveEndDate == null) {
+                <td>- Present -</td>
+            } else {
+                <td>@(((DateTime)EmployeeRate.EffectiveEndDate).ToString("dd-MMM-yy"))</td> 
+            }
+            <td class="text-right">@EmployeeRate.RateAmount.ToString("C")</td>
+        </tr>
+    }
+</table>
+
+<br />
+@if (Model.SelectedEmployeeRate.RateId == 0) {
+    <h3>Add New</h3>
+} else {
+    <h3>Edit Rate</h3>
+}
+
+
+@using (Html.BeginForm("AdminRates", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+    @Html.HiddenFor(m => m.SelectedEmployeeRate.RateId)
+
+
+    <div class="form-group">
+        <label for="exampleInputEmail1" class="col-sm-2">Employee</label>
+        @Html.DropDownListFor(m => m.SelectedEmployeeRate.EmployeeId, Model.Employees, new { Class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SelectedEmployeeRate.EmployeeId, "", new { @class = "text-danger col-xs-7" })
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1" class="col-sm-2">Effective Start Date</label>
+        <input Class="form-control date" id='SelectedEmployeeRate_EffectiveStartDate' name='SelectedEmployeeRate.EffectiveStartDate' type='text' value='@Model.SelectedEmployeeRate.EffectiveStartDate.ToString("dd-MMM-yy")'>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1" class="col-sm-2">Effective End Date</label>
+        @if (Model.SelectedEmployeeRate.EffectiveEndDate == null) {
+            <input Class="form-control date" id='SelectedEmployeeRate_EffectiveEndDate' name='SelectedEmployeeRate.EffectiveEndDate' type='text' value=''>
+        } else {
+            <input Class="form-control date"  id='SelectedEmployeeRate_EffectiveEndDate' name='SelectedEmployeeRate.EffectiveEndDate' type='text' value='@(((DateTime)Model.SelectedEmployeeRate.EffectiveEndDate).ToString("dd-MMM-yy")) '>
+        }
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1" class="col-sm-2">Rate</label>
+        @Html.TextBoxFor(m => m.SelectedEmployeeRate.RateAmount, new { @class = "form-control rate" })
+        @Html.ValidationMessageFor(m => m.SelectedEmployeeRate.RateAmount, "", new { @class = "text-danger col-xs-7" })
+    </div>
+
+
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary" value="Save" />    <input type="button" value="Cancel" class="btn btn-default" onclick="location.href='@Url.Action("AdminRates", "Admin")'" />
+    </div>
+}
+
+
+
+        @section scripts{
+            <script>
+                $(function () {
+                    $(".date").datepicker({
+                        showOtherMonths: true,
+                        selectOtherMonths: true,
+                        dateFormat: "d-M-y"
+                    });
+                });
+            </script>
+
+            @Scripts.Render("~/bundles/jqueryval")
+        }

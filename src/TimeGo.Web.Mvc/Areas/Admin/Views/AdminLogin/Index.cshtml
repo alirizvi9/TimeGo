@@ -1,0 +1,41 @@
+﻿@model TimeGo.Web.Mvc.Areas.Admin.Models.AdminLoginViewModel
+@using TimeGo;
+@{
+    ViewBag.Title = Resource.LogIn;
+    Layout = "~/Views/Shared/_SignUpLayout.cshtml";
+}
+
+@using (Html.BeginForm("Index", "AdminLogin", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card-group mb-0">
+                <div class="card p-4">
+                    <div class="card-block">
+                        <h1>@Resource.LogIn</h1>
+                        <p class="text-muted">@Resource.SignInToYourAccount</p>
+                        @Html.ValidationMessageFor(m => m.Login, "", new { @class = "validation-error" })
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon">
+                                <i class="icon-user"></i>
+                            </span>
+                            @Html.TextBoxFor(m => m.Login, new { @class = "form-control", @placeholder = Resource.LogIn })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "validation-error" })
+                        <div class="input-group mb-4">
+                            <span class="input-group-addon">
+                                <i class="icon-lock"></i>
+                            </span>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = Resource.Password })
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="submit" value="@Resource.LogIn" class="btn btn-primary px-4" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

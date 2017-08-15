@@ -1,0 +1,50 @@
+﻿@using TimeGo.Models
+@model UserViewModel
+@{
+    ViewBag.Title = "Log in";
+}
+
+<h1>@Model.CompanyName</h1>
+
+<h3>Welcome @(Model.Employee.FirstName + " " + Model.Employee.LastName)</h3>
+
+<h3>Go to:</h3>
+
+<ul>
+    @if (Model.RoleId!=0) {
+        <li><a href="admin">Administration</a></li>
+    }
+    <li><a href="time">Timsheets</a></li>
+    <li><a href="timeoff">Timeoff Request</a></li>
+</ul>
+
+
+<br />
+
+<h1>Your info:</h1>
+@using (Html.BeginForm("Save", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+        <div class="form-group">
+            <label for="exampleInputEmail1">Phone Number</label>
+            @Html.TextBoxFor(m => m.Employee.Phonenumber, Model.Employee.Phonenumber, new { Class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email Address</label>
+            @Html.TextBoxFor(m => m.Employee.EmailAddress, Model.Employee.EmailAddress, new { Class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Password</label>
+            @Html.TextBoxFor(m => m.Employee.Password, new {Type="Password", Class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-primary" value="Update Info" />
+            </div>
+        </div>
+        }
+
+
+        @section scripts{
+        }

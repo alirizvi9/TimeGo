@@ -1,0 +1,81 @@
+﻿@using TimeGo;
+@using PagedList.Mvc;
+@using TimeGo.ApplicationDomain.Entities;
+@model TimeGo.Web.Mvc.Areas.Admin.Models.TableViewModel<Company>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = Resource.ManageCompanies;
+}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header"><i class="fa fa-align-justify"></i>    @Resource.ManageCompanies</div>
+                <div class="card-block">
+                    <table class="table table-bordered table-striped table-condensed">
+                        <thead>
+                            <tr>
+                                <td>
+                                    @Resource.CompanyName
+                                    <a class="fa fa-sort" href="@Url.Action("Index", new { sortBy = "CompanyName", ascending = Model.SortOrder("CompanyName"), page = Model.List.PageNumber })"></a>
+                                </td>
+
+                                <td>
+                                    @Resource.Contact
+                                    <a class="fa fa-sort" href="@Url.Action("Index", new { sortBy = "ContactName", ascending = Model.SortOrder("ContactName"), page = Model.List.PageNumber })"></a>
+                                </td>
+
+                                <td>
+                                    @Resource.Email
+                                    <a class="fa fa-sort" href="@Url.Action("Index", new { sortBy = "EmailAddress", ascending = Model.SortOrder("EmailAddress"), page = Model.List.PageNumber })"></a>
+                                </td>
+
+                                <td>
+                                    @Resource.PhoneNumber
+                                    <a class="fa fa-sort" href="@Url.Action("Index", new { sortBy = "PhoneNumber", ascending = Model.SortOrder("PhoneNumber"), page = Model.List.PageNumber })"></a>
+                                </td>
+
+                                <td>
+                                    @Resource.CompanyURL
+                                    <a class="fa fa-sort" href="@Url.Action("Index", new { sortBy = "TimeGoUrl", ascending = Model.SortOrder("TimeGoUrl"), page = Model.List.PageNumber })"></a>
+                                </td>
+
+                                <td>
+                                    @Resource.PlanType
+                                    <a class="fa fa-sort" href="@Url.Action("Index", new { sortBy = "SubscriptionPlanId", ascending = Model.SortOrder("SubscriptionPlanId"), page = Model.List.PageNumber })"></a>
+                                </td>
+
+                                <td>
+                                    @Resource.WeekStart
+                                    <a class="fa fa-sort" href="@Url.Action("Index", new { sortBy = "WorkweekStaryDay", ascending = Model.SortOrder("WorkweekStaryDay"), page = Model.List.PageNumber })"></a>
+                                </td>
+                                <td>@Resource.Actions</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (var i = 0; i < Model.List.Count(); i++)
+                            {
+                                <tr data-url="@Url.Action("Index", new { idCompany = Model.List[i].Id, sortBy = Model.SortBy, ascending = Model.IsAscending })">
+                                    <td>@Model.List[i].CompanyName</td>
+                                    <td>@Model.List[i].ContactName</td>
+                                    <td>@Model.List[i].EmailAddress</td>
+                                    <td>@Model.List[i].PhoneNumber</td>
+                                    <td>@Model.List[i].TimeGoUrl</td>
+                                    <td>@Model.List[i].SubscriptionPlan.SubscriptionPlanType</td>
+                                    <td>@Model.List[i].WorkweekStaryDay</td>
+                                    <td>
+                                        <a href="@Url.Action("EditCompany", "Company", new {id = Model.List[i].Id})" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i>    @Resource.Edit</a>
+                                        <a href="@Url.Action("DeleteCompany", "Company", new {id = Model.List[i].Id})" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i>    @Resource.Delete</a>
+                                        <a href="@Url.Action("RedirectToCompany", "Company", new {id = Model.List[i].Id})" class="btn btn-success btn-sm"><i class="fa fa-sign-in"></i>    @Resource.Connect</a>
+                                    </td>
+                                    @Html.HiddenFor(x => x.List[i].Id)
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    @Html.PagedListPager(Model.List, page => Url.Action("Index", new { sortBy = Model.SortBy, ascending = Model.IsAscending, page }))
+
+                </div>
+            </div>
+        </div>
+    </div>

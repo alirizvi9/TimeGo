@@ -1,0 +1,46 @@
+﻿@using TimeGo.Web.Mvc.Models;
+@using TimeGo;
+@model LoginViewModel
+@{
+    ViewBag.Title = Resource.LogIn;
+    Layout = "~/Views/Shared/_SignUpLayout.cshtml";
+}
+<form action="/Login" method="post" role="form">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card-group mb-0">
+                <div class="card p-6">
+                    <div class="card-block">
+                        <h1>@Resource.LogIn to @ViewBag.CompanyName</h1>
+                        <p class="text-muted">@Resource.SignInToYourAccount</p>
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon">
+                                <i class="icon-user"></i>
+                            </span>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = Resource.Email })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "tooltiptext tooltiptext-left" })
+                        </div>
+                        <div class="input-group mb-4">
+                            <span class="input-group-addon">
+                                <i class="icon-lock"></i>
+                            </span>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = Resource.Password })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "tooltiptext tooltiptext-left" })
+                        </div>
+                        <div class="row">
+                            @Html.ValidationSummary(true, "", new { @class = "validation-error"})
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="submit" value="@Resource.LogIn" class="btn btn-primary px-4" />
+                            </div>
+                            <div class="col-6 text-right">
+                                @Html.ActionLink(Resource.ForgotPass, "ForgotPassword")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

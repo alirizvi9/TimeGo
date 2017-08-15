@@ -1,0 +1,106 @@
+﻿// Here you can add other styles
+.validation-error {
+  color: red;
+}
+
+.input-validation-error {
+  padding-right: 2.25rem !important;
+  background-repeat: no-repeat !important;
+  background-position: center right 0.52344rem !important;
+  background-size: 1.04688rem 1.04688rem !important;
+  border: 1px solid #ff5454 !important;
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ff5454' viewBox='-2 -2 7 7'%3E%3Cpath stroke='%23d9534f' d='M0 0l3 3m0-3L0 3'/%3E%3Ccircle r='.5'/%3E%3Ccircle cx='3' r='.5'/%3E%3Ccircle cy='3' r='.5'/%3E%3Ccircle cx='3' cy='3' r='.5'/%3E%3C/svg%3E") !important;
+}
+
+/* Tooltip text */
+.tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #f1f1f1;
+  color: #ff5454;
+  text-align: center;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 3;
+}
+
+.tooltiptext-right {
+  top: -5px;
+  left: 105%;
+}
+
+.tooltiptext-left {
+  top: -5px;
+  right: 105%;
+}
+
+.tooltiptext-left::after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  left: 100%; /* To the right of the tooltip */
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent #f1f1f1;
+}
+
+.tooltiptext-right::after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  right: 100%; /* To the left of the tooltip */
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #f1f1f1 transparent transparent;
+}
+
+.input-group:hover .tooltiptext {
+  visibility: visible;
+}
+
+.container-fluid {
+  margin-top: 30px;
+}
+
+.card-header-signUp {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0;
+  background-color: white;
+}
+
+.card-footer-signUp {
+  padding: 0.75rem 1.25rem;
+  background-color: white;
+}
+
+@media(max-width: 1200px) {
+  .border-right {
+    border-bottom: 1px solid #d1d4d7
+  }
+
+  .border-left {
+    border-bottom: 1px solid #d1d4d7
+  }
+}
+
+@media(min-width: 1200px) {
+  .border-right {
+    border-right: 1px solid #d1d4d7
+  }
+
+  .border-left {
+    border-left: 1px solid #d1d4d7
+  }
+}
+
+.required:before {
+  content: "*";
+  color: red;
+  position: absolute;
+  left: 100%;
+  top: 5px;
+  font-size: medium;
+  margin-left: 8px;
+}

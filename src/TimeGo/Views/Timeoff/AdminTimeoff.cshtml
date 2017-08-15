@@ -1,0 +1,76 @@
+﻿@using TimeGo.Models
+@model TimeoffViewModel
+@{
+    ViewBag.Title = "Timeoff Request";
+}
+
+<style>
+    .date {
+        awidth: 70px;
+    }
+
+    .single-line input, .single-line button {
+        display: inline-block;
+    }
+
+    .single-line button {
+        width: auto;
+    }
+</style>
+
+<h1>@Model.CompanyName</h1>
+
+<h3>ADMIN - Manage Timeoff Requests</h3>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th>From Date</th>
+            <th>To Date</th>
+            <th>Returning to Work</th>
+            <th>Reason</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    @foreach (var Request in Model.TimeoffRequests) {
+        <tr>
+            <td>@Request.Employee.FirstName @Request.Employee.LastName</td>
+            <td>@Request.FromDate.ToString("dd-MMM-yy")</td>
+            <td>@Request.ToDate.ToString("dd-MMM-yy")</td>
+            <td>@Request.ReturningToWork.ToString("dd-MMM-yy")</td>
+            <td>@Request.Reason</td>
+            <td>@Request.ApprovalStatu.ApprovalStatusType</td>
+            <td>
+                    <a href='@Url.Action("AdminTimeoffApprove", Model.CompanyURL, new { RequestId=Request.TimeoffId })'>
+                        <span class="label label-success">Approve</span>
+                    </a>
+
+                    <a href='@Url.Action("AdminTimeoffDeny", Model.CompanyURL, new { RequestId=Request.TimeoffId })'>
+                        <span class="label label-danger">Deny</span>
+                    </a>
+            </td>
+
+        </tr>
+    }
+</table>
+
+<br />
+
+
+
+
+@section scripts{
+    <script>
+                $(function () {
+                    $(".date").datepicker({
+                        showOtherMonths: true,
+                        selectOtherMonths: true,
+                        dateFormat: "d-M-y",
+                    });
+                });
+    </script>
+
+    @Scripts.Render("~/bundles/jqueryval")
+}

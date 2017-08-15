@@ -1,0 +1,161 @@
+﻿@using TimeGo.Models
+@model AdminUsersViewModel
+@{
+    ViewBag.Title = "Manage Users";
+}
+
+<style>
+    .date {width: 70px;}
+
+    .single-line input, .single-line button {
+        display: inline-block
+    }
+
+    .single-line button { width: auto;}
+</style>
+
+<h1>@Model.CompanyName</h1>
+
+<h3>ADMIN - Manage Users</h3>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th width="50"></th>
+            <th>Employee #</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email Name</th>
+            <th>Phone</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Is Active</th>
+            <th>Calc Overtime</th>
+        </tr>
+    </thead>
+    @foreach (var Employee in Model.Employees) {
+        <tr>
+            <td>
+                <a href='@Url.Action("AdminUsers", "Admin", new { EmployeeId=Employee.EmployeeId })'>
+                    <span class="glyphicon glyphicon-cog"></span>
+                </a>
+            </td>
+            <td>@Employee.EmployeeNumber</td>
+            <td>@Employee.FirstName</td>
+            <td>@Employee.LastName</td>
+            <td>@Employee.EmailAddress</td>
+            <td>@Employee.Phonenumber</td>
+            <td>@(String.IsNullOrWhiteSpace(Employee.UserName) ? Employee.EmailAddress : Employee.UserName)</td>
+            <td>@if (Employee.Role != null) {@Employee.Role.RoleType}</td>
+            <td>@(Employee.IsActive ? "Yes":"No")</td>
+            <td>@(Employee.IsOvertimeCalculated ? "Yes" : "No")</td>
+        </tr>
+    }
+</table>
+
+<br />
+@if (Model.SelectedEmployee.EmployeeId == 0) {
+    <h3>Add New</h3>
+} else {
+    <h3>Edit Employee</h3>
+}
+
+
+@using (Html.BeginForm("AdminUsers", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+    @Html.HiddenFor(m => m.SelectedEmployee.EmployeeId)
+
+
+    <div class="form-group">
+        <label for="exampleInputEmail1" class="col-sm-2">Employee Id</label>
+        @Html.TextBoxFor(m => m.SelectedEmployee.EmployeeNumber, new { Class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1" class="col-sm-2">First Name</label>
+        @Html.TextBoxFor(m => m.SelectedEmployee.FirstName, new { Class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SelectedEmployee.FirstName, "", new { @class = "text-danger col-xs-7" })
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1" class="col-sm-2">Last Name</label>
+        @Html.TextBoxFor(m => m.SelectedEmployee.LastName, new { Class = "form-control" })
+        @Html.ValidationMessageFor(m => m.SelectedEmployee.LastName, "", new { @class = "text-danger col-xs-7" })
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1" class="col-sm-2">Email Address</label>
+        @Html.TextBoxFor(m => m.SelectedEmployee.EmailAddress, new { Class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1" class="col-sm-2">Phone Number</label>
+        @Html.TextBoxFor(m => m.SelectedEmployee.Phonenumber, new { Class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1" class="col-sm-2">Username</label>
+        @Html.TextBoxFor(m => m.SelectedEmployee.UserName, new { Class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1" class="col-sm-2">Password</label>
+        @Html.TextBoxFor(m => m.SelectedEmployee.Password, new { Class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1" class="col-sm-2">Is Admin</label>
+        @Html.DropDownListFor(m => m.SelectedEmployee.RoleId, Model.Roles, new { Class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1" class="col-sm-2">Calc Overtime</label>
+        <div>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(m => m.SelectedEmployee.IsOvertimeCalculated, true) Yes
+            </label>
+
+            <label class="radio-inline">
+                @Html.RadioButtonFor(m => m.SelectedEmployee.IsOvertimeCalculated, false) No
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.ValidationMessageFor(m => m.SelectedEmployee.IsOvertimeCalculated, "", new { @class = "text-danger col-xs-7" })
+    </div>
+
+
+    <div class="form-group">
+        <label for="exampleInputEmail1" class="col-sm-2">Is Active</label>
+        <div>
+            <label class="radio-inline">
+                @Html.RadioButtonFor(m => m.SelectedEmployee.IsActive, true) Yes
+            </label>
+
+            <label class="radio-inline">
+                @Html.RadioButtonFor(m => m.SelectedEmployee.IsActive, false) No
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.ValidationMessageFor(m => m.SelectedEmployee.IsActive, "", new { @class = "text-danger col-xs-7" })
+    </div>
+
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary" value="Save" />    <input type="button" value="Cancel" class="btn btn-default" onclick="location.href='@Url.Action("AdminUsers", "Admin")'" />
+    </div>
+}
+
+
+
+        @section scripts{
+            <script>
+                $(function () {
+                    $(".date").datepicker({
+                        showOtherMonths: true,
+                        selectOtherMonths: true
+                    });
+                });
+            </script>
+
+            @Scripts.Render("~/bundles/jqueryval")
+        }

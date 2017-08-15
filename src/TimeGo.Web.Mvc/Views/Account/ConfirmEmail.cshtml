@@ -1,0 +1,19 @@
+﻿@using TimeGo;
+@{
+    ViewBag.Title = Resource.ConfirmEmail;
+    Layout = "~/Views/Shared/_SignUpLayout.cshtml";
+}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card-group mb-0">
+            <div class="card p-6">
+                <div class="card-block">
+                    <h1>@Resource.ConfirmEmail</h1>
+                    <p>
+                        @Resource.ConfirmEmailMessage @Html.ActionLink(Resource.ClickToLogIn, "CompayLogin", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
