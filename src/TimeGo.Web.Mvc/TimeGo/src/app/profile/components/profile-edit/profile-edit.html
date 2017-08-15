@@ -10,13 +10,23 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="company-name">Company Name</label>
-              <input type="text" class="form-control" id="company-name" placeholder="Company name" [(ngModel)]="company.CompanyName">
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="icon-organization"></i>
+                </span>
+                <input type="text" class="form-control" id="company-name" placeholder="Company name" [(ngModel)]="company.CompanyName">
+              </div>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="contact-name">Contact Name</label>
-              <input type="text" class="form-control" id="contact-name" placeholder="Contact name" [(ngModel)]="company.ContactName">
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="icon-user"></i>
+                </span>
+                <input type="text" class="form-control" id="contact-name" placeholder="Contact name" [(ngModel)]="company.ContactName">
+              </div>
             </div>
           </div>
         </div>
@@ -24,13 +34,23 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="phone-number">Phone Number</label>
-              <input type="text" class="form-control" id="phone-number" placeholder="Phone number" [(ngModel)]="company.PhoneNumber">
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="icon-phone"></i>
+                </span>
+                <input type="text" class="form-control" id="phone-number" placeholder="Phone number" [(ngModel)]="company.PhoneNumber">
+              </div>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" class="form-control" id="email" placeholder="Email" [(ngModel)]="company.EmailAddress">
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="">@</i>
+                </span>
+                <input type="email" class="form-control" id="email" placeholder="Email" [(ngModel)]="company.EmailAddress">
+              </div>
             </div>
           </div>
         </div>
@@ -38,15 +58,25 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="vacation-approver-email">Vacation Approver Email</label>
-              <input type="email" class="form-control" id="vacation-approver-email" placeholder="Vacation Approver Email" [(ngModel)]="company.VacationApproverEmail">
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="">@</i>
+                </span>
+                <input type="email" class="form-control" id="vacation-approver-email" placeholder="Vacation Approver Email" [(ngModel)]="company.VacationApproverEmail">
+              </div>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="week-day">Work Week Start Day</label>
-              <select id="week-day" class="form-control" [(ngModel)]="company.WorkWeekStartDay">
-                <option *ngFor="let c of weekDays" [ngValue]="c.id">{{c.text}}</option>
-              </select>
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="icon-calendar"></i>
+                </span>
+                <select id="week-day" class="form-control" [(ngModel)]="company.WorkWeekStartDay">
+                  <option *ngFor="let c of weekDays" [ngValue]="c.id">{{c.text}}</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
@@ -54,9 +84,14 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="timesheets">Timesheets Weeks in advance</label>
-              <select id="timesheets" class="form-control" [(ngModel)]="company.TimesheetsWeeks">
-                <option *ngFor="let c of timesheets" [ngValue]="c.id">{{c.text}}</option>
-              </select>
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="icon-globe"></i>
+                </span>
+                <select id="timesheets" class="form-control" [(ngModel)]="company.TimesheetsWeeks">
+                  <option *ngFor="let c of timesheets" [ngValue]="c.id">{{c.text}}</option>
+                </select>
+              </div>
             </div>
           </div>
           <div class="col-md-6">

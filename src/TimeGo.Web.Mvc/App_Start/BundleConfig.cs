@@ -22,8 +22,7 @@ namespace TimeGo.Web.Mvc
                     "~/Content/css/glyphicons.css",
                     "~/Content/css/glyphicons-filetypes.css",
                     "~/Content/css/glyphicons-social.css",
-                    "~/Content/css/style.css",
-                    "~/Content/css/TimeGo.css"));
+                    "~/Content/css/style.css"));
 
             //TimeGo App
             bundles.Add(new ScriptBundle("~/bundles/timegoJs")
@@ -39,16 +38,13 @@ namespace TimeGo.Web.Mvc
                     "~/Content/timego/3.chunk.js",
                     "~/Content/timego/4.chunk.js",
                     "~/Content/timego/5.chunk.js",
-                     "~/Content/timego/6.chunk.js"));
+                    "~/Content/timego/6.chunk.js"));
 
-            bundles.Add(new StyleBundle("~/bundles/timegoCss").Include(
-                    "~/Content/timego/assets/css/font-awesome.min.css",
-                    "~/Content/timego/assets/css/simple-line-icons.css",
-                    "~/Content/timego/assets/css/glyphicons.css",
-                    "~/Content/timego/assets/css/glyphicons-filetypes.css",
-                    "~/Content/timego/assets/css/glyphicons-social.css",
-                    "~/Content/css/style.css",
-                    "~/Content/css/TimeGo.css"));
+            bundles.Add(new StyleBundle("~/bundles/timegoCss").Include("~/Content/css/font-awesome.css",
+                    "~/Content/css/simple-line-icons.css",
+                    "~/Content/css/glyphicons.css",
+                    "~/Content/css/glyphicons-filetypes.css",
+                    "~/Content/css/glyphicons-social.css"));
         }
     }
 }
