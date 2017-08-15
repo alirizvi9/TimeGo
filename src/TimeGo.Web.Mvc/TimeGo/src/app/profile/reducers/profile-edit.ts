@@ -18,12 +18,12 @@ export function reducer(
 ): State {
     switch (action.type) {
         case editProfile.GET:
-        {
-            return {
-                company: state.company,
-                isLoaded: false
-        };
-        }
+            {
+                return {
+                    company: state.company,
+                    isLoaded: false
+                };
+            }
 
         case editProfile.GET_COMPLETE: {
             const loadedCompany = action.payload;

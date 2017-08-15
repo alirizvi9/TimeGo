@@ -1,13 +1,13 @@
 webpackJsonp([4],{
 
-/***/ "../../../../../src/app/dashboard/dashboard-routing.module.ts":
+/***/ "../../../../../src/app/tasks/tasks-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dashboard_component__ = __webpack_require__("../../../../../src/app/dashboard/dashboard.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DashboardRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tasks_component__ = __webpack_require__("../../../../../src/app/tasks/tasks.component.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TasksRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -20,41 +20,59 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var routes = [
     {
         path: '',
-        component: __WEBPACK_IMPORTED_MODULE_2__dashboard_component__["a" /* DashboardComponent */],
+        component: __WEBPACK_IMPORTED_MODULE_2__tasks_component__["a" /* TasksComponent */],
         data: {
-            title: 'Dashboard'
+            title: 'Tasks'
         }
     }
 ];
-var DashboardRoutingModule = (function () {
-    function DashboardRoutingModule() {
+var TasksRoutingModule = (function () {
+    function TasksRoutingModule() {
     }
-    return DashboardRoutingModule;
+    return TasksRoutingModule;
 }());
-DashboardRoutingModule = __decorate([
+TasksRoutingModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["b" /* NgModule */])({
         imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)],
         exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
     })
-], DashboardRoutingModule);
+], TasksRoutingModule);
 
-//# sourceMappingURL=dashboard-routing.module.js.map
+//# sourceMappingURL=tasks-routing.module.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/dashboard/dashboard.component.html":
+/***/ "../../../../../src/app/tasks/tasks.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"animated fadeIn\">\r\n  <div class=\"container-fluid\">\r\n    <div class=\"row\">\r\n      <div class=\"col-md-12\">\r\n        <div class=\"card\">\r\n          <div class=\"card-block\">\r\n            <div class=\"row\">\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div> \r\n"
+module.exports = "<div class=\"animated fadeIn\">\r\n  <div class=\"container-fluid\">\r\n    <div class=\"row\">\r\n      <div class=\"col-md-12\">\r\n        <div class=\"card\">\r\n          <div class=\"card-block\">\r\n            <div class=\"row\">\r\n              <p>\r\n                tasks works!\r\n              </p>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/dashboard/dashboard.component.ts":
+/***/ "../../../../../src/app/tasks/tasks.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/tasks/tasks.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DashboardComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TasksComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -65,33 +83,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var DashboardComponent = (function () {
-    function DashboardComponent() {
+var TasksComponent = (function () {
+    function TasksComponent() {
     }
-    DashboardComponent.prototype.ngOnInit = function () {
+    TasksComponent.prototype.ngOnInit = function () {
     };
-    return DashboardComponent;
+    return TasksComponent;
 }());
-DashboardComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Component */])({
-        template: __webpack_require__("../../../../../src/app/dashboard/dashboard.component.html")
+TasksComponent = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_0" /* Component */])({
+        selector: 'app-tasks',
+        template: __webpack_require__("../../../../../src/app/tasks/tasks.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/tasks/tasks.component.scss")]
     }),
     __metadata("design:paramtypes", [])
-], DashboardComponent);
+], TasksComponent);
 
-//# sourceMappingURL=dashboard.component.js.map
+//# sourceMappingURL=tasks.component.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/dashboard/dashboard.module.ts":
+/***/ "../../../../../src/app/tasks/tasks.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dashboard_component__ = __webpack_require__("../../../../../src/app/dashboard/dashboard.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dashboard_routing_module__ = __webpack_require__("../../../../../src/app/dashboard/dashboard-routing.module.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DashboardModule", function() { return DashboardModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tasks_component__ = __webpack_require__("../../../../../src/app/tasks/tasks.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tasks_routing_module__ = __webpack_require__("../../../../../src/app/tasks/tasks-routing.module.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TasksModule", function() { return TasksModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -101,21 +122,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var DashboardModule = (function () {
-    function DashboardModule() {
+
+var TasksModule = (function () {
+    function TasksModule() {
     }
-    return DashboardModule;
+    return TasksModule;
 }());
-DashboardModule = __decorate([
+TasksModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["b" /* NgModule */])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_2__dashboard_routing_module__["a" /* DashboardRoutingModule */]
+            __WEBPACK_IMPORTED_MODULE_3__tasks_routing_module__["a" /* TasksRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["c" /* CommonModule */]
         ],
-        declarations: [__WEBPACK_IMPORTED_MODULE_1__dashboard_component__["a" /* DashboardComponent */]]
+        declarations: [__WEBPACK_IMPORTED_MODULE_2__tasks_component__["a" /* TasksComponent */]]
     })
-], DashboardModule);
+], TasksModule);
 
-//# sourceMappingURL=dashboard.module.js.map
+//# sourceMappingURL=tasks.module.js.map
 
 /***/ })
 

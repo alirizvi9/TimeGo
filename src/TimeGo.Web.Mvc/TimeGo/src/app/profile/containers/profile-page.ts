@@ -9,7 +9,7 @@ import * as profileEdit from '../actions/profile-edit';
 import {CompanyProfile} from '../models/company-profile.model'
 
 @Component({
-    selector: 'bc-find-book-page',
+    selector: 'profile-page',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <pc-profile-edit [company]="company$ | async" [isLoaded]="isLoaded$ | async" (save)="saveProfile($event)"></pc-profile-edit>

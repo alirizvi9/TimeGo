@@ -1,79 +1,112 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    MY PROFILE
-                    <input type="button" class="btn btn-sm btn-success float-right" value="Save" (click)="save.emit(company)"/>
-                </div>
-                <div class="card-block" *ngIf="isLoaded">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="company-name">Company Name</label>
-                                <input type="text" class="form-control" id="company-name" placeholder="Company name" [(ngModel)]="company.CompanyName">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="contact-name">Contact Name</label>
-                                <input type="text" class="form-control" id="contact-name" placeholder="Contact name" [(ngModel)]="company.ContactName"> 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="phone-number">Phone Number</label>
-                                <input type="text" class="form-control" id="phone-number" placeholder="Phone number" [(ngModel)]="company.PhoneNumber">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="Email" [(ngModel)]="company.EmailAddress">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="vacation-approver-email">Vacation Approver Email</label>
-                                <input type="email" class="form-control" id="vacation-approver-email" placeholder="Vacation Approver Email" [(ngModel)]="company.VacationApproverEmail">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="week-day">Work Week Start Day</label>
-                                <select id="week-day" class="form-control" [(ngModel)]="company.WorkWeekStartDay">
-                                    <option *ngFor="let c of weekDays" [ngValue]="c.id">{{c.text}}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="timesheets">Timesheets Weeks in advance</label>
-                                <select id="timesheets" class="form-control" [(ngModel)]="company.TimesheetsWeeks">
-                                    <option *ngFor="let c of timesheets" [ngValue]="c.id">{{c.text}}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            Pick a short word (no spaces or special characters) that users will type after timego.com/ to reach your company login screen.
-                            <div class="form-group row">
-                                <label class="col-md-2 form-control-label">http://timego.com/</label>
-                                <div class="col-md-10">
-                                    <input type="text" class="form-control" id="alias" [(ngModel)]="company.TimeGoUrl">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+﻿<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        MY PROFILE
+        <input type="button" class="btn btn-sm btn-success float-right" value="Save" (click)="save.emit(company)" />
+      </div>
+      <div class="card-block" *ngIf="isLoaded">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="company-name">Company Name</label>
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="icon-organization"></i>
+                </span>
+                <input type="text" class="form-control" id="company-name" placeholder="Company name" [(ngModel)]="company.CompanyName">
+              </div>
             </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="contact-name">Contact Name</label>
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="icon-user"></i>
+                </span>
+                <input type="text" class="form-control" id="contact-name" placeholder="Contact name" [(ngModel)]="company.ContactName">
+              </div>
+            </div>
+          </div>
         </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="phone-number">Phone Number</label>
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="icon-phone"></i>
+                </span>
+                <input type="text" class="form-control" id="phone-number" placeholder="Phone number" [(ngModel)]="company.PhoneNumber">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="">@</i>
+                </span>
+                <input type="email" class="form-control" id="email" placeholder="Email" [(ngModel)]="company.EmailAddress">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="vacation-approver-email">Vacation Approver Email</label>
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="">@</i>
+                </span>
+                <input type="email" class="form-control" id="vacation-approver-email" placeholder="Vacation Approver Email" [(ngModel)]="company.VacationApproverEmail">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="week-day">Work Week Start Day</label>
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="icon-calendar"></i>
+                </span>
+                <select id="week-day" class="form-control" [(ngModel)]="company.WorkWeekStartDay">
+                  <option *ngFor="let c of weekDays" [ngValue]="c.id">{{c.text}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="timesheets">Timesheets Weeks in advance</label>
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="icon-globe"></i>
+                </span>
+                <select id="timesheets" class="form-control" [(ngModel)]="company.TimesheetsWeeks">
+                  <option *ngFor="let c of timesheets" [ngValue]="c.id">{{c.text}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="companyUrl">Company Url</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="companyUrl" [(ngModel)]="company.TimeGoUrl">
+                <span class="input-group-addon">
+                  <i class="">.timego.com/</i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
