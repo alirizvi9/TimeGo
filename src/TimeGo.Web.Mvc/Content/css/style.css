@@ -1,11 +1,11 @@
-﻿/**
+﻿@charset "UTF-8";
+/**
  * GenesisUI - Bootstrap 4 Admin Template
  * @version v1.8.4
  * @link https://genesisui.com
  * Copyright (c) 2017 creativeLabs Łukasz Holeczek
  * @license Commercial
  */
-@charset "UTF-8";
 /*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
@@ -3078,7 +3078,8 @@ tbody.collapse.show {
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: #fff;}
+  background-color: #fff;
+  border: 1px solid #d1d4d7; }
 
 .card-block {
   flex: 1 1 auto;
@@ -3101,17 +3102,15 @@ tbody.collapse.show {
   margin-left: 1.25rem; }
 
 .card-header {
-    padding: 0.75rem 1.25rem;
-    margin-bottom: 0;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #d1d4d7;
-}
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #d1d4d7; }
 
 .card-footer {
-    padding: 0.75rem 1.25rem;
-    background-color: #f8f9fa;
-    border-top: 1px solid #d1d4d7;
-}
+  padding: 0.75rem 1.25rem;
+  background-color: #f8f9fa;
+  border-top: 1px solid #d1d4d7; }
 
 .card-header-tabs {
   margin-right: -0.625rem;
@@ -8782,7 +8781,7 @@ be a descendant of the grid when it is being dragged.
 .irs-bar,
 .irs-bar-edge,
 .irs-slider {
-  background: url(../img/sprite-skin-modern.png) repeat-x; }
+  background: url(../../TimeGo/src/img/sprite-skin-modern.png) repeat-x; }
 
 .irs {
   height: 50px; }
@@ -8963,7 +8962,7 @@ html[dir="rtl"] .select2-container .select2-choice > .select2-chosen {
   font-size: 1px;
   text-decoration: none;
   border: 0;
-  background: url("../img/select2.png") right top no-repeat;
+  background: url("../../TimeGo/src/img/select2.png") right top no-repeat;
   cursor: pointer;
   outline: 0; }
 
@@ -9052,7 +9051,7 @@ html[dir="rtl"] .select2-container .select2-choice .select2-arrow {
   display: block;
   width: 100%;
   height: 100%;
-  background: url("../img/select2.png") no-repeat 0 1px; }
+  background: url("../../TimeGo/src/img/select2.png") no-repeat 0 1px; }
 
 html[dir="rtl"] .select2-container .select2-choice .select2-arrow b {
   background-position: 2px 1px; }
@@ -9080,26 +9079,26 @@ html[dir="rtl"] .select2-container .select2-choice .select2-arrow b {
   border-radius: 0;
   -webkit-box-shadow: none;
   box-shadow: none;
-  background: #fff url("../img/select2.png") no-repeat 100% -22px;
-  background: url("../img/select2.png") no-repeat 100% -22px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, #fff), color-stop(0.99, #eee));
-  background: url("../img/select2.png") no-repeat 100% -22px, -webkit-linear-gradient(center bottom, #fff 85%, #eee 99%);
-  background: url("../img/select2.png") no-repeat 100% -22px, -moz-linear-gradient(center bottom, #fff 85%, #eee 99%);
-  background: url("../img/select2.png") no-repeat 100% -22px, linear-gradient(to bottom, #fff 85%, #eee 99%) 0 0; }
+  background: #fff url("../../TimeGo/src/img/select2.png") no-repeat 100% -22px;
+  background: url("../../TimeGo/src/img/select2.png") no-repeat 100% -22px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, #fff), color-stop(0.99, #eee));
+  background: url("../../TimeGo/src/img/select2.png") no-repeat 100% -22px, -webkit-linear-gradient(center bottom, #fff 85%, #eee 99%);
+  background: url("../../TimeGo/src/img/select2.png") no-repeat 100% -22px, -moz-linear-gradient(center bottom, #fff 85%, #eee 99%);
+  background: url("../../TimeGo/src/img/select2.png") no-repeat 100% -22px, linear-gradient(to bottom, #fff 85%, #eee 99%) 0 0; }
 
 html[dir="rtl"] .select2-search input {
   padding: 4px 5px 4px 20px;
-  background: #fff url("../img/select2.png") no-repeat -37px -22px;
-  background: url("../img/select2.png") no-repeat -37px -22px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, #fff), color-stop(0.99, #eee));
-  background: url("../img/select2.png") no-repeat -37px -22px, -webkit-linear-gradient(center bottom, #fff 85%, #eee 99%);
-  background: url("../img/select2.png") no-repeat -37px -22px, -moz-linear-gradient(center bottom, #fff 85%, #eee 99%);
-  background: url("../img/select2.png") no-repeat -37px -22px, linear-gradient(to bottom, #fff 85%, #eee 99%) 0 0; }
+  background: #fff url("../../TimeGo/src/img/select2.png") no-repeat -37px -22px;
+  background: url("../../TimeGo/src/img/select2.png") no-repeat -37px -22px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, #fff), color-stop(0.99, #eee));
+  background: url("../../TimeGo/src/img/select2.png") no-repeat -37px -22px, -webkit-linear-gradient(center bottom, #fff 85%, #eee 99%);
+  background: url("../../TimeGo/src/img/select2.png") no-repeat -37px -22px, -moz-linear-gradient(center bottom, #fff 85%, #eee 99%);
+  background: url("../../TimeGo/src/img/select2.png") no-repeat -37px -22px, linear-gradient(to bottom, #fff 85%, #eee 99%) 0 0; }
 
 .select2-search input.select2-active {
-  background: #fff url("../img/select2-spinner.gif") no-repeat 100%;
-  background: url("../img/select2-spinner.gif") no-repeat 100%, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, #fff), color-stop(0.99, #eee));
-  background: url("../img/select2-spinner.gif") no-repeat 100%, -webkit-linear-gradient(center bottom, #fff 85%, #eee 99%);
-  background: url("../img/select2-spinner.gif") no-repeat 100%, -moz-linear-gradient(center bottom, #fff 85%, #eee 99%);
-  background: url("../img/select2-spinner.gif") no-repeat 100%, linear-gradient(to bottom, #fff 85%, #eee 99%) 0 0; }
+  background: #fff url("../../TimeGo/src/img/select2-spinner.gif") no-repeat 100%;
+  background: url("../../TimeGo/src/img/select2-spinner.gif") no-repeat 100%, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, #fff), color-stop(0.99, #eee));
+  background: url("../../TimeGo/src/img/select2-spinner.gif") no-repeat 100%, -webkit-linear-gradient(center bottom, #fff 85%, #eee 99%);
+  background: url("../../TimeGo/src/img/select2-spinner.gif") no-repeat 100%, -moz-linear-gradient(center bottom, #fff 85%, #eee 99%);
+  background: url("../../TimeGo/src/img/select2-spinner.gif") no-repeat 100%, linear-gradient(to bottom, #fff 85%, #eee 99%) 0 0; }
 
 .select2-container-active .select2-choice,
 .select2-container-active .select2-choices {
@@ -9254,7 +9253,7 @@ disabled look for disabled choices in the results dropdown
   display: none; }
 
 .select2-more-results.select2-active {
-  background: #f4f4f4 url("../img/select2-spinner.gif") no-repeat 100%; }
+  background: #f4f4f4 url("../../TimeGo/src/img/select2-spinner.gif") no-repeat 100%; }
 
 .select2-results .select2-ajax-error {
   background: rgba(255, 50, 50, 0.2); }
@@ -9334,7 +9333,7 @@ html[dir="rtl"] .select2-container-multi .select2-choices li {
   background: transparent !important; }
 
 .select2-container-multi .select2-choices .select2-search-field input.select2-active {
-  background: #fff url("../img/select2-spinner.gif") no-repeat 100% !important; }
+  background: #fff url("../../TimeGo/src/img/select2-spinner.gif") no-repeat 100% !important; }
 
 .select2-default {
   color: #999 !important; }
@@ -9382,7 +9381,7 @@ html[dir="rtl"] .select2-container-multi .select2-choices .select2-search-choice
   top: 4px;
   font-size: 1px;
   outline: none;
-  background: url("../img/select2.png") right top no-repeat; }
+  background: url("../../TimeGo/src/img/select2.png") right top no-repeat; }
 
 html[dir="rtl"] .select2-search-choice-close {
   right: auto;
@@ -9453,7 +9452,7 @@ html[dir="rtl"] .select2-container-multi .select2-search-choice-close {
   .select2-search-choice-close,
   .select2-container .select2-choice abbr,
   .select2-container .select2-choice .select2-arrow b {
-    background-image: url("../img/select2x2.png") !important;
+    background-image: url("../../TimeGo/src/img/select2x2.png") !important;
     background-repeat: no-repeat !important;
     background-size: 60px 40px !important; }
   .select2-search input {
@@ -10115,7 +10114,7 @@ body > .ui-select-bootstrap.open {
     outline: 0; }
 
 select {
-  background: white url("../img/select.png") no-repeat !important;
+  background: white url("../../TimeGo/src/img/select.png") no-repeat !important;
   background-size: 24px 20px !important;
   background-position: right center !important;
   border-radius: 0px !important;
@@ -10193,14 +10192,14 @@ select {
   box-shadow: none; }
 
 .select2-search-choice-close {
-  background: url("../img/select2.png") right top no-repeat; }
+  background: url("../../TimeGo/src/img/select2.png") right top no-repeat; }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 2dppx) {
   .select2-search input,
   .select2-search-choice-close,
   .select2-container .select2-choice abbr,
   .select2-container .select2-choice .select2-arrow b {
-    background-image: url("../img/select2x2.png") !important; } }
+    background-image: url("../../TimeGo/src/img/select2x2.png") !important; } }
 
 .cal-month-view .cal-header {
   text-align: center;
@@ -12583,6 +12582,7 @@ base-chart.chart {
     padding: 0.5rem 1rem;
     margin-right: 0;
     background-color: #20a8d8;
+    background-image: url("../../TimeGo/src/img/logo.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 70px auto;
@@ -13756,7 +13756,8 @@ app-root {
   min-height: 100vh; }
 
 .app-header {
-  flex: 0 0 55px; }
+  flex: 0 0 55px;
+  margin-bottom: 24px; }
 
 .app-footer {
   flex: 0 0 50px; }
@@ -14115,3 +14116,92 @@ hr.transparent {
     border-right-color: #ff5454; }
   *[dir="rtl"] .callout-success {
     border-right-color: #79c447; }
+
+.validation-error {
+  color: red; }
+
+.input-validation-error {
+  padding-right: 2.25rem !important;
+  background-repeat: no-repeat !important;
+  background-position: center right 0.52344rem !important;
+  background-size: 1.04688rem 1.04688rem !important;
+  border: 1px solid #ff5454 !important;
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ff5454' viewBox='-2 -2 7 7'%3E%3Cpath stroke='%23d9534f' d='M0 0l3 3m0-3L0 3'/%3E%3Ccircle r='.5'/%3E%3Ccircle cx='3' r='.5'/%3E%3Ccircle cy='3' r='.5'/%3E%3Ccircle cx='3' cy='3' r='.5'/%3E%3C/svg%3E") !important; }
+
+/* Tooltip text */
+.tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #f1f1f1;
+  color: #ff5454;
+  text-align: center;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 3; }
+
+.tooltiptext-right {
+  top: -5px;
+  left: 105%; }
+
+.tooltiptext-left {
+  top: -5px;
+  right: 105%; }
+
+.tooltiptext-left::after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  /* To the right of the tooltip */
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent #f1f1f1; }
+
+.tooltiptext-right::after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  /* To the left of the tooltip */
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #f1f1f1 transparent transparent; }
+
+.input-group:hover .tooltiptext {
+  visibility: visible; }
+
+.container-fluid {
+  margin-top: 30px; }
+
+.card-header-signUp {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0;
+  background-color: white; }
+
+.card-footer-signUp {
+  padding: 0.75rem 1.25rem;
+  background-color: white; }
+
+@media (max-width: 1200px) {
+  .border-right {
+    border-bottom: 1px solid #d1d4d7; }
+  .border-left {
+    border-bottom: 1px solid #d1d4d7; } }
+
+@media (min-width: 1200px) {
+  .border-right {
+    border-right: 1px solid #d1d4d7; }
+  .border-left {
+    border-left: 1px solid #d1d4d7; } }
+
+.required:before {
+  content: "*";
+  color: red;
+  position: absolute;
+  left: 100%;
+  top: 5px;
+  font-size: medium;
+  margin-left: 8px; }
+

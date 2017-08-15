@@ -294,6 +294,7 @@
     <Compile Include="Areas\AppApi\AppApiAreaRegistration.cs" />
     <Compile Include="Areas\AppApi\Controllers\BaseApiController.cs" />
     <Compile Include="Areas\AppApi\Controllers\ProfileController.cs" />
+    <Compile Include="Areas\AppApi\Controllers\UsersController.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
     <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
@@ -332,6 +333,7 @@
     <Compile Include="Infrastructure\Mapping\CompanyProfileMapper.cs" />
     <Compile Include="Infrastructure\Mapping\EditCompanyMapper.cs" />
     <Compile Include="Infrastructure\Mapping\SignUpViewModelMapper.cs" />
+    <Compile Include="Infrastructure\Mapping\UsersMapper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModels.cs" />
     <Compile Include="Models\AuthorizationResponse.cs" />
@@ -350,6 +352,48 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\font-awesome.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\css\glyphicons-filetypes.css" />
+    <Content Include="Content\css\glyphicons-social.css" />
+    <Content Include="Content\css\glyphicons.css" />
+    <Content Include="Content\css\simple-line-icons.css" />
+    <Content Include="Content\css\style.css" />
+    <Content Include="Content\css\style.min.css">
+      <DependentUpon>style.css</DependentUpon>
+    </Content>
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\glyphicons-filetypes-regular.svg" />
+    <Content Include="Content\fonts\glyphicons-regular.svg" />
+    <Content Include="Content\fonts\glyphicons-social-regular.svg" />
+    <Content Include="Content\fonts\Simple-Line-Icons.svg" />
+    <Content Include="Content\img\avatars\default.jpg" />
+    <Content Include="Content\img\favicon.png" />
+    <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\select.png" />
+    <Content Include="Content\img\select2-spinner.gif" />
+    <Content Include="Content\img\select2.png" />
+    <Content Include="Content\img\select2x2.png" />
+    <Content Include="Content\img\sort_asc.png" />
+    <Content Include="Content\img\sort_asc_disabled.png" />
+    <Content Include="Content\img\sort_both.png" />
+    <Content Include="Content\img\sort_desc.png" />
+    <Content Include="Content\img\sort_desc_disabled.png" />
+    <Content Include="Content\img\sprite-skin-modern.png" />
+    <Content Include="Content\scripts\jquery.validate.min.js" />
+    <Content Include="Content\timego\0.chunk.js" />
+    <Content Include="Content\timego\1.chunk.js" />
+    <Content Include="Content\timego\2.chunk.js" />
+    <Content Include="Content\timego\3.chunk.js" />
+    <Content Include="Content\timego\4.chunk.js" />
+    <Content Include="Content\timego\5.chunk.js" />
+    <Content Include="Content\timego\6.chunk.js" />
+    <Content Include="Content\timego\index.html" />
+    <Content Include="Content\timego\inline.bundle.js" />
+    <Content Include="Content\timego\main.bundle.js" />
+    <Content Include="Content\timego\polyfills.bundle.js" />
+    <Content Include="Content\timego\styles.bundle.js" />
+    <Content Include="Content\timego\vendor.bundle.js" />
     <Content Include="TimeGo\.gitignore" />
     <Content Include="TimeGo\karma.conf.js" />
     <Content Include="TimeGo\protractor.conf.js" />
@@ -362,24 +406,7 @@
     <Content Include="TimeGo\src\app\tasks\tasks.component.html" />
     <Content Include="TimeGo\src\app\timeoff\timeoff.component.html" />
     <Content Include="TimeGo\src\app\timesheets\timesheets.component.html" />
-    <Content Include="TimeGo\src\assets\css\font-awesome.css" />
-    <Content Include="TimeGo\src\assets\css\font-awesome.min.css" />
-    <Content Include="TimeGo\src\assets\css\style.css" />
-    <Content Include="TimeGo\src\assets\fonts\fontawesome-webfont.svg" />
-    <Content Include="TimeGo\src\assets\img\avatars\default.jpg" />
-    <Content Include="TimeGo\src\assets\img\favicon.png" />
-    <Content Include="TimeGo\src\assets\img\logo.png" />
-    <Content Include="TimeGo\src\assets\img\select.png" />
-    <Content Include="TimeGo\src\assets\img\select2-spinner.gif" />
-    <Content Include="TimeGo\src\assets\img\select2.png" />
-    <Content Include="TimeGo\src\assets\img\select2x2.png" />
-    <Content Include="TimeGo\src\assets\img\sort_asc.png" />
-    <Content Include="TimeGo\src\assets\img\sort_asc_disabled.png" />
-    <Content Include="TimeGo\src\assets\img\sort_both.png" />
-    <Content Include="TimeGo\src\assets\img\sort_desc.png" />
-    <Content Include="TimeGo\src\assets\img\sort_desc_disabled.png" />
-    <Content Include="TimeGo\src\assets\img\sprite-skin-modern.png" />
-    <Content Include="TimeGo\src\assets\style.css" />
+    <Content Include="TimeGo\src\app\users\components\users-list\users-list.html" />
     <Content Include="TimeGo\src\img\favicon.png" />
     <Content Include="TimeGo\src\img\logo.png" />
     <Content Include="TimeGo\src\img\select.png" />
@@ -396,18 +423,6 @@
     <Content Include="App_Data\Logs\readme.txt" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
-    <Content Include="Content\css\font-awesome.css" />
-    <Content Include="Content\css\glyphicons-filetypes.css" />
-    <Content Include="Content\css\glyphicons-social.css" />
-    <Content Include="Content\css\glyphicons.css" />
-    <Content Include="Content\css\simple-line-icons.css" />
-    <Content Include="Content\css\style.css" />
-    <Content Include="Content\css\TimeGo.css" />
-    <Content Include="Content\fonts\fontawesome-webfont.svg" />
-    <Content Include="Content\fonts\glyphicons-filetypes-regular.svg" />
-    <Content Include="Content\fonts\glyphicons-regular.svg" />
-    <Content Include="Content\fonts\glyphicons-social-regular.svg" />
-    <Content Include="Content\fonts\Simple-Line-Icons.svg" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\scripts\app.js" />
     <Content Include="Content\scripts\bootstrap.js" />
@@ -418,33 +433,6 @@
     <Content Include="Content\scripts\pace.min.js" />
     <Content Include="Content\scripts\tether.js" />
     <Content Include="Content\scripts\tether.min.js" />
-    <Content Include="Content\timego\0.chunk.js" />
-    <Content Include="Content\timego\1.chunk.js" />
-    <Content Include="Content\timego\2.chunk.js" />
-    <Content Include="Content\timego\3.chunk.js" />
-    <Content Include="Content\timego\assets\css\font-awesome.css" />
-    <Content Include="Content\timego\assets\css\font-awesome.min.css" />
-    <Content Include="Content\timego\assets\css\style.css" />
-    <Content Include="Content\timego\assets\fonts\fontawesome-webfont.svg" />
-    <Content Include="Content\timego\assets\img\avatars\default.jpg" />
-    <Content Include="Content\timego\assets\img\favicon.png" />
-    <Content Include="Content\timego\assets\img\logo.png" />
-    <Content Include="Content\timego\assets\img\select.png" />
-    <Content Include="Content\timego\assets\img\select2-spinner.gif" />
-    <Content Include="Content\timego\assets\img\select2.png" />
-    <Content Include="Content\timego\assets\img\select2x2.png" />
-    <Content Include="Content\timego\assets\img\sort_asc.png" />
-    <Content Include="Content\timego\assets\img\sort_asc_disabled.png" />
-    <Content Include="Content\timego\assets\img\sort_both.png" />
-    <Content Include="Content\timego\assets\img\sort_desc.png" />
-    <Content Include="Content\timego\assets\img\sort_desc_disabled.png" />
-    <Content Include="Content\timego\assets\img\sprite-skin-modern.png" />
-    <Content Include="Content\timego\assets\style.css" />
-    <Content Include="Content\timego\inline.bundle.js" />
-    <Content Include="Content\timego\main.bundle.js" />
-    <Content Include="Content\timego\polyfills.bundle.js" />
-    <Content Include="Content\timego\styles.bundle.js" />
-    <Content Include="Content\timego\vendor.bundle.js" />
     <Content Include="Content\scripts\jquery.validate.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -468,6 +456,12 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="Content\scripts\jquery.signalR-2.2.2.min.js" />
+    <Content Include="TimeGo\src\scss\style.css">
+      <DependentUpon>style.scss</DependentUpon>
+    </Content>
+    <Content Include="TimeGo\src\scss\style.min.css">
+      <DependentUpon>style.css</DependentUpon>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
@@ -524,28 +518,6 @@
     <Folder Include="TimeGo\src\app\state\reducers\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\fonts\glyphicons-filetypes-regular.eot" />
-    <Content Include="Content\fonts\glyphicons-filetypes-regular.ttf" />
-    <Content Include="Content\fonts\glyphicons-filetypes-regular.woff" />
-    <Content Include="Content\fonts\glyphicons-filetypes-regular.woff2" />
-    <Content Include="Content\fonts\glyphicons-regular.eot" />
-    <Content Include="Content\fonts\glyphicons-regular.ttf" />
-    <Content Include="Content\fonts\glyphicons-regular.woff" />
-    <Content Include="Content\fonts\glyphicons-regular.woff2" />
-    <Content Include="Content\fonts\glyphicons-social-regular.eot" />
-    <Content Include="Content\fonts\glyphicons-social-regular.ttf" />
-    <Content Include="Content\fonts\glyphicons-social-regular.woff" />
-    <Content Include="Content\fonts\glyphicons-social-regular.woff2" />
-    <Content Include="Content\fonts\Simple-Line-Icons.eot" />
-    <Content Include="Content\fonts\Simple-Line-Icons.ttf" />
-    <Content Include="Content\fonts\Simple-Line-Icons.woff" />
-    <Content Include="Content\fonts\Simple-Line-Icons.woff2" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Areas\Admin\Views\web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -561,15 +533,6 @@
     <Content Include="TimeGo\package.json" />
     <Content Include="TimeGo\src\app\tasks\tasks.component.scss" />
     <Content Include="TimeGo\src\app\timesheets\timesheets.component.scss" />
-    <Content Include="TimeGo\src\assets\.gitkeep" />
-    <Content Include="TimeGo\src\assets\.npmignore" />
-    <Content Include="TimeGo\src\assets\css\font-awesome.css.map" />
-    <Content Include="TimeGo\src\assets\fonts\fontawesome-webfont.eot" />
-    <Content Include="TimeGo\src\assets\fonts\fontawesome-webfont.ttf" />
-    <Content Include="TimeGo\src\assets\fonts\fontawesome-webfont.woff" />
-    <Content Include="TimeGo\src\assets\fonts\fontawesome-webfont.woff2" />
-    <Content Include="TimeGo\src\assets\fonts\FontAwesome.otf" />
-    <Content Include="TimeGo\src\assets\img\Sorting icons.psd" />
     <Content Include="TimeGo\src\data.json" />
     <Content Include="TimeGo\src\img\Sorting icons.psd" />
     <Content Include="TimeGo\src\scss\bootstrap\bootstrap-grid.scss" />
@@ -740,20 +703,52 @@
     <Content Include="TimeGo\src\tsconfig.spec.json" />
     <Content Include="TimeGo\tsconfig.json" />
     <Content Include="TimeGo\tslint.json" />
-    <Content Include="Content\timego\assets\.npmignore" />
-    <Content Include="Content\timego\assets\css\font-awesome.css.map" />
-    <Content Include="Content\timego\assets\fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\timego\assets\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\timego\assets\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\timego\assets\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\timego\assets\fonts\FontAwesome.otf" />
-    <Content Include="Content\timego\assets\img\Sorting icons.psd" />
     <Content Include="TimeGo\src\app\timeoff\timeoff.component.scss" />
     <Content Include="TimeGo\src\app\periods\periods.component.scss" />
     <Content Include="TimeGo\src\app\dialogs\subscription\subscription.component.scss" />
     <Content Include="Areas\Admin\Views\Employee\Index.cshtml" />
     <Content Include="TimeGo\src\app\profile\components\profile-edit\profile-edit.scss" />
+    <None Include="Content\css\font-awesome.css.map" />
+    <None Include="Content\fonts\fontawesome-webfont.eot" />
+    <None Include="Content\fonts\fontawesome-webfont.ttf" />
+    <None Include="Content\fonts\fontawesome-webfont.woff" />
+    <None Include="Content\fonts\fontawesome-webfont.woff2" />
+    <None Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\glyphicons-filetypes-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-filetypes-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-filetypes-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-filetypes-regular.woff2" />
+    <Content Include="Content\fonts\glyphicons-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-regular.woff2" />
+    <Content Include="Content\fonts\glyphicons-social-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-social-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-social-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-social-regular.woff2" />
+    <Content Include="Content\fonts\Simple-Line-Icons.eot" />
+    <Content Include="Content\fonts\Simple-Line-Icons.ttf" />
+    <Content Include="Content\fonts\Simple-Line-Icons.woff" />
+    <Content Include="Content\fonts\Simple-Line-Icons.woff2" />
+    <None Include="Content\img\Sorting icons.psd" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <Content Include="Content\timego\0.chunk.js.map" />
+    <Content Include="Content\timego\1.chunk.js.map" />
+    <Content Include="Content\timego\2.chunk.js.map" />
+    <Content Include="Content\timego\3.chunk.js.map" />
+    <Content Include="Content\timego\4.chunk.js.map" />
+    <Content Include="Content\timego\5.chunk.js.map" />
+    <Content Include="Content\timego\6.chunk.js.map" />
+    <Content Include="Content\timego\inline.bundle.js.map" />
+    <Content Include="Content\timego\main.bundle.js.map" />
+    <Content Include="Content\timego\polyfills.bundle.js.map" />
+    <Content Include="Content\timego\styles.bundle.js.map" />
+    <Content Include="Content\timego\vendor.bundle.js.map" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
+    <Content Include="TimeGo\src\app\users\components\users-list\users-list.scss" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="TimeGo\e2e\app.e2e-spec.ts" />
@@ -802,6 +797,18 @@
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\timesheets.component.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\timesheets-routing.module.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\timesheets.module.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\actions\users.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\components\index.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\components\users-list\users-list.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\containers\users-page.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\effects\users.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\models\users-list-item.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\models\users-list-paging.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\reducers\index.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\reducers\users.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\users.module.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\users.service.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\users-routing.module.ts" />
     <TypeScriptCompile Include="TimeGo\src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="TimeGo\src\environments\environment.ts" />
     <TypeScriptCompile Include="TimeGo\src\main.ts" />
