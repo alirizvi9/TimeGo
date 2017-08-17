@@ -1,20 +1,20 @@
 ﻿import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { TimeoffComponent } from './timeoff.component';
+import { TimeoffPageComponent } from './containers/timeoff-page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: TimeoffComponent,
-    data: {
-      title: 'Timeoff Requests'
+    {
+        path: '',
+        component: TimeoffPageComponent,
+        data: {
+            title: 'Timeoff'
+        }
     }
-  }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
 export class TimeoffRoutingModule { }

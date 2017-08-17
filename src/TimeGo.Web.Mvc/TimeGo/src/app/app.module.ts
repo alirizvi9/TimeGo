@@ -11,6 +11,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NAV_DROPDOWN_DIRECTIVES } from './shared/nav-dropdown.directive';
 
+import { Ng2DatetimePickerModule } from 'ng2-datetime-picker';
+import { DatePickerModule } from 'ng2-datepicker';
 // Routing Module
 import { AppRoutingModule } from './app.routing';
 
@@ -30,7 +32,9 @@ import { environment } from '../environments/environment';
         EffectsModule.forRoot([]),
         BsDropdownModule.forRoot(),
         TabsModule.forRoot(),
-        DialogsModule
+        DialogsModule,
+        Ng2DatetimePickerModule,
+        DatePickerModule
     ],
     declarations: [
         AppComponent,

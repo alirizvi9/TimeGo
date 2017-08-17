@@ -32,7 +32,7 @@ var TasksRoutingModule = (function () {
     return TasksRoutingModule;
 }());
 TasksRoutingModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["b" /* NgModule */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)],
         exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
     })
@@ -91,7 +91,7 @@ var TasksComponent = (function () {
     return TasksComponent;
 }());
 TasksComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_0" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-tasks',
         template: __webpack_require__("../../../../../src/app/tasks/tasks.component.html"),
         styles: [__webpack_require__("../../../../../src/app/tasks/tasks.component.scss")]
@@ -129,10 +129,10 @@ var TasksModule = (function () {
     return TasksModule;
 }());
 TasksModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["b" /* NgModule */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
             __WEBPACK_IMPORTED_MODULE_3__tasks_routing_module__["a" /* TasksRoutingModule */],
-            __WEBPACK_IMPORTED_MODULE_1__angular_common__["c" /* CommonModule */]
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"]
         ],
         declarations: [__WEBPACK_IMPORTED_MODULE_2__tasks_component__["a" /* TasksComponent */]]
     })

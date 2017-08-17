@@ -1,0 +1,88 @@
+﻿<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        Timeoff requests
+        <button type="button" class="btn btn-sm btn-success float-right" data-toggle="modal" data-target="#addmodal">
+          Add
+        </button>
+      </div>
+      <div class="card-block" *ngIf="isLoaded">
+        <table class="table table-hover table-outline mb-0 hidden-sm-down" *ngIf="isLoaded">
+          <thead class="thead-default">
+            <tr>
+              <td class="text-center">User Name<a class="fa fa-sort" (click)="order.emit('id')"></a></td>
+              <td class="text-center">Start Date <a class="fa fa-sort" (click)="order.emit('FirstName')"></a></td>
+              <td class="text-center">End Date <a class="fa fa-sort" (click)="order.emit('LastName')"></a></td>
+              <td class="text-center">Returning to work <a class="fa fa-sort" (click)="order.emit('EmailAddress')"></a></td>
+              <td class="text-center">Reasone <a class="fa fa-sort" (click)="order.emit('PhoneNumber')"></a></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let timeoff of timeoffrequests">
+              <td class="text-center">{{timeoff.UserName}}</td>
+              <td class="text-center">{{timeoff.StartDate}}</td>
+              <td class="text-center">{{timeoff.EndDate}}</td>
+              <td class="text-center">{{timeoff.ReturningToWork}}</td>
+              <td class="text-center">{{timeoff.Reasone}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="addmodal" tabindex="-1" role="dialog" aria-labelledby="Add Timeoff request" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header timego-modal">
+        <h4 class="modal-title">Add Timeoff request</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+        <div class="modal-body timego-modal">
+          <div class="form-group">
+            <label for="company-name">Start date</label>
+            <div class="input-group mb-3 required">
+              <span class="input-group-addon">
+                <i class="icon-calendar"></i>
+              </span>
+              <input required [(ngModel)]="addTimeoff.StartDate" type="date" class="datepicker"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="company-name">End date</label>
+            <div class="input-group mb-3 required">
+              <span class="input-group-addon">
+                <i class="icon-calendar"></i>
+              </span>
+              <input required [(ngModel)]="addTimeoff.EndDate" type="date" class="datepicker"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="company-name">Returning to work</label>
+            <div class="input-group mb-3 required">
+              <span class="input-group-addon">
+                <i class="icon-calendar"></i>
+              </span>
+              <input required [(ngModel)]="addTimeoff.ReturningToWork" type="date" class="datepicker"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="company-name">Reasone</label>
+            <div class="input-group mb-3 required">
+              <span class="input-group-addon">
+                <i class="icon-note"></i>
+              </span>
+              <input type="text" class="form-control" id="company-name" placeholder="Reasone" [(ngModel)]="addTimeoff.Reasone" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="add.emit(addTimeoff)">Add</button>
+        </div>
+    </div>
+  </div>
+</div>

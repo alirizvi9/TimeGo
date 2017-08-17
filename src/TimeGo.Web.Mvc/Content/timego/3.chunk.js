@@ -1,13 +1,13 @@
 webpackJsonp([3],{
 
-/***/ "../../../../../src/app/timeoff/timeoff-routing.module.ts":
+/***/ "../../../../../src/app/timesheets/timesheets-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__timeoff_component__ = __webpack_require__("../../../../../src/app/timeoff/timeoff.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimeoffRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__timesheets_component__ = __webpack_require__("../../../../../src/app/timesheets/timesheets.component.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimesheetsRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -20,36 +20,36 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var routes = [
     {
         path: '',
-        component: __WEBPACK_IMPORTED_MODULE_2__timeoff_component__["a" /* TimeoffComponent */],
+        component: __WEBPACK_IMPORTED_MODULE_2__timesheets_component__["a" /* TimesheetsComponent */],
         data: {
-            title: 'Timeoff Requests'
+            title: 'Timesheets'
         }
     }
 ];
-var TimeoffRoutingModule = (function () {
-    function TimeoffRoutingModule() {
+var TimesheetsRoutingModule = (function () {
+    function TimesheetsRoutingModule() {
     }
-    return TimeoffRoutingModule;
+    return TimesheetsRoutingModule;
 }());
-TimeoffRoutingModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["b" /* NgModule */])({
+TimesheetsRoutingModule = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)],
         exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
     })
-], TimeoffRoutingModule);
+], TimesheetsRoutingModule);
 
-//# sourceMappingURL=timeoff-routing.module.js.map
+//# sourceMappingURL=timesheets-routing.module.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/timeoff/timeoff.component.html":
+/***/ "../../../../../src/app/timesheets/timesheets.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\r\n  timeoff works!\r\n</p>\r\n"
+module.exports = "<p>\r\n  timesheets works!\r\n</p>\r\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/timeoff/timeoff.component.scss":
+/***/ "../../../../../src/app/timesheets/timesheets.component.scss":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
@@ -67,12 +67,12 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ "../../../../../src/app/timeoff/timeoff.component.ts":
+/***/ "../../../../../src/app/timesheets/timesheets.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimeoffComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimesheetsComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -83,36 +83,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var TimeoffComponent = (function () {
-    function TimeoffComponent() {
+var TimesheetsComponent = (function () {
+    function TimesheetsComponent() {
     }
-    TimeoffComponent.prototype.ngOnInit = function () {
+    TimesheetsComponent.prototype.ngOnInit = function () {
     };
-    return TimeoffComponent;
+    return TimesheetsComponent;
 }());
-TimeoffComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_0" /* Component */])({
-        selector: 'app-timeoff',
-        template: __webpack_require__("../../../../../src/app/timeoff/timeoff.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/timeoff/timeoff.component.scss")]
+TimesheetsComponent = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        selector: 'app-timesheets',
+        template: __webpack_require__("../../../../../src/app/timesheets/timesheets.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/timesheets/timesheets.component.scss")]
     }),
     __metadata("design:paramtypes", [])
-], TimeoffComponent);
+], TimesheetsComponent);
 
-//# sourceMappingURL=timeoff.component.js.map
+//# sourceMappingURL=timesheets.component.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/timeoff/timeoff.module.ts":
+/***/ "../../../../../src/app/timesheets/timesheets.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__timeoff_routing_module__ = __webpack_require__("../../../../../src/app/timeoff/timeoff-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__timeoff_component__ = __webpack_require__("../../../../../src/app/timeoff/timeoff.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TimeoffModule", function() { return TimeoffModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__timesheets_component__ = __webpack_require__("../../../../../src/app/timesheets/timesheets.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__timesheets_routing_module__ = __webpack_require__("../../../../../src/app/timesheets/timesheets-routing.module.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TimesheetsModule", function() { return TimesheetsModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -123,22 +123,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var TimeoffModule = (function () {
-    function TimeoffModule() {
+var TimesheetsModule = (function () {
+    function TimesheetsModule() {
     }
-    return TimeoffModule;
+    return TimesheetsModule;
 }());
-TimeoffModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["b" /* NgModule */])({
+TimesheetsModule = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_common__["c" /* CommonModule */],
-            __WEBPACK_IMPORTED_MODULE_2__timeoff_routing_module__["a" /* TimeoffRoutingModule */]
+            __WEBPACK_IMPORTED_MODULE_3__timesheets_routing_module__["a" /* TimesheetsRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"]
         ],
-        declarations: [__WEBPACK_IMPORTED_MODULE_3__timeoff_component__["a" /* TimeoffComponent */]]
+        declarations: [__WEBPACK_IMPORTED_MODULE_2__timesheets_component__["a" /* TimesheetsComponent */]]
     })
-], TimeoffModule);
+], TimesheetsModule);
 
-//# sourceMappingURL=timeoff.module.js.map
+//# sourceMappingURL=timesheets.module.js.map
 
 /***/ })
 
