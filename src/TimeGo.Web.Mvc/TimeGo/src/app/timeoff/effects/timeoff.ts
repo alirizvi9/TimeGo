@@ -14,9 +14,10 @@ import { of } from 'rxjs/observable/of';
 
 import { TimeoffService } from '../timeoff.service';
 import * as timeoffActions from '../actions/timeoff';
-import {TimeoffListItem} from '../models/timeoff-list-item.model'
+import { TimeoffList } from '../models/timeoff-list.model'
 import { TimeoffListPagingModel } from '../models/timeoff-list-paging.model'
 import { AddTimeoff } from '../models/add-timeoff.model';
+import { ChangeStatus } from '../models/chagne-status-timeoff.model'
 
 @Injectable()
 export class TimeoffEffects {
@@ -29,7 +30,7 @@ export class TimeoffEffects {
             return this.timeoffService
                 .getTimeoffList(query)
                 .takeUntil(nextGet$)
-                .map((users: TimeoffListItem[]) => new timeoffActions.GetCompleteAction(users))
+                .map((users: TimeoffList) => new timeoffActions.GetCompleteAction(users))
                 .catch(() => of(new timeoffActions.GetCompleteAction(null)));
         });
 
@@ -44,6 +45,19 @@ export class TimeoffEffects {
                 .takeUntil(nextGet$)
                 .map((result: any) => new timeoffActions.SaveCompleteAction(result))
                 .catch(() => of(new timeoffActions.SaveCompleteAction(null)));
+        });
+
+    @Effect()
+    change$: Observable<Action> = this.actions$
+        .ofType(timeoffActions.CHANGE_STATUS)
+        .map(toPayload)
+        .switchMap((model: ChangeStatus) => {
+            const nextGet$ = this.actions$.ofType(timeoffActions.CHANGE_STATUS).skip(1);
+            return this.timeoffService
+                .changeStatus(model)
+                .takeUntil(nextGet$)
+                .map((result: any) => new timeoffActions.ChangeStatusCompleteAction(result))
+                .catch(() => of(new timeoffActions.ChangeStatusCompleteAction(null)));
         });
 
     constructor(

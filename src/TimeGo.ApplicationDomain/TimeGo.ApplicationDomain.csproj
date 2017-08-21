@@ -197,9 +197,11 @@
     <Compile Include="Models\Email\ConfirmEmailModel.cs" />
     <Compile Include="Models\Email\ForgotPasswordEmailModel.cs" />
     <Compile Include="Models\PagingModel.cs" />
+    <Compile Include="Models\ResultsModel.cs" />
     <Compile Include="Models\SignUpRequest.cs" />
     <Compile Include="Enums\Weekdays.cs" />
     <Compile Include="Models\Timeoff\AddTimeoffViewModel.cs" />
+    <Compile Include="Models\Timeoff\ChangeStatusViewModel.cs" />
     <Compile Include="Models\Timeoff\TimeofViewModel.cs" />
     <Compile Include="Models\Users\UsersListItemViewModel.cs" />
     <Compile Include="Persistance\IIdentifiable.cs" />

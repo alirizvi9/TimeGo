@@ -4,5 +4,6 @@
     EndDate: Date;
     ReturningToWork: Date;
     Reasone: string;
-    UserName: string
+    UserName: string;
+    Status: string;
 }

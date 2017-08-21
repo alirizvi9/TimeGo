@@ -3,8 +3,9 @@ import { URLSearchParams } from '@angular/http';
 import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { TimeoffListPagingModel } from './models/timeoff-list-paging.model'
-import { TimeoffListItem } from './models/timeoff-list-item.model'
+import { TimeoffList } from './models/timeoff-list.model'
 import { AddTimeoff } from './models/add-timeoff.model'
+import { ChangeStatus } from './models/chagne-status-timeoff.model'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 declare var commonServerData: any;
@@ -19,14 +20,20 @@ export class TimeoffService {
 
     constructor(private http: Http) { }
 
-    getTimeoffList(pagingModel: TimeoffListPagingModel): Observable<TimeoffListItem[]> {
+    getTimeoffList(pagingModel: TimeoffListPagingModel): Observable<TimeoffList> {
         return this.http.post("/api/Timeoff/", pagingModel, this.options).map((response: Response) =>
             response.json())
             .catch(this.handleError);
     }
 
-    addTimeoff(addModel: AddTimeoff): Observable<TimeoffListItem[]> {
+    addTimeoff(addModel: AddTimeoff): Observable<any> {
         return this.http.post("/api/AddTimeoff/", addModel, this.options).map((response: Response) =>
+            response.json())
+            .catch(this.handleError);
+    }
+
+    changeStatus(changeStatus: ChangeStatus): Observable<any> {
+        return this.http.post("/api/ChangeTimeoffStatus/", changeStatus, this.options).map((response: Response) =>
             response.json())
             .catch(this.handleError);
     }

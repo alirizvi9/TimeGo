@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.Enums;
 using TimeGo.ApplicationDomain.Models.Timeoff;
@@ -19,17 +18,40 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             _repository = repository;
         }
 
-        public IEnumerable<TimeofViewModel> GetTimeoffRequestes(Employee user, PagingModel model)
+        public ResultsModel<TimeofViewModel> GetTimeoffRequestes(Employee user, PagingModel model)
         {
-            return _repository.Find<TimeoffRequest>(x => x.CompanyId == user.CompanyId).OrderBy(model.SortExpression).Skip(model.PageSize * (model.Page - 1)).Take(model.PageSize).Select(x=>new TimeofViewModel()
+            var requests = user.Role.RoleType == "Task Manager" ? _repository.Find<TimeoffRequest>(x => x.CompanyId == user.CompanyId) : _repository.Find<TimeoffRequest>(x => x.EmployeeId == user.Id);
+            var result = new ResultsModel<TimeofViewModel>()
             {
-                EndDate = x.ToDate,
-                StartDate = x.FromDate,
-                ReturningToWork = x.ReturningToWork,
-                Id = x.Id,
-                Reasone = x.Reason,
-                UserName = x.Employee.FirstName
-            });
+                Results = requests.OrderBy(model.SortExpression).Skip(model.PageSize * (model.Page - 1)).Take(model.PageSize).Select(x => new TimeofViewModel()
+                {
+                    EndDate = x.ToDate,
+                    StartDate = x.FromDate,
+                    ReturningToWork = x.ReturningToWork,
+                    Id = x.Id,
+                    Reasone = x.Reason,
+                    UserName = x.Employee.FirstName,
+                    Status = x.ApprovalStatus.ApprovalStatusType
+                }).ToList(),
+                Count = _repository.Find<TimeoffRequest>().Count(),
+                Page = model.Page
+            };
+            return result;
+        }
+
+        public ErrorCodes ChangeStatus(long id, string newStatus)
+        {
+            var timeoffRequest = _repository.Find<TimeoffRequest>(x => x.Id == id).SingleOrDefault();
+            var approvalStatus = _repository.Find<ApprovalStatus>(x => x.ApprovalStatusType == newStatus).SingleOrDefault();
+            if (timeoffRequest == null)
+                return ErrorCodes.NotFoundTimeoffRequest;
+            if (approvalStatus == null)
+                return ErrorCodes.NotFoundStatus;
+
+            timeoffRequest.ApprovalStatus = approvalStatus;
+            timeoffRequest.ApprovalStatusId = approvalStatus.Id;
+            _repository.Save();
+            return ErrorCodes.Success;
         }
 
         public ErrorCodes AddTimeoff(AddTimeoffViewModel model, Employee user)

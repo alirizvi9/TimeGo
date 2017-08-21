@@ -1,13 +1,13 @@
-webpackJsonp([5],{
+webpackJsonp(["timesheets.module"],{
 
-/***/ "../../../../../src/app/periods/periods-routing.module.ts":
+/***/ "../../../../../src/app/timesheets/timesheets-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimesheetsRoutingModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__periods_component__ = __webpack_require__("../../../../../src/app/periods/periods.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PeriodsRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__timesheets_component__ = __webpack_require__("../../../../../src/app/timesheets/timesheets.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -20,36 +20,36 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var routes = [
     {
         path: '',
-        component: __WEBPACK_IMPORTED_MODULE_2__periods_component__["a" /* PeriodsComponent */],
+        component: __WEBPACK_IMPORTED_MODULE_2__timesheets_component__["a" /* TimesheetsComponent */],
         data: {
-            title: 'Periods'
+            title: 'Timesheets'
         }
     }
 ];
-var PeriodsRoutingModule = (function () {
-    function PeriodsRoutingModule() {
+var TimesheetsRoutingModule = (function () {
+    function TimesheetsRoutingModule() {
     }
-    return PeriodsRoutingModule;
+    return TimesheetsRoutingModule;
 }());
-PeriodsRoutingModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+TimesheetsRoutingModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
         imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)],
         exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
     })
-], PeriodsRoutingModule);
+], TimesheetsRoutingModule);
 
-//# sourceMappingURL=periods-routing.module.js.map
+//# sourceMappingURL=timesheets-routing.module.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/periods/periods.component.html":
+/***/ "../../../../../src/app/timesheets/timesheets.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"animated fadeIn\">\r\n  <div class=\"container-fluid\">\r\n    <div class=\"row\">\r\n      <div class=\"col-md-12\">\r\n        <div class=\"card\">\r\n          <div class=\"card-block\">\r\n            <div class=\"row\">\r\n              <p>\r\n                periods works!\r\n              </p>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<p>\r\n  timesheets works!\r\n</p>\r\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/periods/periods.component.scss":
+/***/ "../../../../../src/app/timesheets/timesheets.component.scss":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
@@ -67,12 +67,12 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ "../../../../../src/app/periods/periods.component.ts":
+/***/ "../../../../../src/app/timesheets/timesheets.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimesheetsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PeriodsComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -83,36 +83,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var PeriodsComponent = (function () {
-    function PeriodsComponent() {
+var TimesheetsComponent = (function () {
+    function TimesheetsComponent() {
     }
-    PeriodsComponent.prototype.ngOnInit = function () {
+    TimesheetsComponent.prototype.ngOnInit = function () {
     };
-    return PeriodsComponent;
+    return TimesheetsComponent;
 }());
-PeriodsComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-        selector: 'app-periods',
-        template: __webpack_require__("../../../../../src/app/periods/periods.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/periods/periods.component.scss")]
+TimesheetsComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'app-timesheets',
+        template: __webpack_require__("../../../../../src/app/timesheets/timesheets.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/timesheets/timesheets.component.scss")]
     }),
     __metadata("design:paramtypes", [])
-], PeriodsComponent);
+], TimesheetsComponent);
 
-//# sourceMappingURL=periods.component.js.map
+//# sourceMappingURL=timesheets.component.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/periods/periods.module.ts":
+/***/ "../../../../../src/app/timesheets/timesheets.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TimesheetsModule", function() { return TimesheetsModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__periods_routing_module__ = __webpack_require__("../../../../../src/app/periods/periods-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__periods_component__ = __webpack_require__("../../../../../src/app/periods/periods.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PeriodsModule", function() { return PeriodsModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__timesheets_component__ = __webpack_require__("../../../../../src/app/timesheets/timesheets.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__timesheets_routing_module__ = __webpack_require__("../../../../../src/app/timesheets/timesheets-routing.module.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -123,24 +123,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var PeriodsModule = (function () {
-    function PeriodsModule() {
+var TimesheetsModule = (function () {
+    function TimesheetsModule() {
     }
-    return PeriodsModule;
+    return TimesheetsModule;
 }());
-PeriodsModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+TimesheetsModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
-            __WEBPACK_IMPORTED_MODULE_2__periods_routing_module__["a" /* PeriodsRoutingModule */]
+            __WEBPACK_IMPORTED_MODULE_3__timesheets_routing_module__["a" /* TimesheetsRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]
         ],
-        declarations: [__WEBPACK_IMPORTED_MODULE_3__periods_component__["a" /* PeriodsComponent */]]
+        declarations: [__WEBPACK_IMPORTED_MODULE_2__timesheets_component__["a" /* TimesheetsComponent */]]
     })
-], PeriodsModule);
+], TimesheetsModule);
 
-//# sourceMappingURL=periods.module.js.map
+//# sourceMappingURL=timesheets.module.js.map
 
 /***/ })
 
 });
-//# sourceMappingURL=5.chunk.js.map
+//# sourceMappingURL=timesheets.module.chunk.js.map

@@ -6,7 +6,6 @@ using TimeGo.Web.Mvc.Infrastructure.Services;
 using TimeGo.ApplicationDomain.Enums;
 using TimeGo.ApplicationDomain.Services;
 using System;
-using System.Linq;
 using System.Web.UI.WebControls;
 using System.Collections.Generic;
 
@@ -112,7 +111,9 @@ namespace TimeGo.Web.Mvc.Controllers
                 ModelState.AddModelError("", Resource.LoginError);
                 return View(model);
             }
-            return RedirectToAction("Run", "App", new { token = tokenModel.Token });
+            Session["token"] = tokenModel.Token;
+            Session["role"] = tokenModel.Employee.Role.RoleType;
+            return RedirectToAction("Run", "App");
         }
 
         [AllowAnonymous]

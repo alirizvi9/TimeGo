@@ -11,20 +11,27 @@
         <table class="table table-hover table-outline mb-0 hidden-sm-down" *ngIf="isLoaded">
           <thead class="thead-default">
             <tr>
-              <td class="text-center">User Name<a class="fa fa-sort" (click)="order.emit('id')"></a></td>
-              <td class="text-center">Start Date <a class="fa fa-sort" (click)="order.emit('FirstName')"></a></td>
-              <td class="text-center">End Date <a class="fa fa-sort" (click)="order.emit('LastName')"></a></td>
-              <td class="text-center">Returning to work <a class="fa fa-sort" (click)="order.emit('EmailAddress')"></a></td>
-              <td class="text-center">Reasone <a class="fa fa-sort" (click)="order.emit('PhoneNumber')"></a></td>
+              <td class="text-center">User Name <a class="fa fa-sort" (click)="order.emit('id')"></a></td>
+              <td class="text-center">Start Date <a class="fa fa-sort" (click)="order.emit('FromDate')"></a></td>
+              <td class="text-center">End Date <a class="fa fa-sort" (click)="order.emit('ToDate')"></a></td>
+              <td class="text-center">Returning to work <a class="fa fa-sort" (click)="order.emit('ReturningToWork')"></a></td>
+              <td class="text-center">Reasone <a class="fa fa-sort" (click)="order.emit('Reason')"></a></td>
+              <td class="text-center">Status <a class="fa fa-sort" (click)="order.emit('ApprovalStatusId')"></a></td>
+              <td class="text-center" *ngIf="role == 'Task Manager'">Action </td>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let timeoff of timeoffrequests">
               <td class="text-center">{{timeoff.UserName}}</td>
-              <td class="text-center">{{timeoff.StartDate}}</td>
-              <td class="text-center">{{timeoff.EndDate}}</td>
-              <td class="text-center">{{timeoff.ReturningToWork}}</td>
+              <td class="text-center">{{timeoff.StartDate | date: 'dd/MM/yyyy'}}</td>
+              <td class="text-center">{{timeoff.EndDate | date: 'dd/MM/yyyy'}}</td>
+              <td class="text-center">{{timeoff.ReturningToWork | date: 'dd/MM/yyyy'}}</td>
               <td class="text-center">{{timeoff.Reasone}}</td>
+              <td class="text-center">{{timeoff.Status}}</td>
+              <td class="text-center" *ngIf="role == 'Task Manager'">
+                <button type="button" *ngIf="timeoff.Status == 'Waiting for Approval' || timeoff.Status == 'Denined'" class="btn btn-success" (click)="changeStatus.emit({id: timeoff.Id, status: 'Accepted'})">Accepted</button>
+                <button type="button" *ngIf="timeoff.Status == 'Accepted' || timeoff.Status == 'Waiting for Approval'" class="btn btn-danger" (click)="changeStatus.emit({id: timeoff.Id, status: 'Denined'})">Denined</button>
+              </td>
             </tr>
           </tbody>
         </table>

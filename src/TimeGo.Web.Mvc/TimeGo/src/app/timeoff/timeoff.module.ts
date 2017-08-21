@@ -12,9 +12,6 @@ import { TimeoffEffects } from './effects/timeoff';
 import { ComponentsModule } from './components/index'
 import { reducers } from './reducers';
 
-import { Ng2DatetimePickerModule } from 'ng2-datetime-picker';
-import { DatePickerModule } from 'ng2-datepicker';
-
 @NgModule({
     imports: [
         HttpModule,
@@ -24,8 +21,6 @@ import { DatePickerModule } from 'ng2-datepicker';
         ComponentsModule,
         StoreModule.forFeature('timeoffPage', reducers),
         EffectsModule.forFeature([TimeoffEffects]),
-        Ng2DatetimePickerModule,
-        DatePickerModule
     ],
     declarations: [
         TimeoffPageComponent

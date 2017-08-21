@@ -1,5 +1,6 @@
 ﻿import { createSelector } from '@ngrx/store';
-import {TimeoffListItem} from '../models/timeoff-list-item.model'
+import { TimeoffList } from '../models/timeoff-list.model'
+import { TimeoffListItem } from '../models/timeoff-list-item.model'
 import * as timeoffActions from '../actions/timeoff';
 import { TimeoffListPagingModel } from "../models/timeoff-list-paging.model";
 
@@ -18,7 +19,8 @@ export const initialState: State = {
         orderBy: "id",
         page: 1,
         pageSize: 10,
-        IsAscending: true
+        IsAscending: true,
+        count: 10
     }
 };
 
@@ -29,7 +31,7 @@ export function reducer(
     switch (action.type) {
         case timeoffActions.GET:
             const pagingModel = action.payload as TimeoffListPagingModel;
-            pagingModel.IsAscending = pagingModel != null ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
+            pagingModel.IsAscending = pagingModel != null && pagingModel.orderBy != "id" ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
             {
                 return {
                     timeoffRequests: state.timeoffRequests,
@@ -40,12 +42,18 @@ export function reducer(
             }
 
         case timeoffActions.GET_COMPLETE: {
-            const loadedTimeoffRequests = action.payload as TimeoffListItem[];
+            const loadedTimeoffRequests = action.payload as TimeoffList;
             return {
-                timeoffRequests: loadedTimeoffRequests,
+                timeoffRequests: loadedTimeoffRequests.Results,
                 isLoaded: true,
                 loading: false,
-                pagingModel: state.pagingModel
+                pagingModel: {
+                    IsAscending: state.pagingModel.IsAscending,
+                    count: loadedTimeoffRequests.Count,
+                    orderBy: state.pagingModel.orderBy,
+                    page: state.pagingModel.page,
+                    pageSize: state.pagingModel.pageSize
+                }
             };
         }
 

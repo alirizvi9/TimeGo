@@ -42,5 +42,14 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
             var result = _timeoffService.AddTimeoff(model, user);
             return result == ErrorCodes.Success ? Success() : Error(result);
         }
+
+        [HttpPost]
+        [Route("api/ChangeTimeoffStatus")]
+        public IHttpActionResult ChangeTimeoffStatus(ChangeStatusViewModel model)
+        {
+            var result = _timeoffService.ChangeStatus(model.Id, model.Status);
+            return result == ErrorCodes.Success ? Success() : Error(result);
+        }
+
     }
 }

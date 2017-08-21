@@ -2,6 +2,7 @@
 import { Routes, RouterModule } from '@angular/router';
 
 import { FullLayoutComponent } from './layouts/full-layout.component';
+import { AlwaysAuthGuard } from './AlwaysAuthGuard' 
 
 export const routes: Routes = [
   {

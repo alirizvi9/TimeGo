@@ -13,6 +13,7 @@ namespace TimeGo.ApplicationDomain.DbInitialization
 
         private static Company _testCompany;
         private static Employee _employeeTestcompany;
+        private static Employee _secondEmployeeTestcompany;
         private static Employee _taskManagerTestcompany;
 
         public static void FillDatabaseWithData()
@@ -32,6 +33,7 @@ namespace TimeGo.ApplicationDomain.DbInitialization
                 CreateEmployees();
                 CreateEmployeeRates();
                 CreateTasks();
+                CreateTimeoff();
             }
         }
 
@@ -182,7 +184,7 @@ namespace TimeGo.ApplicationDomain.DbInitialization
                 ContactName = "John Dou",
                 PhoneNumber = "7327572923",
                 EmailAddress = "john.dou@testcompany.local",
-                TimeGoUrl = "test",
+                TimeGoUrl = "dev4",
                 BillingAddressLine1 = "st. Green 1",
                 BillingAddressCity = "Some-City",
                 BillingAddressState = "Alabama",
@@ -194,6 +196,42 @@ namespace TimeGo.ApplicationDomain.DbInitialization
             };
             _repository.Add(_testCompany);
 
+            _repository.Save();
+        }
+
+        private static void CreateTimeoff()
+        {
+            var approvalStatus = _repository.Find<ApprovalStatus>(x => x.Id == 4).SingleOrDefault();
+
+            var newTimeoffRequest = new TimeoffRequest()
+            {
+                ReturningToWork = DateTime.Now,
+                ToDate = DateTime.Now,
+                FromDate = DateTime.Now,
+                EmployeeId = _employeeTestcompany.Id,
+                CompanyId = _testCompany.Id,
+                Reason = "Test",
+                ApprovalStatusId = approvalStatus.Id,
+                ApprovedById = _taskManagerTestcompany.Id,
+                ModifiedOn = DateTime.Now,
+            };
+
+            _repository.Add(newTimeoffRequest);
+
+            var newTimeoffRequest2 = new TimeoffRequest()
+            {
+                ReturningToWork = DateTime.Now,
+                ToDate = DateTime.Now,
+                FromDate = DateTime.Now,
+                EmployeeId = _secondEmployeeTestcompany.Id,
+                CompanyId = _testCompany.Id,
+                Reason = "Test 2",
+                ApprovalStatusId = approvalStatus.Id,
+                ApprovedById = _taskManagerTestcompany.Id,
+                ModifiedOn = DateTime.Now,
+            };
+
+            _repository.Add(newTimeoffRequest2);
             _repository.Save();
         }
 
@@ -212,8 +250,8 @@ namespace TimeGo.ApplicationDomain.DbInitialization
                 UserName = "testmanager",
                 FirstName = "Test",
                 LastName = "Manager",
-                EmailAddress = "john@testcompany.local",
-                Password = "12345",
+                EmailAddress = "testmanager@testcompany.local",
+                Password = "testpassword",
                 PhoneNumber = "7327572923",
                 SocialSecurityNumber = "1111111",
                 Code = "XXX1",
@@ -227,11 +265,11 @@ namespace TimeGo.ApplicationDomain.DbInitialization
 
             _employeeTestcompany = new Employee
             {
-                UserName = "testmanager",
+                UserName = "testemployee",
                 FirstName = "Test",
-                LastName = "Manager",
-                EmailAddress = "john@testcompany.local",
-                Password = "12345",
+                LastName = "Employee",
+                EmailAddress = "testemployee@testcompany.local",
+                Password = "testpassword",
                 PhoneNumber = "7327572923",
                 SocialSecurityNumber = "1111111",
                 Code = "XXX1",
@@ -241,7 +279,27 @@ namespace TimeGo.ApplicationDomain.DbInitialization
                 Company = _testCompany,
                 Role = employeeRole
             };
+
             _repository.Add(_employeeTestcompany);
+
+            _secondEmployeeTestcompany = new Employee
+            {
+                UserName = "testemployee2",
+                FirstName = "Test",
+                LastName = "Employee",
+                EmailAddress = "testemployee2@testcompany.local",
+                Password = "testpassword",
+                PhoneNumber = "7327572923",
+                SocialSecurityNumber = "1111111",
+                Code = "XXX1",
+                IsAdmin = true,
+                IsActive = true,
+                IsOvertimeCalculated = true,
+                Company = _testCompany,
+                Role = employeeRole
+            };
+
+            _repository.Add(_secondEmployeeTestcompany);
 
             _repository.Save();
         }

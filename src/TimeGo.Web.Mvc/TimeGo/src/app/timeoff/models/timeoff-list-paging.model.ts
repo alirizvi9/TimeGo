@@ -3,4 +3,5 @@
     page: number;
     pageSize: number;
     IsAscending: boolean;
+    count: number;
 }
