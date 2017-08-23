@@ -32,6 +32,8 @@ namespace TimeGo.Web.Mvc
             //TimeGo App
             bundles.Add(new ScriptBundle("~/bundles/timegoJs")
                 .Include(
+                    "~/Content/scripts/jquery-2.2.4.min.js",
+                    "~/Content/scripts/jquery.validate.min.js",
                     "~/Content/timego/inline.bundle.js",
                     "~/Content/timego/polyfills.bundle.js",
                     "~/Content/timego/styles.bundle.js",
@@ -45,6 +47,7 @@ namespace TimeGo.Web.Mvc
                     "~/Content/timego/timeoff.module.chunk.js",
                     "~/Content/timego/timesheets.module.chunk.js",
                     "~/Content/timego/users.module.chunk.js",
+                    "~/Content/scripts/tether.min.js",
                     "~/Content/scripts/bootstrap.min.js",
                     "~/Content/scripts/app.js"));
 

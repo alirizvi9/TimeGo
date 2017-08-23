@@ -67,7 +67,8 @@ namespace TimeGo.ApplicationDomain.DbInitialization
                 "Approved",
                 "Waiting for Approval",
                 "Accepted",
-                "Denined"
+                "Denined",
+                "Canceled"
             };
 
             foreach (var status in approvalStatuses)

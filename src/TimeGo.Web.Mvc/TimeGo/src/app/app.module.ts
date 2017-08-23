@@ -14,11 +14,10 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NAV_DROPDOWN_DIRECTIVES } from './shared/nav-dropdown.directive';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
-import { DatepickerModule } from 'ngx-bootstrap/datepicker';
+import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpModule } from '@angular/http';
 // Routing Module
 import { AppRoutingModule } from './app.routing';
-
 //Layouts
 import { FullLayoutComponent } from './layouts/full-layout.component';
 import { DialogsModule } from "./dialogs/dialogs.module";
@@ -38,6 +37,7 @@ import { environment } from '../environments/environment';
         DialogsModule,
         PaginationModule.forRoot(),
         DatepickerModule.forRoot(),
+        BsDatepickerModule.forRoot(),
         HttpModule
     ],
     declarations: [

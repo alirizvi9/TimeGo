@@ -32,6 +32,9 @@
                 <button type="button" *ngIf="timeoff.Status == 'Waiting for Approval' || timeoff.Status == 'Denined'" class="btn btn-success" (click)="changeStatus.emit({id: timeoff.Id, status: 'Accepted'})">Accepted</button>
                 <button type="button" *ngIf="timeoff.Status == 'Accepted' || timeoff.Status == 'Waiting for Approval'" class="btn btn-danger" (click)="changeStatus.emit({id: timeoff.Id, status: 'Denined'})">Denined</button>
               </td>
+              <td class="text-center" *ngIf="role == 'Employee'">
+                <button type="button" *ngIf="timeoff.Status != 'Canceled'" class="btn btn-danger" (click)="changeStatus.emit({id: timeoff.Id, status: 'Canceled'})">Cancel</button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -54,6 +57,7 @@
             <div class="input-group mb-3 required">
               <span class="input-group-addon">
                 <i class="icon-calendar"></i>
+
               </span>
               <input required [(ngModel)]="addTimeoff.StartDate" type="date" class="datepicker"/>
             </div>

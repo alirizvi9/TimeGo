@@ -9,6 +9,7 @@ import { TimeoffRoutingModule } from './timeoff-routing.module';
 import { TimeoffService } from './timeoff.service';
 import { TimeoffPageComponent } from './containers/timeoff-page';
 import { TimeoffEffects } from './effects/timeoff';
+import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ComponentsModule } from './components/index'
 import { reducers } from './reducers';
 
@@ -21,6 +22,8 @@ import { reducers } from './reducers';
         ComponentsModule,
         StoreModule.forFeature('timeoffPage', reducers),
         EffectsModule.forFeature([TimeoffEffects]),
+        DatepickerModule.forRoot(),
+        BsDatepickerModule.forRoot(),
     ],
     declarations: [
         TimeoffPageComponent
