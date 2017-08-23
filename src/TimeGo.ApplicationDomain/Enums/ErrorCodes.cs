@@ -6,6 +6,8 @@
         UnknownError = 1,
         EmailAlreadyExists = 2,
         CompanyAlreadyExists = 3,
-        NotFoundEmail = 4
+        NotFoundEmail = 4,
+        NotFoundTimeoffRequest = 5,
+        NotFoundStatus = 6
     }
 }

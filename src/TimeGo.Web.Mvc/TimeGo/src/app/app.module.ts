@@ -5,18 +5,22 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { AlwaysAuthGuard } from './AlwaysAuthGuard'
+import { AdminAuthGuard } from './AdminAuthGuard'
+import { TaskManagerAuthGuard } from './TaskManagerAuthGuard'
 
 import { AppComponent } from './app.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { NAV_DROPDOWN_DIRECTIVES } from './shared/nav-dropdown.directive';
-
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { HttpModule } from '@angular/http';
 // Routing Module
 import { AppRoutingModule } from './app.routing';
-
 //Layouts
 import { FullLayoutComponent } from './layouts/full-layout.component';
-import {DialogsModule} from "./dialogs/dialogs.module";
+import { DialogsModule } from "./dialogs/dialogs.module";
 
 import { environment } from '../environments/environment';
 
@@ -25,12 +29,16 @@ import { environment } from '../environments/environment';
         BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
-        StoreModule.forRoot({}), 
+        StoreModule.forRoot({}),
         !environment.production ? StoreDevtoolsModule.instrument() : [],
         EffectsModule.forRoot([]),
         BsDropdownModule.forRoot(),
         TabsModule.forRoot(),
-        DialogsModule
+        DialogsModule,
+        PaginationModule.forRoot(),
+        DatepickerModule.forRoot(),
+        BsDatepickerModule.forRoot(),
+        HttpModule
     ],
     declarations: [
         AppComponent,
@@ -40,7 +48,7 @@ import { environment } from '../environments/environment';
     providers: [{
         provide: LocationStrategy,
         useClass: HashLocationStrategy
-    }],
+    }, AlwaysAuthGuard, AdminAuthGuard, TaskManagerAuthGuard],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

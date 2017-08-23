@@ -292,8 +292,10 @@
     <Compile Include="Areas\Admin\Models\EditCompanyViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TableViewModel.cs" />
     <Compile Include="Areas\AppApi\AppApiAreaRegistration.cs" />
+    <Compile Include="Areas\AppApi\Controllers\AccountController.cs" />
     <Compile Include="Areas\AppApi\Controllers\BaseApiController.cs" />
     <Compile Include="Areas\AppApi\Controllers\ProfileController.cs" />
+    <Compile Include="Areas\AppApi\Controllers\TimeoffController.cs" />
     <Compile Include="Areas\AppApi\Controllers\UsersController.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
@@ -380,19 +382,29 @@
     <Content Include="Content\img\sort_desc.png" />
     <Content Include="Content\img\sort_desc_disabled.png" />
     <Content Include="Content\img\sprite-skin-modern.png" />
+    <Content Include="Content\scripts\advanced-forms.js" />
+    <Content Include="Content\scripts\daterangepicker.js" />
+    <Content Include="Content\scripts\daterangepicker.min.js" />
+    <Content Include="Content\scripts\jquery.maskedinput.js" />
+    <Content Include="Content\scripts\jquery.maskedinput.min.js" />
     <Content Include="Content\scripts\jquery.validate.min.js" />
-    <Content Include="Content\timego\0.chunk.js" />
-    <Content Include="Content\timego\1.chunk.js" />
-    <Content Include="Content\timego\2.chunk.js" />
-    <Content Include="Content\timego\3.chunk.js" />
-    <Content Include="Content\timego\4.chunk.js" />
-    <Content Include="Content\timego\5.chunk.js" />
-    <Content Include="Content\timego\6.chunk.js" />
+    <Content Include="Content\scripts\moment.js" />
+    <Content Include="Content\scripts\moment.min.js" />
+    <Content Include="Content\scripts\select2.js" />
+    <Content Include="Content\scripts\select2.min.js" />
+    <Content Include="Content\timego\common.chunk.js" />
+    <Content Include="Content\timego\dashboard.module.chunk.js" />
     <Content Include="Content\timego\index.html" />
     <Content Include="Content\timego\inline.bundle.js" />
     <Content Include="Content\timego\main.bundle.js" />
+    <Content Include="Content\timego\periods.module.chunk.js" />
     <Content Include="Content\timego\polyfills.bundle.js" />
+    <Content Include="Content\timego\profile.module.chunk.js" />
     <Content Include="Content\timego\styles.bundle.js" />
+    <Content Include="Content\timego\tasks.module.chunk.js" />
+    <Content Include="Content\timego\timeoff.module.chunk.js" />
+    <Content Include="Content\timego\timesheets.module.chunk.js" />
+    <Content Include="Content\timego\users.module.chunk.js" />
     <Content Include="Content\timego\vendor.bundle.js" />
     <Content Include="TimeGo\.gitignore" />
     <Content Include="TimeGo\karma.conf.js" />
@@ -404,10 +416,11 @@
     <Content Include="TimeGo\src\app\periods\periods.component.html" />
     <Content Include="TimeGo\src\app\profile\components\profile-edit\profile-edit.html" />
     <Content Include="TimeGo\src\app\tasks\tasks.component.html" />
-    <Content Include="TimeGo\src\app\timeoff\timeoff.component.html" />
+    <Content Include="TimeGo\src\app\timeoff\components\timeoff-list\timeoff-list.html" />
     <Content Include="TimeGo\src\app\timesheets\timesheets.component.html" />
     <Content Include="TimeGo\src\app\users\components\users-list\users-list.html" />
     <Content Include="TimeGo\src\img\favicon.png" />
+    <Content Include="TimeGo\src\img\logo.png" />
     <Content Include="TimeGo\src\img\select.png" />
     <Content Include="TimeGo\src\img\select2-spinner.gif" />
     <Content Include="TimeGo\src\img\select2.png" />
@@ -513,6 +526,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\AppApi\Views\Account\" />
+    <Folder Include="Areas\AppApi\Views\Timeoff\" />
     <Folder Include="TimeGo\src\app\state\models\" />
     <Folder Include="TimeGo\src\app\state\reducers\" />
   </ItemGroup>
@@ -702,7 +717,6 @@
     <Content Include="TimeGo\src\tsconfig.spec.json" />
     <Content Include="TimeGo\tsconfig.json" />
     <Content Include="TimeGo\tslint.json" />
-    <Content Include="TimeGo\src\app\timeoff\timeoff.component.scss" />
     <Content Include="TimeGo\src\app\periods\periods.component.scss" />
     <Content Include="TimeGo\src\app\dialogs\subscription\subscription.component.scss" />
     <Content Include="Areas\Admin\Views\Employee\Index.cshtml" />
@@ -734,24 +748,28 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
-    <Content Include="Content\timego\0.chunk.js.map" />
-    <Content Include="Content\timego\1.chunk.js.map" />
-    <Content Include="Content\timego\2.chunk.js.map" />
-    <Content Include="Content\timego\3.chunk.js.map" />
-    <Content Include="Content\timego\4.chunk.js.map" />
-    <Content Include="Content\timego\5.chunk.js.map" />
-    <Content Include="Content\timego\6.chunk.js.map" />
     <Content Include="Content\timego\inline.bundle.js.map" />
     <Content Include="Content\timego\main.bundle.js.map" />
     <Content Include="Content\timego\polyfills.bundle.js.map" />
     <Content Include="Content\timego\styles.bundle.js.map" />
     <Content Include="Content\timego\vendor.bundle.js.map" />
+    <Content Include="Content\timego\common.chunk.js.map" />
+    <Content Include="Content\timego\dashboard.module.chunk.js.map" />
+    <Content Include="Content\timego\periods.module.chunk.js.map" />
+    <Content Include="Content\timego\profile.module.chunk.js.map" />
+    <Content Include="Content\timego\tasks.module.chunk.js.map" />
+    <Content Include="Content\timego\timeoff.module.chunk.js.map" />
+    <Content Include="Content\timego\timesheets.module.chunk.js.map" />
+    <Content Include="Content\timego\users.module.chunk.js.map" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <Content Include="TimeGo\src\app\users\components\users-list\users-list.scss" />
+    <Content Include="TimeGo\src\app\timeoff\components\timeoff-list\timeoff-list.scss" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="TimeGo\e2e\app.e2e-spec.ts" />
     <TypeScriptCompile Include="TimeGo\e2e\app.po.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\AdminAuthGuard.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\AlwaysAuthGuard.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\app.component.spec.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\app.component.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\app.module.ts" />
@@ -784,14 +802,26 @@
     <TypeScriptCompile Include="TimeGo\src\app\profile\reducers\profile-edit.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\shared\nav-dropdown.directive.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\state\state.module.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\TaskManagerAuthGuard.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\tasks\tasks-routing.module.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\tasks\tasks.component.spec.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\tasks\tasks.component.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\tasks\tasks.module.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timeoff\actions\timeoff.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timeoff\components\index.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timeoff\components\timeoff-list\timeoff-list.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timeoff\containers\timeoff-page.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timeoff\effects\timeoff.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timeoff\models\chagne-status-timeoff.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timeoff\models\add-timeoff.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timeoff\models\timeoff-list.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timeoff\models\timeoff-list-item.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timeoff\models\timeoff-list-paging.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timeoff\reducers\index.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timeoff\reducers\timeoff.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timeoff\timeoff-routing.module.ts" />
-    <TypeScriptCompile Include="TimeGo\src\app\timeoff\timeoff.component.spec.ts" />
-    <TypeScriptCompile Include="TimeGo\src\app\timeoff\timeoff.component.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timeoff\timeoff.module.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timeoff\timeoff.service.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\timesheets.component.spec.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\timesheets.component.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\timesheets-routing.module.ts" />
