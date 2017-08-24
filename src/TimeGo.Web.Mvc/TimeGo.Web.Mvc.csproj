@@ -296,6 +296,7 @@
     <Compile Include="Areas\AppApi\Controllers\BaseApiController.cs" />
     <Compile Include="Areas\AppApi\Controllers\ProfileController.cs" />
     <Compile Include="Areas\AppApi\Controllers\TimeoffController.cs" />
+    <Compile Include="Areas\AppApi\Controllers\TimesheetsController.cs" />
     <Compile Include="Areas\AppApi\Controllers\UsersController.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
@@ -417,7 +418,7 @@
     <Content Include="TimeGo\src\app\profile\components\profile-edit\profile-edit.html" />
     <Content Include="TimeGo\src\app\tasks\tasks.component.html" />
     <Content Include="TimeGo\src\app\timeoff\components\timeoff-list\timeoff-list.html" />
-    <Content Include="TimeGo\src\app\timesheets\timesheets.component.html" />
+    <Content Include="TimeGo\src\app\timesheets\components\timesheets\timesheets.html" />
     <Content Include="TimeGo\src\app\users\components\users-list\users-list.html" />
     <Content Include="TimeGo\src\img\favicon.png" />
     <Content Include="TimeGo\src\img\logo.png" />
@@ -528,6 +529,7 @@
   <ItemGroup>
     <Folder Include="Areas\AppApi\Views\Account\" />
     <Folder Include="Areas\AppApi\Views\Timeoff\" />
+    <Folder Include="Areas\AppApi\Views\Timesheets\" />
     <Folder Include="TimeGo\src\app\state\models\" />
     <Folder Include="TimeGo\src\app\state\reducers\" />
   </ItemGroup>
@@ -546,7 +548,6 @@
     <Content Include="TimeGo\e2e\tsconfig.json" />
     <Content Include="TimeGo\package.json" />
     <Content Include="TimeGo\src\app\tasks\tasks.component.scss" />
-    <Content Include="TimeGo\src\app\timesheets\timesheets.component.scss" />
     <Content Include="TimeGo\src\data.json" />
     <Content Include="TimeGo\src\img\Sorting icons.psd" />
     <Content Include="TimeGo\src\scss\bootstrap\bootstrap-grid.scss" />
@@ -764,6 +765,7 @@
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <Content Include="TimeGo\src\app\users\components\users-list\users-list.scss" />
     <Content Include="TimeGo\src\app\timeoff\components\timeoff-list\timeoff-list.scss" />
+    <Content Include="TimeGo\src\app\timesheets\components\timesheets\timesheets.scss" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="TimeGo\e2e\app.e2e-spec.ts" />
@@ -822,10 +824,20 @@
     <TypeScriptCompile Include="TimeGo\src\app\timeoff\timeoff-routing.module.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timeoff\timeoff.module.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timeoff\timeoff.service.ts" />
-    <TypeScriptCompile Include="TimeGo\src\app\timesheets\timesheets.component.spec.ts" />
-    <TypeScriptCompile Include="TimeGo\src\app\timesheets\timesheets.component.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timesheets\actions\timesheets.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timesheets\components\index.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timesheets\components\timesheets\timesheets.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timesheets\containers\timesheets-page.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timesheets\effects\timesheets.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timesheets\models\period.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timesheets\models\task.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timesheets\models\timesheets-line.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timesheets\models\timesheets.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timesheets\reducers\index.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timesheets\reducers\timesheets.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\timesheets-routing.module.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\timesheets.module.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timesheets\timesheets.service.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\users\actions\users.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\users\components\index.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\users\components\users-list\users-list.ts" />

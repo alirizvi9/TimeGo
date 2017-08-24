@@ -19,7 +19,6 @@ using TimeGo.ApplicationDomain.Persistance.Implementation;
 using TimeGo.ApplicationDomain.Services;
 using TimeGo.ApplicationDomain.Services.Implementation;
 using TimeGo.ApplicationDomain.SignalR.Implementation;
-using TimeGo.ApplicationDomain.Web.ActionFilters;
 using TimeGo.Web.Mvc.Infrastructure.Services;
 using TimeGo.Web.Mvc.Infrastructure.Services.Implementation;
 
@@ -65,6 +64,7 @@ namespace TimeGo.Web.Mvc.Infrastructure.Dependency
             Bind<ICompanyService>().To<CompanyService>().InRequestScope();
             Bind<IEmployeeService>().To<EmployeeService>().InRequestScope();
             Bind<ITimeoffService>().To<TimeoffService>().InRequestScope();
+            Bind<ITimesheetsService>().To<TimesheetsService>().InRequestScope();
         }
     }
 }

@@ -34,6 +34,7 @@ namespace TimeGo.ApplicationDomain.DbInitialization
                 CreateEmployeeRates();
                 CreateTasks();
                 CreateTimeoff();
+                CreatePeriods();
             }
         }
 
@@ -341,6 +342,19 @@ namespace TimeGo.ApplicationDomain.DbInitialization
             };
             _repository.Add(taskAllowed);
 
+            _repository.Save();
+        }
+
+        private static void CreatePeriods()
+        {
+            var period = new Period()
+            {
+                Company = _testCompany,
+                Employee = _taskManagerTestcompany,
+                PeriodStart = new DateTime(2017, 8, 24),
+                PeriodEnd = new DateTime(2017, 9, 1)
+            };
+            _repository.Add(period);
             _repository.Save();
         }
     }

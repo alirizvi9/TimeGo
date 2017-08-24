@@ -197,12 +197,16 @@
     <Compile Include="Models\Email\ConfirmEmailModel.cs" />
     <Compile Include="Models\Email\ForgotPasswordEmailModel.cs" />
     <Compile Include="Models\PagingModel.cs" />
+    <Compile Include="Models\Period\PeriodViewModel.cs" />
     <Compile Include="Models\ResultsModel.cs" />
     <Compile Include="Models\SignUpRequest.cs" />
     <Compile Include="Enums\Weekdays.cs" />
+    <Compile Include="Models\Task\TaskViewModel.cs" />
     <Compile Include="Models\Timeoff\AddTimeoffViewModel.cs" />
     <Compile Include="Models\Timeoff\ChangeStatusViewModel.cs" />
     <Compile Include="Models\Timeoff\TimeofViewModel.cs" />
+    <Compile Include="Models\Timesheets\TimesheetLineViewModel.cs" />
+    <Compile Include="Models\Timesheets\TimesheetViewModel.cs" />
     <Compile Include="Models\Users\UsersListItemViewModel.cs" />
     <Compile Include="Persistance\IIdentifiable.cs" />
     <Compile Include="Persistance\Implementation\Repository.cs" />
@@ -226,7 +230,9 @@
     <Compile Include="Services\Implementation\EmployeeService.cs" />
     <Compile Include="Services\Implementation\HttpContextProvider.cs" />
     <Compile Include="Services\Implementation\TimeoffService.cs" />
+    <Compile Include="Services\Implementation\TimesheetsService.cs" />
     <Compile Include="Services\ITimeoffService.cs" />
+    <Compile Include="Services\ITimesheetsService.cs" />
     <Compile Include="SignalR\ICollaborationHub.cs" />
     <Compile Include="SignalR\Implementation\CollaborateHub.cs" />
     <Compile Include="TimeGoSettings.cs" />

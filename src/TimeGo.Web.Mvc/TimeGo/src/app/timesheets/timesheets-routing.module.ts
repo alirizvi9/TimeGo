@@ -1,20 +1,22 @@
 ﻿import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { TimesheetsComponent } from './timesheets.component';
+import { TimesheetsPageComponent } from './containers/timesheets-page';
+import { AlwaysAuthGuard } from '../AlwaysAuthGuard' 
 
 const routes: Routes = [
-  {
-    path: '',
-    component: TimesheetsComponent,
-    data: {
-      title: 'Timesheets'
+    {
+        path: '',
+        component: TimesheetsPageComponent,
+        canActivate: [AlwaysAuthGuard],
+        data: {
+            title: 'timesheets'
+        }
     }
-  }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
 export class TimesheetsRoutingModule { }

@@ -8,6 +8,7 @@ namespace TimeGo.ApplicationDomain.Entities
         public long? TimesheetId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public DateTime Date { get; set; }
         public long? TaskId { get; set; }
         public long ApprovalStatusId { get; set; }
         public long LockStatusId { get; set; }

@@ -28,7 +28,8 @@ var map = {
 	],
 	"./timesheets/timesheets.module": [
 		"../../../../../src/app/timesheets/timesheets.module.ts",
-		"timesheets.module"
+		"timesheets.module",
+		"common"
 	],
 	"./users/users.module": [
 		"../../../../../src/app/users/users.module.ts",
