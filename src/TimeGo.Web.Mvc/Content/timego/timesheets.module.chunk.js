@@ -4,28 +4,27 @@ webpackJsonp(["timesheets.module"],{
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GET; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return GET_COMPLETE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return GET_PERIODS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return GET_PERIODS_COMPLETE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return GET_Tasks; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return GET_Tasks_COMPLETE; });
-/* unused harmony export ADD */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return GET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return GET_COMPLETE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GET_PERIODS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET_PERIODS_COMPLETE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_Tasks; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GET_Tasks_COMPLETE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ADD; });
 /* unused harmony export ADD_COMPLETE */
-/* unused harmony export EDIT */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return EDIT; });
 /* unused harmony export EDIT_COMPLETE */
 /* unused harmony export CHANGE_STATUS */
 /* unused harmony export CHANGE_STATUS_COMPLETE */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return GetAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GetCompleteAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GetPeriodAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GetPeriodCompleteAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GetTasksAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GetTasksCompleteAction; });
-/* unused harmony export SaveAction */
-/* unused harmony export SaveCompleteAction */
-/* unused harmony export EditAction */
-/* unused harmony export EditCompleteAction */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GetAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GetCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GetPeriodAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GetPeriodCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GetTasksAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return GetTasksCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return AddAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return EditAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return EditCompleteAction; });
 /* unused harmony export ChangeStatusAction */
 /* unused harmony export ChangeStatusCompleteAction */
 var GET = '[Timesheets] Get Timesheets';
@@ -88,20 +87,12 @@ var GetTasksCompleteAction = (function () {
     return GetTasksCompleteAction;
 }());
 
-var SaveAction = (function () {
-    function SaveAction(payload) {
+var AddAction = (function () {
+    function AddAction(payload) {
         this.payload = payload;
         this.type = ADD;
     }
-    return SaveAction;
-}());
-
-var SaveCompleteAction = (function () {
-    function SaveCompleteAction(payload) {
-        this.payload = payload;
-        this.type = ADD_COMPLETE;
-    }
-    return SaveCompleteAction;
+    return AddAction;
 }());
 
 var EditAction = (function () {
@@ -150,7 +141,8 @@ var ChangeStatusCompleteAction = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__timesheets_timesheets__ = __webpack_require__("../../../../../src/app/timesheets/components/timesheets/timesheets.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap_timepicker__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__timesheets_timesheets__ = __webpack_require__("../../../../../src/app/timesheets/components/timesheets/timesheets.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -162,8 +154,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var COMPONENTS = [
-    __WEBPACK_IMPORTED_MODULE_4__timesheets_timesheets__["a" /* TimesheetsComponent */]
+    __WEBPACK_IMPORTED_MODULE_5__timesheets_timesheets__["a" /* TimesheetsComponent */]
 ];
 var ComponentsModule = (function () {
     function ComponentsModule() {
@@ -173,6 +166,7 @@ var ComponentsModule = (function () {
 ComponentsModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
         imports: [
+            __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap_timepicker__["a" /* TimepickerModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* ReactiveFormsModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
@@ -190,7 +184,7 @@ ComponentsModule = __decorate([
 /***/ "../../../../../src/app/timesheets/components/timesheets/timesheets.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-8 push-md-2\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        Timesheets\r\n      </div>\r\n      <div class=\"card-block\">\r\n        <div class=\"form-group\">\r\n          <select (change)=\"selectPeriod.emit($event.target.value)\" class=\"form-control col-md-3\">\r\n            <option [value]=\"0\">none</option>\r\n            <option [value]=\"period.Id\" *ngFor=\"let period of periods\">{{period.PeriodStart | date: 'EEE d-MMM'}} to {{period.PeriodEnd | date: 'EEE d-MMM'}}</option>\r\n          </select>\r\n        </div>\r\n        <div *ngIf=\"isLoaded\" class=\"form-group\">\r\n          <div *ngFor=\"let line of timesheets.Lines\">\r\n            <div class=\"row form-group\">\r\n              <div class=\"col-md-2\">{{line.Date | date: 'EEE d-MMM'}}</div>\r\n              <div class=\"col-md-2\"><input type=\"time\" [(ngModel)]=\"line.StartTime\" class=\"form-control\" /> </div>\r\n              to\r\n              <div class=\"col-md-2\"> <input type=\"time\" [(ngModel)]=\"line.EndTime\" class=\"form-control\" /></div>\r\n              <div class=\"col-md-2\">\r\n                <select [(ngModel)]=\"line.TaskId\" class=\"form-control\">\r\n                  <option [value]=\"0\">none</option>\r\n                  <option *ngFor=\"let task of tasks\" [ngValue]=\"task.id\">{{task.TaskName}}</option>\r\n                </select>\r\n              </div>\r\n              <div class=\"col-md-2\">\r\n                0 hr\r\n              </div>\r\n            </div>\r\n            <div class=\"row form-group\">\r\n              <div class=\"col-md-1\">\r\n                <button type=\"button\" class=\"btn btn-outline-primary\">+</button>\r\n              </div>\n              <div class=\"col-md-4\">\r\n                add another line for {{line.Date | date: 'EEE d-MMM'}}\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"col-md-2 row\" *ngIf=\"isLoaded\">\r\n            <b>Total time: 0 hr </b>\r\n          </div>\r\n          <div class=\"row\" *ngIf=\"isLoaded\">\r\n            <label class=\"col-md-2\">Notes: </label>\r\n            <textarea rows=\"4\" class=\"col-md-4\" cols=\"50\" [(ngModel)]=\"timesheets.EmployeeNotes\"></textarea>\r\n          </div>\r\n          <div class=\"row col-md-2\">\r\n            <button type=\"button\" class=\"btn btn-primary\">Save</button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-8 push-md-2\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        Timesheets\r\n      </div>\r\n      <div class=\"card-block\">\r\n        <div class=\"form-group row\">\n            <h5 class=\"col-md-1\">Period</h5>\r\n            <select (change)=\"selectPeriod.emit($event.target.value)\" [(ngModel)]=\"periodId\" class=\"form-control col-md-3\">\r\n              <option [value]=\"0\">none</option>\r\n              <option [value]=\"period.Id\" *ngFor=\"let period of periods\">{{period.PeriodStart | date: 'EEE d-MMM'}} to {{period.PeriodEnd | date: 'EEE d-MMM'}}</option>\r\n            </select>\r\n        </div>\r\n        <div *ngIf=\"isLoaded && timesheets != null\" class=\"form-group\">\r\n          <div *ngFor=\"let line of timesheets.Lines; let i = index\">\r\n            <div class=\"row form-group timego-line\">\r\n              <h5 class=\"col-md-2 timego-center\">{{line.Date | date: 'EEE d-MMM'}}</h5>\r\n              <div class=\"col-md-4\">\r\n                <select [(ngModel)]=\"line.TaskId\" class=\"form-control col-md-8\">\r\n                  <option [value]=\"0\">none</option>\r\n                  <option [value]=\"task.Id\" *ngFor=\"let task of tasks\">{{task.TaskName}}</option>\r\n                </select>\r\n              </div>\r\n              <div class=\"col-md-4 row\">\r\n                <timepicker [(ngModel)]=\"line.StartTime\" [arrowkeys]=\"true\" [showMeridian]=\"false\" [mousewheel]=\"false\" [showSpinners]=\"false\" class=\"timego-timepicker\"></timepicker>\r\n                <i class=\"fa fa-arrows-h fa-lg timego-rangetimepiker-icon\"></i>\r\n                <timepicker [(ngModel)]=\"line.EndTime\" [min]=\"line.StartTime\" [mousewheel]=\"false\" [showMeridian]=\"false\" [arrowkeys]=\"false\" [showSpinners]=\"false\" class=\"timego-timepicker\"></timepicker>\r\n              </div>\r\n              <div class=\"col-md-2 timego-center\">\r\n                <b>\r\n                  {{totalLineTimeHr(line)}} h {{totalLineTimeMin(line)}} m\r\n                </b>\r\n              </div>\r\n            </div>\r\n            <div class=\"row form-group border-bottom\" *ngIf=\"i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date\">\r\n              <div class=\"col-md-1\">\r\n                <button type=\"button\" class=\"btn btn-outline-primary\" (click)=\"addLine.emit(line.Date)\">+</button>\r\n              </div>\r\n              <div class=\"col-md-4 timego-center\">\r\n                add another line for {{line.Date | date: 'EEE d-MMM'}}\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"col-md-4 row form-group\" *ngIf=\"isLoaded\">\r\n            <h5>\r\n              Total time: {{totalTimeHr(timesheets.Lines)}} h {{totalTimeMin(timesheets.Lines)}} m\r\n            </h5>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded\">\r\n            <label class=\"col-md-1\">Notes: </label>\r\n            <textarea rows=\"4\" class=\"col-md-7\" cols=\"50\" [(ngModel)]=\"timesheets.EmployeeNotes\"></textarea>\r\n          </div>\r\n          <div class=\"row col-md-2 form-group\">\r\n            <button type=\"button\" class=\"btn btn-primary\" (click)=\"save.emit({Period: periodId, Timesheets: timesheets})\">Save</button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n"
 
 /***/ }),
 
@@ -236,20 +230,60 @@ var TimesheetsComponent = (function () {
         this.isLoaded = false;
         this.loading = false;
         this.selectPeriod = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.addLine = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.save = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.mytime = new Date();
     }
     TimesheetsComponent.prototype.ngOnInit = function () {
     };
-    TimesheetsComponent.prototype.totalLineTime = function (line) {
-        var result = (+line.EndTime.valueOf() - +line.StartTime.valueOf()) / 1000 / 60 / 60;
-        return result;
+    TimesheetsComponent.prototype.totalLineTimeHr = function (line) {
+        var endTime = new Date(line.EndTime);
+        var startTime = new Date(line.StartTime);
+        var diffMs = (+endTime.valueOf() - +startTime.valueOf());
+        var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+        return diffHrs;
     };
-    TimesheetsComponent.prototype.totalTime = function (lines) {
+    TimesheetsComponent.prototype.totalLineTimeMin = function (line) {
+        var endTime = new Date(line.EndTime);
+        var startTime = new Date(line.StartTime);
+        var diffMs = (+endTime.valueOf() - +startTime.valueOf());
+        var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+        return diffMins;
+    };
+    TimesheetsComponent.prototype.totalLineTimeMs = function (line) {
+        var endTime = new Date(line.EndTime);
+        var startTime = new Date(line.StartTime);
+        var diffMs = (+endTime.valueOf() - +startTime.valueOf());
+        return diffMs;
+    };
+    TimesheetsComponent.prototype.Start = function (line) {
+        var startTime = new Date(line.StartTime);
+        return startTime;
+    };
+    TimesheetsComponent.prototype.End = function (line) {
+        var endTime = new Date(line.EndTime);
+        return endTime;
+    };
+    TimesheetsComponent.prototype.totalTimeHr = function (lines) {
         var time = 0;
         for (var _i = 0, lines_1 = lines; _i < lines_1.length; _i++) {
             var line = lines_1[_i];
-            time += this.totalLineTime(line);
+            time += this.totalLineTimeMs(line);
         }
-        return time;
+        var diffHrs = Math.floor((time % 86400000) / 3600000); // hours
+        return diffHrs;
+    };
+    TimesheetsComponent.prototype.totalTimeMin = function (lines) {
+        var time = 0;
+        for (var _i = 0, lines_2 = lines; _i < lines_2.length; _i++) {
+            var line = lines_2[_i];
+            time += this.totalLineTimeMs(line);
+        }
+        var diffMins = Math.round(((time % 86400000) % 3600000) / 60000); // minutes
+        return diffMins;
+    };
+    TimesheetsComponent.prototype.updateDoB = function (e) {
+        var res = e;
     };
     return TimesheetsComponent;
 }());
@@ -277,6 +311,14 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
     __metadata("design:type", Object)
 ], TimesheetsComponent.prototype, "selectPeriod", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+    __metadata("design:type", Object)
+], TimesheetsComponent.prototype, "addLine", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+    __metadata("design:type", Object)
+], TimesheetsComponent.prototype, "save", void 0);
 TimesheetsComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
         selector: 'up-timesheets',
@@ -325,11 +367,17 @@ var TimesheetsPageComponent = (function () {
         this.tasks$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["d" /* getTasks */]);
     }
     TimesheetsPageComponent.prototype.ngOnInit = function () {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["i" /* GetPeriodAction */](0));
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["k" /* GetTasksAction */](0));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["n" /* GetPeriodAction */](0));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["p" /* GetTasksAction */](0));
     };
     TimesheetsPageComponent.prototype.selectPeriod = function (id) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["g" /* GetAction */](id));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["l" /* GetAction */](id));
+    };
+    TimesheetsPageComponent.prototype.addLine = function (date) {
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["b" /* AddAction */](date));
+    };
+    TimesheetsPageComponent.prototype.save = function (model) {
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["d" /* EditAction */](model));
     };
     return TimesheetsPageComponent;
 }());
@@ -337,7 +385,7 @@ TimesheetsPageComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["o" /* Component */])({
         selector: 'timesheets-page',
         changeDetection: __WEBPACK_IMPORTED_MODULE_1__angular_core__["k" /* ChangeDetectionStrategy */].OnPush,
-        template: "\n    <up-timesheets [timesheets]=\"timesheets$ | async\" [isLoaded]=\"isLoaded$ | async\" [periods]=\"periods$ | async\" [tasks]=\"tasks$ | async\" [loading]=\"loading$ | async\" (selectPeriod)=\"selectPeriod($event)\"></up-timesheets>\n  ",
+        template: "\n    <up-timesheets [timesheets]=\"timesheets$ | async\" [isLoaded]=\"isLoaded$ | async\" [periods]=\"periods$ | async\" [tasks]=\"tasks$ | async\" [loading]=\"loading$ | async\" (selectPeriod)=\"selectPeriod($event)\" (addLine)=\"addLine($event)\" (save)=\"save($event)\"></up-timesheets>\n  ",
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object])
 ], TimesheetsPageComponent);
@@ -399,34 +447,44 @@ var TimesheetsEffects = (function () {
         this.actions$ = actions$;
         this.timesheetsService = timesheetsService;
         this.get$ = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["a" /* GET */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["f" /* GET */])
             .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
             .switchMap(function (query) {
-            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["a" /* GET */]).skip(1);
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["f" /* GET */]).skip(1);
             return _this.timesheetsService.getTimesheet(query)
                 .takeUntil(nextGet$)
-                .map(function (timesheet) { return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["h" /* GetCompleteAction */](timesheet); })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["h" /* GetCompleteAction */](null)); });
+                .map(function (timesheet) { return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["m" /* GetCompleteAction */](timesheet); })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["m" /* GetCompleteAction */](null)); });
         });
         this.getPeriods$ = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["c" /* GET_PERIODS */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["h" /* GET_PERIODS */])
             .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
             .switchMap(function () {
-            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["c" /* GET_PERIODS */]).skip(1);
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["h" /* GET_PERIODS */]).skip(1);
             return _this.timesheetsService.getPeriods()
                 .takeUntil(nextGet$)
-                .map(function (result) { return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["j" /* GetPeriodCompleteAction */](result); })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["j" /* GetPeriodCompleteAction */](null)); });
+                .map(function (result) { return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["o" /* GetPeriodCompleteAction */](result); })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["o" /* GetPeriodCompleteAction */](null)); });
         });
         this.getTasks$ = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["e" /* GET_Tasks */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["j" /* GET_Tasks */])
             .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
             .switchMap(function () {
-            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["e" /* GET_Tasks */]).skip(1);
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["j" /* GET_Tasks */]).skip(1);
             return _this.timesheetsService.getTasks()
                 .takeUntil(nextGet$)
-                .map(function (result) { return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["l" /* GetTasksCompleteAction */](result); })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["l" /* GetTasksCompleteAction */](null)); });
+                .map(function (result) { return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["q" /* GetTasksCompleteAction */](result); })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["q" /* GetTasksCompleteAction */](null)); });
+        });
+        this.edit = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["c" /* EDIT */])
+            .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
+            .switchMap(function (query) {
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["f" /* GET */]);
+            return _this.timesheetsService.editTimesheet(query.Timesheets)
+                .takeUntil(nextGet$)
+                .map(function (result) { return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["l" /* GetAction */](query.Period); })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["e" /* EditCompleteAction */](null)); });
         });
     }
     return TimesheetsEffects;
@@ -443,12 +501,16 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"]) === "function" && _c || Object)
 ], TimesheetsEffects.prototype, "getTasks$", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"]) === "function" && _d || Object)
+], TimesheetsEffects.prototype, "edit", void 0);
 TimesheetsEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_10__timesheets_service__["a" /* TimesheetsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__timesheets_service__["a" /* TimesheetsService */]) === "function" && _e || Object])
+    __metadata("design:paramtypes", [typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_10__timesheets_service__["a" /* TimesheetsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__timesheets_service__["a" /* TimesheetsService */]) === "function" && _f || Object])
 ], TimesheetsEffects);
 
-var _a, _b, _c, _d, _e;
+var _a, _b, _c, _d, _e, _f;
 //# sourceMappingURL=timesheets.js.map
 
 /***/ }),
@@ -514,7 +576,7 @@ var initialState = {
 function reducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
-        case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["a" /* GET */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["f" /* GET */]:
             {
                 var periodId = action.payload;
                 return {
@@ -526,7 +588,7 @@ function reducer(state, action) {
                     tasks: state.tasks
                 };
             }
-        case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["b" /* GET_COMPLETE */]: {
+        case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["g" /* GET_COMPLETE */]: {
             var timesheet = action.payload;
             return {
                 timesheet: timesheet,
@@ -537,7 +599,7 @@ function reducer(state, action) {
                 tasks: state.tasks
             };
         }
-        case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["c" /* GET_PERIODS */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["h" /* GET_PERIODS */]:
             {
                 return {
                     timesheet: state.timesheet,
@@ -548,7 +610,7 @@ function reducer(state, action) {
                     tasks: state.tasks
                 };
             }
-        case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["d" /* GET_PERIODS_COMPLETE */]: {
+        case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["i" /* GET_PERIODS_COMPLETE */]: {
             var periods = action.payload;
             return {
                 timesheet: state.timesheet,
@@ -559,7 +621,7 @@ function reducer(state, action) {
                 tasks: state.tasks
             };
         }
-        case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["e" /* GET_Tasks */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["j" /* GET_Tasks */]:
             {
                 return {
                     timesheet: state.timesheet,
@@ -570,7 +632,7 @@ function reducer(state, action) {
                     tasks: state.tasks
                 };
             }
-        case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["f" /* GET_Tasks_COMPLETE */]: {
+        case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["k" /* GET_Tasks_COMPLETE */]: {
             var tasks = action.payload;
             return {
                 timesheet: state.timesheet,
@@ -579,6 +641,38 @@ function reducer(state, action) {
                 periods: state.periods,
                 periodId: state.periodId,
                 tasks: tasks
+            };
+        }
+        case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["a" /* ADD */]: {
+            var date = action.payload;
+            var lines = state.timesheet.Lines;
+            var newLine = {
+                Date: date,
+                EndTime: new Date(),
+                Id: 0,
+                StartTime: new Date(),
+                Task: "",
+                TaskId: 0
+            };
+            lines.push(newLine);
+            lines = lines.sort(function (obj1, obj2) {
+                if (obj1.Date > obj2.Date) {
+                    return 1;
+                }
+                if (obj1.Date < obj2.Date) {
+                    return -1;
+                }
+                return 0;
+            });
+            var timesheet = state.timesheet;
+            timesheet.Lines = lines;
+            return {
+                timesheet: timesheet,
+                isLoaded: true,
+                loading: false,
+                periods: state.periods,
+                periodId: state.periodId,
+                tasks: state.tasks
             };
         }
         default: {
@@ -656,8 +750,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__timesheets_service__ = __webpack_require__("../../../../../src/app/timesheets/timesheets.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__containers_timesheets_page__ = __webpack_require__("../../../../../src/app/timesheets/containers/timesheets-page.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__effects_timesheets__ = __webpack_require__("../../../../../src/app/timesheets/effects/timesheets.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_ngx_bootstrap_datepicker__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_index__ = __webpack_require__("../../../../../src/app/timesheets/components/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_index__ = __webpack_require__("../../../../../src/app/timesheets/components/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_ngx_bootstrap_timepicker__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__reducers__ = __webpack_require__("../../../../../src/app/timesheets/reducers/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -686,15 +780,14 @@ var TimesheetsModule = (function () {
 TimesheetsModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
         imports: [
+            __WEBPACK_IMPORTED_MODULE_11_ngx_bootstrap_timepicker__["a" /* TimepickerModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* HttpModule */],
             __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_6__timesheets_routing_module__["a" /* TimesheetsRoutingModule */],
-            __WEBPACK_IMPORTED_MODULE_11__components_index__["a" /* ComponentsModule */],
+            __WEBPACK_IMPORTED_MODULE_10__components_index__["a" /* ComponentsModule */],
             __WEBPACK_IMPORTED_MODULE_4__ngrx_store__["i" /* StoreModule */].forFeature('timesheetsPage', __WEBPACK_IMPORTED_MODULE_12__reducers__["f" /* reducers */]),
             __WEBPACK_IMPORTED_MODULE_5__ngrx_effects__["c" /* EffectsModule */].forFeature([__WEBPACK_IMPORTED_MODULE_9__effects_timesheets__["a" /* TimesheetsEffects */]]),
-            __WEBPACK_IMPORTED_MODULE_10_ngx_bootstrap_datepicker__["b" /* DatepickerModule */].forRoot(),
-            __WEBPACK_IMPORTED_MODULE_10_ngx_bootstrap_datepicker__["a" /* BsDatepickerModule */].forRoot(),
         ],
         declarations: [
             __WEBPACK_IMPORTED_MODULE_8__containers_timesheets_page__["a" /* TimesheetsPageComponent */]
@@ -757,6 +850,12 @@ var TimesheetsService = (function () {
     };
     TimesheetsService.prototype.getTasks = function () {
         return this.http.get("/api/tasks/", this.options).map(function (response) {
+            return response.json();
+        })
+            .catch(this.handleError);
+    };
+    TimesheetsService.prototype.editTimesheet = function (timesheets) {
+        return this.http.post("/api/Timesheets/", timesheets, this.options).map(function (response) {
             return response.json();
         })
             .catch(this.handleError);

@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
+import { DatePickerModule } from 'ng2-datepicker';
 import { TimeoffListComponent } from './timeoff-list/timeoff-list';
 
 
@@ -13,6 +13,7 @@ export const COMPONENTS = [
 
 @NgModule({
     imports: [
+        DatePickerModule,
         CommonModule,
         ReactiveFormsModule,
         FormsModule,

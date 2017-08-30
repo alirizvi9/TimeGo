@@ -9,12 +9,13 @@ import { TimesheetsRoutingModule } from './timesheets-routing.module';
 import { TimesheetsService } from './timesheets.service';
 import { TimesheetsPageComponent } from './containers/timesheets-page';
 import { TimesheetsEffects } from './effects/timesheets';
-import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ComponentsModule } from './components/index'
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { reducers } from './reducers';
 
 @NgModule({
     imports: [
+        TimepickerModule.forRoot(),
         HttpModule,
         FormsModule,
         CommonModule,
@@ -22,8 +23,6 @@ import { reducers } from './reducers';
         ComponentsModule,
         StoreModule.forFeature('timesheetsPage', reducers),
         EffectsModule.forFeature([TimesheetsEffects]),
-        DatepickerModule.forRoot(),
-        BsDatepickerModule.forRoot(),
     ],
     declarations: [
         TimesheetsPageComponent

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TimeGo.ApplicationDomain.Entities;
+using TimeGo.ApplicationDomain.Enums;
 using TimeGo.ApplicationDomain.Models.Period;
 using TimeGo.ApplicationDomain.Models.Task;
 using TimeGo.ApplicationDomain.Models.Timesheets;
@@ -37,6 +38,51 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             }).ToList();
         }
 
+        public ErrorCodes EditTimesheet(Employee user, TimesheetViewModel model)
+        {
+            var timesheet = _repository.Find<Timesheet>(x => x.Id == model.Id).SingleOrDefault();
+            if (timesheet == null)
+                return ErrorCodes.UnknownError;
+
+            var approvalStatus = _repository.Find<ApprovalStatus>(x => x.ApprovalStatusType == model.ApprovalStatus).FirstOrDefault();
+            var lockStatus = _repository.Find<LockStatus>(x => x.LockStatusType == "Locked").FirstOrDefault();
+            timesheet.EmployeeNotes = model.EmployeeNotes;
+            timesheet.ApproverNotes = model.ApproverNotes;
+            timesheet.ApprovalStatusId = approvalStatus.Id;
+
+            foreach(var line in model.Lines)
+            {
+                if(line.Id != 0)
+                {
+                    var lineDb = _repository.Find<TimesheetLine>(x => x.Id == line.Id).SingleOrDefault();
+                    if(lineDb != null)
+                    {
+                        lineDb.StartTime = line.StartTime.ToUniversalTime();
+                        lineDb.EndTime = line.EndTime.ToUniversalTime();
+                        lineDb.TaskId = line.TaskId;
+                    }
+                }
+                else
+                {
+                    var newLine = new TimesheetLine()
+                    {
+                        Date = line.Date,
+                        ApprovedById = user.Id,
+                        LockStatusId = lockStatus.Id,
+                        ApprovalStatusId = approvalStatus.Id,
+                        RevisedById = user.Id,
+                        StartTime = line.StartTime.ToUniversalTime(),
+                        EndTime = line.EndTime.ToUniversalTime(),
+                        TaskId = line.TaskId != 0 ? line.TaskId : 1,
+                        TimesheetId = timesheet.Id
+                    };
+                    _repository.Add(newLine);
+                }
+            }
+            _repository.Save();
+            return ErrorCodes.Success;
+        }
+
         public TimesheetViewModel GetTimesheet(Employee user, long periodId)
         {
             var period = _repository.Find<Period>(x => x.Id == periodId).Single();
@@ -63,15 +109,15 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                     Id = x.Id,
                 }).FirstOrDefault();
             }
-            timesheet.Lines = _repository.Find<TimesheetLine>(x => x.TimesheetId == timesheet.Id).Select(x => new TimesheetLineViewModel()
+            timesheet.Lines = _repository.Find<TimesheetLine>(x => x.TimesheetId == timesheet.Id).ToList().Select(x => new TimesheetLineViewModel()
             {
                 Id = x.Id,
-                StartTime = x.StartTime,
-                EndTime = x.EndTime,
+                StartTime = DateTime.SpecifyKind(x.StartTime, DateTimeKind.Utc),
+                EndTime = DateTime.SpecifyKind(x.EndTime, DateTimeKind.Utc),
                 Task = x.Task.TaskName,
                 TaskId = x.TaskId ?? 0,
                 Date = x.Date
-            }).ToList();
+            }).OrderBy(x => x.Date).ToList();
             return timesheet;
         }
 

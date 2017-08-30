@@ -38,6 +38,12 @@ export class TimesheetsService {
             .catch(this.handleError);
     }
 
+    editTimesheet(timesheets: Timesheets): Observable<any> {
+        return this.http.post("/api/Timesheets/", timesheets, this.options).map((response: Response) =>
+            response.json())
+            .catch(this.handleError);
+    }
+
     private handleError(error: Response) {
         console.error(error);
         return Observable.throw(error.json().error || 'Server error');

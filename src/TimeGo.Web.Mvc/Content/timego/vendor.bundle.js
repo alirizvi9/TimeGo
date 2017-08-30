@@ -2258,1007 +2258,14 @@ function toComment(sourceMap) {
 
 /***/ }),
 
-/***/ "../../../../ngx-bootstrap/bs-moment/format-functions.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return formatFunctions; });
-/* unused harmony export formatTokenFunctions */
-/* unused harmony export formattingTokens */
-/* harmony export (immutable) */ __webpack_exports__["a"] = addFormatToken;
-/* harmony export (immutable) */ __webpack_exports__["c"] = makeFormatFunction;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_type_checks__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/type-checks.js");
-
-
-var formatFunctions = {};
-var formatTokenFunctions = {};
-var formattingTokens = /(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|YYYYYY|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g;
-// token:    'M'
-// padded:   ['MM', 2]
-// ordinal:  'Mo'
-// callback: function () { this.month() + 1 }
-function addFormatToken(token, padded, ordinal, callback) {
-    var func = callback;
-    if (token) {
-        formatTokenFunctions[token] = func;
-    }
-    if (padded) {
-        var key = padded[0];
-        formatTokenFunctions[key] = function (date, format, locale) {
-            return Object(__WEBPACK_IMPORTED_MODULE_0__utils__["d" /* zeroFill */])(func.apply(null, arguments), padded[1], padded[2]);
-        };
-    }
-    if (ordinal) {
-        formatTokenFunctions[ordinal] = function (date, format, locale) {
-            // todo: fix this
-            return locale.ordinal(func.apply(null, arguments), token);
-        };
-    }
-}
-function makeFormatFunction(format) {
-    var array = format.match(formattingTokens);
-    var length = array.length;
-    var formatArr = new Array(length);
-    for (var i = 0; i < length; i++) {
-        formatArr[i] = formatTokenFunctions[array[i]]
-            ? formatTokenFunctions[array[i]]
-            : removeFormattingTokens(array[i]);
-    }
-    return function (date, locale) {
-        var output = '';
-        for (var j = 0; j < length; j++) {
-            output += Object(__WEBPACK_IMPORTED_MODULE_1__utils_type_checks__["d" /* isFunction */])(formatArr[j])
-                ? formatArr[j].call(null, date, format, locale)
-                : formatArr[j];
-        }
-        return output;
-    };
-}
-function removeFormattingTokens(input) {
-    if (input.match(/\[[\s\S]/)) {
-        return input.replace(/^\[|\]$/g, '');
-    }
-    return input.replace(/\\/g, '');
-}
-//# sourceMappingURL=format-functions.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/format.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = formatDate;
-/* unused harmony export formatMoment */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__format_functions__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/format-functions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__locale__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/locale/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__units__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/units/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__locale_locales_service__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/locale/locales.service.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_type_checks__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/type-checks.js");
-// moment.js
-// version : 2.18.1
-// authors : Tim Wood, Iskren Chernev, Moment.js contributors
-// license : MIT
-// momentjs.com
-
-
-
-
-
-function formatDate(date, format, locale) {
-    if (locale === void 0) { locale = 'en'; }
-    var _locale = Object(__WEBPACK_IMPORTED_MODULE_3__locale_locales_service__["a" /* getLocale */])(locale);
-    var output = formatMoment(date, format, _locale);
-    return _locale.postformat(output);
-}
-// format date using native date object
-function formatMoment(date, format, locale) {
-    if (!Object(__WEBPACK_IMPORTED_MODULE_4__utils_type_checks__["c" /* isDateValid */])(date)) {
-        return locale.invalidDate;
-    }
-    __WEBPACK_IMPORTED_MODULE_0__format_functions__["b" /* formatFunctions */][format] = __WEBPACK_IMPORTED_MODULE_0__format_functions__["b" /* formatFunctions */][format] || Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["c" /* makeFormatFunction */])(format);
-    return __WEBPACK_IMPORTED_MODULE_0__format_functions__["b" /* formatFunctions */][format](date, locale);
-}
-//# sourceMappingURL=format.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/locale/en.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__locales_service__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/locale/locales.service.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_type_checks__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/type-checks.js");
-
-
-Object(__WEBPACK_IMPORTED_MODULE_0__locales_service__["b" /* getSetGlobalLocale */])('en', {
-    dayOfMonthOrdinalParse: /\d{1,2}(th|st|nd|rd)/,
-    ordinal: function (num) {
-        var b = num % 10;
-        var output = (Object(__WEBPACK_IMPORTED_MODULE_1__utils_type_checks__["g" /* toInt */])(num % 100 / 10) === 1) ? 'th' :
-            (b === 1) ? 'st' :
-                (b === 2) ? 'nd' :
-                    (b === 3) ? 'rd' : 'th';
-        return num + output;
-    }
-});
-//# sourceMappingURL=en.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/locale/index.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__en__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/locale/en.js");
-
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/locale/locale.class.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return defaultLocaleMonths; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return defaultLocaleMonthsShort; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return defaultLocaleWeekdays; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return defaultLocaleWeekdaysShort; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return defaultLocaleWeekdaysMin; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Locale; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__units_week_calendar_utils__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/units/week-calendar-utils.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_type_checks__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/type-checks.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_date_getters__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/date-getters.js");
-
-
-
-var MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/;
-var defaultLocaleMonths = 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_');
-var defaultLocaleMonthsShort = 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_');
-var defaultLocaleWeekdays = 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_');
-var defaultLocaleWeekdaysShort = 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_');
-var defaultLocaleWeekdaysMin = 'Su_Mo_Tu_We_Th_Fr_Sa'.split('_');
-var Locale = (function () {
-    function Locale(config) {
-        if (!!config) {
-            this.set(config);
-        }
-    }
-    Locale.prototype.set = function (config) {
-        for (var i in config) {
-            if (!config.hasOwnProperty(i)) {
-                continue;
-            }
-            var prop = config[i];
-            var key = Object(__WEBPACK_IMPORTED_MODULE_1__utils_type_checks__["d" /* isFunction */])(prop) ? i : "_" + i;
-            this[key] = prop;
-        }
-        this._config = config;
-    };
-    // Months
-    // LOCALES
-    Locale.prototype.months = function (date, format) {
-        if (!date) {
-            return Object(__WEBPACK_IMPORTED_MODULE_1__utils_type_checks__["b" /* isArray */])(this._months)
-                ? this._months
-                : this._months.standalone;
-        }
-        if (Object(__WEBPACK_IMPORTED_MODULE_1__utils_type_checks__["b" /* isArray */])(this._months)) {
-            return this._months[Object(__WEBPACK_IMPORTED_MODULE_2__utils_date_getters__["g" /* getMonth */])(date)];
-        }
-        var key = (this._months.isFormat || MONTHS_IN_FORMAT)
-            .test(format) ? 'format' : 'standalone';
-        return this._months[key][Object(__WEBPACK_IMPORTED_MODULE_2__utils_date_getters__["g" /* getMonth */])(date)];
-    };
-    Locale.prototype.monthsShort = function (date, format) {
-        if (!date) {
-            return Object(__WEBPACK_IMPORTED_MODULE_1__utils_type_checks__["b" /* isArray */])(this._monthsShort)
-                ? this._monthsShort
-                : this._monthsShort.standalone;
-        }
-        if (Object(__WEBPACK_IMPORTED_MODULE_1__utils_type_checks__["b" /* isArray */])(this._monthsShort)) {
-            return this._monthsShort[Object(__WEBPACK_IMPORTED_MODULE_2__utils_date_getters__["g" /* getMonth */])(date)];
-        }
-        var key = MONTHS_IN_FORMAT.test(format) ? 'format' : 'standalone';
-        return this._monthsShort[key][Object(__WEBPACK_IMPORTED_MODULE_2__utils_date_getters__["g" /* getMonth */])(date)];
-    };
-    // Days of week
-    // LOCALES
-    Locale.prototype.weekdays = function (date, format) {
-        var _isArray = Object(__WEBPACK_IMPORTED_MODULE_1__utils_type_checks__["b" /* isArray */])(this._weekdays);
-        if (!date) {
-            return _isArray
-                ? this._weekdays
-                : this._weekdays.standalone;
-        }
-        if (_isArray) {
-            return this._weekdays[Object(__WEBPACK_IMPORTED_MODULE_2__utils_date_getters__["b" /* getDayOfWeek */])(date)];
-        }
-        var _key = this._weekdays.isFormat.test(format) ? 'format' : 'standalone';
-        return this._weekdays[_key][Object(__WEBPACK_IMPORTED_MODULE_2__utils_date_getters__["b" /* getDayOfWeek */])(date)];
-    };
-    Locale.prototype.weekdaysMin = function (date) {
-        return (date) ? this._weekdaysShort[Object(__WEBPACK_IMPORTED_MODULE_2__utils_date_getters__["b" /* getDayOfWeek */])(date)] : this._weekdaysShort;
-    };
-    Locale.prototype.weekdaysShort = function (date) {
-        return (date) ? this._weekdaysMin[Object(__WEBPACK_IMPORTED_MODULE_2__utils_date_getters__["b" /* getDayOfWeek */])(date)] : this._weekdaysMin;
-    };
-    Locale.prototype.week = function (date) {
-        return Object(__WEBPACK_IMPORTED_MODULE_0__units_week_calendar_utils__["a" /* weekOfYear */])(date, this._week.dow, this._week.doy).week;
-    };
-    Locale.prototype.firstDayOfWeek = function () {
-        return this._week.dow;
-    };
-    Locale.prototype.firstDayOfYear = function () {
-        return this._week.doy;
-    };
-    Locale.prototype.meridiem = function (hours, minutes, isLower) {
-        if (hours > 11) {
-            return isLower ? 'pm' : 'PM';
-        }
-        return isLower ? 'am' : 'AM';
-    };
-    Locale.prototype.ordinal = function (num, token) {
-        return this._ordinal.replace('%d', num.toString(10));
-    };
-    Locale.prototype.postformat = function (str) { return str; };
-    return Locale;
-}());
-
-//# sourceMappingURL=locale.class.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/locale/locale.defaults.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export defaultInvalidDate */
-/* unused harmony export defaultLocaleWeek */
-/* unused harmony export defaultLocaleMeridiemParse */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return baseConfig; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__locale_class__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/locale/locale.class.js");
-
-var defaultInvalidDate = 'Invalid date';
-var defaultLocaleWeek = {
-    dow: 0,
-    doy: 6 // The week that contains Jan 1st is the first week of the year.
-};
-var defaultLocaleMeridiemParse = /[ap]\.?m?\.?/i;
-var baseConfig = {
-    // calendar: defaultCalendar,
-    // longDateFormat: defaultLongDateFormat,
-    invalidDate: defaultInvalidDate,
-    // ordinal: defaultOrdinal,
-    // dayOfMonthOrdinalParse: defaultDayOfMonthOrdinalParse,
-    // relativeTime: defaultRelativeTime,
-    months: __WEBPACK_IMPORTED_MODULE_0__locale_class__["b" /* defaultLocaleMonths */],
-    monthsShort: __WEBPACK_IMPORTED_MODULE_0__locale_class__["c" /* defaultLocaleMonthsShort */],
-    week: defaultLocaleWeek,
-    weekdays: __WEBPACK_IMPORTED_MODULE_0__locale_class__["d" /* defaultLocaleWeekdays */],
-    weekdaysMin: __WEBPACK_IMPORTED_MODULE_0__locale_class__["e" /* defaultLocaleWeekdaysMin */],
-    weekdaysShort: __WEBPACK_IMPORTED_MODULE_0__locale_class__["f" /* defaultLocaleWeekdaysShort */],
-    meridiemParse: defaultLocaleMeridiemParse
-};
-//# sourceMappingURL=locale.defaults.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/locale/locales.service.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = getLocale;
-/* unused harmony export listLocales */
-/* unused harmony export mergeConfigs */
-/* harmony export (immutable) */ __webpack_exports__["b"] = getSetGlobalLocale;
-/* unused harmony export defineLocale */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__locale_class__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/locale/locale.class.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__locale_defaults__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/locale/locale.defaults.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_type_checks__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/type-checks.js");
-// internal storage for locale config files
-
-
-
-var locales = {};
-var localeFamilies = {};
-var globalLocale;
-function chooseLocale(name) {
-    return locales[name];
-}
-// returns locale data
-function getLocale(key) {
-    if (!key) {
-        return globalLocale;
-    }
-    return chooseLocale(key);
-}
-function listLocales() {
-    return Object.keys(locales);
-}
-function mergeConfigs(parentConfig, childConfig) {
-    var res = Object.assign({}, parentConfig);
-    for (var childProp in childConfig) {
-        if (!Object(__WEBPACK_IMPORTED_MODULE_2__utils_type_checks__["a" /* hasOwnProp */])(childConfig, childProp)) {
-            continue;
-        }
-        if (Object(__WEBPACK_IMPORTED_MODULE_2__utils_type_checks__["e" /* isObject */])(parentConfig[childProp]) && Object(__WEBPACK_IMPORTED_MODULE_2__utils_type_checks__["e" /* isObject */])(childConfig[childProp])) {
-            (res[childProp]) = {};
-            Object.assign(res[childProp], parentConfig[childProp]);
-            Object.assign(res[childProp], childConfig[childProp]);
-        }
-        else if (childConfig[childProp] != null) {
-            (res[childProp]) = childConfig[childProp];
-        }
-        else {
-            delete res[childProp];
-        }
-    }
-    for (var parentProp in parentConfig) {
-        if (Object(__WEBPACK_IMPORTED_MODULE_2__utils_type_checks__["a" /* hasOwnProp */])(parentConfig, parentProp) &&
-            !Object(__WEBPACK_IMPORTED_MODULE_2__utils_type_checks__["a" /* hasOwnProp */])(childConfig, parentProp) &&
-            Object(__WEBPACK_IMPORTED_MODULE_2__utils_type_checks__["e" /* isObject */])(parentConfig[parentProp])) {
-            // make sure changes to properties don't modify parent config
-            (res[parentProp]) = Object.assign({}, res[parentProp]);
-        }
-    }
-    return res;
-}
-// This function will load locale and then set the global locale.  If
-// no arguments are passed in, it will simply return the current global
-// locale key.
-function getSetGlobalLocale(key, values) {
-    var data;
-    if (key) {
-        data = Object(__WEBPACK_IMPORTED_MODULE_2__utils_type_checks__["f" /* isUndefined */])(values) ? getLocale(key) : defineLocale(key, values);
-        if (data) {
-            globalLocale = data;
-        }
-    }
-    return globalLocale._abbr;
-}
-function defineLocale(name, config) {
-    if (config === null) {
-        // useful for testing
-        delete locales[name];
-        return null;
-    }
-    config.abbr = name;
-    locales[name] = new __WEBPACK_IMPORTED_MODULE_0__locale_class__["a" /* Locale */](mergeConfigs(__WEBPACK_IMPORTED_MODULE_1__locale_defaults__["a" /* baseConfig */], config));
-    if (localeFamilies[name]) {
-        localeFamilies[name].forEach(function (x) {
-            defineLocale(x.name, x.config);
-        });
-    }
-    // backwards compat for now: also set the locale
-    // make sure we set the locale AFTER all child locales have been
-    // created, so we won't end up with the child locale set.
-    getSetGlobalLocale(name);
-    return locales[name];
-}
-//# sourceMappingURL=locales.service.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/units/day-of-month.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__format_functions__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/format-functions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_date_getters__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/date-getters.js");
-
-
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])('D', ['DD', 2], 'Do', function (date) {
-    return Object(__WEBPACK_IMPORTED_MODULE_1__utils_date_getters__["a" /* getDate */])(date).toString(10);
-});
-//# sourceMappingURL=day-of-month.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/units/day-of-week.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export getLocaleDayOfWeek */
-/* unused harmony export getISODayOfWeek */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__format_functions__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/format-functions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_date_getters__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/date-getters.js");
-
-
-// FORMATTING
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])('d', null, 'do', function (date) {
-    return Object(__WEBPACK_IMPORTED_MODULE_1__utils_date_getters__["b" /* getDayOfWeek */])(date).toString(10);
-});
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])('dd', null, null, function (date, format, locale) {
-    return locale.weekdaysShort(date);
-});
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])('ddd', null, null, function (date, format, locale) {
-    return locale.weekdaysMin(date);
-});
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])('dddd', null, null, function (date, format, locale) {
-    return locale.weekdays(date, format);
-});
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])('e', null, null, function (date) {
-    return Object(__WEBPACK_IMPORTED_MODULE_1__utils_date_getters__["b" /* getDayOfWeek */])(date).toString(10);
-});
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])('E', null, null, function (date) {
-    return getISODayOfWeek(date).toString(10);
-});
-function getLocaleDayOfWeek(date, locale) {
-    return (Object(__WEBPACK_IMPORTED_MODULE_1__utils_date_getters__["b" /* getDayOfWeek */])(date) + 7 - locale.firstDayOfWeek()) % 7;
-}
-function getISODayOfWeek(date) {
-    return Object(__WEBPACK_IMPORTED_MODULE_1__utils_date_getters__["b" /* getDayOfWeek */])(date) || 7;
-}
-//# sourceMappingURL=day-of-week.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/units/day-of-year.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = getDayOfYear;
-/* unused harmony export _getDayOfYear */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__format_functions__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/format-functions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_start_end_of__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/start-end-of.js");
-
-
-// FORMATTING
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])('DDD', ['DDDD', 3], 'DDDo', function (date) {
-    return getDayOfYear(date).toString(10);
-});
-function getDayOfYear(date) {
-    var date1 = +Object(__WEBPACK_IMPORTED_MODULE_1__utils_start_end_of__["a" /* startOf */])(date, 'day');
-    var date2 = +Object(__WEBPACK_IMPORTED_MODULE_1__utils_start_end_of__["a" /* startOf */])(date, 'year');
-    var someDate = date1 - date2;
-    var oneDay = 1000 * 60 * 60 * 24;
-    return Math.round(someDate / oneDay) + 1;
-}
-function _getDayOfYear(date) {
-    var start = new Date(date.getFullYear(), 0, 0);
-    var diff = date.getTime() - start.getTime();
-    var oneDay = 1000 * 60 * 60 * 24;
-    return Math.round(diff / oneDay) + 1;
-}
-//# sourceMappingURL=day-of-year.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/units/hour.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_date_getters__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/date-getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__format_functions__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/format-functions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils.js");
-// import { makeGetSet } from '../moment/get-set';
-// import { addFormatToken } from '../format/format';
-// import { addUnitAlias } from './aliases';
-// import { addUnitPriority } from './priorities';
-// import { addRegexToken, match1to2, match2, match3to4, match5to6 } from '../parse/regex';
-// import { addParseToken } from '../parse/token';
-// import { HOUR, MINUTE, SECOND } from './constants';
-// import toInt from '../utils/to-int';
-// import zeroFill from '../utils/zero-fill';
-// import getParsingFlags from '../create/parsing-flags';
-// FORMATTING
-
-
-
-function hFormat(date) {
-    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_date_getters__["e" /* getHours */])(date) % 12 || 12;
-}
-function kFormat(date) {
-    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_date_getters__["e" /* getHours */])(date) || 24;
-}
-Object(__WEBPACK_IMPORTED_MODULE_1__format_functions__["a" /* addFormatToken */])('H', ['HH', 2], null, function (date, format, locale) {
-    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_date_getters__["e" /* getHours */])(date).toString(10);
-});
-Object(__WEBPACK_IMPORTED_MODULE_1__format_functions__["a" /* addFormatToken */])('h', ['hh', 2], null, function (date, format, locale) {
-    return hFormat(date).toString(10);
-});
-Object(__WEBPACK_IMPORTED_MODULE_1__format_functions__["a" /* addFormatToken */])('k', ['kk', 2], null, function (date, format, locale) {
-    return kFormat(date).toString(10);
-});
-Object(__WEBPACK_IMPORTED_MODULE_1__format_functions__["a" /* addFormatToken */])('hmm', null, null, function (date, format, locale) {
-    return "" + hFormat(date) + Object(__WEBPACK_IMPORTED_MODULE_2__utils__["d" /* zeroFill */])(Object(__WEBPACK_IMPORTED_MODULE_0__utils_date_getters__["f" /* getMinutes */])(date), 2);
-});
-Object(__WEBPACK_IMPORTED_MODULE_1__format_functions__["a" /* addFormatToken */])('hmmss', null, null, function (date, format, locale) {
-    return "" + hFormat(date) + Object(__WEBPACK_IMPORTED_MODULE_2__utils__["d" /* zeroFill */])(Object(__WEBPACK_IMPORTED_MODULE_0__utils_date_getters__["f" /* getMinutes */])(date), 2) + Object(__WEBPACK_IMPORTED_MODULE_2__utils__["d" /* zeroFill */])(Object(__WEBPACK_IMPORTED_MODULE_0__utils_date_getters__["h" /* getSeconds */])(date), 2);
-});
-Object(__WEBPACK_IMPORTED_MODULE_1__format_functions__["a" /* addFormatToken */])('Hmm', null, null, function (date, format, locale) {
-    return "" + Object(__WEBPACK_IMPORTED_MODULE_0__utils_date_getters__["e" /* getHours */])(date) + Object(__WEBPACK_IMPORTED_MODULE_2__utils__["d" /* zeroFill */])(Object(__WEBPACK_IMPORTED_MODULE_0__utils_date_getters__["f" /* getMinutes */])(date), 2);
-});
-Object(__WEBPACK_IMPORTED_MODULE_1__format_functions__["a" /* addFormatToken */])('Hmmss', null, null, function (date, format, locale) {
-    return "" + Object(__WEBPACK_IMPORTED_MODULE_0__utils_date_getters__["e" /* getHours */])(date) + Object(__WEBPACK_IMPORTED_MODULE_2__utils__["d" /* zeroFill */])(Object(__WEBPACK_IMPORTED_MODULE_0__utils_date_getters__["f" /* getMinutes */])(date), 2) + Object(__WEBPACK_IMPORTED_MODULE_2__utils__["d" /* zeroFill */])(Object(__WEBPACK_IMPORTED_MODULE_0__utils_date_getters__["h" /* getSeconds */])(date), 2);
-});
-function meridiem(token, lowercase) {
-    Object(__WEBPACK_IMPORTED_MODULE_1__format_functions__["a" /* addFormatToken */])(token, null, null, function (date, format, locale) {
-        return locale.meridiem(Object(__WEBPACK_IMPORTED_MODULE_0__utils_date_getters__["e" /* getHours */])(date), Object(__WEBPACK_IMPORTED_MODULE_0__utils_date_getters__["f" /* getMinutes */])(date), lowercase);
-    });
-}
-meridiem('a', true);
-meridiem('A', false);
-//# sourceMappingURL=hour.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/units/index.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__day_of_month__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/units/day-of-month.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__day_of_week__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/units/day-of-week.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__day_of_year__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/units/day-of-year.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__hour__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/units/hour.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__minute__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/units/minute.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__month__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/units/month.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__second__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/units/second.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__week__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/units/week.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__week_calendar_utils__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/units/week-calendar-utils.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__year__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/units/year.js");
-
-
-
-
-
-
-
-
-
-
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/units/minute.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__format_functions__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/format-functions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_date_getters__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/date-getters.js");
-
-
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])('m', ['mm', 2], null, function (date) {
-    return Object(__WEBPACK_IMPORTED_MODULE_1__utils_date_getters__["f" /* getMinutes */])(date).toString(10);
-});
-//# sourceMappingURL=minute.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/units/month.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export daysInMonth */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__format_functions__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/format-functions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__year__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/units/year.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_date_getters__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/date-getters.js");
-
-
-
-
-function daysInMonth(year, month) {
-    if (isNaN(year) || isNaN(month)) {
-        return NaN;
-    }
-    var modMonth = Object(__WEBPACK_IMPORTED_MODULE_2__utils__["c" /* mod */])(month, 12);
-    year += (month - modMonth) / 12;
-    return modMonth === 1 ? (Object(__WEBPACK_IMPORTED_MODULE_1__year__["b" /* isLeapYear */])(year) ? 29 : 28) : (31 - modMonth % 7 % 2);
-}
-// FORMATTING
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])('M', ['MM', 2], 'Mo', function (date, format) {
-    return (Object(__WEBPACK_IMPORTED_MODULE_3__utils_date_getters__["g" /* getMonth */])(date) + 1).toString();
-});
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])('MMM', null, null, function (date, format, locale) {
-    return locale.monthsShort(date, format);
-});
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])('MMMM', null, null, function (date, format, locale) {
-    return locale.months(date, format);
-});
-//# sourceMappingURL=month.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/units/second.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__format_functions__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/format-functions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_date_getters__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/date-getters.js");
-
-
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])('s', ['ss', 2], null, function (date) {
-    return Object(__WEBPACK_IMPORTED_MODULE_1__utils_date_getters__["h" /* getSeconds */])(date).toString(10);
-});
-//# sourceMappingURL=second.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/units/week-calendar-utils.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export dayOfYearFromWeeks */
-/* harmony export (immutable) */ __webpack_exports__["a"] = weekOfYear;
-/* unused harmony export weeksInYear */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__year__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/units/year.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__day_of_year__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/units/day-of-year.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_date_getters__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/date-getters.js");
-/**
- *
- * @param {number} year
- * @param {number} dow - start-of-first-week
- * @param {number} doy - start-of-year
- * @returns {number}
- */
-
-
-
-
-function firstWeekOffset(year, dow, doy) {
-    // first-week day -- which january is always in the first week (4 for iso, 1 for other)
-    var fwd = 7 + dow - doy;
-    // first-week day local weekday -- which local weekday is fwd
-    var fwdlw = (7 + Object(__WEBPACK_IMPORTED_MODULE_0__utils__["b" /* createUTCDate */])(year, 0, fwd).getUTCDay() - dow) % 7;
-    return -fwdlw + fwd - 1;
-}
-// https://en.wikipedia.org/wiki/ISO_week_date#Calculating_a_date_given_the_year.2C_week_number_and_weekday
-function dayOfYearFromWeeks(year, week, weekday, dow, doy) {
-    var localWeekday = (7 + weekday - dow) % 7;
-    var weekOffset = firstWeekOffset(year, dow, doy);
-    var dayOfYear = 1 + 7 * (week - 1) + localWeekday + weekOffset;
-    var resYear;
-    var resDayOfYear;
-    if (dayOfYear <= 0) {
-        resYear = year - 1;
-        resDayOfYear = Object(__WEBPACK_IMPORTED_MODULE_1__year__["a" /* daysInYear */])(resYear) + dayOfYear;
-    }
-    else if (dayOfYear > Object(__WEBPACK_IMPORTED_MODULE_1__year__["a" /* daysInYear */])(year)) {
-        resYear = year + 1;
-        resDayOfYear = dayOfYear - Object(__WEBPACK_IMPORTED_MODULE_1__year__["a" /* daysInYear */])(year);
-    }
-    else {
-        resYear = year;
-        resDayOfYear = dayOfYear;
-    }
-    return {
-        year: resYear,
-        dayOfYear: resDayOfYear
-    };
-}
-function weekOfYear(date, dow, doy) {
-    var weekOffset = firstWeekOffset(Object(__WEBPACK_IMPORTED_MODULE_3__utils_date_getters__["d" /* getFullYear */])(date), dow, doy);
-    var week = Math.floor((Object(__WEBPACK_IMPORTED_MODULE_2__day_of_year__["a" /* getDayOfYear */])(date) - weekOffset - 1) / 7) + 1;
-    var resWeek;
-    var resYear;
-    if (week < 1) {
-        resYear = Object(__WEBPACK_IMPORTED_MODULE_3__utils_date_getters__["d" /* getFullYear */])(date) - 1;
-        resWeek = week + weeksInYear(resYear, dow, doy);
-    }
-    else if (week > weeksInYear(Object(__WEBPACK_IMPORTED_MODULE_3__utils_date_getters__["d" /* getFullYear */])(date), dow, doy)) {
-        resWeek = week - weeksInYear(Object(__WEBPACK_IMPORTED_MODULE_3__utils_date_getters__["d" /* getFullYear */])(date), dow, doy);
-        resYear = Object(__WEBPACK_IMPORTED_MODULE_3__utils_date_getters__["d" /* getFullYear */])(date) + 1;
-    }
-    else {
-        resYear = Object(__WEBPACK_IMPORTED_MODULE_3__utils_date_getters__["d" /* getFullYear */])(date);
-        resWeek = week;
-    }
-    return {
-        week: resWeek,
-        year: resYear
-    };
-}
-function weeksInYear(year, dow, doy) {
-    var weekOffset = firstWeekOffset(year, dow, doy);
-    var weekOffsetNext = firstWeekOffset(year + 1, dow, doy);
-    return (Object(__WEBPACK_IMPORTED_MODULE_1__year__["a" /* daysInYear */])(year) - weekOffset + weekOffsetNext) / 7;
-}
-//# sourceMappingURL=week-calendar-utils.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/units/week.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export getWeek */
-/* unused harmony export getISOWeek */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__format_functions__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/format-functions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__week_calendar_utils__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/units/week-calendar-utils.js");
-
-
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])('w', ['ww', 2], 'wo', function (date, format, locale) {
-    return getWeek(date, locale).toString(10);
-});
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])('W', ['WW', 2], 'Wo', function (date) {
-    return getISOWeek(date).toString(10);
-});
-function getWeek(date, locale) {
-    return locale.week(date);
-}
-function getISOWeek(date) {
-    return Object(__WEBPACK_IMPORTED_MODULE_1__week_calendar_utils__["a" /* weekOfYear */])(date, 1, 4).week;
-}
-//# sourceMappingURL=week.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/units/year.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = daysInYear;
-/* harmony export (immutable) */ __webpack_exports__["b"] = isLeapYear;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__format_functions__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/format-functions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_date_getters__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/date-getters.js");
-
-
-// FORMATTING
-function getYear(date) {
-    return Object(__WEBPACK_IMPORTED_MODULE_1__utils_date_getters__["d" /* getFullYear */])(date).toString();
-}
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])('Y', null, null, function (date) {
-    var y = Object(__WEBPACK_IMPORTED_MODULE_1__utils_date_getters__["d" /* getFullYear */])(date);
-    return y <= 9999 ? '' + y : '+' + y;
-});
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])(null, ['YY', 2], null, function (date) {
-    return (Object(__WEBPACK_IMPORTED_MODULE_1__utils_date_getters__["d" /* getFullYear */])(date) % 100).toString(10);
-});
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])(null, ['YYYY', 4], null, getYear);
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])(null, ['YYYYY', 5], null, getYear);
-Object(__WEBPACK_IMPORTED_MODULE_0__format_functions__["a" /* addFormatToken */])(null, ['YYYYYY', 6, true], null, getYear);
-function daysInYear(year) {
-    return isLeapYear(year) ? 366 : 365;
-}
-function isLeapYear(year) {
-    return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-}
-//# sourceMappingURL=year.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/utils.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["d"] = zeroFill;
-/* harmony export (immutable) */ __webpack_exports__["c"] = mod;
-/* harmony export (immutable) */ __webpack_exports__["a"] = absFloor;
-/* harmony export (immutable) */ __webpack_exports__["b"] = createUTCDate;
-function zeroFill(num, targetLength, forceSign) {
-    var absNumber = "" + Math.abs(num);
-    var zerosToFill = targetLength - absNumber.length;
-    var sign = num >= 0;
-    return (sign ? (forceSign ? '+' : '') : '-') +
-        Math.pow(10, Math.max(0, zerosToFill)).toString().substr(1) + absNumber;
-}
-function mod(n, x) {
-    return ((n % x) + x) % x;
-}
-function absFloor(number) {
-    return number < 0
-        ? Math.ceil(number) || 0
-        : Math.floor(number);
-}
-function createUTCDate(y, m, d, h, M, s, ms) {
-    var date = new Date(Date.UTC.apply(null, arguments));
-    // the Date.UTC function remaps years 0-99 to 1900-1999
-    if (y < 100 && y >= 0 && isFinite(date.getUTCFullYear())) {
-        date.setUTCFullYear(y);
-    }
-    return date;
-}
-//# sourceMappingURL=utils.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/utils/date-getters.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["e"] = getHours;
-/* harmony export (immutable) */ __webpack_exports__["f"] = getMinutes;
-/* harmony export (immutable) */ __webpack_exports__["h"] = getSeconds;
-/* harmony export (immutable) */ __webpack_exports__["b"] = getDayOfWeek;
-/* harmony export (immutable) */ __webpack_exports__["a"] = getDate;
-/* harmony export (immutable) */ __webpack_exports__["g"] = getMonth;
-/* harmony export (immutable) */ __webpack_exports__["d"] = getFullYear;
-/* harmony export (immutable) */ __webpack_exports__["c"] = getFirstDayOfMonth;
-/* unused harmony export daysInMonth */
-/* unused harmony export _daysInMonth */
-/* harmony export (immutable) */ __webpack_exports__["i"] = isFirstDayOfWeek;
-/* harmony export (immutable) */ __webpack_exports__["j"] = isSameMonth;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__date_setters__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/date-setters.js");
-
-function getHours(date, isUTC) {
-    if (isUTC === void 0) { isUTC = false; }
-    return isUTC ? date.getUTCHours() : date.getHours();
-}
-function getMinutes(date, isUTC) {
-    if (isUTC === void 0) { isUTC = false; }
-    return isUTC ? date.getUTCMinutes() : date.getMinutes();
-}
-function getSeconds(date, isUTC) {
-    if (isUTC === void 0) { isUTC = false; }
-    return isUTC ? date.getUTCSeconds() : date.getSeconds();
-}
-function getDayOfWeek(date, isUTC) {
-    if (isUTC === void 0) { isUTC = false; }
-    return isUTC ? date.getUTCDay() : date.getDay();
-}
-function getDate(date, isUTC) {
-    if (isUTC === void 0) { isUTC = false; }
-    return isUTC ? date.getUTCDate() : date.getDate();
-}
-function getMonth(date, isUTC) {
-    if (isUTC === void 0) { isUTC = false; }
-    return isUTC ? date.getUTCMonth() : date.getMonth();
-}
-function getFullYear(date, isUTC) {
-    if (isUTC === void 0) { isUTC = false; }
-    return isUTC ? date.getUTCFullYear() : date.getFullYear();
-}
-function getFirstDayOfMonth(date) {
-    return Object(__WEBPACK_IMPORTED_MODULE_0__date_setters__["a" /* createDate */])(date.getFullYear(), date.getMonth(), 1, date.getHours(), date.getMinutes(), date.getSeconds());
-}
-function daysInMonth(date) {
-    return _daysInMonth(date.getFullYear(), date.getMonth());
-}
-function _daysInMonth(year, month) {
-    return new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
-}
-function isFirstDayOfWeek(date, firstDayOfWeek) {
-    return date.getDay() === firstDayOfWeek;
-}
-function isSameMonth(date1, date2) {
-    if (!date1 || !date2) {
-        return false;
-    }
-    return getFullYear(date1) === getFullYear(date2) && getMonth(date1) === getMonth(date2);
-}
-//# sourceMappingURL=date-getters.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/utils/date-setters.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = createDate;
-/* harmony export (immutable) */ __webpack_exports__["c"] = shiftDate;
-/* harmony export (immutable) */ __webpack_exports__["b"] = setDate;
-var defaultTimeUnit = {
-    year: 0, month: 0, day: 0, hour: 0, minute: 0, seconds: 0
-};
-function createDate(year, month, day, hour, minute, seconds) {
-    if (month === void 0) { month = 0; }
-    if (day === void 0) { day = 1; }
-    if (hour === void 0) { hour = 0; }
-    if (minute === void 0) { minute = 0; }
-    if (seconds === void 0) { seconds = 0; }
-    var _date = new Date();
-    return new Date(year || _date.getFullYear(), month, day, hour, minute, seconds);
-}
-function shiftDate(date, unit) {
-    var _unit = Object.assign({}, defaultTimeUnit, unit);
-    return createDate(date.getFullYear() + _unit.year, date.getMonth() + _unit.month, date.getDate() + _unit.day, date.getHours() + _unit.hour, date.getMinutes() + _unit.minute, date.getSeconds() + _unit.seconds);
-}
-function setDate(date, unit) {
-    return createDate(getNum(date.getFullYear(), unit.year), getNum(date.getMonth(), unit.month), getNum(date.getDate(), unit.day), getNum(date.getHours(), unit.hour), getNum(date.getMinutes(), unit.minute), getNum(date.getSeconds(), unit.seconds));
-}
-function getNum(def, num) {
-    return typeof num === 'number' ? num : def;
-}
-//# sourceMappingURL=date-setters.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/utils/start-end-of.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = startOf;
-/* unused harmony export endOf */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__date_setters__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/date-setters.js");
-
-function startOf(date, units) {
-    var unit = getDateShift(units);
-    return Object(__WEBPACK_IMPORTED_MODULE_0__date_setters__["b" /* setDate */])(date, unit);
-}
-function endOf(date, units) {
-    var start = startOf(date, units);
-    var shift = (_a = {}, _a[units] = 1, _a);
-    var change = Object(__WEBPACK_IMPORTED_MODULE_0__date_setters__["c" /* shiftDate */])(start, shift);
-    change.setMilliseconds(-1);
-    return change;
-    var _a;
-}
-function getDateShift(units) {
-    var unit = {};
-    switch (units) {
-        case 'year':
-            unit.month = 0;
-        /* falls through */
-        case 'month':
-            unit.day = 1;
-        /* falls through */
-        case 'week':
-        case 'day':
-            unit.hour = 0;
-        /* falls through */
-        case 'hour':
-            unit.minute = 0;
-        /* falls through */
-        case 'minute':
-            unit.seconds = 0;
-    }
-    return unit;
-}
-//# sourceMappingURL=start-end-of.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/bs-moment/utils/type-checks.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["c"] = isDateValid;
-/* harmony export (immutable) */ __webpack_exports__["d"] = isFunction;
-/* harmony export (immutable) */ __webpack_exports__["b"] = isArray;
-/* harmony export (immutable) */ __webpack_exports__["a"] = hasOwnProp;
-/* harmony export (immutable) */ __webpack_exports__["e"] = isObject;
-/* harmony export (immutable) */ __webpack_exports__["f"] = isUndefined;
-/* harmony export (immutable) */ __webpack_exports__["g"] = toInt;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils.js");
-
-function isDateValid(date) {
-    return date && !isNaN(date.getTime());
-}
-function isFunction(fn) {
-    return fn instanceof Function || Object.prototype.toString.call(fn) === '[object Function]';
-}
-function isArray(input) {
-    return input instanceof Array || Object.prototype.toString.call(input) === '[object Array]';
-}
-function hasOwnProp(a /*object*/, b) {
-    return Object.prototype.hasOwnProperty.call(a, b);
-}
-function isObject(input /*object*/) {
-    // IE8 will treat undefined and null as object if it wasn't for
-    // input != null
-    return input != null && Object.prototype.toString.call(input) === '[object Object]';
-}
-function isUndefined(input) {
-    return input === void 0;
-}
-function toInt(argumentForCoercion) {
-    var coercedNumber = +argumentForCoercion;
-    var value = 0;
-    if (coercedNumber !== 0 && isFinite(coercedNumber)) {
-        value = Object(__WEBPACK_IMPORTED_MODULE_0__utils__["a" /* absFloor */])(coercedNumber);
-    }
-    return value;
-}
-//# sourceMappingURL=type-checks.js.map
-
-/***/ }),
-
 /***/ "../../../../ngx-bootstrap/component-loader/component-loader.class.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ComponentLoader; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_triggers__ = __webpack_require__("../../../../ngx-bootstrap/utils/triggers.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__content_ref_class__ = __webpack_require__("../../../../ngx-bootstrap/component-loader/content-ref.class.js");
-// todo: add delay support
-// todo: merge events onShow, onShown, etc...
-// todo: add global positioning configuration?
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__content_ref_class__ = __webpack_require__("../../../../ngx-bootstrap/component-loader/content-ref.class.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_triggers__ = __webpack_require__("../../../../ngx-bootstrap/utils/triggers.js");
 
 
 
@@ -3267,24 +2274,28 @@ var ComponentLoader = (function () {
      * Do not use this directly, it should be instanced via
      * `ComponentLoadFactory.attach`
      * @internal
+     * @param _viewContainerRef
+     * @param _elementRef
+     * @param _injector
+     * @param _renderer
+     * @param _componentFactoryResolver
+     * @param _ngZone
+     * @param _posService
      */
     // tslint:disable-next-line
-    function ComponentLoader(_viewContainerRef, _renderer, _elementRef, _injector, _componentFactoryResolver, _ngZone, _applicationRef, _posService) {
-        this._viewContainerRef = _viewContainerRef;
-        this._renderer = _renderer;
-        this._elementRef = _elementRef;
-        this._injector = _injector;
-        this._componentFactoryResolver = _componentFactoryResolver;
-        this._ngZone = _ngZone;
-        this._applicationRef = _applicationRef;
-        this._posService = _posService;
+    function ComponentLoader(_viewContainerRef, _renderer, _elementRef, _injector, _componentFactoryResolver, _ngZone, _posService) {
         this.onBeforeShow = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.onShown = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.onBeforeHide = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.onHidden = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this._providers = [];
-        this._listenOpts = {};
-        this._globalListener = Function.prototype;
+        this._ngZone = _ngZone;
+        this._injector = _injector;
+        this._renderer = _renderer;
+        this._elementRef = _elementRef;
+        this._posService = _posService;
+        this._viewContainerRef = _viewContainerRef;
+        this._componentFactoryResolver = _componentFactoryResolver;
     }
     Object.defineProperty(ComponentLoader.prototype, "isShown", {
         get: function () {
@@ -3313,72 +2324,42 @@ var ComponentLoader = (function () {
         this._providers.push(provider);
         return this;
     };
-    // todo: appendChild to element or document.querySelector(this.container)
     ComponentLoader.prototype.show = function (opts) {
         if (opts === void 0) { opts = {}; }
         this._subscribePositioning();
-        this._innerComponent = null;
         if (!this._componentRef) {
             this.onBeforeShow.emit();
-            this._contentRef = this._getContentRef(opts.content, opts.context);
+            this._contentRef = this._getContentRef(opts.content);
             var injector = __WEBPACK_IMPORTED_MODULE_0__angular_core__["_0" /* ReflectiveInjector */].resolveAndCreate(this._providers, this._injector);
-            this._componentRef = this._componentFactory.create(injector, this._contentRef.nodes);
-            this._applicationRef.attachView(this._componentRef.hostView);
-            // this._componentRef = this._viewContainerRef
-            //   .createComponent(this._componentFactory, 0, injector, this._contentRef.nodes);
+            this._componentRef = this._viewContainerRef
+                .createComponent(this._componentFactory, 0, injector, this._contentRef.nodes);
             this.instance = this._componentRef.instance;
             Object.assign(this._componentRef.instance, opts);
-            if (this.container instanceof __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */]) {
-                this.container.nativeElement
-                    .appendChild(this._componentRef.location.nativeElement);
-            }
             if (this.container === 'body' && typeof document !== 'undefined') {
                 document.querySelector(this.container)
-                    .appendChild(this._componentRef.location.nativeElement);
-            }
-            if (!this.container && this._elementRef && this._elementRef.nativeElement.parentElement) {
-                this._elementRef.nativeElement.parentElement
                     .appendChild(this._componentRef.location.nativeElement);
             }
             // we need to manually invoke change detection since events registered
             // via
             // Renderer::listen() are not picked up by change detection with the
             // OnPush strategy
-            if (this._contentRef.componentRef) {
-                this._innerComponent = this._contentRef.componentRef.instance;
-                this._contentRef.componentRef.changeDetectorRef.markForCheck();
-                this._contentRef.componentRef.changeDetectorRef.detectChanges();
-            }
             this._componentRef.changeDetectorRef.markForCheck();
-            this._componentRef.changeDetectorRef.detectChanges();
             this.onShown.emit(this._componentRef.instance);
         }
-        this._registerOutsideClick();
         return this._componentRef;
     };
     ComponentLoader.prototype.hide = function () {
-        if (!this._componentRef) {
-            return this;
+        if (this._componentRef) {
+            this.onBeforeHide.emit(this._componentRef.instance);
+            this._viewContainerRef.remove(this._viewContainerRef.indexOf(this._componentRef.hostView));
+            this._componentRef = null;
+            if (this._contentRef.viewRef) {
+                this._viewContainerRef.remove(this._viewContainerRef.indexOf(this._contentRef.viewRef));
+                this._contentRef = null;
+            }
+            this._componentRef = null;
+            this.onHidden.emit();
         }
-        this.onBeforeHide.emit(this._componentRef.instance);
-        var componentEl = this._componentRef.location.nativeElement;
-        componentEl.parentNode.removeChild(componentEl);
-        if (this._contentRef.componentRef) {
-            this._contentRef.componentRef.destroy();
-        }
-        this._componentRef.destroy();
-        if (this._viewContainerRef && this._contentRef.viewRef) {
-            this._viewContainerRef.remove(this._viewContainerRef.indexOf(this._contentRef.viewRef));
-        }
-        // this._viewContainerRef.remove(this._viewContainerRef.indexOf(this._componentRef.hostView));
-        //
-        // if (this._contentRef.viewRef && this._viewContainerRef.indexOf(this._contentRef.viewRef) !== -1) {
-        //   this._viewContainerRef.remove(this._viewContainerRef.indexOf(this._contentRef.viewRef));
-        // }
-        this._contentRef = null;
-        this._componentRef = null;
-        this._removeGlobalListener();
-        this.onHidden.emit();
         return this;
     };
     ComponentLoader.prototype.toggle = function () {
@@ -3400,50 +2381,14 @@ var ComponentLoader = (function () {
     ComponentLoader.prototype.listen = function (listenOpts) {
         var _this = this;
         this.triggers = listenOpts.triggers || this.triggers;
-        this._listenOpts.outsideClick = listenOpts.outsideClick;
-        listenOpts.target = listenOpts.target || this._elementRef.nativeElement;
-        var hide = this._listenOpts.hide = function () { return listenOpts.hide ? listenOpts.hide() : _this.hide(); };
-        var show = this._listenOpts.show = function (registerHide) {
-            listenOpts.show ? listenOpts.show(registerHide) : _this.show(registerHide);
-            registerHide();
-        };
-        var toggle = function (registerHide) {
-            _this.isShown ? hide() : show(registerHide);
-        };
-        this._unregisterListenersFn = Object(__WEBPACK_IMPORTED_MODULE_1__utils_triggers__["a" /* listenToTriggersV2 */])(this._renderer, {
-            target: listenOpts.target,
-            triggers: listenOpts.triggers,
-            show: show, hide: hide, toggle: toggle
-        });
+        listenOpts.target = listenOpts.target || this._elementRef;
+        listenOpts.show = listenOpts.show || (function () { return _this.show(); });
+        listenOpts.hide = listenOpts.hide || (function () { return _this.hide(); });
+        listenOpts.toggle = listenOpts.toggle || (function () { return _this.isShown
+            ? listenOpts.hide()
+            : listenOpts.show(); });
+        this._unregisterListenersFn = Object(__WEBPACK_IMPORTED_MODULE_2__utils_triggers__["a" /* listenToTriggers */])(this._renderer, listenOpts.target.nativeElement, this.triggers, listenOpts.show, listenOpts.hide, listenOpts.toggle);
         return this;
-    };
-    ComponentLoader.prototype._removeGlobalListener = function () {
-        if (this._globalListener) {
-            this._globalListener();
-            this._globalListener = null;
-        }
-    };
-    ComponentLoader.prototype.attachInline = function (vRef, template) {
-        this._inlineViewRef = vRef.createEmbeddedView(template);
-        return this;
-    };
-    ComponentLoader.prototype._registerOutsideClick = function () {
-        var _this = this;
-        if (!this._componentRef || !this._componentRef.location) {
-            return;
-        }
-        // why: should run after first event bubble
-        var target = this._componentRef.location.nativeElement;
-        setTimeout(function () {
-            _this._globalListener = Object(__WEBPACK_IMPORTED_MODULE_1__utils_triggers__["b" /* registerOutsideClick */])(_this._renderer, {
-                targets: [target, _this._elementRef.nativeElement],
-                outsideClick: _this._listenOpts.outsideClick,
-                hide: function () { return _this._listenOpts.hide(); }
-            });
-        });
-    };
-    ComponentLoader.prototype.getInnerComponent = function () {
-        return this._innerComponent;
     };
     ComponentLoader.prototype._subscribePositioning = function () {
         var _this = this;
@@ -3470,32 +2415,19 @@ var ComponentLoader = (function () {
         this._zoneSubscription.unsubscribe();
         this._zoneSubscription = null;
     };
-    ComponentLoader.prototype._getContentRef = function (content, context) {
+    ComponentLoader.prototype._getContentRef = function (content) {
         if (!content) {
-            return new __WEBPACK_IMPORTED_MODULE_2__content_ref_class__["a" /* ContentRef */]([]);
+            return new __WEBPACK_IMPORTED_MODULE_1__content_ref_class__["a" /* ContentRef */]([]);
         }
         if (content instanceof __WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* TemplateRef */]) {
-            if (this._viewContainerRef) {
-                var viewRef_1 = this._viewContainerRef.createEmbeddedView(content, context);
-                viewRef_1.markForCheck();
-                return new __WEBPACK_IMPORTED_MODULE_2__content_ref_class__["a" /* ContentRef */]([viewRef_1.rootNodes], viewRef_1);
-            }
-            var viewRef = content.createEmbeddedView({});
-            this._applicationRef.attachView(viewRef);
-            return new __WEBPACK_IMPORTED_MODULE_2__content_ref_class__["a" /* ContentRef */]([viewRef.rootNodes], viewRef);
+            var viewRef = this._viewContainerRef
+                .createEmbeddedView(content);
+            return new __WEBPACK_IMPORTED_MODULE_1__content_ref_class__["a" /* ContentRef */]([viewRef.rootNodes], viewRef);
         }
-        if (typeof content === 'function') {
-            var contentCmptFactory = this._componentFactoryResolver.resolveComponentFactory(content);
-            var modalContentInjector = __WEBPACK_IMPORTED_MODULE_0__angular_core__["_0" /* ReflectiveInjector */].resolveAndCreate(this._providers.concat([content]), this._injector);
-            var componentRef = contentCmptFactory.create(modalContentInjector);
-            this._applicationRef.attachView(componentRef.hostView);
-            return new __WEBPACK_IMPORTED_MODULE_2__content_ref_class__["a" /* ContentRef */]([[componentRef.location.nativeElement]], componentRef.hostView, componentRef);
-        }
-        return new __WEBPACK_IMPORTED_MODULE_2__content_ref_class__["a" /* ContentRef */]([[this._renderer.createText(null, "" + content)]]);
+        return new __WEBPACK_IMPORTED_MODULE_1__content_ref_class__["a" /* ContentRef */]([[this._renderer.createText(null, "" + content)]]);
     };
     return ComponentLoader;
 }());
-
 //# sourceMappingURL=component-loader.class.js.map
 
 /***/ }),
@@ -3508,25 +2440,15 @@ var ComponentLoader = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__component_loader_class__ = __webpack_require__("../../../../ngx-bootstrap/component-loader/component-loader.class.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__positioning__ = __webpack_require__("../../../../ngx-bootstrap/positioning/index.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 
 
 
 var ComponentLoaderFactory = (function () {
-    function ComponentLoaderFactory(_componentFactoryResolver, _ngZone, _injector, _posService, _applicationRef) {
-        this._componentFactoryResolver = _componentFactoryResolver;
-        this._ngZone = _ngZone;
-        this._injector = _injector;
-        this._posService = _posService;
-        this._applicationRef = _applicationRef;
+    function ComponentLoaderFactory(componentFactoryResolver, ngZone, injector, posService) {
+        this._ngZone = ngZone;
+        this._injector = injector;
+        this._posService = posService;
+        this._componentFactoryResolver = componentFactoryResolver;
     }
     /**
      *
@@ -3536,19 +2458,20 @@ var ComponentLoaderFactory = (function () {
      * @returns {ComponentLoader}
      */
     ComponentLoaderFactory.prototype.createLoader = function (_elementRef, _viewContainerRef, _renderer) {
-        return new __WEBPACK_IMPORTED_MODULE_1__component_loader_class__["a" /* ComponentLoader */](_viewContainerRef, _renderer, _elementRef, this._injector, this._componentFactoryResolver, this._ngZone, this._applicationRef, this._posService);
+        return new __WEBPACK_IMPORTED_MODULE_1__component_loader_class__["a" /* ComponentLoader */](_viewContainerRef, _renderer, _elementRef, this._injector, this._componentFactoryResolver, this._ngZone, this._posService);
     };
-    ComponentLoaderFactory = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* ComponentFactoryResolver */],
-            __WEBPACK_IMPORTED_MODULE_0__angular_core__["R" /* NgZone */],
-            __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Injector */],
-            __WEBPACK_IMPORTED_MODULE_2__positioning__["a" /* PositioningService */],
-            __WEBPACK_IMPORTED_MODULE_0__angular_core__["g" /* ApplicationRef */]])
-    ], ComponentLoaderFactory);
+    ComponentLoaderFactory.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
+    ];
+    /** @nocollapse */
+    ComponentLoaderFactory.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* ComponentFactoryResolver */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["R" /* NgZone */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Injector */], },
+        { type: __WEBPACK_IMPORTED_MODULE_2__positioning__["a" /* PositioningService */], },
+    ]; };
     return ComponentLoaderFactory;
 }());
-
 //# sourceMappingURL=component-loader.factory.js.map
 
 /***/ }),
@@ -3570,7 +2493,6 @@ var ContentRef = (function () {
     }
     return ContentRef;
 }());
-
 //# sourceMappingURL=content-ref.class.js.map
 
 /***/ }),
@@ -3592,2453 +2514,6 @@ var ContentRef = (function () {
 
 /***/ }),
 
-/***/ "../../../../ngx-bootstrap/datepicker/bs-datepicker-config.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDatepickerConfig; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-var BsDatepickerConfig = (function () {
-    function BsDatepickerConfig() {
-    }
-    BsDatepickerConfig = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
-    ], BsDatepickerConfig);
-    return BsDatepickerConfig;
-}());
-
-//# sourceMappingURL=bs-datepicker-config.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/bs-datepicker.component.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDatepickerComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__component_loader_component_loader_factory__ = __webpack_require__("../../../../ngx-bootstrap/component-loader/component-loader.factory.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__themes_bs_bs_datepicker_container_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/themes/bs/bs-datepicker-container.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter__ = __webpack_require__("../../../../rxjs/add/operator/filter.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var BsDatepickerComponent = (function () {
-    function BsDatepickerComponent(_elementRef, _renderer, _viewContainerRef, cis) {
-        /**
-         * Placement of a popover. Accepts: "top", "bottom", "left", "right"
-         */
-        this.placement = 'bottom';
-        /**
-         * Specifies events that should trigger. Supports a space separated list of
-         * event names.
-         */
-        this.triggers = 'click';
-        this.outsideClick = true;
-        /**
-         * A selector specifying the element the popover should be appended to.
-         * Currently only supports "body".
-         */
-        this.container = 'body';
-        this.bsValueChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-        this.subscriptions = [];
-        this._datepicker = cis
-            .createLoader(_elementRef, _viewContainerRef, _renderer);
-        // .provide({provide: PopoverConfig, useValue: _config});
-        // Object.assign(this, _config);
-        this.onShown = this._datepicker.onShown;
-        this.onHidden = this._datepicker.onHidden;
-    }
-    Object.defineProperty(BsDatepickerComponent.prototype, "isOpen", {
-        /**
-         * Returns whether or not the popover is currently being shown
-         */
-        get: function () {
-            return this._datepicker.isShown;
-        },
-        set: function (value) {
-            if (value) {
-                this.show();
-            }
-            else {
-                this.hide();
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(BsDatepickerComponent.prototype, "bsValue", {
-        set: function (value) {
-            this._bsValue = value;
-            this.bsValueChange.emit(value);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * Opens an element’s datepicker. This is considered a “manual” triggering of
-     * the datepicker.
-     */
-    BsDatepickerComponent.prototype.show = function () {
-        var _this = this;
-        if (this._datepicker.isShown) {
-            return;
-        }
-        this._datepickerRef = this._datepicker
-            .attach(__WEBPACK_IMPORTED_MODULE_2__themes_bs_bs_datepicker_container_component__["a" /* BsDatepickerContainerComponent */])
-            .to(this.container)
-            .position({ attachment: this.placement })
-            .show({ placement: this.placement });
-        // link with datepicker
-        // set initial value of picker
-        this._datepickerRef.instance.value = this._bsValue;
-        // if date changes from external source (model -> view)
-        this.bsValueChange.subscribe(function (value) {
-            _this._datepickerRef.instance.value = value;
-        });
-        // if date changes from picker (view -> model)
-        this.subscriptions.push(this._datepickerRef.instance
-            .valueChange.subscribe(function (value) {
-            if (value === _this._bsValue) {
-                return;
-            }
-            _this.bsValueChange.emit(value);
-            _this.hide();
-        }));
-    };
-    /**
-     * Closes an element’s datepicker. This is considered a “manual” triggering of
-     * the datepicker.
-     */
-    BsDatepickerComponent.prototype.hide = function () {
-        if (this.isOpen) {
-            this._datepicker.hide();
-        }
-    };
-    /**
-     * Toggles an element’s datepicker. This is considered a “manual” triggering of
-     * the datepicker.
-     */
-    BsDatepickerComponent.prototype.toggle = function () {
-        if (this.isOpen) {
-            return this.hide();
-        }
-        this.show();
-    };
-    BsDatepickerComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this._datepicker.listen({
-            outsideClick: this.outsideClick,
-            triggers: this.triggers,
-            show: function () { return _this.show(); }
-        });
-    };
-    BsDatepickerComponent.prototype.ngOnDestroy = function () {
-        this._datepicker.dispose();
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], BsDatepickerComponent.prototype, "placement", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Object)
-    ], BsDatepickerComponent.prototype, "triggers", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Object)
-    ], BsDatepickerComponent.prototype, "outsideClick", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Object)
-    ], BsDatepickerComponent.prototype, "container", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean),
-        __metadata("design:paramtypes", [Boolean])
-    ], BsDatepickerComponent.prototype, "isOpen", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], BsDatepickerComponent.prototype, "onShown", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], BsDatepickerComponent.prototype, "onHidden", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Date),
-        __metadata("design:paramtypes", [Date])
-    ], BsDatepickerComponent.prototype, "bsValue", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], BsDatepickerComponent.prototype, "bsValueChange", void 0);
-    BsDatepickerComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'bs-datepicker,[bsDatepicker]',
-            exportAs: 'bsDatepicker',
-            template: ' '
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */],
-            __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */],
-            __WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */],
-            __WEBPACK_IMPORTED_MODULE_1__component_loader_component_loader_factory__["a" /* ComponentLoaderFactory */]])
-    ], BsDatepickerComponent);
-    return BsDatepickerComponent;
-}());
-
-//# sourceMappingURL=bs-datepicker.component.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/bs-datepicker.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDatepickerModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__reducer_bs_datepicker_actions__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/reducer/bs-datepicker.actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__reducer_bs_datepicker_store__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/reducer/bs-datepicker.store.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__themes_bs_bs_datepicker_container_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/themes/bs/bs-datepicker-container.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__themes_bs_bs_datepicker_month_view_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/themes/bs/bs-datepicker-month-view.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__themes_bs_bs_datepicker_navigation_view_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/themes/bs/bs-datepicker-navigation-view.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__themes_bs_bs_datepicker_view_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/themes/bs/bs-datepicker-view.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__bs_datepicker_config__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/bs-datepicker-config.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__reducer_bs_datepicker_effects__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/reducer/bs-datepicker.effects.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__themes_bs_bs_daterangepicker_container_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/themes/bs/bs-daterangepicker-container.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__bs_daterangepicker_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/bs-daterangepicker.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__bs_datepicker_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/bs-datepicker.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__component_loader_component_loader_factory__ = __webpack_require__("../../../../ngx-bootstrap/component-loader/component-loader.factory.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__positioning_positioning_service__ = __webpack_require__("../../../../ngx-bootstrap/positioning/positioning.service.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__themes_bs_bs_datepicker_day_decorator_directive__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/themes/bs/bs-datepicker-day-decorator.directive.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var BsDatepickerModule = (function () {
-    function BsDatepickerModule() {
-        if (Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["_26" /* isDevMode */])()) {
-            console.warn("BsDatepickerModule is under development,\n      BREAKING CHANGES are possible,\n      PLEASE, read changelog");
-        }
-    }
-    BsDatepickerModule_1 = BsDatepickerModule;
-    BsDatepickerModule.forRoot = function () {
-        return {
-            ngModule: BsDatepickerModule_1,
-            providers: [
-                __WEBPACK_IMPORTED_MODULE_13__component_loader_component_loader_factory__["a" /* ComponentLoaderFactory */], __WEBPACK_IMPORTED_MODULE_14__positioning_positioning_service__["a" /* PositioningService */],
-                __WEBPACK_IMPORTED_MODULE_3__reducer_bs_datepicker_store__["a" /* BsDatepickerStore */], __WEBPACK_IMPORTED_MODULE_2__reducer_bs_datepicker_actions__["a" /* BsDatepickerActions */], __WEBPACK_IMPORTED_MODULE_8__bs_datepicker_config__["a" /* BsDatepickerConfig */], __WEBPACK_IMPORTED_MODULE_9__reducer_bs_datepicker_effects__["a" /* BsDatepickerEffects */]
-            ]
-        };
-    };
-    BsDatepickerModule = BsDatepickerModule_1 = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["M" /* NgModule */])({
-            imports: [__WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */]],
-            declarations: [
-                __WEBPACK_IMPORTED_MODULE_5__themes_bs_bs_datepicker_month_view_component__["a" /* BsDatepickerMonthViewComponent */],
-                __WEBPACK_IMPORTED_MODULE_7__themes_bs_bs_datepicker_view_component__["a" /* BsDatepickerViewComponent */],
-                __WEBPACK_IMPORTED_MODULE_6__themes_bs_bs_datepicker_navigation_view_component__["a" /* BsDatepickerNavigationViewComponent */],
-                __WEBPACK_IMPORTED_MODULE_15__themes_bs_bs_datepicker_day_decorator_directive__["a" /* BsDatepickerDayDecoratorComponent */],
-                __WEBPACK_IMPORTED_MODULE_4__themes_bs_bs_datepicker_container_component__["a" /* BsDatepickerContainerComponent */],
-                __WEBPACK_IMPORTED_MODULE_10__themes_bs_bs_daterangepicker_container_component__["a" /* BsDaterangepickerContainerComponent */],
-                __WEBPACK_IMPORTED_MODULE_12__bs_datepicker_component__["a" /* BsDatepickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_11__bs_daterangepicker_component__["a" /* BsDaterangepickerComponent */]
-            ],
-            entryComponents: [__WEBPACK_IMPORTED_MODULE_4__themes_bs_bs_datepicker_container_component__["a" /* BsDatepickerContainerComponent */], __WEBPACK_IMPORTED_MODULE_10__themes_bs_bs_daterangepicker_container_component__["a" /* BsDaterangepickerContainerComponent */]],
-            exports: [__WEBPACK_IMPORTED_MODULE_4__themes_bs_bs_datepicker_container_component__["a" /* BsDatepickerContainerComponent */], __WEBPACK_IMPORTED_MODULE_10__themes_bs_bs_daterangepicker_container_component__["a" /* BsDaterangepickerContainerComponent */],
-                __WEBPACK_IMPORTED_MODULE_12__bs_datepicker_component__["a" /* BsDatepickerComponent */], __WEBPACK_IMPORTED_MODULE_11__bs_daterangepicker_component__["a" /* BsDaterangepickerComponent */]]
-        }),
-        __metadata("design:paramtypes", [])
-    ], BsDatepickerModule);
-    return BsDatepickerModule;
-    var BsDatepickerModule_1;
-}());
-
-//# sourceMappingURL=bs-datepicker.module.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/bs-daterangepicker.component.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDaterangepickerComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__themes_bs_bs_daterangepicker_container_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/themes/bs/bs-daterangepicker-container.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__component_loader_component_loader_factory__ = __webpack_require__("../../../../ngx-bootstrap/component-loader/component-loader.factory.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var BsDaterangepickerComponent = (function () {
-    function BsDaterangepickerComponent(_elementRef, _renderer, _viewContainerRef, cis) {
-        /**
-         * Placement of a popover. Accepts: "top", "bottom", "left", "right"
-         */
-        this.placement = 'bottom';
-        /**
-         * Specifies events that should trigger. Supports a space separated list of
-         * event names.
-         */
-        this.triggers = 'click';
-        this.outsideClick = true;
-        /**
-         * A selector specifying the element the popover should be appended to.
-         * Currently only supports "body".
-         */
-        this.container = 'body';
-        this.bsValueChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-        this.subscriptions = [];
-        this._datepicker = cis
-            .createLoader(_elementRef, _viewContainerRef, _renderer);
-        // .provide({provide: PopoverConfig, useValue: _config});
-        // Object.assign(this, _config);
-        this.onShown = this._datepicker.onShown;
-        this.onHidden = this._datepicker.onHidden;
-    }
-    Object.defineProperty(BsDaterangepickerComponent.prototype, "isOpen", {
-        /**
-         * Returns whether or not the popover is currently being shown
-         */
-        get: function () {
-            return this._datepicker.isShown;
-        },
-        set: function (value) {
-            if (value) {
-                this.show();
-            }
-            else {
-                this.hide();
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(BsDaterangepickerComponent.prototype, "bsValue", {
-        set: function (value) {
-            this._bsValue = value;
-            this.bsValueChange.emit(value);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * Opens an element’s datepicker. This is considered a “manual” triggering of
-     * the datepicker.
-     */
-    BsDaterangepickerComponent.prototype.show = function () {
-        var _this = this;
-        if (this._datepicker.isShown) {
-            return;
-        }
-        this._datepickerRef = this._datepicker
-            .attach(__WEBPACK_IMPORTED_MODULE_1__themes_bs_bs_daterangepicker_container_component__["a" /* BsDaterangepickerContainerComponent */])
-            .to(this.container)
-            .position({ attachment: this.placement })
-            .show({ placement: this.placement });
-        // link with datepicker
-        // set initial value of picker
-        this._datepickerRef.instance.value = this._bsValue;
-        // if date changes from external source (model -> view)
-        this.subscriptions.push(this.bsValueChange.subscribe(function (value) {
-            _this._datepickerRef.instance.value = value;
-        }));
-        // if date changes from picker (view -> model)
-        this.subscriptions.push(this._datepickerRef.instance
-            .valueChange
-            .filter(function (range) { return range && range[0] && !!range[1]; })
-            .subscribe(function (value) {
-            if (value === _this._bsValue) {
-                return;
-            }
-            _this.bsValueChange.emit(value);
-            _this.hide();
-        }));
-    };
-    /**
-     * Closes an element’s datepicker. This is considered a “manual” triggering of
-     * the datepicker.
-     */
-    BsDaterangepickerComponent.prototype.hide = function () {
-        if (this.isOpen) {
-            this._datepicker.hide();
-        }
-    };
-    /**
-     * Toggles an element’s datepicker. This is considered a “manual” triggering of
-     * the datepicker.
-     */
-    BsDaterangepickerComponent.prototype.toggle = function () {
-        if (this.isOpen) {
-            return this.hide();
-        }
-        this.show();
-    };
-    BsDaterangepickerComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this._datepicker.listen({
-            outsideClick: this.outsideClick,
-            triggers: this.triggers,
-            show: function () { return _this.show(); }
-        });
-    };
-    BsDaterangepickerComponent.prototype.ngOnDestroy = function () {
-        this._datepicker.dispose();
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], BsDaterangepickerComponent.prototype, "placement", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Object)
-    ], BsDaterangepickerComponent.prototype, "triggers", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Object)
-    ], BsDaterangepickerComponent.prototype, "outsideClick", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Object)
-    ], BsDaterangepickerComponent.prototype, "container", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean),
-        __metadata("design:paramtypes", [Boolean])
-    ], BsDaterangepickerComponent.prototype, "isOpen", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], BsDaterangepickerComponent.prototype, "onShown", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], BsDaterangepickerComponent.prototype, "onHidden", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Array),
-        __metadata("design:paramtypes", [Array])
-    ], BsDaterangepickerComponent.prototype, "bsValue", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], BsDaterangepickerComponent.prototype, "bsValueChange", void 0);
-    BsDaterangepickerComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'bs-daterangepicker,[bsDaterangepicker]',
-            exportAs: 'bsDaterangepicker',
-            template: ' '
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */],
-            __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */],
-            __WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */],
-            __WEBPACK_IMPORTED_MODULE_2__component_loader_component_loader_factory__["a" /* ComponentLoaderFactory */]])
-    ], BsDaterangepickerComponent);
-    return BsDaterangepickerComponent;
-}());
-
-//# sourceMappingURL=bs-daterangepicker.component.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/date-formatter.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DateFormatter; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bs_moment_format__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/format.js");
-
-var DateFormatter = (function () {
-    function DateFormatter() {
-    }
-    DateFormatter.prototype.format = function (date, format) {
-        return Object(__WEBPACK_IMPORTED_MODULE_0__bs_moment_format__["a" /* formatDate */])(date, format);
-    };
-    return DateFormatter;
-}());
-
-//# sourceMappingURL=date-formatter.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/datepicker-inner.component.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DatePickerInnerComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__date_formatter__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/date-formatter.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-/* tslint:disable:max-file-line-count */
-
-
-// const MIN_DATE:Date = void 0;
-// const MAX_DATE:Date = void 0;
-// const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-/*
- const KEYS = {
- 13: 'enter',
- 32: 'space',
- 33: 'pageup',
- 34: 'pagedown',
- 35: 'end',
- 36: 'home',
- 37: 'left',
- 38: 'up',
- 39: 'right',
- 40: 'down'
- };
- */
-var DatePickerInnerComponent = (function () {
-    function DatePickerInnerComponent() {
-        this.selectionDone = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */](undefined);
-        this.update = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */](false);
-        this.activeDateChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */](undefined);
-        this.stepDay = {};
-        this.stepMonth = {};
-        this.stepYear = {};
-        this.modes = ['day', 'month', 'year'];
-        this.dateFormatter = new __WEBPACK_IMPORTED_MODULE_1__date_formatter__["a" /* DateFormatter */]();
-    }
-    Object.defineProperty(DatePickerInnerComponent.prototype, "activeDate", {
-        get: function () {
-            return this._activeDate;
-        },
-        set: function (value) {
-            this._activeDate = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    // todo: add formatter value to Date object
-    DatePickerInnerComponent.prototype.ngOnInit = function () {
-        // todo: use date for unique value
-        this.uniqueId = 'datepicker-' + '-' + Math.floor(Math.random() * 10000);
-        if (this.initDate) {
-            this.activeDate = this.initDate;
-            this.selectedDate = new Date(this.activeDate.valueOf());
-            this.update.emit(this.activeDate);
-        }
-        else if (this.activeDate === undefined) {
-            this.activeDate = new Date();
-        }
-    };
-    // this.refreshView should be called here to reflect the changes on the fly
-    // tslint:disable-next-line:no-unused-variable
-    DatePickerInnerComponent.prototype.ngOnChanges = function (changes) {
-        this.refreshView();
-        this.checkIfActiveDateGotUpdated(changes['activeDate']);
-    };
-    // Check if activeDate has been update and then emit the activeDateChange with the new date
-    DatePickerInnerComponent.prototype.checkIfActiveDateGotUpdated = function (activeDate) {
-        if (activeDate && !activeDate.firstChange) {
-            var previousValue = activeDate.previousValue;
-            if (previousValue && previousValue instanceof Date && previousValue.getTime() !== activeDate.currentValue.getTime()) {
-                this.activeDateChange.emit(this.activeDate);
-            }
-        }
-    };
-    DatePickerInnerComponent.prototype.setCompareHandler = function (handler, type) {
-        if (type === 'day') {
-            this.compareHandlerDay = handler;
-        }
-        if (type === 'month') {
-            this.compareHandlerMonth = handler;
-        }
-        if (type === 'year') {
-            this.compareHandlerYear = handler;
-        }
-    };
-    DatePickerInnerComponent.prototype.compare = function (date1, date2) {
-        if (date1 === undefined || date2 === undefined) {
-            return undefined;
-        }
-        if (this.datepickerMode === 'day' && this.compareHandlerDay) {
-            return this.compareHandlerDay(date1, date2);
-        }
-        if (this.datepickerMode === 'month' && this.compareHandlerMonth) {
-            return this.compareHandlerMonth(date1, date2);
-        }
-        if (this.datepickerMode === 'year' && this.compareHandlerYear) {
-            return this.compareHandlerYear(date1, date2);
-        }
-        return void 0;
-    };
-    DatePickerInnerComponent.prototype.setRefreshViewHandler = function (handler, type) {
-        if (type === 'day') {
-            this.refreshViewHandlerDay = handler;
-        }
-        if (type === 'month') {
-            this.refreshViewHandlerMonth = handler;
-        }
-        if (type === 'year') {
-            this.refreshViewHandlerYear = handler;
-        }
-    };
-    DatePickerInnerComponent.prototype.refreshView = function () {
-        if (this.datepickerMode === 'day' && this.refreshViewHandlerDay) {
-            this.refreshViewHandlerDay();
-        }
-        if (this.datepickerMode === 'month' && this.refreshViewHandlerMonth) {
-            this.refreshViewHandlerMonth();
-        }
-        if (this.datepickerMode === 'year' && this.refreshViewHandlerYear) {
-            this.refreshViewHandlerYear();
-        }
-    };
-    DatePickerInnerComponent.prototype.dateFilter = function (date, format) {
-        return this.dateFormatter.format(date, format);
-    };
-    DatePickerInnerComponent.prototype.isActive = function (dateObject) {
-        if (this.compare(dateObject.date, this.activeDate) === 0) {
-            this.activeDateId = dateObject.uid;
-            return true;
-        }
-        return false;
-    };
-    DatePickerInnerComponent.prototype.createDateObject = function (date, format) {
-        var dateObject = {};
-        dateObject.date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        dateObject.label = this.dateFilter(date, format);
-        dateObject.selected = this.compare(date, this.selectedDate) === 0;
-        dateObject.disabled = this.isDisabled(date);
-        dateObject.current = this.compare(date, new Date()) === 0;
-        dateObject.customClass = this.getCustomClassForDate(dateObject.date);
-        return dateObject;
-    };
-    DatePickerInnerComponent.prototype.split = function (arr, size) {
-        var arrays = [];
-        while (arr.length > 0) {
-            arrays.push(arr.splice(0, size));
-        }
-        return arrays;
-    };
-    // Fix a hard-reproducible bug with timezones
-    // The bug depends on OS, browser, current timezone and current date
-    // i.e.
-    // var date = new Date(2014, 0, 1);
-    // console.log(date.getFullYear(), date.getMonth(), date.getDate(),
-    // date.getHours()); can result in "2013 11 31 23" because of the bug.
-    DatePickerInnerComponent.prototype.fixTimeZone = function (date) {
-        var hours = date.getHours();
-        return new Date(date.getFullYear(), date.getMonth(), date.getDate(), hours === 23 ? hours + 2 : 0);
-    };
-    DatePickerInnerComponent.prototype.select = function (date, isManual) {
-        if (isManual === void 0) { isManual = true; }
-        if (this.datepickerMode === this.minMode) {
-            if (!this.activeDate) {
-                this.activeDate = new Date(0, 0, 0, 0, 0, 0, 0);
-            }
-            this.activeDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-            if (isManual) {
-                this.selectionDone.emit(this.activeDate);
-            }
-        }
-        else {
-            this.activeDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-            if (isManual) {
-                this.datepickerMode = this.modes[this.modes.indexOf(this.datepickerMode) - 1];
-            }
-        }
-        this.selectedDate = new Date(this.activeDate.valueOf());
-        this.update.emit(this.activeDate);
-        this.refreshView();
-    };
-    DatePickerInnerComponent.prototype.move = function (direction) {
-        var expectedStep;
-        if (this.datepickerMode === 'day') {
-            expectedStep = this.stepDay;
-        }
-        if (this.datepickerMode === 'month') {
-            expectedStep = this.stepMonth;
-        }
-        if (this.datepickerMode === 'year') {
-            expectedStep = this.stepYear;
-        }
-        if (expectedStep) {
-            var year = this.activeDate.getFullYear() + direction * (expectedStep.years || 0);
-            var month = this.activeDate.getMonth() + direction * (expectedStep.months || 0);
-            this.activeDate = new Date(year, month, 1);
-            this.refreshView();
-            this.activeDateChange.emit(this.activeDate);
-        }
-    };
-    DatePickerInnerComponent.prototype.toggleMode = function (direction) {
-        direction = direction || 1;
-        if ((this.datepickerMode === this.maxMode && direction === 1) ||
-            (this.datepickerMode === this.minMode && direction === -1)) {
-            return;
-        }
-        this.datepickerMode = this.modes[this.modes.indexOf(this.datepickerMode) + direction];
-        this.refreshView();
-    };
-    DatePickerInnerComponent.prototype.getCustomClassForDate = function (date) {
-        var _this = this;
-        if (!this.customClass) {
-            return '';
-        }
-        // todo: build a hash of custom classes, it will work faster
-        var customClassObject = this.customClass
-            .find(function (customClass) {
-            return customClass.date.valueOf() === date.valueOf() &&
-                customClass.mode === _this.datepickerMode;
-        }, this);
-        return customClassObject === undefined ? '' : customClassObject.clazz;
-    };
-    DatePickerInnerComponent.prototype.compareDateDisabled = function (date1Disabled, date2) {
-        if (date1Disabled === undefined || date2 === undefined) {
-            return undefined;
-        }
-        if (date1Disabled.mode === 'day' && this.compareHandlerDay) {
-            return this.compareHandlerDay(date1Disabled.date, date2);
-        }
-        if (date1Disabled.mode === 'month' && this.compareHandlerMonth) {
-            return this.compareHandlerMonth(date1Disabled.date, date2);
-        }
-        if (date1Disabled.mode === 'year' && this.compareHandlerYear) {
-            return this.compareHandlerYear(date1Disabled.date, date2);
-        }
-        return undefined;
-    };
-    DatePickerInnerComponent.prototype.isDisabled = function (date) {
-        var _this = this;
-        var isDateDisabled = false;
-        if (this.dateDisabled) {
-            this.dateDisabled.forEach(function (disabledDate) {
-                if (_this.compareDateDisabled(disabledDate, date) === 0) {
-                    isDateDisabled = true;
-                }
-            });
-        }
-        return (isDateDisabled || (this.minDate && this.compare(date, this.minDate) < 0) ||
-            (this.maxDate && this.compare(date, this.maxDate) > 0));
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerInnerComponent.prototype, "datepickerMode", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Number)
-    ], DatePickerInnerComponent.prototype, "startingDay", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Number)
-    ], DatePickerInnerComponent.prototype, "yearRange", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Date)
-    ], DatePickerInnerComponent.prototype, "minDate", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Date)
-    ], DatePickerInnerComponent.prototype, "maxDate", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerInnerComponent.prototype, "minMode", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerInnerComponent.prototype, "maxMode", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], DatePickerInnerComponent.prototype, "showWeeks", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerInnerComponent.prototype, "formatDay", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerInnerComponent.prototype, "formatMonth", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerInnerComponent.prototype, "formatYear", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerInnerComponent.prototype, "formatDayHeader", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerInnerComponent.prototype, "formatDayTitle", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerInnerComponent.prototype, "formatMonthTitle", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], DatePickerInnerComponent.prototype, "onlyCurrentMonth", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], DatePickerInnerComponent.prototype, "shortcutPropagation", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Array)
-    ], DatePickerInnerComponent.prototype, "customClass", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Number)
-    ], DatePickerInnerComponent.prototype, "monthColLimit", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Number)
-    ], DatePickerInnerComponent.prototype, "yearColLimit", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Array)
-    ], DatePickerInnerComponent.prototype, "dateDisabled", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Date)
-    ], DatePickerInnerComponent.prototype, "initDate", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], DatePickerInnerComponent.prototype, "selectionDone", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], DatePickerInnerComponent.prototype, "update", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], DatePickerInnerComponent.prototype, "activeDateChange", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Date),
-        __metadata("design:paramtypes", [Date])
-    ], DatePickerInnerComponent.prototype, "activeDate", null);
-    DatePickerInnerComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'datepicker-inner',
-            template: "\n    <div *ngIf=\"datepickerMode\" class=\"well well-sm bg-faded p-a card\" role=\"application\" ><!--&lt;!&ndash;ng-keydown=\"keydown($event)\"&ndash;&gt;-->\n      <ng-content></ng-content>\n    </div>\n  "
-        })
-    ], DatePickerInnerComponent);
-    return DatePickerInnerComponent;
-}());
-
-//# sourceMappingURL=datepicker-inner.component.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/datepicker.component.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export DATEPICKER_CONTROL_VALUE_ACCESSOR */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DatePickerComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__datepicker_inner_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/datepicker-inner.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__datepicker_config__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/datepicker.config.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var DATEPICKER_CONTROL_VALUE_ACCESSOR = {
-    provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* NG_VALUE_ACCESSOR */],
-    useExisting: Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_23" /* forwardRef */])(function () { return DatePickerComponent; }),
-    multi: true
-};
-/* tslint:disable:component-selector-name component-selector-type */
-var DatePickerComponent = (function () {
-    function DatePickerComponent(config) {
-        /** sets datepicker mode, supports: `day`, `month`, `year` */
-        this.datepickerMode = 'day';
-        /** if false week numbers will be hidden */
-        this.showWeeks = true;
-        this.selectionDone = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */](undefined);
-        /** callback to invoke when the activeDate is changed. */
-        this.activeDateChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */](undefined);
-        this.onChange = Function.prototype;
-        this.onTouched = Function.prototype;
-        this._now = new Date();
-        this.config = config;
-        this.configureOptions();
-    }
-    Object.defineProperty(DatePickerComponent.prototype, "activeDate", {
-        /** currently active date */
-        get: function () {
-            return this._activeDate || this._now;
-        },
-        set: function (value) {
-            this._activeDate = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    DatePickerComponent.prototype.configureOptions = function () {
-        Object.assign(this, this.config);
-    };
-    DatePickerComponent.prototype.onUpdate = function (event) {
-        this.activeDate = event;
-        this.onChange(event);
-    };
-    DatePickerComponent.prototype.onSelectionDone = function (event) {
-        this.selectionDone.emit(event);
-    };
-    DatePickerComponent.prototype.onActiveDateChange = function (event) {
-        this.activeDateChange.emit(event);
-    };
-    // todo: support null value
-    DatePickerComponent.prototype.writeValue = function (value) {
-        if (this._datePicker.compare(value, this._activeDate) === 0) {
-            return;
-        }
-        if (value && value instanceof Date) {
-            this.activeDate = value;
-            this._datePicker.select(value, false);
-            return;
-        }
-        this.activeDate = value ? new Date(value) : void 0;
-    };
-    DatePickerComponent.prototype.registerOnChange = function (fn) {
-        this.onChange = fn;
-    };
-    DatePickerComponent.prototype.registerOnTouched = function (fn) {
-        this.onTouched = fn;
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerComponent.prototype, "datepickerMode", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Date)
-    ], DatePickerComponent.prototype, "initDate", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Date)
-    ], DatePickerComponent.prototype, "minDate", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Date)
-    ], DatePickerComponent.prototype, "maxDate", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerComponent.prototype, "minMode", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerComponent.prototype, "maxMode", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], DatePickerComponent.prototype, "showWeeks", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerComponent.prototype, "formatDay", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerComponent.prototype, "formatMonth", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerComponent.prototype, "formatYear", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerComponent.prototype, "formatDayHeader", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerComponent.prototype, "formatDayTitle", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], DatePickerComponent.prototype, "formatMonthTitle", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Number)
-    ], DatePickerComponent.prototype, "startingDay", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Number)
-    ], DatePickerComponent.prototype, "yearRange", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], DatePickerComponent.prototype, "onlyCurrentMonth", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], DatePickerComponent.prototype, "shortcutPropagation", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Number)
-    ], DatePickerComponent.prototype, "monthColLimit", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Number)
-    ], DatePickerComponent.prototype, "yearColLimit", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Array)
-    ], DatePickerComponent.prototype, "customClass", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Array)
-    ], DatePickerComponent.prototype, "dateDisabled", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Date),
-        __metadata("design:paramtypes", [Date])
-    ], DatePickerComponent.prototype, "activeDate", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], DatePickerComponent.prototype, "selectionDone", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], DatePickerComponent.prototype, "activeDateChange", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_2__datepicker_inner_component__["a" /* DatePickerInnerComponent */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_2__datepicker_inner_component__["a" /* DatePickerInnerComponent */])
-    ], DatePickerComponent.prototype, "_datePicker", void 0);
-    DatePickerComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'datepicker',
-            template: "\n    <datepicker-inner [activeDate]=\"activeDate\"\n                      (update)=\"onUpdate($event)\"\n                      [datepickerMode]=\"datepickerMode\"\n                      [initDate]=\"initDate\"\n                      [minDate]=\"minDate\"\n                      [maxDate]=\"maxDate\"\n                      [minMode]=\"minMode\"\n                      [maxMode]=\"maxMode\"\n                      [showWeeks]=\"showWeeks\"\n                      [formatDay]=\"formatDay\"\n                      [formatMonth]=\"formatMonth\"\n                      [formatYear]=\"formatYear\"\n                      [formatDayHeader]=\"formatDayHeader\"\n                      [formatDayTitle]=\"formatDayTitle\"\n                      [formatMonthTitle]=\"formatMonthTitle\"\n                      [startingDay]=\"startingDay\"\n                      [yearRange]=\"yearRange\"\n                      [customClass]=\"customClass\"\n                      [dateDisabled]=\"dateDisabled\"\n                      [onlyCurrentMonth]=\"onlyCurrentMonth\"\n                      [shortcutPropagation]=\"shortcutPropagation\"\n                      [monthColLimit]=\"monthColLimit\"\n                      [yearColLimit]=\"yearColLimit\"\n                      (selectionDone)=\"onSelectionDone($event)\"\n                      (activeDateChange)=\"onActiveDateChange($event)\">\n      <daypicker tabindex=\"0\"></daypicker>\n      <monthpicker tabindex=\"0\"></monthpicker>\n      <yearpicker tabindex=\"0\"></yearpicker>\n    </datepicker-inner>\n    ",
-            providers: [DATEPICKER_CONTROL_VALUE_ACCESSOR]
-        })
-        /* tslint:enable:component-selector-name component-selector-type */
-        ,
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__datepicker_config__["a" /* DatepickerConfig */]])
-    ], DatePickerComponent);
-    return DatePickerComponent;
-}());
-
-//# sourceMappingURL=datepicker.component.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/datepicker.config.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DatepickerConfig; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-var DatepickerConfig = (function () {
-    function DatepickerConfig() {
-        this.datepickerMode = 'day';
-        this.startingDay = 0;
-        this.yearRange = 20;
-        this.minMode = 'day';
-        this.maxMode = 'year';
-        this.showWeeks = true;
-        this.formatDay = 'DD';
-        this.formatMonth = 'MMMM';
-        this.formatYear = 'YYYY';
-        this.formatDayHeader = 'dd';
-        this.formatDayTitle = 'MMMM YYYY';
-        this.formatMonthTitle = 'YYYY';
-        this.onlyCurrentMonth = false;
-        this.monthColLimit = 3;
-        this.yearColLimit = 5;
-        this.shortcutPropagation = false;
-    }
-    DatepickerConfig = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
-    ], DatepickerConfig);
-    return DatepickerConfig;
-}());
-
-//# sourceMappingURL=datepicker.config.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/datepicker.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DatepickerModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__datepicker_inner_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/datepicker-inner.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__datepicker_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/datepicker.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__daypicker_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/daypicker.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__monthpicker_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/monthpicker.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__yearpicker_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/yearpicker.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__datepicker_config__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/datepicker.config.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-
-
-
-
-
-var DatepickerModule = (function () {
-    function DatepickerModule() {
-    }
-    DatepickerModule_1 = DatepickerModule;
-    DatepickerModule.forRoot = function () {
-        return { ngModule: DatepickerModule_1, providers: [__WEBPACK_IMPORTED_MODULE_8__datepicker_config__["a" /* DatepickerConfig */]] };
-    };
-    DatepickerModule = DatepickerModule_1 = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["M" /* NgModule */])({
-            imports: [__WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */]],
-            declarations: [__WEBPACK_IMPORTED_MODULE_4__datepicker_component__["a" /* DatePickerComponent */], __WEBPACK_IMPORTED_MODULE_3__datepicker_inner_component__["a" /* DatePickerInnerComponent */], __WEBPACK_IMPORTED_MODULE_5__daypicker_component__["a" /* DayPickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_6__monthpicker_component__["a" /* MonthPickerComponent */], __WEBPACK_IMPORTED_MODULE_7__yearpicker_component__["a" /* YearPickerComponent */]],
-            exports: [__WEBPACK_IMPORTED_MODULE_4__datepicker_component__["a" /* DatePickerComponent */], __WEBPACK_IMPORTED_MODULE_3__datepicker_inner_component__["a" /* DatePickerInnerComponent */], __WEBPACK_IMPORTED_MODULE_5__daypicker_component__["a" /* DayPickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_6__monthpicker_component__["a" /* MonthPickerComponent */], __WEBPACK_IMPORTED_MODULE_7__yearpicker_component__["a" /* YearPickerComponent */]],
-            entryComponents: [__WEBPACK_IMPORTED_MODULE_4__datepicker_component__["a" /* DatePickerComponent */]]
-        })
-    ], DatepickerModule);
-    return DatepickerModule;
-    var DatepickerModule_1;
-}());
-
-//# sourceMappingURL=datepicker.module.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/daypicker.component.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DayPickerComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_ng2_bootstrap_config__ = __webpack_require__("../../../../ngx-bootstrap/utils/ng2-bootstrap-config.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__datepicker_inner_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/datepicker-inner.component.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var DayPickerComponent = (function () {
-    function DayPickerComponent(datePicker) {
-        this.labels = [];
-        this.rows = [];
-        this.weekNumbers = [];
-        this.datePicker = datePicker;
-    }
-    Object.defineProperty(DayPickerComponent.prototype, "isBs4", {
-        get: function () {
-            return !Object(__WEBPACK_IMPORTED_MODULE_1__utils_ng2_bootstrap_config__["a" /* isBs3 */])();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /*protected getDaysInMonth(year:number, month:number) {
-     return ((month === 1) && (year % 4 === 0) &&
-     ((year % 100 !== 0) || (year % 400 === 0))) ? 29 : DAYS_IN_MONTH[month];
-     }*/
-    DayPickerComponent.prototype.ngOnInit = function () {
-        var self = this;
-        this.datePicker.stepDay = { months: 1 };
-        this.datePicker.setRefreshViewHandler(function () {
-            var year = this.activeDate.getFullYear();
-            var month = this.activeDate.getMonth();
-            var firstDayOfMonth = new Date(year, month, 1);
-            var difference = this.startingDay - firstDayOfMonth.getDay();
-            var numDisplayedFromPreviousMonth = (difference > 0)
-                ? 7 - difference
-                : -difference;
-            var firstDate = new Date(firstDayOfMonth.getTime());
-            if (numDisplayedFromPreviousMonth > 0) {
-                firstDate.setDate(-numDisplayedFromPreviousMonth + 1);
-            }
-            // 42 is the number of days on a six-week calendar
-            var _days = self.getDates(firstDate, 42);
-            var days = [];
-            for (var i = 0; i < 42; i++) {
-                var _dateObject = this.createDateObject(_days[i], this.formatDay);
-                _dateObject.secondary = _days[i].getMonth() !== month;
-                _dateObject.uid = this.uniqueId + '-' + i;
-                days[i] = _dateObject;
-            }
-            self.labels = [];
-            for (var j = 0; j < 7; j++) {
-                self.labels[j] = {};
-                self.labels[j].abbr = this.dateFilter(days[j].date, this.formatDayHeader);
-                self.labels[j].full = this.dateFilter(days[j].date, 'EEEE');
-            }
-            self.title = this.dateFilter(this.activeDate, this.formatDayTitle);
-            self.rows = this.split(days, 7);
-            if (this.showWeeks) {
-                self.weekNumbers = [];
-                var thursdayIndex = (4 + 7 - this.startingDay) % 7;
-                var numWeeks = self.rows.length;
-                for (var curWeek = 0; curWeek < numWeeks; curWeek++) {
-                    self.weekNumbers.push(self.getISO8601WeekNumber(self.rows[curWeek][thursdayIndex].date));
-                }
-            }
-        }, 'day');
-        this.datePicker.setCompareHandler(function (date1, date2) {
-            var d1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate());
-            var d2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
-            return d1.getTime() - d2.getTime();
-        }, 'day');
-        this.datePicker.refreshView();
-    };
-    DayPickerComponent.prototype.getDates = function (startDate, n) {
-        var dates = new Array(n);
-        var current = new Date(startDate.getTime());
-        var i = 0;
-        var date;
-        while (i < n) {
-            date = new Date(current.getTime());
-            date = this.datePicker.fixTimeZone(date);
-            dates[i++] = date;
-            current = new Date(current.getFullYear(), current.getMonth(), current.getDate() + 1);
-        }
-        return dates;
-    };
-    DayPickerComponent.prototype.getISO8601WeekNumber = function (date) {
-        var checkDate = new Date(date.getTime());
-        // Thursday
-        checkDate.setDate(checkDate.getDate() + 4 - (checkDate.getDay() || 7));
-        var time = checkDate.getTime();
-        // Compare with Jan 1
-        checkDate.setMonth(0);
-        checkDate.setDate(1);
-        return Math.floor(Math.round((time - checkDate.getTime()) / 86400000) / 7) + 1;
-    };
-    DayPickerComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'daypicker',
-            template: "\n<table *ngIf=\"datePicker.datepickerMode==='day'\" role=\"grid\" [attr.aria-labelledby]=\"datePicker.uniqueId+'-title'\" aria-activedescendant=\"activeDateId\">\n  <thead>\n    <tr>\n      <th>\n        <button *ngIf=\"!isBs4\"\n                type=\"button\"\n                class=\"btn btn-default btn-secondary btn-sm pull-left float-left\"\n                (click)=\"datePicker.move(-1)\"\n                tabindex=\"-1\">\n          <i class=\"glyphicon glyphicon-chevron-left\"></i>\n        </button>\n        <button *ngIf=\"isBs4\"\n                type=\"button\"\n                class=\"btn btn-default btn-secondary btn-sm pull-left float-left\"\n                (click)=\"datePicker.move(-1)\"\n                tabindex=\"-1\">&lt;\n        </button>\n      </th>\n      <th [attr.colspan]=\"5 + (datePicker.showWeeks ? 1 : 0)\">\n        <button [id]=\"datePicker.uniqueId + '-title'\"\n                type=\"button\" class=\"btn btn-default btn-secondary btn-sm\"\n                (click)=\"datePicker.toggleMode()\"\n                [disabled]=\"datePicker.datepickerMode === datePicker.maxMode\"\n                [ngClass]=\"{disabled: datePicker.datepickerMode === datePicker.maxMode}\" tabindex=\"-1\" style=\"width:100%;\">\n          <strong>{{title}}</strong>\n        </button>\n      </th>\n      <th>\n        <button *ngIf=\"!isBs4\"\n                type=\"button\"\n                class=\"btn btn-default btn-secondary btn-sm pull-right float-right\"\n                (click)=\"datePicker.move(1)\"\n                tabindex=\"-1\">\n          <i  class=\"glyphicon glyphicon-chevron-right\"></i>\n        </button>\n        <button *ngIf=\"isBs4\"\n                type=\"button\"\n                class=\"btn btn-default btn-secondary btn-sm pull-right float-right\"\n                (click)=\"datePicker.move(1)\"\n                tabindex=\"-1\">&gt;\n        </button>\n      </th>\n    </tr>\n    <tr>\n      <th *ngIf=\"datePicker.showWeeks\"></th>\n      <th *ngFor=\"let labelz of labels\" class=\"text-center\">\n        <small aria-label=\"labelz.full\"><b>{{labelz.abbr}}</b></small>\n      </th>\n    </tr>\n  </thead>\n  <tbody>\n    <template ngFor [ngForOf]=\"rows\" let-rowz=\"$implicit\" let-index=\"index\">\n      <tr *ngIf=\"!(datePicker.onlyCurrentMonth && rowz[0].secondary && rowz[6].secondary)\">\n        <td *ngIf=\"datePicker.showWeeks\" class=\"h6\" class=\"text-center\">\n          <em>{{ weekNumbers[index] }}</em>\n        </td>\n        <td *ngFor=\"let dtz of rowz\" class=\"text-center\" role=\"gridcell\" [id]=\"dtz.uid\">\n          <button type=\"button\" style=\"min-width:100%;\" class=\"btn btn-sm {{dtz.customClass}}\"\n                  *ngIf=\"!(datePicker.onlyCurrentMonth && dtz.secondary)\"\n                  [ngClass]=\"{'btn-secondary': isBs4 && !dtz.selected && !datePicker.isActive(dtz), 'btn-info': dtz.selected, disabled: dtz.disabled, active: !isBs4 && datePicker.isActive(dtz), 'btn-default': !isBs4}\"\n                  [disabled]=\"dtz.disabled\"\n                  (click)=\"datePicker.select(dtz.date)\" tabindex=\"-1\">\n            <span [ngClass]=\"{'text-muted': dtz.secondary || dtz.current, 'text-info': !isBs4 && dtz.current}\">{{dtz.label}}</span>\n          </button>\n        </td>\n      </tr>\n    </template>\n  </tbody>\n</table>\n  ",
-            styles: ["\n    :host .btn-secondary {\n      color: #292b2c;\n      background-color: #fff;\n      border-color: #ccc;\n    }\n    :host .btn-info .text-muted {\n      color: #292b2c !important;\n    }\n  "]
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__datepicker_inner_component__["a" /* DatePickerInnerComponent */]])
-    ], DayPickerComponent);
-    return DayPickerComponent;
-}());
-
-//# sourceMappingURL=daypicker.component.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/engine/calc-month-view.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = calculateMonthModel;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bs_moment_utils_date_getters__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/date-getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_bs_calendar_utils__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/utils/bs-calendar-utils.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__bs_moment_utils_date_setters__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/date-setters.js");
-
-
-
-function calculateMonthModel(date, options) {
-    var firstDay = Object(__WEBPACK_IMPORTED_MODULE_0__bs_moment_utils_date_getters__["c" /* getFirstDayOfMonth */])(date);
-    var prevValue = Object(__WEBPACK_IMPORTED_MODULE_1__utils_bs_calendar_utils__["a" /* getStartingDayOfCalendar */])(firstDay, options);
-    var daysCalendar = new Array(options.height);
-    for (var i = 0; i < options.height; i++) {
-        daysCalendar[i] = new Array(options.width);
-        for (var j = 0; j < options.width; j++) {
-            daysCalendar[i][j] = prevValue;
-            prevValue = Object(__WEBPACK_IMPORTED_MODULE_2__bs_moment_utils_date_setters__["c" /* shiftDate */])(prevValue, { day: 1 });
-        }
-    }
-    return {
-        daysMatrix: daysCalendar,
-        month: firstDay
-    };
-}
-//# sourceMappingURL=calc-month-view.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/engine/flag-month-view.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = flagMonthView;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bs_moment_utils_date_getters__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/date-getters.js");
-
-function flagMonthView(formattedMonth, options) {
-    formattedMonth.weeks
-        .forEach(function (week, weekIndex) {
-        week.days.forEach(function (day, dayIndex) {
-            // datepicker
-            var isOtherMonth = !Object(__WEBPACK_IMPORTED_MODULE_0__bs_moment_utils_date_getters__["j" /* isSameMonth */])(day.date, formattedMonth.month);
-            var isHovered = !isOtherMonth && isSameDate(day.date, options.hoveredDate);
-            // date range picker
-            var isSelectionStart = !isOtherMonth && isSameDate(day.date, options.selectedRange[0]);
-            var isSelectionEnd = !isOtherMonth && isSameDate(day.date, options.selectedRange[1]);
-            var isSelected = !isOtherMonth && isSameDate(day.date, options.selectedDate) ||
-                isSelectionStart || isSelectionEnd;
-            var isInRange = !isOtherMonth && isDateInRange(day.date, options.selectedRange, options.hoveredDate);
-            // decide update or not
-            var newDay = Object.assign(/*{},*/ day, {
-                isOtherMonth: isOtherMonth,
-                isHovered: isHovered,
-                isSelected: isSelected,
-                isSelectionStart: isSelectionStart,
-                isSelectionEnd: isSelectionEnd,
-                isInRange: isInRange
-            });
-            if (day.isOtherMonth !== newDay.isOtherMonth ||
-                day.isHovered !== newDay.isHovered ||
-                day.isSelected !== newDay.isSelected ||
-                day.isSelectionStart !== newDay.isSelectionStart ||
-                day.isSelectionEnd !== newDay.isSelectionEnd ||
-                day.isInRange !== newDay.isInRange) {
-                week.days[dayIndex] = newDay;
-            }
-        });
-    });
-    // todo: add check for linked calendars
-    formattedMonth.hideLeftArrow = options.monthIndex > 0
-        && options.monthIndex !== options.displayMonths;
-    formattedMonth.hideRightArrow = options.monthIndex < options.displayMonths
-        && (options.monthIndex + 1) !== options.displayMonths;
-    return formattedMonth;
-}
-function isSameDate(date, selectedDate) {
-    if (!date || !selectedDate) {
-        return false;
-    }
-    return date.getFullYear() === selectedDate.getFullYear()
-        && date.getMonth() === selectedDate.getMonth()
-        && date.getDate() === selectedDate.getDate();
-}
-function isDateInRange(date, selectedRange, hoveredDate) {
-    if (!date || !selectedRange[0]) {
-        return false;
-    }
-    if (selectedRange[1]) {
-        return date > selectedRange[0] && date <= selectedRange[1];
-    }
-    if (hoveredDate) {
-        return date > selectedRange[0] && date <= hoveredDate;
-    }
-    return false;
-}
-//# sourceMappingURL=flag-month-view.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/engine/format-month-view.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = formatMonthView;
-/* unused harmony export getWeekNumbers */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bs_moment_format__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/format.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__bs_moment_locale_locales_service__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/locale/locales.service.js");
-
-
-function formatMonthView(daysCalendar, formatOptions, monthIndex) {
-    return {
-        month: daysCalendar.month,
-        monthTitle: Object(__WEBPACK_IMPORTED_MODULE_0__bs_moment_format__["a" /* formatDate */])(daysCalendar.month, formatOptions.monthTitle, formatOptions.locale),
-        yearTitle: Object(__WEBPACK_IMPORTED_MODULE_0__bs_moment_format__["a" /* formatDate */])(daysCalendar.month, formatOptions.yearTitle, formatOptions.locale),
-        weekNumbers: getWeekNumbers(daysCalendar.daysMatrix, formatOptions.weekNumbers, formatOptions.locale),
-        weekdays: Object(__WEBPACK_IMPORTED_MODULE_1__bs_moment_locale_locales_service__["a" /* getLocale */])(formatOptions.locale).weekdaysShort(),
-        weeks: daysCalendar.daysMatrix
-            .map(function (week, weekIndex) { return ({
-            days: week.map(function (date, dayIndex) { return ({
-                date: date,
-                label: Object(__WEBPACK_IMPORTED_MODULE_0__bs_moment_format__["a" /* formatDate */])(date, formatOptions.dayLabel, formatOptions.locale),
-                monthIndex: monthIndex, weekIndex: weekIndex, dayIndex: dayIndex
-            }); })
-        }); }),
-    };
-}
-function getWeekNumbers(daysMatrix, format, locale) {
-    return daysMatrix.map(function (days) { return days[0] ? Object(__WEBPACK_IMPORTED_MODULE_0__bs_moment_format__["a" /* formatDate */])(days[0], format, locale) : ''; });
-}
-//# sourceMappingURL=format-month-view.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/index.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__datepicker_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/datepicker.component.js");
-/* unused harmony reexport DatePickerComponent */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__datepicker_module__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/datepicker.module.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__datepicker_module__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__daypicker_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/daypicker.component.js");
-/* unused harmony reexport DayPickerComponent */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__monthpicker_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/monthpicker.component.js");
-/* unused harmony reexport MonthPickerComponent */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__yearpicker_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/yearpicker.component.js");
-/* unused harmony reexport YearPickerComponent */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__date_formatter__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/date-formatter.js");
-/* unused harmony reexport DateFormatter */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__datepicker_config__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/datepicker.config.js");
-/* unused harmony reexport DatepickerConfig */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__bs_datepicker_module__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/bs-datepicker.module.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_7__bs_datepicker_module__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__bs_datepicker_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/bs-datepicker.component.js");
-/* unused harmony reexport BsDatepickerComponent */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__bs_daterangepicker_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/bs-daterangepicker.component.js");
-/* unused harmony reexport BsDaterangepickerComponent */
-
-
-
-
-
-
-
-
-
-
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/monthpicker.component.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MonthPickerComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_ng2_bootstrap_config__ = __webpack_require__("../../../../ngx-bootstrap/utils/ng2-bootstrap-config.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__datepicker_inner_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/datepicker-inner.component.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var MonthPickerComponent = (function () {
-    function MonthPickerComponent(datePicker) {
-        this.rows = [];
-        this.datePicker = datePicker;
-    }
-    Object.defineProperty(MonthPickerComponent.prototype, "isBs4", {
-        get: function () {
-            return !Object(__WEBPACK_IMPORTED_MODULE_1__utils_ng2_bootstrap_config__["a" /* isBs3 */])();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    MonthPickerComponent.prototype.ngOnInit = function () {
-        var self = this;
-        this.datePicker.stepMonth = { years: 1 };
-        this.datePicker.setRefreshViewHandler(function () {
-            var months = new Array(12);
-            var year = this.activeDate.getFullYear();
-            var date;
-            for (var i = 0; i < 12; i++) {
-                date = new Date(year, i, 1);
-                date = this.fixTimeZone(date);
-                months[i] = this.createDateObject(date, this.formatMonth);
-                months[i].uid = this.uniqueId + '-' + i;
-            }
-            self.title = this.dateFilter(this.activeDate, this.formatMonthTitle);
-            self.rows = this.split(months, self.datePicker.monthColLimit);
-        }, 'month');
-        this.datePicker.setCompareHandler(function (date1, date2) {
-            var d1 = new Date(date1.getFullYear(), date1.getMonth());
-            var d2 = new Date(date2.getFullYear(), date2.getMonth());
-            return d1.getTime() - d2.getTime();
-        }, 'month');
-        this.datePicker.refreshView();
-    };
-    MonthPickerComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'monthpicker',
-            template: "\n<table *ngIf=\"datePicker.datepickerMode==='month'\" role=\"grid\">\n  <thead>\n    <tr>\n      <th>\n        <button type=\"button\" class=\"btn btn-default btn-sm pull-left float-left\"\n                (click)=\"datePicker.move(-1)\" tabindex=\"-1\">\n          <i class=\"glyphicon glyphicon-chevron-left\"></i>\n        </button></th>\n      <th [attr.colspan]=\"((datePicker.monthColLimit - 2) <= 0) ? 1 : datePicker.monthColLimit - 2\">\n        <button [id]=\"datePicker.uniqueId + '-title'\"\n                type=\"button\" class=\"btn btn-default btn-sm\"\n                (click)=\"datePicker.toggleMode()\"\n                [disabled]=\"datePicker.datepickerMode === maxMode\"\n                [ngClass]=\"{disabled: datePicker.datepickerMode === maxMode}\" tabindex=\"-1\" style=\"width:100%;\">\n          <strong>{{title}}</strong>\n        </button>\n      </th>\n      <th>\n        <button type=\"button\" class=\"btn btn-default btn-sm pull-right float-right\"\n                (click)=\"datePicker.move(1)\" tabindex=\"-1\">\n          <i class=\"glyphicon glyphicon-chevron-right\"></i>\n        </button>\n      </th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr *ngFor=\"let rowz of rows\">\n      <td *ngFor=\"let dtz of rowz\" class=\"text-center\" role=\"gridcell\" id=\"{{dtz.uid}}\" [ngClass]=\"dtz.customClass\">\n        <button type=\"button\" style=\"min-width:100%;\" class=\"btn btn-default\"\n                [ngClass]=\"{'btn-link': isBs4 && !dtz.selected && !datePicker.isActive(dtz), 'btn-info': dtz.selected || (isBs4 && !dtz.selected && datePicker.isActive(dtz)), disabled: dtz.disabled, active: !isBs4 && datePicker.isActive(dtz)}\"\n                [disabled]=\"dtz.disabled\"\n                (click)=\"datePicker.select(dtz.date)\" tabindex=\"-1\">\n          <span [ngClass]=\"{'text-success': isBs4 && dtz.current, 'text-info': !isBs4 && dtz.current}\">{{dtz.label}}</span>\n        </button>\n      </td>\n    </tr>\n  </tbody>\n</table>\n  ",
-            styles: ["\n    :host .btn-info .text-success {\n      color: #fff !important;\n    }\n  "]
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__datepicker_inner_component__["a" /* DatePickerInnerComponent */]])
-    ], MonthPickerComponent);
-    return MonthPickerComponent;
-}());
-
-//# sourceMappingURL=monthpicker.component.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/reducer/_defaults.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return defaultMonthOptions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return defaultFormatOptions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return defaultRenderOptions; });
-var defaultMonthOptions = {
-    width: 7,
-    height: 6,
-    firstDayOfWeek: 1
-};
-var defaultFormatOptions = {
-    locale: 'en',
-    monthTitle: 'MMMM',
-    yearTitle: 'YYYY',
-    dayLabel: 'D',
-    weekNumbers: 'w'
-};
-var defaultRenderOptions = {
-    displayMonths: 1,
-    showWeekNumbers: true
-};
-//# sourceMappingURL=_defaults.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/reducer/bs-datepicker.actions.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDatepickerActions; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-var BsDatepickerActions = (function () {
-    function BsDatepickerActions() {
-    }
-    BsDatepickerActions_1 = BsDatepickerActions;
-    BsDatepickerActions.prototype.calculate = function (viewDate) {
-        return {
-            type: BsDatepickerActions_1.CALCULATE,
-            payload: viewDate
-        };
-    };
-    BsDatepickerActions.prototype.format = function () {
-        return {
-            type: BsDatepickerActions_1.FORMAT
-        };
-    };
-    BsDatepickerActions.prototype.flag = function () {
-        return {
-            type: BsDatepickerActions_1.FLAG
-        };
-    };
-    BsDatepickerActions.prototype.select = function (date) {
-        return {
-            type: BsDatepickerActions_1.SELECT,
-            payload: date
-        };
-    };
-    BsDatepickerActions.prototype.navigateStep = function (step) {
-        return {
-            type: BsDatepickerActions_1.STEP_NAVIGATION,
-            payload: step
-        };
-    };
-    BsDatepickerActions.prototype.renderOptions = function (options) {
-        return {
-            type: BsDatepickerActions_1.RENDER_OPTIONS,
-            payload: options
-        };
-    };
-    // date range picker
-    BsDatepickerActions.prototype.selectRange = function (value) {
-        return {
-            type: BsDatepickerActions_1.SELECT_RANGE,
-            payload: value
-        };
-    };
-    BsDatepickerActions.prototype.hover = function (event) {
-        return {
-            type: BsDatepickerActions_1.HOVER,
-            payload: event.isHovered ? event.day.date : null
-        };
-    };
-    BsDatepickerActions.CALCULATE = '[datepicker] calculate dates matrix';
-    BsDatepickerActions.FORMAT = '[datepicker] format datepicker values';
-    BsDatepickerActions.FLAG = '[datepicker] set flags';
-    BsDatepickerActions.SELECT = '[datepicker] select date';
-    BsDatepickerActions.STEP_NAVIGATION = '[datepicker] shift view date';
-    BsDatepickerActions.RENDER_OPTIONS = '[datepicker] update render options';
-    BsDatepickerActions.HOVER = '[datepicker] hover date';
-    BsDatepickerActions.SELECT_RANGE = '[daterangepicker] select dates range';
-    BsDatepickerActions = BsDatepickerActions_1 = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
-    ], BsDatepickerActions);
-    return BsDatepickerActions;
-    var BsDatepickerActions_1;
-}());
-
-//# sourceMappingURL=bs-datepicker.actions.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/reducer/bs-datepicker.effects.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDatepickerEffects; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-var BsDatepickerEffects = (function () {
-    function BsDatepickerEffects() {
-    }
-    BsDatepickerEffects = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
-    ], BsDatepickerEffects);
-    return BsDatepickerEffects;
-}());
-
-//# sourceMappingURL=bs-datepicker.effects.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/reducer/bs-datepicker.reducer.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = bsDatepickerReducer;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bs_datepicker_state__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/reducer/bs-datepicker.state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__bs_datepicker_actions__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/reducer/bs-datepicker.actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__engine_calc_month_view__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/engine/calc-month-view.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__engine_format_month_view__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/engine/format-month-view.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__engine_flag_month_view__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/engine/flag-month-view.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__bs_moment_utils_date_setters__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/date-setters.js");
-
-
-
-
-
-
-function bsDatepickerReducer(state, action) {
-    if (state === void 0) { state = __WEBPACK_IMPORTED_MODULE_0__bs_datepicker_state__["a" /* initialDatepickerState */]; }
-    switch (action.type) {
-        /*
-            case (BsDatepickerActions.INIT): {
-              const locale = getLocale(state.formatOptions.locale);
-              const monthViewOptions = Object.assign({}, state.monthViewOptions, {firstDayOfWeek: locale.firstDayOfWeek()});
-              const monthModel = calculateMonthModel(state.viewDate, monthViewOptions);
-              return Object.assign({}, state, {locale, monthViewOptions, monthModel});
-            }
-        */
-        case (__WEBPACK_IMPORTED_MODULE_1__bs_datepicker_actions__["a" /* BsDatepickerActions */].CALCULATE): {
-            var displayMonths = state.renderOptions.displayMonths;
-            var monthsModel = new Array(displayMonths);
-            var viewDate = state.viewDate;
-            for (var monthIndex = 0; monthIndex < displayMonths; monthIndex++) {
-                // todo: for unlinked calendars it will be harder
-                monthsModel[monthIndex] = Object(__WEBPACK_IMPORTED_MODULE_2__engine_calc_month_view__["a" /* calculateMonthModel */])(viewDate, state.monthViewOptions);
-                viewDate = Object(__WEBPACK_IMPORTED_MODULE_5__bs_moment_utils_date_setters__["c" /* shiftDate */])(viewDate, { month: 1 });
-            }
-            return Object.assign({}, state, { monthsModel: monthsModel });
-        }
-        case (__WEBPACK_IMPORTED_MODULE_1__bs_datepicker_actions__["a" /* BsDatepickerActions */].FORMAT): {
-            var formattedMonths = state.monthsModel
-                .map(function (month, monthIndex) { return Object(__WEBPACK_IMPORTED_MODULE_3__engine_format_month_view__["a" /* formatMonthView */])(month, state.formatOptions, monthIndex); });
-            return Object.assign({}, state, { formattedMonths: formattedMonths });
-        }
-        case (__WEBPACK_IMPORTED_MODULE_1__bs_datepicker_actions__["a" /* BsDatepickerActions */].FLAG): {
-            var flaggedMonths = state.formattedMonths
-                .map(function (formattedMonth, monthIndex) { return Object(__WEBPACK_IMPORTED_MODULE_4__engine_flag_month_view__["a" /* flagMonthView */])(formattedMonth, {
-                hoveredDate: state.hoveredDate,
-                selectedDate: state.selectedDate,
-                selectedRange: state.selectedRange,
-                displayMonths: state.renderOptions.displayMonths,
-                monthIndex: monthIndex
-            }); });
-            return Object.assign({}, state, { flaggedMonths: flaggedMonths });
-        }
-        case (__WEBPACK_IMPORTED_MODULE_1__bs_datepicker_actions__["a" /* BsDatepickerActions */].STEP_NAVIGATION): {
-            var viewDate = Object(__WEBPACK_IMPORTED_MODULE_5__bs_moment_utils_date_setters__["c" /* shiftDate */])(state.viewDate, action.payload);
-            return Object.assign({}, state, { viewDate: viewDate });
-        }
-        case (__WEBPACK_IMPORTED_MODULE_1__bs_datepicker_actions__["a" /* BsDatepickerActions */].HOVER): {
-            return Object.assign({}, state, { hoveredDate: action.payload });
-        }
-        case (__WEBPACK_IMPORTED_MODULE_1__bs_datepicker_actions__["a" /* BsDatepickerActions */].SELECT): {
-            return Object.assign({}, state, { selectedDate: action.payload });
-        }
-        case (__WEBPACK_IMPORTED_MODULE_1__bs_datepicker_actions__["a" /* BsDatepickerActions */].RENDER_OPTIONS): {
-            return Object.assign({}, state, { renderOptions: action.payload });
-        }
-        // date range picker
-        case (__WEBPACK_IMPORTED_MODULE_1__bs_datepicker_actions__["a" /* BsDatepickerActions */].SELECT_RANGE): {
-            return Object.assign({}, state, { selectedRange: action.payload });
-        }
-        default: return state;
-    }
-}
-//# sourceMappingURL=bs-datepicker.reducer.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/reducer/bs-datepicker.state.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export BsDatepickerState */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return initialDatepickerState; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__defaults__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/reducer/_defaults.js");
-
-var BsDatepickerState = (function () {
-    function BsDatepickerState() {
-    }
-    return BsDatepickerState;
-}());
-
-var initialDatepickerState = {
-    viewDate: new Date(),
-    selectedRange: [],
-    monthViewOptions: __WEBPACK_IMPORTED_MODULE_0__defaults__["b" /* defaultMonthOptions */],
-    formatOptions: __WEBPACK_IMPORTED_MODULE_0__defaults__["a" /* defaultFormatOptions */],
-    renderOptions: __WEBPACK_IMPORTED_MODULE_0__defaults__["c" /* defaultRenderOptions */]
-};
-//# sourceMappingURL=bs-datepicker.state.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/reducer/bs-datepicker.store.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDatepickerStore; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mini_ngrx_store_class__ = __webpack_require__("../../../../ngx-bootstrap/mini-ngrx/store.class.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__bs_datepicker_state__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/reducer/bs-datepicker.state.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__ = __webpack_require__("../../../../rxjs/BehaviorSubject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mini_ngrx_state_class__ = __webpack_require__("../../../../ngx-bootstrap/mini-ngrx/state.class.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__bs_datepicker_reducer__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/reducer/bs-datepicker.reducer.js");
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-var BsDatepickerStore = (function (_super) {
-    __extends(BsDatepickerStore, _super);
-    function BsDatepickerStore() {
-        var _this = this;
-        var _dispatcher = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["BehaviorSubject"]({ type: '[datepicker] dispatcher init' });
-        var state = new __WEBPACK_IMPORTED_MODULE_4__mini_ngrx_state_class__["a" /* MiniState */](__WEBPACK_IMPORTED_MODULE_2__bs_datepicker_state__["a" /* initialDatepickerState */], _dispatcher, __WEBPACK_IMPORTED_MODULE_5__bs_datepicker_reducer__["a" /* bsDatepickerReducer */]);
-        _this = _super.call(this, _dispatcher, __WEBPACK_IMPORTED_MODULE_5__bs_datepicker_reducer__["a" /* bsDatepickerReducer */], state) || this;
-        return _this;
-    }
-    BsDatepickerStore = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-        __metadata("design:paramtypes", [])
-    ], BsDatepickerStore);
-    return BsDatepickerStore;
-}(__WEBPACK_IMPORTED_MODULE_1__mini_ngrx_store_class__["a" /* MiniStore */]));
-
-//# sourceMappingURL=bs-datepicker.store.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/themes/bs/bs-datepicker-container.component.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDatepickerContainerComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__reducer_bs_datepicker_store__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/reducer/bs-datepicker.store.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__reducer_bs_datepicker_actions__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/reducer/bs-datepicker.actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter__ = __webpack_require__("../../../../rxjs/add/operator/filter.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var BsDatepickerContainerComponent = (function () {
-    function BsDatepickerContainerComponent(_bsDatepickerStore, _actions) {
-        var _this = this;
-        this._bsDatepickerStore = _bsDatepickerStore;
-        this._actions = _actions;
-        this.valueChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-        // data binding state <--> model
-        this._bsDatepickerStore.select(function (state) { return state.flaggedMonths; })
-            .filter(function (months) { return !!months; })
-            .subscribe(function (months) { return _this.months = months; });
-        this._bsDatepickerStore.select(function (state) { return state.renderOptions; })
-            .filter(function (options) { return !!options; })
-            .subscribe(function (options) { return _this.options = options; });
-        // set render options
-        this._bsDatepickerStore.dispatch(this._actions.renderOptions({
-            displayMonths: 1,
-            showWeekNumbers: true
-        }));
-        // on selected date change
-        this._bsDatepickerStore.select(function (state) { return state.selectedDate; })
-            .subscribe(function (date) { return _this.valueChange.emit(date); });
-        // TODO: extract effects
-        // calculate month model on view model change
-        this._bsDatepickerStore
-            .select(function (state) { return state.viewDate; })
-            .subscribe(function (viewDate) {
-            return _this._bsDatepickerStore.dispatch(_this._actions.calculate(viewDate));
-        });
-        // format calendar values on month model change
-        this._bsDatepickerStore
-            .select(function (state) { return state.monthsModel; })
-            .filter(function (monthModel) { return !!monthModel; })
-            .subscribe(function (month) {
-            return _this._bsDatepickerStore.dispatch(_this._actions.format());
-        });
-        // flag day values
-        this._bsDatepickerStore
-            .select(function (state) { return state.formattedMonths; })
-            .filter(function (month) { return !!month; })
-            .subscribe(function (month) {
-            return _this._bsDatepickerStore.dispatch(_this._actions.flag());
-        });
-        // flag day values
-        this._bsDatepickerStore.select(function (state) { return state.selectedDate; })
-            .filter(function (selectedDate) { return !!selectedDate; })
-            .subscribe(function (selectedDate) {
-            return _this._bsDatepickerStore.dispatch(_this._actions.flag());
-        });
-        // on hover
-        this._bsDatepickerStore.select(function (state) { return state.hoveredDate; })
-            .filter(function (hoveredDate) { return !!hoveredDate; })
-            .subscribe(function (hoveredDate) {
-            return _this._bsDatepickerStore.dispatch(_this._actions.flag());
-        });
-    }
-    Object.defineProperty(BsDatepickerContainerComponent.prototype, "value", {
-        set: function (value) {
-            this._bsDatepickerStore.dispatch(this._actions.select(value));
-        },
-        enumerable: true,
-        configurable: true
-    });
-    BsDatepickerContainerComponent.prototype.navigateTo = function (event) {
-        this._bsDatepickerStore.dispatch(this._actions.navigateStep(event.step));
-    };
-    BsDatepickerContainerComponent.prototype.hoverHandler = function (event) {
-        if (event.day.isOtherMonth) {
-            return;
-        }
-        this._bsDatepickerStore.dispatch(this._actions.hover(event));
-        event.day.isHovered = event.isHovered;
-    };
-    BsDatepickerContainerComponent.prototype.selectHandler = function (day) {
-        if (day.isOtherMonth) {
-            return;
-        }
-        this._bsDatepickerStore.dispatch(this._actions.select(day.date));
-    };
-    BsDatepickerContainerComponent.prototype._stopPropagation = function (event) {
-        event.stopPropagation();
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Date),
-        __metadata("design:paramtypes", [Date])
-    ], BsDatepickerContainerComponent.prototype, "value", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", Object)
-    ], BsDatepickerContainerComponent.prototype, "valueChange", void 0);
-    BsDatepickerContainerComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'bs-datepicker-container',
-            providers: [__WEBPACK_IMPORTED_MODULE_1__reducer_bs_datepicker_store__["a" /* BsDatepickerStore */]],
-            template: "\n    <bs-datepicker-view\n      [months]=\"months\"\n      [options]=\"options\"\n      (onNavigate)=\"navigateTo($event)\"\n      (onHover)=\"hoverHandler($event)\"\n      (onSelect)=\"selectHandler($event)\"\n    ></bs-datepicker-view>\n  ",
-            host: {
-                '(click)': '_stopPropagation($event)',
-                style: 'position: absolute; display: block;'
-            }
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__reducer_bs_datepicker_store__["a" /* BsDatepickerStore */],
-            __WEBPACK_IMPORTED_MODULE_2__reducer_bs_datepicker_actions__["a" /* BsDatepickerActions */]])
-    ], BsDatepickerContainerComponent);
-    return BsDatepickerContainerComponent;
-}());
-
-//# sourceMappingURL=bs-datepicker-container.component.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/themes/bs/bs-datepicker-day-decorator.directive.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDatepickerDayDecoratorComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var BsDatepickerDayDecoratorComponent = (function () {
-    function BsDatepickerDayDecoratorComponent() {
-    }
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Object)
-    ], BsDatepickerDayDecoratorComponent.prototype, "day", void 0);
-    BsDatepickerDayDecoratorComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: '[bsDatepickerDayDecorator]',
-            changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["k" /* ChangeDetectionStrategy */].OnPush,
-            host: {
-                '[class.disabled]': 'day.isDisabled',
-                '[class.is-highlighted]': 'day.isHovered',
-                '[class.is-other-month]': 'day.isOtherMonth',
-                '[class.in-range]': 'day.isInRange',
-                '[class.select-start]': 'day.isSelectionStart',
-                '[class.select-end]': 'day.isSelectionEnd',
-                '[class.selected]': 'day.isSelected'
-            },
-            template: "{{ day.label }}"
-        })
-    ], BsDatepickerDayDecoratorComponent);
-    return BsDatepickerDayDecoratorComponent;
-}());
-
-//# sourceMappingURL=bs-datepicker-day-decorator.directive.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/themes/bs/bs-datepicker-month-view.component.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDatepickerMonthViewComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var BsDatepickerMonthViewComponent = (function () {
-    function BsDatepickerMonthViewComponent() {
-        this.onSelect = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-        this.onHover = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-    }
-    BsDatepickerMonthViewComponent.prototype.selectDay = function (event) {
-        this.onSelect.emit(event);
-    };
-    BsDatepickerMonthViewComponent.prototype.hoverDay = function (day, isHovered) {
-        this.onHover.emit({ day: day, isHovered: isHovered });
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Object)
-    ], BsDatepickerMonthViewComponent.prototype, "month", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Object)
-    ], BsDatepickerMonthViewComponent.prototype, "options", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", Object)
-    ], BsDatepickerMonthViewComponent.prototype, "onSelect", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", Object)
-    ], BsDatepickerMonthViewComponent.prototype, "onHover", void 0);
-    BsDatepickerMonthViewComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: "bs-datepicker-month-view",
-            // FIX: day select and hover should mutate day or use separate component
-            // changeDetection: ChangeDetectionStrategy.OnPush,
-            template: "\n    <table role=\"grid\" class=\"days weeks\">\n      <thead>\n      <tr>\n        <th *ngIf=\"options.showWeekNumbers\"></th><!--if show weeks-->\n        <th *ngFor=\"let weekday of month.weekdays; let i = index\"\n            aria-label=\"weekday\">{{ month.weekdays[i] }}\n        </th>\n      </tr>\n      </thead>\n      <tbody>\n      <tr *ngFor=\"let week of month.weeks; let i = index\">\n        <td class=\"week\" *ngIf=\"options.showWeekNumbers\"><span>{{ month.weekNumbers[i] }}</span>\n        </td>\n        <td *ngFor=\"let day of week.days\" role=\"gridcell\">\n          <span bsDatepickerDayDecorator\n                [day]=\"day\"\n                (click)=\"selectDay(day)\"\n                (mouseenter)=\"hoverDay(day, true)\"\n                (mouseleave)=\"hoverDay(day, false)\">{{ day.label }}</span>\n        </td>\n      </tr>\n      </tbody>\n    </table>\n  "
-        })
-    ], BsDatepickerMonthViewComponent);
-    return BsDatepickerMonthViewComponent;
-}());
-
-//# sourceMappingURL=bs-datepicker-month-view.component.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/themes/bs/bs-datepicker-navigation-view.component.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDatepickerNavigationViewComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var BsDatepickerNavigationViewComponent = (function () {
-    function BsDatepickerNavigationViewComponent() {
-        this.onNavigate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-    }
-    BsDatepickerNavigationViewComponent.prototype.navTo = function (step) {
-        this.onNavigate.emit({ step: step });
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Object)
-    ], BsDatepickerNavigationViewComponent.prototype, "month", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", Object)
-    ], BsDatepickerNavigationViewComponent.prototype, "onNavigate", void 0);
-    BsDatepickerNavigationViewComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'bs-datepicker-navigation-view',
-            changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["k" /* ChangeDetectionStrategy */].OnPush,
-            template: "\n    <button class=\"previous\"\n            [style.visibility]=\"month.hideLeftArrow ? 'hidden' : 'visible'\"\n            (click)=\"navTo({month: -1})\"><span>&lsaquo;</span>\n    </button>\n    <button class=\"current\"><span>{{ month.monthTitle }}</span>\n    </button>\n    <button class=\"current\"><span>{{ month.yearTitle }}</span>\n    </button>\n    <button class=\"next\"\n            [style.visibility]=\"month.hideRightArrow ? 'hidden' : 'visible'\"\n            (click)=\"navTo({month: 1})\"><span>&rsaquo;</span>\n    </button>\n  "
-        })
-    ], BsDatepickerNavigationViewComponent);
-    return BsDatepickerNavigationViewComponent;
-}());
-
-//# sourceMappingURL=bs-datepicker-navigation-view.component.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/themes/bs/bs-datepicker-view.component.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDatepickerViewComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var BsDatepickerViewComponent = (function () {
-    function BsDatepickerViewComponent() {
-        this.onNavigate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-        this.onSelect = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-        this.onHover = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-    }
-    BsDatepickerViewComponent.prototype.navigateTo = function (event) {
-        this.onNavigate.emit(event);
-    };
-    BsDatepickerViewComponent.prototype.hoverHandler = function (event) {
-        this.onHover.emit(event);
-    };
-    BsDatepickerViewComponent.prototype.selectHandler = function (event) {
-        this.onSelect.emit(event);
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Array)
-    ], BsDatepickerViewComponent.prototype, "months", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Object)
-    ], BsDatepickerViewComponent.prototype, "options", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", Object)
-    ], BsDatepickerViewComponent.prototype, "onNavigate", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", Object)
-    ], BsDatepickerViewComponent.prototype, "onSelect", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", Object)
-    ], BsDatepickerViewComponent.prototype, "onHover", void 0);
-    BsDatepickerViewComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'bs-datepicker-view',
-            changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["k" /* ChangeDetectionStrategy */].OnPush,
-            template: "\n    <div class=\"bs-datepicker bs-timepicker label-success\">\n      <div class=\"bs-datepicker-head label-success\">\n        <bs-datepicker-navigation-view\n          *ngFor=\"let month of months\"\n          [month]=\"month\"\n          (onNavigate)=\"navigateTo($event)\"></bs-datepicker-navigation-view>\n      </div>\n      <div class=\"bs-datepicker-body\" *ngFor=\"let month of months\">\n        <bs-datepicker-month-view\n          [month]=\"month\"\n          [options]=\"options\"\n          (onHover)=\"hoverHandler($event)\"\n          (onSelect)=\"selectHandler($event)\"\n        ></bs-datepicker-month-view>\n      </div>\n    </div>\n  "
-        })
-    ], BsDatepickerViewComponent);
-    return BsDatepickerViewComponent;
-}());
-
-//# sourceMappingURL=bs-datepicker-view.component.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/themes/bs/bs-daterangepicker-container.component.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDaterangepickerContainerComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__reducer_bs_datepicker_store__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/reducer/bs-datepicker.store.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__reducer_bs_datepicker_actions__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/reducer/bs-datepicker.actions.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter__ = __webpack_require__("../../../../rxjs/add/operator/filter.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var BsDaterangepickerContainerComponent = (function () {
-    function BsDaterangepickerContainerComponent(_bsDatepickerStore, _actions) {
-        var _this = this;
-        this._bsDatepickerStore = _bsDatepickerStore;
-        this._actions = _actions;
-        this.valueChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-        this._rangeStack = [];
-        // data binding state <--> model
-        this._bsDatepickerStore.select(function (state) { return state.flaggedMonths; })
-            .filter(function (months) { return !!months; })
-            .subscribe(function (months) { return _this.months = months; });
-        this._bsDatepickerStore.select(function (state) { return state.renderOptions; })
-            .filter(function (options) { return !!options; })
-            .subscribe(function (options) { return _this.options = options; });
-        // set render options
-        this._bsDatepickerStore.dispatch(this._actions.renderOptions({
-            displayMonths: 2,
-            showWeekNumbers: true
-        }));
-        // on selected date change
-        this._bsDatepickerStore.select(function (state) { return state.selectedRange; })
-            .subscribe(function (date) { return _this.valueChange.emit(date); });
-        // TODO: extract effects
-        // calculate month model on view model change
-        this._bsDatepickerStore
-            .select(function (state) { return state.viewDate; })
-            .subscribe(function (viewDate) {
-            return _this._bsDatepickerStore.dispatch(_this._actions.calculate(viewDate));
-        });
-        // format calendar values on month model change
-        this._bsDatepickerStore
-            .select(function (state) { return state.monthsModel; })
-            .filter(function (monthModel) { return !!monthModel; })
-            .subscribe(function (month) {
-            return _this._bsDatepickerStore.dispatch(_this._actions.format());
-        });
-        // flag day values
-        this._bsDatepickerStore
-            .select(function (state) { return state.formattedMonths; })
-            .filter(function (month) { return !!month; })
-            .subscribe(function (month) {
-            return _this._bsDatepickerStore.dispatch(_this._actions.flag());
-        });
-        // flag day values
-        this._bsDatepickerStore.select(function (state) { return state.selectedRange; })
-            .filter(function (selectedRange) { return !!selectedRange; })
-            .subscribe(function (selectedRange) {
-            return _this._bsDatepickerStore.dispatch(_this._actions.flag());
-        });
-        // on hover
-        this._bsDatepickerStore.select(function (state) { return state.hoveredDate; })
-            .filter(function (hoveredDate) { return !!hoveredDate; })
-            .subscribe(function (hoveredDate) {
-            return _this._bsDatepickerStore.dispatch(_this._actions.flag());
-        });
-    }
-    Object.defineProperty(BsDaterangepickerContainerComponent.prototype, "value", {
-        set: function (value) {
-            this._bsDatepickerStore.dispatch(this._actions.selectRange(value || []));
-        },
-        enumerable: true,
-        configurable: true
-    });
-    BsDaterangepickerContainerComponent.prototype.ngOnInit = function () {
-        // this._bsDatepickerStore.dispatch(this._actions.init());
-    };
-    BsDaterangepickerContainerComponent.prototype.navigateTo = function (event) {
-        this._bsDatepickerStore.dispatch(this._actions.navigateStep(event.step));
-    };
-    BsDaterangepickerContainerComponent.prototype.hoverHandler = function (event) {
-        if (event.day.isOtherMonth) {
-            return;
-        }
-        this._bsDatepickerStore.dispatch(this._actions.hover(event));
-        event.day.isHovered = event.isHovered;
-    };
-    BsDaterangepickerContainerComponent.prototype.selectHandler = function (day) {
-        if (day.isOtherMonth) {
-            return;
-        }
-        if (this._rangeStack.length === 1) {
-            if (day.date >= this._rangeStack[0]) {
-                this._rangeStack = [this._rangeStack[0], day.date];
-            }
-            else {
-                this._rangeStack = [day.date];
-            }
-        }
-        if (this._rangeStack.length === 0) {
-            this._rangeStack = [day.date];
-        }
-        this._bsDatepickerStore.dispatch(this._actions.selectRange(this._rangeStack));
-        if (this._rangeStack.length === 2) {
-            this._rangeStack = [];
-        }
-    };
-    BsDaterangepickerContainerComponent.prototype._stopPropagation = function (event) {
-        event.stopPropagation();
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Array),
-        __metadata("design:paramtypes", [Array])
-    ], BsDaterangepickerContainerComponent.prototype, "value", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", Object)
-    ], BsDaterangepickerContainerComponent.prototype, "valueChange", void 0);
-    BsDaterangepickerContainerComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'bs-daterangepicker-container',
-            providers: [__WEBPACK_IMPORTED_MODULE_1__reducer_bs_datepicker_store__["a" /* BsDatepickerStore */]],
-            template: "\n    <bs-datepicker-view\n      *ngIf=\"months && options\"\n      [months]=\"months\"\n      [options]=\"options\"\n      (onNavigate)=\"navigateTo($event)\"\n      (onHover)=\"hoverHandler($event)\"\n      (onSelect)=\"selectHandler($event)\"\n    ></bs-datepicker-view>\n  ",
-            host: {
-                '(click)': '_stopPropagation($event)',
-                style: 'position: absolute; display: block;'
-            }
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__reducer_bs_datepicker_store__["a" /* BsDatepickerStore */],
-            __WEBPACK_IMPORTED_MODULE_2__reducer_bs_datepicker_actions__["a" /* BsDatepickerActions */]])
-    ], BsDaterangepickerContainerComponent);
-    return BsDaterangepickerContainerComponent;
-}());
-
-//# sourceMappingURL=bs-daterangepicker-container.component.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/utils/bs-calendar-utils.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = getStartingDayOfCalendar;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bs_moment_utils_date_getters__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/date-getters.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__bs_moment_utils_date_setters__ = __webpack_require__("../../../../ngx-bootstrap/bs-moment/utils/date-setters.js");
-
-
-function getStartingDayOfCalendar(date, options) {
-    if (Object(__WEBPACK_IMPORTED_MODULE_0__bs_moment_utils_date_getters__["i" /* isFirstDayOfWeek */])(date, options.firstDayOfWeek)) {
-        return date;
-    }
-    var weekDay = Object(__WEBPACK_IMPORTED_MODULE_0__bs_moment_utils_date_getters__["b" /* getDayOfWeek */])(date);
-    return Object(__WEBPACK_IMPORTED_MODULE_1__bs_moment_utils_date_setters__["c" /* shiftDate */])(date, { day: -weekDay });
-}
-//# sourceMappingURL=bs-calendar-utils.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/datepicker/yearpicker.component.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return YearPickerComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_ng2_bootstrap_config__ = __webpack_require__("../../../../ngx-bootstrap/utils/ng2-bootstrap-config.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__datepicker_inner_component__ = __webpack_require__("../../../../ngx-bootstrap/datepicker/datepicker-inner.component.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var YearPickerComponent = (function () {
-    function YearPickerComponent(datePicker) {
-        this.rows = [];
-        this.datePicker = datePicker;
-    }
-    Object.defineProperty(YearPickerComponent.prototype, "isBs4", {
-        get: function () {
-            return !Object(__WEBPACK_IMPORTED_MODULE_1__utils_ng2_bootstrap_config__["a" /* isBs3 */])();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    YearPickerComponent.prototype.ngOnInit = function () {
-        var self = this;
-        this.datePicker.stepYear = { years: this.datePicker.yearRange };
-        this.datePicker.setRefreshViewHandler(function () {
-            var years = new Array(this.yearRange);
-            var date;
-            var start = self.getStartingYear(this.activeDate.getFullYear());
-            for (var i = 0; i < this.yearRange; i++) {
-                date = new Date(start + i, 0, 1);
-                date = this.fixTimeZone(date);
-                years[i] = this.createDateObject(date, this.formatYear);
-                years[i].uid = this.uniqueId + '-' + i;
-            }
-            self.title = [years[0].label,
-                years[this.yearRange - 1].label].join(' - ');
-            self.rows = this.split(years, self.datePicker.yearColLimit);
-        }, 'year');
-        this.datePicker.setCompareHandler(function (date1, date2) {
-            return date1.getFullYear() - date2.getFullYear();
-        }, 'year');
-        this.datePicker.refreshView();
-    };
-    YearPickerComponent.prototype.getStartingYear = function (year) {
-        // todo: parseInt
-        return ((year - 1) / this.datePicker.yearRange) * this.datePicker.yearRange + 1;
-    };
-    YearPickerComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'yearpicker',
-            template: "\n<table *ngIf=\"datePicker.datepickerMode==='year'\" role=\"grid\">\n  <thead>\n    <tr>\n      <th>\n        <button type=\"button\" class=\"btn btn-default btn-sm pull-left float-left\"\n                (click)=\"datePicker.move(-1)\" tabindex=\"-1\">\n          <i class=\"glyphicon glyphicon-chevron-left\"></i>\n        </button>\n      </th>\n      <th [attr.colspan]=\"((datePicker.yearColLimit - 2) <= 0) ? 1 : datePicker.yearColLimit - 2\">\n        <button [id]=\"datePicker.uniqueId + '-title'\" role=\"heading\"\n                type=\"button\" class=\"btn btn-default btn-sm\"\n                (click)=\"datePicker.toggleMode()\"\n                [disabled]=\"datePicker.datepickerMode === datePicker.maxMode\"\n                [ngClass]=\"{disabled: datePicker.datepickerMode === datePicker.maxMode}\" tabindex=\"-1\" style=\"width:100%;\">\n          <strong>{{title}}</strong>\n        </button>\n      </th>\n      <th>\n        <button type=\"button\" class=\"btn btn-default btn-sm pull-right float-right\"\n                (click)=\"datePicker.move(1)\" tabindex=\"-1\">\n          <i class=\"glyphicon glyphicon-chevron-right\"></i>\n        </button>\n      </th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr *ngFor=\"let rowz of rows\">\n      <td *ngFor=\"let dtz of rowz\" class=\"text-center\" role=\"gridcell\">\n        <button type=\"button\" style=\"min-width:100%;\" class=\"btn btn-default\"\n                [ngClass]=\"{'btn-link': isBs4 && !dtz.selected && !datePicker.isActive(dtz), 'btn-info': dtz.selected || (isBs4 && !dtz.selected && datePicker.isActive(dtz)), disabled: dtz.disabled, active: !isBs4 && datePicker.isActive(dtz)}\"\n                [disabled]=\"dtz.disabled\"\n                (click)=\"datePicker.select(dtz.date)\" tabindex=\"-1\">\n          <span [ngClass]=\"{'text-success': isBs4 && dtz.current, 'text-info': !isBs4 && dtz.current}\">{{dtz.label}}</span>\n        </button>\n      </td>\n    </tr>\n  </tbody>\n</table>\n  ",
-            styles: ["\n    :host .btn-info .text-success {\n      color: #fff !important;\n    }\n  "]
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__datepicker_inner_component__["a" /* DatePickerInnerComponent */]])
-    ], YearPickerComponent);
-    return YearPickerComponent;
-}());
-
-//# sourceMappingURL=yearpicker.component.js.map
-
-/***/ }),
-
 /***/ "../../../../ngx-bootstrap/dropdown/bs-dropdown-container.component.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -6046,40 +2521,15 @@ var YearPickerComponent = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDropdownContainerComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/bs-dropdown.state.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 
 
 var BsDropdownContainerComponent = (function () {
-    function BsDropdownContainerComponent(_state, cd, _renderer, _element) {
+    function BsDropdownContainerComponent(_state) {
         var _this = this;
         this._state = _state;
-        this.cd = cd;
-        this._renderer = _renderer;
         this.isOpen = false;
         this._subscription = _state.isOpenChange.subscribe(function (value) {
             _this.isOpen = value;
-            var dropdown = _element.nativeElement.querySelector('.dropdown-menu');
-            if (dropdown) {
-                _this._renderer.setElementClass(dropdown, 'show', true);
-                if (dropdown.classList.contains('dropdown-menu-right')) {
-                    _this._renderer.setElementStyle(dropdown, 'left', 'auto');
-                    _this._renderer.setElementStyle(dropdown, 'right', '0');
-                }
-                if (_this.direction === 'up') {
-                    _this._renderer.setElementStyle(dropdown, 'top', 'auto');
-                    _this._renderer.setElementStyle(dropdown, 'transform', 'translateY(-101%)');
-                }
-            }
-            _this.cd.markForCheck();
-            _this.cd.detectChanges();
         });
     }
     Object.defineProperty(BsDropdownContainerComponent.prototype, "direction", {
@@ -6092,20 +2542,22 @@ var BsDropdownContainerComponent = (function () {
     BsDropdownContainerComponent.prototype.ngOnDestroy = function () {
         this._subscription.unsubscribe();
     };
-    BsDropdownContainerComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'bs-dropdown-container',
-            changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["k" /* ChangeDetectionStrategy */].OnPush,
-            host: {
-                style: 'display:block;position: absolute;'
-            },
-            template: "\n    <div [class.dropup]=\"direction === 'up'\"\n         [class.dropdown]=\"direction === 'down'\"\n         [class.show]=\"isOpen\"\n         [class.open]=\"isOpen\"><ng-content></ng-content></div>\n  "
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__["a" /* BsDropdownState */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["l" /* ChangeDetectorRef */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */]])
-    ], BsDropdownContainerComponent);
+    BsDropdownContainerComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    selector: 'bs-dropdown-container',
+                    changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["k" /* ChangeDetectionStrategy */].OnPush,
+                    host: {
+                        style: 'display:block;position: absolute;'
+                    },
+                    template: "\n    <div [class.dropup]=\"direction === 'up'\"\n         [class.dropdown]=\"direction === 'down'\"\n         [class.show]=\"isOpen\"\n         [class.open]=\"isOpen\"><ng-content></ng-content></div>\n  "
+                },] },
+    ];
+    /** @nocollapse */
+    BsDropdownContainerComponent.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__["a" /* BsDropdownState */], },
+    ]; };
     return BsDropdownContainerComponent;
 }());
-
 //# sourceMappingURL=bs-dropdown-container.component.js.map
 
 /***/ }),
@@ -6117,15 +2569,6 @@ var BsDropdownContainerComponent = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDropdownMenuDirective; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/bs-dropdown.state.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 
 
 var BsDropdownMenuDirective = (function () {
@@ -6135,18 +2578,20 @@ var BsDropdownMenuDirective = (function () {
             viewContainer: _viewContainer
         });
     }
-    BsDropdownMenuDirective = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */])({
-            selector: '[bsDropdownMenu],[dropdownMenu]',
-            exportAs: 'bs-dropdown-menu'
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__["a" /* BsDropdownState */],
-            __WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */],
-            __WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* TemplateRef */]])
-    ], BsDropdownMenuDirective);
+    BsDropdownMenuDirective.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
+                    selector: '[bsDropdownMenu],[dropdownMenu]',
+                    exportAs: 'bs-dropdown-menu'
+                },] },
+    ];
+    /** @nocollapse */
+    BsDropdownMenuDirective.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__["a" /* BsDropdownState */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* TemplateRef */], },
+    ]; };
     return BsDropdownMenuDirective;
 }());
-
 //# sourceMappingURL=bs-dropdown-menu.directive.js.map
 
 /***/ }),
@@ -6158,15 +2603,6 @@ var BsDropdownMenuDirective = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDropdownToggleDirective; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/bs-dropdown.state.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 
 
 var BsDropdownToggleDirective = (function () {
@@ -6207,46 +2643,29 @@ var BsDropdownToggleDirective = (function () {
             sub.unsubscribe();
         }
     };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */])('attr.disabled'),
-        __metadata("design:type", Boolean)
-    ], BsDropdownToggleDirective.prototype, "isDisabled", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */])('attr.aria-expanded'),
-        __metadata("design:type", Boolean)
-    ], BsDropdownToggleDirective.prototype, "isOpen", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */])('click'),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", []),
-        __metadata("design:returntype", void 0)
-    ], BsDropdownToggleDirective.prototype, "onClick", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */])('document:click', ['$event']),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Object]),
-        __metadata("design:returntype", void 0)
-    ], BsDropdownToggleDirective.prototype, "onDocumentClick", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */])('keyup.esc'),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", []),
-        __metadata("design:returntype", void 0)
-    ], BsDropdownToggleDirective.prototype, "onEsc", null);
-    BsDropdownToggleDirective = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */])({
-            selector: '[bsDropdownToggle],[dropdownToggle]',
-            exportAs: 'bs-dropdown-toggle',
-            host: {
-                '[attr.aria-haspopup]': 'true'
-            }
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__["a" /* BsDropdownState */],
-            __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */]])
-    ], BsDropdownToggleDirective);
+    BsDropdownToggleDirective.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
+                    selector: '[bsDropdownToggle],[dropdownToggle]',
+                    exportAs: 'bs-dropdown-toggle',
+                    host: {
+                        '[attr.aria-haspopup]': 'true'
+                    }
+                },] },
+    ];
+    /** @nocollapse */
+    BsDropdownToggleDirective.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__["a" /* BsDropdownState */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], },
+    ]; };
+    BsDropdownToggleDirective.propDecorators = {
+        'isDisabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */], args: ['attr.disabled',] },],
+        'isOpen': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */], args: ['attr.aria-expanded',] },],
+        'onClick': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['click',] },],
+        'onDocumentClick': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['document:click', ['$event'],] },],
+        'onEsc': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['keyup.esc',] },],
+    };
     return BsDropdownToggleDirective;
 }());
-
 //# sourceMappingURL=bs-dropdown-toggle.directive.js.map
 
 /***/ }),
@@ -6257,12 +2676,6 @@ var BsDropdownToggleDirective = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDropdownConfig; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
 
 /** Default dropdown configuration */
 var BsDropdownConfig = (function () {
@@ -6270,12 +2683,13 @@ var BsDropdownConfig = (function () {
         /** default dropdown auto closing behavior */
         this.autoClose = true;
     }
-    BsDropdownConfig = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
-    ], BsDropdownConfig);
+    BsDropdownConfig.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
+    ];
+    /** @nocollapse */
+    BsDropdownConfig.ctorParameters = function () { return []; };
     return BsDropdownConfig;
 }());
-
 //# sourceMappingURL=bs-dropdown.config.js.map
 
 /***/ }),
@@ -6293,15 +2707,6 @@ var BsDropdownConfig = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__bs_dropdown_container_component__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/bs-dropdown-container.component.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__bs_dropdown_state__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/bs-dropdown.state.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__utils_ng2_bootstrap_config__ = __webpack_require__("../../../../ngx-bootstrap/utils/ng2-bootstrap-config.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 
 
 
@@ -6391,14 +2796,6 @@ var BsDropdownDirective = (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(BsDropdownDirective.prototype, "_showInline", {
-        get: function () {
-            return !this.container;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ;
     BsDropdownDirective.prototype.ngOnInit = function () {
         var _this = this;
         // fix: seems there are an issue with `routerLinkActive`
@@ -6408,6 +2805,7 @@ var BsDropdownDirective = (function () {
             return;
         }
         this._isInited = true;
+        this._showInline = !this.container;
         // attach DOM listeners
         this._dropdown.listen({
             triggers: this.triggers,
@@ -6421,6 +2819,13 @@ var BsDropdownDirective = (function () {
             .isDisabledChange
             .filter(function (value) { return value === true; })
             .subscribe(function (value) { return _this.hide(); }));
+        // attach dropdown menu inside of dropdown
+        if (this._showInline) {
+            this._state.dropdownMenu
+                .then(function (dropdownMenu) {
+                _this._inlinedMenu = dropdownMenu.viewContainer.createEmbeddedView(dropdownMenu.templateRef);
+            });
+        }
     };
     /**
      * Opens an element’s popover. This is considered a “manual” triggering of
@@ -6432,15 +2837,6 @@ var BsDropdownDirective = (function () {
             return;
         }
         if (this._showInline) {
-            if (!this._inlinedMenu) {
-                this._state.dropdownMenu
-                    .then(function (dropdownMenu) {
-                    _this._dropdown.attachInline(dropdownMenu.viewContainer, dropdownMenu.templateRef);
-                    _this._inlinedMenu = _this._dropdown._inlineViewRef;
-                    _this.addBs4Polyfills();
-                });
-            }
-            this.addBs4Polyfills();
             this._isInlineOpen = true;
             this.onShown.emit(true);
             this._state.isOpenChange.emit(true);
@@ -6475,7 +2871,6 @@ var BsDropdownDirective = (function () {
             return;
         }
         if (this._showInline) {
-            this.removeShowClass();
             this._isInlineOpen = false;
             this.onHidden.emit(true);
         }
@@ -6502,103 +2897,41 @@ var BsDropdownDirective = (function () {
         }
         this._dropdown.dispose();
     };
-    BsDropdownDirective.prototype.addBs4Polyfills = function () {
-        if (!Object(__WEBPACK_IMPORTED_MODULE_6__utils_ng2_bootstrap_config__["a" /* isBs3 */])()) {
-            this.addShowClass();
-            this.checkRightAlignment();
-            this.checkDropup();
-        }
+    BsDropdownDirective.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
+                    selector: '[bsDropdown],[dropdown]',
+                    exportAs: 'bs-dropdown',
+                    providers: [__WEBPACK_IMPORTED_MODULE_5__bs_dropdown_state__["a" /* BsDropdownState */]],
+                    host: {
+                        '[class.dropup]': 'dropup',
+                        '[class.open]': 'isOpen',
+                        '[class.show]': 'isOpen && isBs4'
+                    }
+                },] },
+    ];
+    /** @nocollapse */
+    BsDropdownDirective.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */], },
+        { type: __WEBPACK_IMPORTED_MODULE_2__component_loader__["a" /* ComponentLoaderFactory */], },
+        { type: __WEBPACK_IMPORTED_MODULE_3__bs_dropdown_config__["a" /* BsDropdownConfig */], },
+        { type: __WEBPACK_IMPORTED_MODULE_5__bs_dropdown_state__["a" /* BsDropdownState */], },
+    ]; };
+    BsDropdownDirective.propDecorators = {
+        'placement': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'triggers': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'container': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'dropup': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'autoClose': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'isDisabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'isOpen': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'isOpenChange': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
+        'onShown': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
+        'onHidden': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
     };
-    BsDropdownDirective.prototype.addShowClass = function () {
-        if (this._inlinedMenu && this._inlinedMenu.rootNodes[0]) {
-            this._renderer.setElementClass(this._inlinedMenu.rootNodes[0], 'show', true);
-        }
-    };
-    BsDropdownDirective.prototype.removeShowClass = function () {
-        if (this._inlinedMenu && this._inlinedMenu.rootNodes[0]) {
-            this._renderer.setElementClass(this._inlinedMenu.rootNodes[0], 'show', false);
-        }
-    };
-    BsDropdownDirective.prototype.checkRightAlignment = function () {
-        if (this._inlinedMenu && this._inlinedMenu.rootNodes[0]) {
-            var isRightAligned = this._inlinedMenu.rootNodes[0].classList.contains('dropdown-menu-right');
-            this._renderer.setElementStyle(this._inlinedMenu.rootNodes[0], 'left', isRightAligned ? 'auto' : '0');
-            this._renderer.setElementStyle(this._inlinedMenu.rootNodes[0], 'right', isRightAligned ? '0' : 'auto');
-        }
-    };
-    BsDropdownDirective.prototype.checkDropup = function () {
-        if (this._inlinedMenu && this._inlinedMenu.rootNodes[0]) {
-            // a little hack to not break support of bootstrap 4 beta
-            var top_1 = getComputedStyle(this._inlinedMenu.rootNodes[0])['top'];
-            var topAuto = top_1 === 'auto' || top_1 === '100%';
-            this._renderer.setElementStyle(this._inlinedMenu.rootNodes[0], 'top', this.dropup ? 'auto' : '100%');
-            this._renderer.setElementStyle(this._inlinedMenu.rootNodes[0], 'transform', this.dropup && !topAuto ? 'translateY(-101%)' : 'translateY(0)');
-        }
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], BsDropdownDirective.prototype, "placement", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], BsDropdownDirective.prototype, "triggers", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], BsDropdownDirective.prototype, "container", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], BsDropdownDirective.prototype, "dropup", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean),
-        __metadata("design:paramtypes", [Boolean])
-    ], BsDropdownDirective.prototype, "autoClose", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean),
-        __metadata("design:paramtypes", [Boolean])
-    ], BsDropdownDirective.prototype, "isDisabled", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean),
-        __metadata("design:paramtypes", [Boolean])
-    ], BsDropdownDirective.prototype, "isOpen", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], BsDropdownDirective.prototype, "isOpenChange", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], BsDropdownDirective.prototype, "onShown", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], BsDropdownDirective.prototype, "onHidden", void 0);
-    BsDropdownDirective = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */])({
-            selector: '[bsDropdown],[dropdown]',
-            exportAs: 'bs-dropdown',
-            providers: [__WEBPACK_IMPORTED_MODULE_5__bs_dropdown_state__["a" /* BsDropdownState */]],
-            host: {
-                '[class.dropup]': 'dropup',
-                '[class.open]': 'isOpen',
-                '[class.show]': 'isOpen && isBs4'
-            }
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */],
-            __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */],
-            __WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */],
-            __WEBPACK_IMPORTED_MODULE_2__component_loader__["a" /* ComponentLoaderFactory */],
-            __WEBPACK_IMPORTED_MODULE_3__bs_dropdown_config__["a" /* BsDropdownConfig */],
-            __WEBPACK_IMPORTED_MODULE_5__bs_dropdown_state__["a" /* BsDropdownState */]])
-    ], BsDropdownDirective);
     return BsDropdownDirective;
 }());
-
 //# sourceMappingURL=bs-dropdown.directive.js.map
 
 /***/ }),
@@ -6617,12 +2950,6 @@ var BsDropdownDirective = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__bs_dropdown_config__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/bs-dropdown.config.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__bs_dropdown_directive__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/bs-dropdown.directive.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__bs_dropdown_state__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/bs-dropdown.state.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
 
 
 
@@ -6635,10 +2962,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var BsDropdownModule = (function () {
     function BsDropdownModule() {
     }
-    BsDropdownModule_1 = BsDropdownModule;
     BsDropdownModule.forRoot = function (config) {
         return {
-            ngModule: BsDropdownModule_1, providers: [
+            ngModule: BsDropdownModule, providers: [
                 __WEBPACK_IMPORTED_MODULE_1__component_loader__["a" /* ComponentLoaderFactory */],
                 __WEBPACK_IMPORTED_MODULE_2__positioning__["a" /* PositioningService */],
                 __WEBPACK_IMPORTED_MODULE_8__bs_dropdown_state__["a" /* BsDropdownState */],
@@ -6647,26 +2973,26 @@ var BsDropdownModule = (function () {
         };
     };
     ;
-    BsDropdownModule = BsDropdownModule_1 = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-            declarations: [
-                __WEBPACK_IMPORTED_MODULE_4__bs_dropdown_menu_directive__["a" /* BsDropdownMenuDirective */],
-                __WEBPACK_IMPORTED_MODULE_5__bs_dropdown_toggle_directive__["a" /* BsDropdownToggleDirective */],
-                __WEBPACK_IMPORTED_MODULE_3__bs_dropdown_container_component__["a" /* BsDropdownContainerComponent */],
-                __WEBPACK_IMPORTED_MODULE_7__bs_dropdown_directive__["a" /* BsDropdownDirective */]
-            ],
-            exports: [
-                __WEBPACK_IMPORTED_MODULE_4__bs_dropdown_menu_directive__["a" /* BsDropdownMenuDirective */],
-                __WEBPACK_IMPORTED_MODULE_5__bs_dropdown_toggle_directive__["a" /* BsDropdownToggleDirective */],
-                __WEBPACK_IMPORTED_MODULE_7__bs_dropdown_directive__["a" /* BsDropdownDirective */]
-            ],
-            entryComponents: [__WEBPACK_IMPORTED_MODULE_3__bs_dropdown_container_component__["a" /* BsDropdownContainerComponent */]]
-        })
-    ], BsDropdownModule);
+    BsDropdownModule.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */], args: [{
+                    declarations: [
+                        __WEBPACK_IMPORTED_MODULE_4__bs_dropdown_menu_directive__["a" /* BsDropdownMenuDirective */],
+                        __WEBPACK_IMPORTED_MODULE_5__bs_dropdown_toggle_directive__["a" /* BsDropdownToggleDirective */],
+                        __WEBPACK_IMPORTED_MODULE_3__bs_dropdown_container_component__["a" /* BsDropdownContainerComponent */],
+                        __WEBPACK_IMPORTED_MODULE_7__bs_dropdown_directive__["a" /* BsDropdownDirective */]
+                    ],
+                    exports: [
+                        __WEBPACK_IMPORTED_MODULE_4__bs_dropdown_menu_directive__["a" /* BsDropdownMenuDirective */],
+                        __WEBPACK_IMPORTED_MODULE_5__bs_dropdown_toggle_directive__["a" /* BsDropdownToggleDirective */],
+                        __WEBPACK_IMPORTED_MODULE_7__bs_dropdown_directive__["a" /* BsDropdownDirective */]
+                    ],
+                    entryComponents: [__WEBPACK_IMPORTED_MODULE_3__bs_dropdown_container_component__["a" /* BsDropdownContainerComponent */]]
+                },] },
+    ];
+    /** @nocollapse */
+    BsDropdownModule.ctorParameters = function () { return []; };
     return BsDropdownModule;
-    var BsDropdownModule_1;
 }());
-
 //# sourceMappingURL=bs-dropdown.module.js.map
 
 /***/ }),
@@ -6677,15 +3003,6 @@ var BsDropdownModule = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDropdownState; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 
 var BsDropdownState = (function () {
     function BsDropdownState() {
@@ -6698,13 +3015,13 @@ var BsDropdownState = (function () {
             _this.resolveDropdownMenu = resolve;
         });
     }
-    BsDropdownState = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-        __metadata("design:paramtypes", [])
-    ], BsDropdownState);
+    BsDropdownState.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
+    ];
+    /** @nocollapse */
+    BsDropdownState.ctorParameters = function () { return []; };
     return BsDropdownState;
 }());
-
 //# sourceMappingURL=bs-dropdown.state.js.map
 
 /***/ }),
@@ -6738,310 +3055,17 @@ var BsDropdownState = (function () {
 
 /***/ }),
 
-/***/ "../../../../ngx-bootstrap/mini-ngrx/state.class.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MiniState; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_BehaviorSubject__ = __webpack_require__("../../../../rxjs/BehaviorSubject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_BehaviorSubject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_BehaviorSubject__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_observeOn__ = __webpack_require__("../../../../rxjs/operator/observeOn.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_observeOn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_operator_observeOn__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_scheduler_queue__ = __webpack_require__("../../../../rxjs/scheduler/queue.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_scheduler_queue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_scheduler_queue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operator_scan__ = __webpack_require__("../../../../rxjs/operator/scan.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operator_scan___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_operator_scan__);
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-/**
- * @copyright ngrx
- */
-
-
-
-
-var MiniState = (function (_super) {
-    __extends(MiniState, _super);
-    function MiniState(_initialState, actionsDispatcher$, reducer) {
-        var _this = _super.call(this, _initialState) || this;
-        var actionInQueue$ = __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_observeOn__["observeOn"].call(actionsDispatcher$, __WEBPACK_IMPORTED_MODULE_2_rxjs_scheduler_queue__["queue"]);
-        var state$ = __WEBPACK_IMPORTED_MODULE_3_rxjs_operator_scan__["scan"].call(actionInQueue$, function (state, action) {
-            if (!action) {
-                return state;
-            }
-            return reducer(state, action);
-        }, _initialState);
-        state$.subscribe(function (value) { return _this.next(value); });
-        return _this;
-    }
-    return MiniState;
-}(__WEBPACK_IMPORTED_MODULE_0_rxjs_BehaviorSubject__["BehaviorSubject"]));
-
-//# sourceMappingURL=state.class.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/mini-ngrx/store.class.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MiniStore; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Observable__ = __webpack_require__("../../../../rxjs/Observable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_distinctUntilChanged__ = __webpack_require__("../../../../rxjs/operator/distinctUntilChanged.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_distinctUntilChanged___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_operator_distinctUntilChanged__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_operator_map__ = __webpack_require__("../../../../rxjs/operator/map.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_operator_map__);
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-/**
- * @copyright ngrx
- */
-
-
-
-var MiniStore = (function (_super) {
-    __extends(MiniStore, _super);
-    function MiniStore(_dispatcher, _reducer, state$) {
-        var _this = _super.call(this) || this;
-        _this._dispatcher = _dispatcher;
-        _this._reducer = _reducer;
-        _this.source = state$;
-        return _this;
-    }
-    MiniStore.prototype.select = function (pathOrMapFn) {
-        var mapped$ = __WEBPACK_IMPORTED_MODULE_2_rxjs_operator_map__["map"].call(this, pathOrMapFn);
-        return __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_distinctUntilChanged__["distinctUntilChanged"].call(mapped$);
-    };
-    MiniStore.prototype.lift = function (operator) {
-        var store = new MiniStore(this._dispatcher, this._reducer, this);
-        store.operator = operator;
-        return store;
-    };
-    MiniStore.prototype.dispatch = function (action) { this._dispatcher.next(action); };
-    MiniStore.prototype.next = function (action) { this._dispatcher.next(action); };
-    MiniStore.prototype.error = function (err) { this._dispatcher.error(err); };
-    MiniStore.prototype.complete = function () { };
-    return MiniStore;
-}(__WEBPACK_IMPORTED_MODULE_0_rxjs_Observable__["Observable"]));
-
-//# sourceMappingURL=store.class.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/modal/bs-modal.service.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsModalService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__component_loader_component_loader_factory__ = __webpack_require__("../../../../ngx-bootstrap/component-loader/component-loader.factory.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_backdrop_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-backdrop.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modal_container_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-container.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modal_options_class__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-options.class.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-var BsModalService = (function () {
-    function BsModalService(clf) {
-        this.clf = clf;
-        // constructor props
-        this.config = __WEBPACK_IMPORTED_MODULE_4__modal_options_class__["f" /* modalConfigDefaults */];
-        this.onShow = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-        this.onShown = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-        this.onHide = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-        this.onHidden = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-        this.isBodyOverflowing = false;
-        this.originalBodyPadding = 0;
-        this.scrollbarWidth = 0;
-        this.modalsCount = 0;
-        this.lastDismissReason = '';
-        this.loaders = [];
-        this._backdropLoader = this.clf.createLoader(null, null, null);
-    }
-    /** Shows a modal */
-    BsModalService.prototype.show = function (content, config) {
-        this.modalsCount++;
-        this._createLoaders();
-        this.config = Object.assign({}, __WEBPACK_IMPORTED_MODULE_4__modal_options_class__["f" /* modalConfigDefaults */], config);
-        this._showBackdrop();
-        this.lastDismissReason = null;
-        return this._showModal(content);
-    };
-    BsModalService.prototype.hide = function (level) {
-        var _this = this;
-        if (this.modalsCount === 1) {
-            this._hideBackdrop();
-            this.resetScrollbar();
-        }
-        this.modalsCount = this.modalsCount >= 1 ? this.modalsCount - 1 : 0;
-        setTimeout(function () {
-            _this._hideModal(level);
-            _this.removeLoaders(level);
-        }, this.config.animated ? __WEBPACK_IMPORTED_MODULE_4__modal_options_class__["e" /* TransitionDurations */].BACKDROP : 0);
-    };
-    BsModalService.prototype._showBackdrop = function () {
-        var isBackdropEnabled = this.config.backdrop || this.config.backdrop === 'static';
-        var isBackdropInDOM = !this.backdropRef || !this.backdropRef.instance.isShown;
-        if (this.modalsCount === 1) {
-            this.removeBackdrop();
-            if (isBackdropEnabled && isBackdropInDOM) {
-                this._backdropLoader
-                    .attach(__WEBPACK_IMPORTED_MODULE_2__modal_backdrop_component__["a" /* ModalBackdropComponent */])
-                    .to('body')
-                    .show({ isAnimated: this.config.animated });
-                this.backdropRef = this._backdropLoader._componentRef;
-            }
-        }
-    };
-    BsModalService.prototype._hideBackdrop = function () {
-        var _this = this;
-        if (!this.backdropRef) {
-            return;
-        }
-        this.backdropRef.instance.isShown = false;
-        var duration = this.config.animated ? __WEBPACK_IMPORTED_MODULE_4__modal_options_class__["e" /* TransitionDurations */].BACKDROP : 0;
-        setTimeout(function () { return _this.removeBackdrop(); }, duration);
-    };
-    BsModalService.prototype._showModal = function (content) {
-        var modalLoader = this.loaders[this.loaders.length - 1];
-        var bsModalRef = new __WEBPACK_IMPORTED_MODULE_4__modal_options_class__["a" /* BsModalRef */]();
-        var modalContainerRef = modalLoader
-            .provide({ provide: __WEBPACK_IMPORTED_MODULE_4__modal_options_class__["d" /* ModalOptions */], useValue: this.config })
-            .provide({ provide: __WEBPACK_IMPORTED_MODULE_4__modal_options_class__["a" /* BsModalRef */], useValue: bsModalRef })
-            .attach(__WEBPACK_IMPORTED_MODULE_3__modal_container_component__["a" /* ModalContainerComponent */])
-            .to('body')
-            .show({ content: content, isAnimated: this.config.animated });
-        modalContainerRef.instance.level = this.getModalsCount();
-        bsModalRef.hide = function () {
-            modalContainerRef.instance.hide();
-        };
-        bsModalRef.content = modalLoader.getInnerComponent() || null;
-        return bsModalRef;
-    };
-    BsModalService.prototype._hideModal = function (level) {
-        var modalLoader = this.loaders[level - 1];
-        if (modalLoader) {
-            modalLoader.hide();
-        }
-    };
-    BsModalService.prototype.getModalsCount = function () {
-        return this.modalsCount;
-    };
-    BsModalService.prototype.setDismissReason = function (reason) {
-        this.lastDismissReason = reason;
-    };
-    BsModalService.prototype.removeBackdrop = function () {
-        this._backdropLoader.hide();
-        this.backdropRef = null;
-    };
-    /** AFTER PR MERGE MODAL.COMPONENT WILL BE USING THIS CODE*/
-    /** Scroll bar tricks */
-    /** @internal */
-    BsModalService.prototype.checkScrollbar = function () {
-        this.isBodyOverflowing = document.body.clientWidth < window.innerWidth;
-        this.scrollbarWidth = this.getScrollbarWidth();
-    };
-    BsModalService.prototype.setScrollbar = function () {
-        if (!document) {
-            return;
-        }
-        this.originalBodyPadding = parseInt(window.getComputedStyle(document.body).getPropertyValue('padding-right') || '0', 10);
-        if (this.isBodyOverflowing) {
-            document.body.style.paddingRight = this.originalBodyPadding + this.scrollbarWidth + "px";
-        }
-    };
-    BsModalService.prototype.resetScrollbar = function () {
-        document.body.style.paddingRight = this.originalBodyPadding + 'px';
-    };
-    // thx d.walsh
-    BsModalService.prototype.getScrollbarWidth = function () {
-        var scrollDiv = document.createElement('div');
-        scrollDiv.className = __WEBPACK_IMPORTED_MODULE_4__modal_options_class__["b" /* ClassName */].SCROLLBAR_MEASURER;
-        document.body.appendChild(scrollDiv);
-        var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
-        document.body.removeChild(scrollDiv);
-        return scrollbarWidth;
-    };
-    BsModalService.prototype._createLoaders = function () {
-        var loader = this.clf.createLoader(null, null, null);
-        this.copyEvent(loader.onBeforeShow, this.onShow);
-        this.copyEvent(loader.onShown, this.onShown);
-        this.copyEvent(loader.onBeforeHide, this.onHide);
-        this.copyEvent(loader.onHidden, this.onHidden);
-        this.loaders.push(loader);
-    };
-    BsModalService.prototype.removeLoaders = function (level) {
-        this.loaders.splice(level - 1, 1);
-        this.loaders.forEach(function (loader, i) {
-            loader.instance.level = i + 1;
-        });
-    };
-    BsModalService.prototype.copyEvent = function (from, to) {
-        var _this = this;
-        from.subscribe(function () {
-            to.emit(_this.lastDismissReason);
-        });
-    };
-    BsModalService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__component_loader_component_loader_factory__["a" /* ComponentLoaderFactory */]])
-    ], BsModalService);
-    return BsModalService;
-}());
-
-//# sourceMappingURL=bs-modal.service.js.map
-
-/***/ }),
-
 /***/ "../../../../ngx-bootstrap/modal/index.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modal_container_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-container.component.js");
-/* unused harmony reexport ModalContainerComponent */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modal_backdrop_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-backdrop.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modal_backdrop_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-backdrop.component.js");
 /* unused harmony reexport ModalBackdropComponent */
 /* unused harmony reexport ModalBackdropOptions */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_options_class__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-options.class.js");
-/* unused harmony reexport ModalOptions */
-/* unused harmony reexport BsModalRef */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modal_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal.component.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__modal_component__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modal_module__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal.module.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_4__modal_module__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__bs_modal_service__ = __webpack_require__("../../../../ngx-bootstrap/modal/bs-modal.service.js");
-/* unused harmony reexport BsModalService */
-
-
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modal_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal.component.js");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_1__modal_component__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_module__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal.module.js");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__modal_module__["a"]; });
 
 
 
@@ -7058,17 +3082,6 @@ var BsModalService = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modal_options_class__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-options.class.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_ng2_bootstrap_config__ = __webpack_require__("../../../../ngx-bootstrap/utils/ng2-bootstrap-config.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_utils_class__ = __webpack_require__("../../../../ngx-bootstrap/utils/utils.class.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
 
 
 
@@ -7079,7 +3092,6 @@ var ModalBackdropOptions = (function () {
     }
     return ModalBackdropOptions;
 }());
-
 /** This component will be added as background layout for modals if enabled */
 var ModalBackdropComponent = (function () {
     function ModalBackdropComponent(element, renderer) {
@@ -7093,7 +3105,7 @@ var ModalBackdropComponent = (function () {
         },
         set: function (value) {
             this._isAnimated = value;
-            // this.renderer.setElementClass(this.element.nativeElement, `${ClassName.FADE}`, value);
+            this.renderer.setElementClass(this.element.nativeElement, "" + __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["a" /* ClassName */].FADE, value);
         },
         enumerable: true,
         configurable: true
@@ -7104,161 +3116,30 @@ var ModalBackdropComponent = (function () {
         },
         set: function (value) {
             this._isShown = value;
-            this.renderer.setElementClass(this.element.nativeElement, "" + __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].IN, value);
+            this.renderer.setElementClass(this.element.nativeElement, "" + __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["a" /* ClassName */].IN, value);
             if (!Object(__WEBPACK_IMPORTED_MODULE_2__utils_ng2_bootstrap_config__["a" /* isBs3 */])()) {
-                this.renderer.setElementClass(this.element.nativeElement, "" + __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].SHOW, value);
+                this.renderer.setElementClass(this.element.nativeElement, "" + __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["a" /* ClassName */].SHOW, value);
             }
         },
         enumerable: true,
         configurable: true
     });
-    ModalBackdropComponent.prototype.ngOnInit = function () {
-        if (this.isAnimated) {
-            this.renderer.setElementClass(this.element.nativeElement, "" + __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].FADE, this.isAnimated);
-            __WEBPACK_IMPORTED_MODULE_3__utils_utils_class__["a" /* Utils */].reflow(this.element.nativeElement);
-        }
-        this.isShown = true;
-    };
-    ModalBackdropComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'bs-modal-backdrop',
-            template: '',
-            // tslint:disable-next-line
-            host: { 'class': __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].BACKDROP }
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */]])
-    ], ModalBackdropComponent);
+    ModalBackdropComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    selector: 'bs-modal-backdrop',
+                    template: '',
+                    // tslint:disable-next-line
+                    host: { 'class': __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["a" /* ClassName */].BACKDROP }
+                },] },
+    ];
+    /** @nocollapse */
+    ModalBackdropComponent.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */], },
+    ]; };
     return ModalBackdropComponent;
 }());
-
 //# sourceMappingURL=modal-backdrop.component.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/modal/modal-container.component.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ModalContainerComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modal_options_class__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-options.class.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__bs_modal_service__ = __webpack_require__("../../../../ngx-bootstrap/modal/bs-modal.service.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_ng2_bootstrap_config__ = __webpack_require__("../../../../ngx-bootstrap/utils/ng2-bootstrap-config.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var ModalContainerComponent = (function () {
-    // @HostListener('window:focusin', ['$event'])
-    // public enforceFocus($event:any): void {
-    //   if (!(this._element.nativeElement === $event.target || this._element.nativeElement.contains($event.target))) {
-    //     this._element.nativeElement.focus();
-    //   }
-    // }
-    // @HostListener('focusout', ['$event'])
-    // public preventFocusOut($event:any): void {
-    //   if (!$event.relatedTarget) {
-    //     this._element.nativeElement.focus();
-    //   }
-    // }
-    function ModalContainerComponent(options, _element, bsModalService, _renderer) {
-        this.bsModalService = bsModalService;
-        this._renderer = _renderer;
-        this.isShown = false;
-        this.isModalHiding = false;
-        this._element = _element;
-        this.config = Object.assign({}, options);
-    }
-    ModalContainerComponent.prototype.onClick = function (event) {
-        if (this.config.ignoreBackdropClick || this.config.backdrop === 'static' || event.target !== this._element.nativeElement) {
-            return;
-        }
-        this.bsModalService.setDismissReason(__WEBPACK_IMPORTED_MODULE_1__modal_options_class__["c" /* DISMISS_REASONS */].BACKRDOP);
-        this.hide();
-    };
-    ModalContainerComponent.prototype.onEsc = function () {
-        if (this.config.keyboard && this.level === this.bsModalService.getModalsCount()) {
-            this.bsModalService.setDismissReason(__WEBPACK_IMPORTED_MODULE_1__modal_options_class__["c" /* DISMISS_REASONS */].ESC);
-            this.hide();
-        }
-    };
-    ModalContainerComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        if (this.isAnimated) {
-            this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].FADE, true);
-        }
-        this._renderer.setElementStyle(this._element.nativeElement, 'display', 'block');
-        setTimeout(function () {
-            _this.isShown = true;
-            _this._renderer.setElementClass(_this._element.nativeElement, Object(__WEBPACK_IMPORTED_MODULE_3__utils_ng2_bootstrap_config__["a" /* isBs3 */])() ? __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].IN : __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].SHOW, true);
-        }, this.isAnimated ? __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["e" /* TransitionDurations */].BACKDROP : 0);
-        if (document && document.body) {
-            if (this.bsModalService.getModalsCount() === 1) {
-                this.bsModalService.checkScrollbar();
-                this.bsModalService.setScrollbar();
-            }
-            this._renderer.setElementClass(document.body, __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].OPEN, true);
-        }
-    };
-    ModalContainerComponent.prototype.ngOnDestroy = function () {
-        if (this.isShown) {
-            this.hide();
-        }
-    };
-    ModalContainerComponent.prototype.hide = function () {
-        var _this = this;
-        if (this.isModalHiding || !this.isShown) {
-            return;
-        }
-        this.isModalHiding = true;
-        this._renderer.setElementClass(this._element.nativeElement, Object(__WEBPACK_IMPORTED_MODULE_3__utils_ng2_bootstrap_config__["a" /* isBs3 */])() ? __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].IN : __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].SHOW, false);
-        setTimeout(function () {
-            _this.isShown = false;
-            if (document && document.body && _this.bsModalService.getModalsCount() === 1) {
-                _this._renderer.setElementClass(document.body, __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].OPEN, false);
-            }
-            _this.bsModalService.hide(_this.level);
-            _this.isModalHiding = false;
-        }, this.isAnimated ? __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["e" /* TransitionDurations */].MODAL : 0);
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */])('click', ['$event']),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Object]),
-        __metadata("design:returntype", void 0)
-    ], ModalContainerComponent.prototype, "onClick", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */])('window:keydown.esc'),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", []),
-        __metadata("design:returntype", void 0)
-    ], ModalContainerComponent.prototype, "onEsc", null);
-    ModalContainerComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'modal-container',
-            template: "\n    <div [class]=\"'modal-dialog' + (config.class ? ' ' + config.class : '')\" role=\"document\">\n      <div class=\"modal-content\"><ng-content></ng-content></div>\n    </div>\n  ",
-            // tslint:disable-next-line
-            host: {
-                class: 'modal',
-                role: 'dialog',
-                tabindex: '-1'
-            }
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__modal_options_class__["d" /* ModalOptions */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], __WEBPACK_IMPORTED_MODULE_2__bs_modal_service__["a" /* BsModalService */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */]])
-    ], ModalContainerComponent);
-    return ModalContainerComponent;
-}());
-
-//# sourceMappingURL=modal-container.component.js.map
 
 /***/ }),
 
@@ -7266,51 +3147,15 @@ var ModalContainerComponent = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return ModalOptions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsModalRef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return modalConfigDefaults; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ClassName; });
-/* unused harmony export Selector */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return TransitionDurations; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return DISMISS_REASONS; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-var ModalOptions = (function () {
-    function ModalOptions() {
-    }
-    ModalOptions = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
-    ], ModalOptions);
-    return ModalOptions;
-}());
-
-var BsModalRef = (function () {
-    function BsModalRef() {
-    }
-    /**
-     * Hides the modal
-     */
-    BsModalRef.prototype.hide = function () { };
-    BsModalRef = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
-    ], BsModalRef);
-    return BsModalRef;
-}());
-
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return modalConfigDefaults; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ClassName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Selector; });
 var modalConfigDefaults = {
     backdrop: true,
     keyboard: true,
     focus: true,
     show: false,
-    ignoreBackdropClick: false,
-    class: '',
-    animated: true
+    ignoreBackdropClick: false
 };
 var ClassName = {
     SCROLLBAR_MEASURER: 'modal-scrollbar-measure',
@@ -7325,14 +3170,6 @@ var Selector = {
     DATA_TOGGLE: '[data-toggle="modal"]',
     DATA_DISMISS: '[data-dismiss="modal"]',
     FIXED_CONTENT: '.navbar-fixed-top, .navbar-fixed-bottom, .is-fixed'
-};
-var TransitionDurations = {
-    MODAL: 300,
-    BACKDROP: 150
-};
-var DISMISS_REASONS = {
-    BACKRDOP: 'backdrop-click',
-    ESC: 'esc'
 };
 //# sourceMappingURL=modal-options.class.js.map
 
@@ -7354,15 +3191,6 @@ var DISMISS_REASONS = {
 // todo: should we support enforce focus in?
 // todo: in original bs there are was a way to prevent modal from showing
 // todo: original modal had resize events
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 
 
 
@@ -7419,13 +3247,11 @@ var ModalDirective = (function () {
         if (this.config.ignoreBackdropClick || this.config.backdrop === 'static' || event.target !== this._element.nativeElement) {
             return;
         }
-        this.dismissReason = __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["c" /* DISMISS_REASONS */].BACKRDOP;
         this.hide(event);
     };
     // todo: consider preventing default and stopping propagation
     ModalDirective.prototype.onEsc = function () {
         if (this.config.keyboard) {
-            this.dismissReason = __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["c" /* DISMISS_REASONS */].ESC;
             this.hide();
         }
     };
@@ -7438,13 +3264,10 @@ var ModalDirective = (function () {
         }
     };
     ModalDirective.prototype.ngAfterViewInit = function () {
-        var _this = this;
         this._config = this._config || this.getConfig();
-        setTimeout(function () {
-            if (_this._config.show) {
-                _this.show();
-            }
-        }, 0);
+        if (this._config.show) {
+            this.show();
+        }
     };
     /* Public methods */
     /** Allows to manually toggle modal visibility */
@@ -7454,7 +3277,6 @@ var ModalDirective = (function () {
     /** Allows to manually open modal */
     ModalDirective.prototype.show = function () {
         var _this = this;
-        this.dismissReason = null;
         this.onShow.emit(this);
         if (this._isShown) {
             return;
@@ -7465,11 +3287,11 @@ var ModalDirective = (function () {
         this.checkScrollbar();
         this.setScrollbar();
         if (__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */] && __WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body) {
-            if (__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body.classList.contains(__WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* ClassName */].OPEN)) {
+            if (__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body.classList.contains(__WEBPACK_IMPORTED_MODULE_5__modal_options_class__["a" /* ClassName */].OPEN)) {
                 this.isNested = true;
             }
             else {
-                this._renderer.setElementClass(__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* ClassName */].OPEN, true);
+                this._renderer.setElementClass(__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["a" /* ClassName */].OPEN, true);
             }
         }
         this.showBackdrop(function () {
@@ -7490,9 +3312,9 @@ var ModalDirective = (function () {
         clearTimeout(this.timerHideModal);
         clearTimeout(this.timerRmBackDrop);
         this._isShown = false;
-        this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* ClassName */].IN, false);
+        this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["a" /* ClassName */].IN, false);
         if (!Object(__WEBPACK_IMPORTED_MODULE_2__utils_ng2_bootstrap_config__["a" /* isBs3 */])()) {
-            this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* ClassName */].SHOW, false);
+            this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["a" /* ClassName */].SHOW, false);
         }
         // this._addClassIn = false;
         if (this.isAnimated) {
@@ -7504,7 +3326,7 @@ var ModalDirective = (function () {
     };
     /** Private methods @internal */
     ModalDirective.prototype.getConfig = function (config) {
-        return Object.assign({}, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["f" /* modalConfigDefaults */], config);
+        return Object.assign({}, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["c" /* modalConfigDefaults */], config);
     };
     /**
      *  Show dialog
@@ -7527,9 +3349,9 @@ var ModalDirective = (function () {
             __WEBPACK_IMPORTED_MODULE_3__utils_utils_class__["a" /* Utils */].reflow(this._element.nativeElement);
         }
         // this._addClassIn = true;
-        this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* ClassName */].IN, true);
+        this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["a" /* ClassName */].IN, true);
         if (!Object(__WEBPACK_IMPORTED_MODULE_2__utils_ng2_bootstrap_config__["a" /* isBs3 */])()) {
-            this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* ClassName */].SHOW, true);
+            this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["a" /* ClassName */].SHOW, true);
         }
         var transitionComplete = function () {
             if (_this._config.focus) {
@@ -7552,12 +3374,11 @@ var ModalDirective = (function () {
         this.showBackdrop(function () {
             if (!_this.isNested) {
                 if (__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */] && __WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body) {
-                    _this._renderer.setElementClass(__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* ClassName */].OPEN, false);
+                    _this._renderer.setElementClass(__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["a" /* ClassName */].OPEN, false);
                 }
                 _this.resetScrollbar();
             }
             _this.resetAdjustments();
-            _this.focusOtherModal();
             _this.onHidden.emit(_this);
         });
     };
@@ -7570,8 +3391,13 @@ var ModalDirective = (function () {
             this._backdrop
                 .attach(__WEBPACK_IMPORTED_MODULE_4__modal_backdrop_component__["a" /* ModalBackdropComponent */])
                 .to('body')
-                .show({ isAnimated: this.isAnimated });
+                .show({ isAnimated: false });
             this.backdrop = this._backdrop._componentRef;
+            if (this.isAnimated) {
+                this.backdrop.instance.isAnimated = this.isAnimated;
+                __WEBPACK_IMPORTED_MODULE_3__utils_utils_class__["a" /* Utils */].reflow(this.backdrop.instance.element.nativeElement);
+            }
+            this.backdrop.instance.isShown = true;
             if (!callback) {
                 return;
             }
@@ -7626,13 +3452,6 @@ var ModalDirective = (function () {
     //   $(window).off(Event.RESIZE)
     // }
     // }
-    ModalDirective.prototype.focusOtherModal = function () {
-        var otherOpenedModals = this._element.nativeElement.parentElement.querySelectorAll('.in[bsModal]');
-        if (!otherOpenedModals.length) {
-            return;
-        }
-        this._renderer.invokeElementMethod(otherOpenedModals[otherOpenedModals.length - 1], 'focus');
-    };
     /** @internal */
     ModalDirective.prototype.resetAdjustments = function () {
         this._renderer.setElementStyle(this._element.nativeElement, 'paddingLeft', '');
@@ -7648,9 +3467,14 @@ var ModalDirective = (function () {
         if (!__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */]) {
             return;
         }
-        this.originalBodyPadding = parseInt(__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["b" /* window */].getComputedStyle(__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body).getPropertyValue('padding-right') || 0, 10);
+        var fixedEl = __WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].querySelector(__WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* Selector */].FIXED_CONTENT);
+        if (!fixedEl) {
+            return;
+        }
+        var bodyPadding = parseInt(__WEBPACK_IMPORTED_MODULE_3__utils_utils_class__["a" /* Utils */].getStyles(fixedEl).paddingRight || 0, 10);
+        this.originalBodyPadding = parseInt(__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body.style.paddingRight || 0, 10);
         if (this.isBodyOverflowing) {
-            __WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body.style.paddingRight = this.originalBodyPadding + this.scrollbarWidth + "px";
+            __WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body.style.paddingRight = (bodyPadding + this.scrollbarWidth) + "px";
         }
     };
     ModalDirective.prototype.resetScrollbar = function () {
@@ -7659,54 +3483,35 @@ var ModalDirective = (function () {
     // thx d.walsh
     ModalDirective.prototype.getScrollbarWidth = function () {
         var scrollDiv = this._renderer.createElement(__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body, 'div', void 0);
-        scrollDiv.className = __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* ClassName */].SCROLLBAR_MEASURER;
+        scrollDiv.className = __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["a" /* ClassName */].SCROLLBAR_MEASURER;
         var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
         __WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body.removeChild(scrollDiv);
         return scrollbarWidth;
     };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["d" /* ModalOptions */]),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__modal_options_class__["d" /* ModalOptions */]])
-    ], ModalDirective.prototype, "config", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], ModalDirective.prototype, "onShow", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], ModalDirective.prototype, "onShown", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], ModalDirective.prototype, "onHide", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], ModalDirective.prototype, "onHidden", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */])('click', ['$event']),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Object]),
-        __metadata("design:returntype", void 0)
-    ], ModalDirective.prototype, "onClick", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */])('keydown.esc'),
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", []),
-        __metadata("design:returntype", void 0)
-    ], ModalDirective.prototype, "onEsc", null);
-    ModalDirective = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */])({
-            selector: '[bsModal]',
-            exportAs: 'bs-modal'
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */], __WEBPACK_IMPORTED_MODULE_6__component_loader_component_loader_factory__["a" /* ComponentLoaderFactory */]])
-    ], ModalDirective);
+    ModalDirective.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
+                    selector: '[bsModal]',
+                    exportAs: 'bs-modal'
+                },] },
+    ];
+    /** @nocollapse */
+    ModalDirective.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */], },
+        { type: __WEBPACK_IMPORTED_MODULE_6__component_loader_component_loader_factory__["a" /* ComponentLoaderFactory */], },
+    ]; };
+    ModalDirective.propDecorators = {
+        'config': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'onShow': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
+        'onShown': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
+        'onHide': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
+        'onHidden': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
+        'onClick': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['click', ['$event'],] },],
+        'onEsc': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['keydown.esc',] },],
+    };
     return ModalDirective;
 }());
-
 //# sourceMappingURL=modal.component.js.map
 
 /***/ }),
@@ -7721,16 +3526,6 @@ var ModalDirective = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal.component.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__positioning__ = __webpack_require__("../../../../ngx-bootstrap/positioning/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__component_loader__ = __webpack_require__("../../../../ngx-bootstrap/component-loader/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modal_container_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-container.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__bs_modal_service__ = __webpack_require__("../../../../ngx-bootstrap/modal/bs-modal.service.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
 
 
 
@@ -7739,716 +3534,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var ModalModule = (function () {
     function ModalModule() {
     }
-    ModalModule_1 = ModalModule;
     ModalModule.forRoot = function () {
-        return { ngModule: ModalModule_1, providers: [__WEBPACK_IMPORTED_MODULE_6__bs_modal_service__["a" /* BsModalService */], __WEBPACK_IMPORTED_MODULE_4__component_loader__["a" /* ComponentLoaderFactory */], __WEBPACK_IMPORTED_MODULE_3__positioning__["a" /* PositioningService */]] };
+        return { ngModule: ModalModule, providers: [__WEBPACK_IMPORTED_MODULE_4__component_loader__["a" /* ComponentLoaderFactory */], __WEBPACK_IMPORTED_MODULE_3__positioning__["a" /* PositioningService */]] };
     };
-    ModalModule = ModalModule_1 = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-            declarations: [__WEBPACK_IMPORTED_MODULE_1__modal_backdrop_component__["a" /* ModalBackdropComponent */], __WEBPACK_IMPORTED_MODULE_2__modal_component__["a" /* ModalDirective */], __WEBPACK_IMPORTED_MODULE_5__modal_container_component__["a" /* ModalContainerComponent */]],
-            exports: [__WEBPACK_IMPORTED_MODULE_1__modal_backdrop_component__["a" /* ModalBackdropComponent */], __WEBPACK_IMPORTED_MODULE_2__modal_component__["a" /* ModalDirective */]],
-            entryComponents: [__WEBPACK_IMPORTED_MODULE_1__modal_backdrop_component__["a" /* ModalBackdropComponent */], __WEBPACK_IMPORTED_MODULE_5__modal_container_component__["a" /* ModalContainerComponent */]]
-        })
-    ], ModalModule);
+    ModalModule.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */], args: [{
+                    declarations: [__WEBPACK_IMPORTED_MODULE_1__modal_backdrop_component__["a" /* ModalBackdropComponent */], __WEBPACK_IMPORTED_MODULE_2__modal_component__["a" /* ModalDirective */]],
+                    exports: [__WEBPACK_IMPORTED_MODULE_1__modal_backdrop_component__["a" /* ModalBackdropComponent */], __WEBPACK_IMPORTED_MODULE_2__modal_component__["a" /* ModalDirective */]],
+                    entryComponents: [__WEBPACK_IMPORTED_MODULE_1__modal_backdrop_component__["a" /* ModalBackdropComponent */]]
+                },] },
+    ];
+    /** @nocollapse */
+    ModalModule.ctorParameters = function () { return []; };
     return ModalModule;
-    var ModalModule_1;
 }());
-
 //# sourceMappingURL=modal.module.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/pagination/index.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pager_component__ = __webpack_require__("../../../../ngx-bootstrap/pagination/pager.component.js");
-/* unused harmony reexport PagerComponent */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__pagination_component__ = __webpack_require__("../../../../ngx-bootstrap/pagination/pagination.component.js");
-/* unused harmony reexport PaginationComponent */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pagination_module__ = __webpack_require__("../../../../ngx-bootstrap/pagination/pagination.module.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_2__pagination_module__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pagination_config__ = __webpack_require__("../../../../ngx-bootstrap/pagination/pagination.config.js");
-/* unused harmony reexport PaginationConfig */
-
-
-
-
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/pagination/pager.component.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export PAGER_CONTROL_VALUE_ACCESSOR */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PagerComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pagination_config__ = __webpack_require__("../../../../ngx-bootstrap/pagination/pagination.config.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var PAGER_CONTROL_VALUE_ACCESSOR = {
-    provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* NG_VALUE_ACCESSOR */],
-    useExisting: Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_23" /* forwardRef */])(function () { return PagerComponent; }),
-    multi: true
-};
-var PAGER_TEMPLATE = "\n    <ul class=\"pager\">\n      <li [class.disabled]=\"noPrevious()\" [class.previous]=\"align\" [ngClass]=\"{'pull-right': align, 'float-right': align}\" class=\"{{ pageBtnClass }}\">\n        <a href (click)=\"selectPage(page - 1, $event)\">{{getText('previous')}}</a>\n      </li>\n      <li [class.disabled]=\"noNext()\" [class.next]=\"align\" [ngClass]=\"{'pull-right': align, 'float-right': align}\" class=\"{{ pageBtnClass }}\">\n        <a href (click)=\"selectPage(page + 1, $event)\">{{getText('next')}}</a>\n      </li>\n  </ul>\n";
-var PagerComponent = (function () {
-    function PagerComponent(renderer, elementRef, paginationConfig) {
-        /** fired when total pages count changes, $event:number equals to total pages count */
-        this.numPages = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-        /** fired when page was changed, $event:{page, itemsPerPage} equals to object with current page index and number of items per page */
-        this.pageChanged = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-        this.onChange = Function.prototype;
-        this.onTouched = Function.prototype;
-        this.inited = false;
-        this._page = 1;
-        this.renderer = renderer;
-        this.elementRef = elementRef;
-        if (!this.config) {
-            this.configureOptions(Object.assign({}, paginationConfig.main, paginationConfig.pager));
-        }
-    }
-    Object.defineProperty(PagerComponent.prototype, "itemsPerPage", {
-        /** maximum number of items per page. If value less than 1 will display all items on one page */
-        get: function () {
-            return this._itemsPerPage;
-        },
-        set: function (v) {
-            this._itemsPerPage = v;
-            this.totalPages = this.calculateTotalPages();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(PagerComponent.prototype, "totalItems", {
-        /** total number of items in all pages */
-        get: function () {
-            return this._totalItems;
-        },
-        set: function (v) {
-            this._totalItems = v;
-            this.totalPages = this.calculateTotalPages();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(PagerComponent.prototype, "totalPages", {
-        get: function () {
-            return this._totalPages;
-        },
-        set: function (v) {
-            this._totalPages = v;
-            this.numPages.emit(v);
-            if (this.inited) {
-                this.selectPage(this.page);
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(PagerComponent.prototype, "page", {
-        get: function () {
-            return this._page;
-        },
-        set: function (value) {
-            var _previous = this._page;
-            this._page = (value > this.totalPages) ? this.totalPages : (value || 1);
-            if (_previous === this._page || typeof _previous === 'undefined') {
-                return;
-            }
-            this.pageChanged.emit({
-                page: this._page,
-                itemsPerPage: this.itemsPerPage
-            });
-        },
-        enumerable: true,
-        configurable: true
-    });
-    PagerComponent.prototype.configureOptions = function (config) {
-        this.config = Object.assign({}, config);
-    };
-    PagerComponent.prototype.ngOnInit = function () {
-        this.classMap = this.elementRef.nativeElement.getAttribute('class') || '';
-        // watch for maxSize
-        this.maxSize = typeof this.maxSize !== 'undefined'
-            ? this.maxSize
-            : this.config.maxSize;
-        this.rotate = typeof this.rotate !== 'undefined'
-            ? this.rotate
-            : this.config.rotate;
-        this.boundaryLinks = typeof this.boundaryLinks !== 'undefined'
-            ? this.boundaryLinks
-            : this.config.boundaryLinks;
-        this.directionLinks = typeof this.directionLinks !== 'undefined'
-            ? this.directionLinks
-            : this.config.directionLinks;
-        this.pageBtnClass = typeof this.pageBtnClass !== 'undefined'
-            ? this.pageBtnClass
-            : this.config.pageBtnClass;
-        // base class
-        this.itemsPerPage = typeof this.itemsPerPage !== 'undefined'
-            ? this.itemsPerPage
-            : this.config.itemsPerPage;
-        this.totalPages = this.calculateTotalPages();
-        // this class
-        this.pages = this.getPages(this.page, this.totalPages);
-        this.inited = true;
-    };
-    PagerComponent.prototype.writeValue = function (value) {
-        this.page = value;
-        this.pages = this.getPages(this.page, this.totalPages);
-    };
-    PagerComponent.prototype.getText = function (key) {
-        return this[key + 'Text'] || this.config[key + 'Text'];
-    };
-    PagerComponent.prototype.noPrevious = function () {
-        return this.page === 1;
-    };
-    PagerComponent.prototype.noNext = function () {
-        return this.page === this.totalPages;
-    };
-    PagerComponent.prototype.registerOnChange = function (fn) {
-        this.onChange = fn;
-    };
-    PagerComponent.prototype.registerOnTouched = function (fn) {
-        this.onTouched = fn;
-    };
-    PagerComponent.prototype.selectPage = function (page, event) {
-        if (event) {
-            event.preventDefault();
-        }
-        if (!this.disabled) {
-            if (event && event.target) {
-                var target = event.target;
-                target.blur();
-            }
-            this.writeValue(page);
-            this.onChange(this.page);
-        }
-    };
-    // Create page object used in template
-    PagerComponent.prototype.makePage = function (num, text, active) {
-        return { text: text, number: num, active: active };
-    };
-    PagerComponent.prototype.getPages = function (currentPage, totalPages) {
-        var pages = [];
-        // Default page limits
-        var startPage = 1;
-        var endPage = totalPages;
-        var isMaxSized = typeof this.maxSize !== 'undefined' && this.maxSize < totalPages;
-        // recompute if maxSize
-        if (isMaxSized) {
-            if (this.rotate) {
-                // Current page is displayed in the middle of the visible ones
-                startPage = Math.max(currentPage - Math.floor(this.maxSize / 2), 1);
-                endPage = startPage + this.maxSize - 1;
-                // Adjust if limit is exceeded
-                if (endPage > totalPages) {
-                    endPage = totalPages;
-                    startPage = endPage - this.maxSize + 1;
-                }
-            }
-            else {
-                // Visible pages are paginated with maxSize
-                startPage = ((Math.ceil(currentPage / this.maxSize) - 1) * this.maxSize) + 1;
-                // Adjust last page if limit is exceeded
-                endPage = Math.min(startPage + this.maxSize - 1, totalPages);
-            }
-        }
-        // Add page number links
-        for (var num = startPage; num <= endPage; num++) {
-            var page = this.makePage(num, num.toString(), num === currentPage);
-            pages.push(page);
-        }
-        // Add links to move between page sets
-        if (isMaxSized && !this.rotate) {
-            if (startPage > 1) {
-                var previousPageSet = this.makePage(startPage - 1, '...', false);
-                pages.unshift(previousPageSet);
-            }
-            if (endPage < totalPages) {
-                var nextPageSet = this.makePage(endPage + 1, '...', false);
-                pages.push(nextPageSet);
-            }
-        }
-        return pages;
-    };
-    // base class
-    PagerComponent.prototype.calculateTotalPages = function () {
-        var totalPages = this.itemsPerPage < 1
-            ? 1
-            : Math.ceil(this.totalItems / this.itemsPerPage);
-        return Math.max(totalPages || 0, 1);
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], PagerComponent.prototype, "align", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Number)
-    ], PagerComponent.prototype, "maxSize", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], PagerComponent.prototype, "boundaryLinks", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], PagerComponent.prototype, "directionLinks", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], PagerComponent.prototype, "firstText", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], PagerComponent.prototype, "previousText", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], PagerComponent.prototype, "nextText", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], PagerComponent.prototype, "lastText", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], PagerComponent.prototype, "rotate", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], PagerComponent.prototype, "pageBtnClass", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], PagerComponent.prototype, "disabled", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], PagerComponent.prototype, "numPages", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], PagerComponent.prototype, "pageChanged", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Number),
-        __metadata("design:paramtypes", [Number])
-    ], PagerComponent.prototype, "itemsPerPage", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Number),
-        __metadata("design:paramtypes", [Number])
-    ], PagerComponent.prototype, "totalItems", null);
-    PagerComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'pager',
-            template: PAGER_TEMPLATE,
-            providers: [PAGER_CONTROL_VALUE_ACCESSOR]
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], __WEBPACK_IMPORTED_MODULE_2__pagination_config__["a" /* PaginationConfig */]])
-    ], PagerComponent);
-    return PagerComponent;
-}());
-
-//# sourceMappingURL=pager.component.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/pagination/pagination.component.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export PAGINATION_CONTROL_VALUE_ACCESSOR */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PaginationComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pagination_config__ = __webpack_require__("../../../../ngx-bootstrap/pagination/pagination.config.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var PAGINATION_CONTROL_VALUE_ACCESSOR = {
-    provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* NG_VALUE_ACCESSOR */],
-    useExisting: Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_23" /* forwardRef */])(function () { return PaginationComponent; }),
-    multi: true
-};
-var PAGINATION_TEMPLATE = "\n  <ul class=\"pagination\" [ngClass]=\"classMap\">\n    <li class=\"pagination-first page-item\"\n        *ngIf=\"boundaryLinks\"\n        [class.disabled]=\"noPrevious()||disabled\">\n      <a class=\"page-link\" href (click)=\"selectPage(1, $event)\" [innerHTML]=\"getText('first')\"></a>\n    </li>\n\n    <li class=\"pagination-prev page-item\"\n        *ngIf=\"directionLinks\"\n        [class.disabled]=\"noPrevious()||disabled\">\n      <a class=\"page-link\" href (click)=\"selectPage(page - 1, $event)\" [innerHTML]=\"getText('previous')\"></a>\n      </li>\n\n    <li *ngFor=\"let pg of pages\"\n        [class.active]=\"pg.active\"\n        [class.disabled]=\"disabled&&!pg.active\"\n        class=\"pagination-page page-item\">\n      <a class=\"page-link\" href (click)=\"selectPage(pg.number, $event)\" [innerHTML]=\"pg.text\"></a>\n    </li>\n\n    <li class=\"pagination-next page-item\"\n        *ngIf=\"directionLinks\"\n        [class.disabled]=\"noNext()||disabled\">\n      <a class=\"page-link\" href (click)=\"selectPage(page + 1, $event)\" [innerHTML]=\"getText('next')\"></a></li>\n\n    <li class=\"pagination-last page-item\"\n        *ngIf=\"boundaryLinks\"\n        [class.disabled]=\"noNext()||disabled\">\n      <a class=\"page-link\" href (click)=\"selectPage(totalPages, $event)\" [innerHTML]=\"getText('last')\"></a></li>\n  </ul>\n  ";
-var PaginationComponent = (function () {
-    function PaginationComponent(renderer, elementRef, paginationConfig) {
-        /** fired when total pages count changes, $event:number equals to total pages count */
-        this.numPages = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-        /** fired when page was changed, $event:{page, itemsPerPage} equals to object with current page index and number of items per page */
-        this.pageChanged = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
-        this.onChange = Function.prototype;
-        this.onTouched = Function.prototype;
-        this.inited = false;
-        this._page = 1;
-        this.renderer = renderer;
-        this.elementRef = elementRef;
-        if (!this.config) {
-            this.configureOptions(paginationConfig.main);
-        }
-    }
-    Object.defineProperty(PaginationComponent.prototype, "itemsPerPage", {
-        /** maximum number of items per page. If value less than 1 will display all items on one page */
-        get: function () {
-            return this._itemsPerPage;
-        },
-        set: function (v) {
-            this._itemsPerPage = v;
-            this.totalPages = this.calculateTotalPages();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(PaginationComponent.prototype, "totalItems", {
-        /** total number of items in all pages */
-        get: function () {
-            return this._totalItems;
-        },
-        set: function (v) {
-            this._totalItems = v;
-            this.totalPages = this.calculateTotalPages();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(PaginationComponent.prototype, "totalPages", {
-        get: function () {
-            return this._totalPages;
-        },
-        set: function (v) {
-            this._totalPages = v;
-            this.numPages.emit(v);
-            if (this.inited) {
-                this.selectPage(this.page);
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(PaginationComponent.prototype, "page", {
-        get: function () {
-            return this._page;
-        },
-        set: function (value) {
-            var _previous = this._page;
-            this._page = (value > this.totalPages) ? this.totalPages : (value || 1);
-            if (_previous === this._page || typeof _previous === 'undefined') {
-                return;
-            }
-            this.pageChanged.emit({
-                page: this._page,
-                itemsPerPage: this.itemsPerPage
-            });
-        },
-        enumerable: true,
-        configurable: true
-    });
-    PaginationComponent.prototype.configureOptions = function (config) {
-        this.config = Object.assign({}, config);
-    };
-    PaginationComponent.prototype.ngOnInit = function () {
-        this.classMap = this.elementRef.nativeElement.getAttribute('class') || '';
-        // watch for maxSize
-        this.maxSize = typeof this.maxSize !== 'undefined'
-            ? this.maxSize
-            : this.config.maxSize;
-        this.rotate = typeof this.rotate !== 'undefined'
-            ? this.rotate
-            : this.config.rotate;
-        this.boundaryLinks = typeof this.boundaryLinks !== 'undefined'
-            ? this.boundaryLinks
-            : this.config.boundaryLinks;
-        this.directionLinks = typeof this.directionLinks !== 'undefined'
-            ? this.directionLinks
-            : this.config.directionLinks;
-        this.pageBtnClass = typeof this.pageBtnClass !== 'undefined'
-            ? this.pageBtnClass
-            : this.config.pageBtnClass;
-        // base class
-        this.itemsPerPage = typeof this.itemsPerPage !== 'undefined'
-            ? this.itemsPerPage
-            : this.config.itemsPerPage;
-        this.totalPages = this.calculateTotalPages();
-        // this class
-        this.pages = this.getPages(this.page, this.totalPages);
-        this.inited = true;
-    };
-    PaginationComponent.prototype.writeValue = function (value) {
-        this.page = value;
-        this.pages = this.getPages(this.page, this.totalPages);
-    };
-    PaginationComponent.prototype.getText = function (key) {
-        return this[key + 'Text'] || this.config[key + 'Text'];
-    };
-    PaginationComponent.prototype.noPrevious = function () {
-        return this.page === 1;
-    };
-    PaginationComponent.prototype.noNext = function () {
-        return this.page === this.totalPages;
-    };
-    PaginationComponent.prototype.registerOnChange = function (fn) {
-        this.onChange = fn;
-    };
-    PaginationComponent.prototype.registerOnTouched = function (fn) {
-        this.onTouched = fn;
-    };
-    PaginationComponent.prototype.selectPage = function (page, event) {
-        if (event) {
-            event.preventDefault();
-        }
-        if (!this.disabled) {
-            if (event && event.target) {
-                var target = event.target;
-                target.blur();
-            }
-            this.writeValue(page);
-            this.onChange(this.page);
-        }
-    };
-    // Create page object used in template
-    PaginationComponent.prototype.makePage = function (num, text, active) {
-        return { text: text, number: num, active: active };
-    };
-    PaginationComponent.prototype.getPages = function (currentPage, totalPages) {
-        var pages = [];
-        // Default page limits
-        var startPage = 1;
-        var endPage = totalPages;
-        var isMaxSized = typeof this.maxSize !== 'undefined' && this.maxSize < totalPages;
-        // recompute if maxSize
-        if (isMaxSized) {
-            if (this.rotate) {
-                // Current page is displayed in the middle of the visible ones
-                startPage = Math.max(currentPage - Math.floor(this.maxSize / 2), 1);
-                endPage = startPage + this.maxSize - 1;
-                // Adjust if limit is exceeded
-                if (endPage > totalPages) {
-                    endPage = totalPages;
-                    startPage = endPage - this.maxSize + 1;
-                }
-            }
-            else {
-                // Visible pages are paginated with maxSize
-                startPage = ((Math.ceil(currentPage / this.maxSize) - 1) * this.maxSize) + 1;
-                // Adjust last page if limit is exceeded
-                endPage = Math.min(startPage + this.maxSize - 1, totalPages);
-            }
-        }
-        // Add page number links
-        for (var num = startPage; num <= endPage; num++) {
-            var page = this.makePage(num, num.toString(), num === currentPage);
-            pages.push(page);
-        }
-        // Add links to move between page sets
-        if (isMaxSized && !this.rotate) {
-            if (startPage > 1) {
-                var previousPageSet = this.makePage(startPage - 1, '...', false);
-                pages.unshift(previousPageSet);
-            }
-            if (endPage < totalPages) {
-                var nextPageSet = this.makePage(endPage + 1, '...', false);
-                pages.push(nextPageSet);
-            }
-        }
-        return pages;
-    };
-    // base class
-    PaginationComponent.prototype.calculateTotalPages = function () {
-        var totalPages = this.itemsPerPage < 1
-            ? 1
-            : Math.ceil(this.totalItems / this.itemsPerPage);
-        return Math.max(totalPages || 0, 1);
-    };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], PaginationComponent.prototype, "align", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Number)
-    ], PaginationComponent.prototype, "maxSize", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], PaginationComponent.prototype, "boundaryLinks", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], PaginationComponent.prototype, "directionLinks", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], PaginationComponent.prototype, "firstText", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], PaginationComponent.prototype, "previousText", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], PaginationComponent.prototype, "nextText", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], PaginationComponent.prototype, "lastText", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], PaginationComponent.prototype, "rotate", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], PaginationComponent.prototype, "pageBtnClass", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], PaginationComponent.prototype, "disabled", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], PaginationComponent.prototype, "numPages", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], PaginationComponent.prototype, "pageChanged", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Number),
-        __metadata("design:paramtypes", [Number])
-    ], PaginationComponent.prototype, "itemsPerPage", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Number),
-        __metadata("design:paramtypes", [Number])
-    ], PaginationComponent.prototype, "totalItems", null);
-    PaginationComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'pagination',
-            template: PAGINATION_TEMPLATE,
-            providers: [PAGINATION_CONTROL_VALUE_ACCESSOR]
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], __WEBPACK_IMPORTED_MODULE_2__pagination_config__["a" /* PaginationConfig */]])
-    ], PaginationComponent);
-    return PaginationComponent;
-}());
-
-//# sourceMappingURL=pagination.component.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/pagination/pagination.config.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PaginationConfig; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-// todo: split
-
-/** Provides default values for Pagination and pager components */
-var PaginationConfig = (function () {
-    function PaginationConfig() {
-        this.main = {
-            maxSize: void 0,
-            itemsPerPage: 10,
-            boundaryLinks: false,
-            directionLinks: true,
-            firstText: 'First',
-            previousText: 'Previous',
-            nextText: 'Next',
-            lastText: 'Last',
-            pageBtnClass: '',
-            rotate: true
-        };
-        this.pager = {
-            itemsPerPage: 15,
-            previousText: '« Previous',
-            nextText: 'Next »',
-            pageBtnClass: '',
-            align: true
-        };
-    }
-    PaginationConfig = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
-    ], PaginationConfig);
-    return PaginationConfig;
-}());
-
-//# sourceMappingURL=pagination.config.js.map
-
-/***/ }),
-
-/***/ "../../../../ngx-bootstrap/pagination/pagination.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PaginationModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pagination_config__ = __webpack_require__("../../../../ngx-bootstrap/pagination/pagination.config.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pager_component__ = __webpack_require__("../../../../ngx-bootstrap/pagination/pager.component.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pagination_component__ = __webpack_require__("../../../../ngx-bootstrap/pagination/pagination.component.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-
-var PaginationModule = (function () {
-    function PaginationModule() {
-    }
-    PaginationModule_1 = PaginationModule;
-    PaginationModule.forRoot = function () {
-        return { ngModule: PaginationModule_1, providers: [__WEBPACK_IMPORTED_MODULE_2__pagination_config__["a" /* PaginationConfig */]] };
-    };
-    PaginationModule = PaginationModule_1 = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["M" /* NgModule */])({
-            imports: [__WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */]],
-            declarations: [__WEBPACK_IMPORTED_MODULE_3__pager_component__["a" /* PagerComponent */], __WEBPACK_IMPORTED_MODULE_4__pagination_component__["a" /* PaginationComponent */]],
-            exports: [__WEBPACK_IMPORTED_MODULE_3__pager_component__["a" /* PagerComponent */], __WEBPACK_IMPORTED_MODULE_4__pagination_component__["a" /* PaginationComponent */]]
-        })
-    ], PaginationModule);
-    return PaginationModule;
-    var PaginationModule_1;
-}());
-
-//# sourceMappingURL=pagination.module.js.map
 
 /***/ }),
 
@@ -8488,15 +3588,7 @@ var Positioning = (function () {
         var elPosition;
         var parentOffset = { width: 0, height: 0, top: 0, bottom: 0, left: 0, right: 0 };
         if (this.getStyle(element, 'position') === 'fixed') {
-            var bcRect = element.getBoundingClientRect();
-            elPosition = {
-                width: bcRect.width,
-                height: bcRect.height,
-                top: bcRect.top,
-                bottom: bcRect.bottom,
-                left: bcRect.left,
-                right: bcRect.right
-            };
+            elPosition = element.getBoundingClientRect();
         }
         else {
             var offsetParentEl = this.offsetParent(element);
@@ -8546,7 +3638,6 @@ var Positioning = (function () {
     };
     Positioning.prototype.positionElements = function (hostElement, targetElement, placement, appendToBody) {
         var hostElPosition = appendToBody ? this.offset(hostElement, false) : this.position(hostElement, false);
-        var targetElStyles = this.getAllStyles(targetElement);
         var shiftWidth = {
             left: hostElPosition.left,
             center: hostElPosition.left + hostElPosition.width / 2 - targetElement.offsetWidth / 2,
@@ -8570,7 +3661,7 @@ var Positioning = (function () {
         };
         switch (placementPrimary) {
             case 'top':
-                targetElPosition.top = hostElPosition.top - (targetElement.offsetHeight + parseFloat(targetElStyles.marginBottom));
+                targetElPosition.top = hostElPosition.top - targetElement.offsetHeight;
                 targetElPosition.bottom += hostElPosition.top - targetElement.offsetHeight;
                 targetElPosition.left = shiftWidth[placementSecondary];
                 targetElPosition.right += shiftWidth[placementSecondary];
@@ -8584,7 +3675,7 @@ var Positioning = (function () {
             case 'left':
                 targetElPosition.top = shiftHeight[placementSecondary];
                 targetElPosition.bottom += shiftHeight[placementSecondary];
-                targetElPosition.left = hostElPosition.left - (targetElement.offsetWidth + parseFloat(targetElStyles.marginRight));
+                targetElPosition.left = hostElPosition.left - targetElement.offsetWidth;
                 targetElPosition.right += hostElPosition.left - targetElement.offsetWidth;
                 break;
             case 'right':
@@ -8600,8 +3691,7 @@ var Positioning = (function () {
         targetElPosition.right = Math.round(targetElPosition.right);
         return targetElPosition;
     };
-    Positioning.prototype.getAllStyles = function (element) { return window.getComputedStyle(element); };
-    Positioning.prototype.getStyle = function (element, prop) { return this.getAllStyles(element)[prop]; };
+    Positioning.prototype.getStyle = function (element, prop) { return window.getComputedStyle(element)[prop]; };
     Positioning.prototype.isStaticPositioned = function (element) {
         return (this.getStyle(element, 'position') || 'static') === 'static';
     };
@@ -8614,7 +3704,6 @@ var Positioning = (function () {
     };
     return Positioning;
 }());
-
 var positionService = new Positioning();
 function positionElements(hostElement, targetElement, placement, appendToBody) {
     var pos = positionService.positionElements(hostElement, targetElement, placement, appendToBody);
@@ -8632,12 +3721,6 @@ function positionElements(hostElement, targetElement, placement, appendToBody) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PositioningService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_positioning__ = __webpack_require__("../../../../ngx-bootstrap/positioning/ng-positioning.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
 
 
 var PositioningService = (function () {
@@ -8657,12 +3740,13 @@ var PositioningService = (function () {
         }
         return element;
     };
-    PositioningService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
-    ], PositioningService);
+    PositioningService.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
+    ];
+    /** @nocollapse */
+    PositioningService.ctorParameters = function () { return []; };
     return PositioningService;
 }());
-
 //# sourceMappingURL=positioning.service.js.map
 
 /***/ }),
@@ -8699,15 +3783,6 @@ var PositioningService = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgTranscludeDirective; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 
 var NgTranscludeDirective = (function () {
     function NgTranscludeDirective(viewRef) {
@@ -8726,20 +3801,20 @@ var NgTranscludeDirective = (function () {
         enumerable: true,
         configurable: true
     });
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* TemplateRef */]),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* TemplateRef */]])
-    ], NgTranscludeDirective.prototype, "ngTransclude", null);
-    NgTranscludeDirective = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */])({
-            selector: '[ngTransclude]'
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */]])
-    ], NgTranscludeDirective);
+    NgTranscludeDirective.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
+                    selector: '[ngTransclude]'
+                },] },
+    ];
+    /** @nocollapse */
+    NgTranscludeDirective.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */], },
+    ]; };
+    NgTranscludeDirective.propDecorators = {
+        'ngTransclude': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    };
     return NgTranscludeDirective;
 }());
-
 //# sourceMappingURL=ng-transclude.directive.js.map
 
 /***/ }),
@@ -8751,15 +3826,6 @@ var NgTranscludeDirective = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabHeadingDirective; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tab_directive__ = __webpack_require__("../../../../ngx-bootstrap/tabs/tab.directive.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 
 
 /** Should be used to mark <template> element as a template for tab heading */
@@ -8767,13 +3833,16 @@ var TabHeadingDirective = (function () {
     function TabHeadingDirective(templateRef, tab) {
         tab.headingRef = templateRef;
     }
-    TabHeadingDirective = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */])({ selector: '[tabHeading]' }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* TemplateRef */], __WEBPACK_IMPORTED_MODULE_1__tab_directive__["a" /* TabDirective */]])
-    ], TabHeadingDirective);
+    TabHeadingDirective.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{ selector: '[tabHeading]' },] },
+    ];
+    /** @nocollapse */
+    TabHeadingDirective.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* TemplateRef */], },
+        { type: __WEBPACK_IMPORTED_MODULE_1__tab_directive__["a" /* TabDirective */], },
+    ]; };
     return TabHeadingDirective;
 }());
-
 //# sourceMappingURL=tab-heading.directive.js.map
 
 /***/ }),
@@ -8785,21 +3854,11 @@ var TabHeadingDirective = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabDirective; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tabset_component__ = __webpack_require__("../../../../ngx-bootstrap/tabs/tabset.component.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 
 
 var TabDirective = (function () {
-    function TabDirective(tabset, elementRef, renderer) {
+    function TabDirective(tabset, elementRef) {
         this.elementRef = elementRef;
-        this.renderer = renderer;
         /** fired when tab became active, $event:Tab equals to selected instance of Tab component */
         this.select = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         /** fired when tab became inactive, $event:Tab equals to deselected instance of Tab component */
@@ -8810,23 +3869,6 @@ var TabDirective = (function () {
         this.tabset = tabset;
         this.tabset.addTab(this);
     }
-    Object.defineProperty(TabDirective.prototype, "customClass", {
-        /** if set, will be added to the tab's class atribute */
-        get: function () {
-            return this._customClass;
-        },
-        set: function (customClass) {
-            if (this._customClass && this._customClass !== customClass) {
-                this.renderer.setElementClass(this.elementRef.nativeElement, this._customClass, false);
-            }
-            this._customClass = customClass;
-            if (this._customClass) {
-                this.renderer.setElementClass(this.elementRef.nativeElement, this._customClass, true);
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(TabDirective.prototype, "active", {
         /** tab active state toggle */
         get: function () {
@@ -8834,14 +3876,11 @@ var TabDirective = (function () {
         },
         set: function (active) {
             var _this = this;
-            if (this._active === active) {
-                return;
-            }
             if (this.disabled && active || !active) {
-                if (this._active && !active) {
-                    this.deselect.emit(this);
+                if (!active) {
                     this._active = active;
                 }
+                this.deselect.emit(this);
                 return;
             }
             this._active = active;
@@ -8861,56 +3900,28 @@ var TabDirective = (function () {
     TabDirective.prototype.ngOnDestroy = function () {
         this.tabset.removeTab(this, { reselect: false, emit: false });
     };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], TabDirective.prototype, "heading", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], TabDirective.prototype, "id", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], TabDirective.prototype, "disabled", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean)
-    ], TabDirective.prototype, "removable", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String),
-        __metadata("design:paramtypes", [String])
-    ], TabDirective.prototype, "customClass", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */])('class.active'),
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean),
-        __metadata("design:paramtypes", [Boolean])
-    ], TabDirective.prototype, "active", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], TabDirective.prototype, "select", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], TabDirective.prototype, "deselect", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
-    ], TabDirective.prototype, "removed", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */])('class.tab-pane'),
-        __metadata("design:type", Boolean)
-    ], TabDirective.prototype, "addClass", void 0);
-    TabDirective = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */])({ selector: 'tab, [tab]' }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__tabset_component__["a" /* TabsetComponent */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */]])
-    ], TabDirective);
+    TabDirective.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{ selector: 'tab, [tab]' },] },
+    ];
+    /** @nocollapse */
+    TabDirective.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_1__tabset_component__["a" /* TabsetComponent */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], },
+    ]; };
+    TabDirective.propDecorators = {
+        'heading': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'id': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'disabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'removable': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'customClass': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'active': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */], args: ['class.active',] }, { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'select': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
+        'deselect': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
+        'removed': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
+        'addClass': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */], args: ['class.tab-pane',] },],
+    };
     return TabDirective;
 }());
-
 //# sourceMappingURL=tab.directive.js.map
 
 /***/ }),
@@ -8927,12 +3938,6 @@ var TabDirective = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tab_directive__ = __webpack_require__("../../../../ngx-bootstrap/tabs/tab.directive.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__tabset_component__ = __webpack_require__("../../../../ngx-bootstrap/tabs/tabset.component.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__tabset_config__ = __webpack_require__("../../../../ngx-bootstrap/tabs/tabset.config.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
 
 
 
@@ -8943,24 +3948,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var TabsModule = (function () {
     function TabsModule() {
     }
-    TabsModule_1 = TabsModule;
     TabsModule.forRoot = function () {
         return {
-            ngModule: TabsModule_1,
+            ngModule: TabsModule,
             providers: [__WEBPACK_IMPORTED_MODULE_6__tabset_config__["a" /* TabsetConfig */]]
         };
     };
-    TabsModule = TabsModule_1 = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["M" /* NgModule */])({
-            imports: [__WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */]],
-            declarations: [__WEBPACK_IMPORTED_MODULE_2__ng_transclude_directive__["a" /* NgTranscludeDirective */], __WEBPACK_IMPORTED_MODULE_4__tab_directive__["a" /* TabDirective */], __WEBPACK_IMPORTED_MODULE_5__tabset_component__["a" /* TabsetComponent */], __WEBPACK_IMPORTED_MODULE_3__tab_heading_directive__["a" /* TabHeadingDirective */]],
-            exports: [__WEBPACK_IMPORTED_MODULE_4__tab_directive__["a" /* TabDirective */], __WEBPACK_IMPORTED_MODULE_5__tabset_component__["a" /* TabsetComponent */], __WEBPACK_IMPORTED_MODULE_3__tab_heading_directive__["a" /* TabHeadingDirective */], __WEBPACK_IMPORTED_MODULE_2__ng_transclude_directive__["a" /* NgTranscludeDirective */]]
-        })
-    ], TabsModule);
+    TabsModule.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["M" /* NgModule */], args: [{
+                    imports: [__WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */]],
+                    declarations: [__WEBPACK_IMPORTED_MODULE_2__ng_transclude_directive__["a" /* NgTranscludeDirective */], __WEBPACK_IMPORTED_MODULE_4__tab_directive__["a" /* TabDirective */], __WEBPACK_IMPORTED_MODULE_5__tabset_component__["a" /* TabsetComponent */], __WEBPACK_IMPORTED_MODULE_3__tab_heading_directive__["a" /* TabHeadingDirective */]],
+                    exports: [__WEBPACK_IMPORTED_MODULE_4__tab_directive__["a" /* TabDirective */], __WEBPACK_IMPORTED_MODULE_5__tabset_component__["a" /* TabsetComponent */], __WEBPACK_IMPORTED_MODULE_3__tab_heading_directive__["a" /* TabHeadingDirective */], __WEBPACK_IMPORTED_MODULE_2__ng_transclude_directive__["a" /* NgTranscludeDirective */]]
+                },] },
+    ];
+    /** @nocollapse */
+    TabsModule.ctorParameters = function () { return []; };
     return TabsModule;
-    var TabsModule_1;
 }());
-
 //# sourceMappingURL=tabs.module.js.map
 
 /***/ }),
@@ -8972,15 +3976,6 @@ var TabsModule = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsetComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tabset_config__ = __webpack_require__("../../../../ngx-bootstrap/tabs/tabset.config.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 
 
 // todo: add active event to tab
@@ -9050,8 +4045,8 @@ var TabsetComponent = (function () {
             tab.removed.emit(tab);
         }
         this.tabs.splice(index, 1);
-        if (tab.elementRef.nativeElement.parentNode) {
-            tab.elementRef.nativeElement.parentNode.removeChild(tab.elementRef.nativeElement);
+        if (tab.elementRef.nativeElement && tab.elementRef.nativeElement.remove) {
+            tab.elementRef.nativeElement.remove();
         }
     };
     TabsetComponent.prototype.getClosestTabIndex = function (index) {
@@ -9089,38 +4084,28 @@ var TabsetComponent = (function () {
                 'nav-justified': this.justified
             },
             _a["nav-" + this.type] = true,
-            _a);
+            _a
+        );
         var _a;
     };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean),
-        __metadata("design:paramtypes", [Boolean])
-    ], TabsetComponent.prototype, "vertical", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Boolean),
-        __metadata("design:paramtypes", [Boolean])
-    ], TabsetComponent.prototype, "justified", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String),
-        __metadata("design:paramtypes", [String])
-    ], TabsetComponent.prototype, "type", null);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */])('class.tab-container'),
-        __metadata("design:type", Boolean)
-    ], TabsetComponent.prototype, "clazz", void 0);
-    TabsetComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'tabset',
-            template: "\n    <ul class=\"nav\" [ngClass]=\"classMap\" (click)=\"$event.preventDefault()\">\n        <li *ngFor=\"let tabz of tabs\" [ngClass]=\"['nav-item', tabz.customClass || '']\"\n          [class.active]=\"tabz.active\" [class.disabled]=\"tabz.disabled\">\n          <a href=\"javascript:void(0);\" class=\"nav-link\"\n            [class.active]=\"tabz.active\" [class.disabled]=\"tabz.disabled\"\n            (click)=\"tabz.active = true\">\n            <span [ngTransclude]=\"tabz.headingRef\">{{tabz.heading}}</span>\n            <span *ngIf=\"tabz.removable\">\n              <span (click)=\"$event.preventDefault(); removeTab(tabz);\" class=\"glyphicon glyphicon-remove-circle\"></span>\n            </span>\n          </a>\n        </li>\n    </ul>\n    <div class=\"tab-content\">\n      <ng-content></ng-content>\n    </div>\n  "
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__tabset_config__["a" /* TabsetConfig */]])
-    ], TabsetComponent);
+    TabsetComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    selector: 'tabset',
+                    template: "\n    <ul class=\"nav\" [ngClass]=\"classMap\" (click)=\"$event.preventDefault()\">\n        <li *ngFor=\"let tabz of tabs\" [ngClass]=\"['nav-item', tabz.customClass || '']\"\n          [class.active]=\"tabz.active\" [class.disabled]=\"tabz.disabled\">\n          <a href=\"javascript:void(0);\" class=\"nav-link\"\n            [class.active]=\"tabz.active\" [class.disabled]=\"tabz.disabled\"\n            (click)=\"tabz.active = true\">\n            <span [ngTransclude]=\"tabz.headingRef\">{{tabz.heading}}</span>\n            <span *ngIf=\"tabz.removable\">\n              <span (click)=\"$event.preventDefault(); removeTab(tabz);\" class=\"glyphicon glyphicon-remove-circle\"></span>\n            </span>\n          </a>\n        </li>\n    </ul>\n    <div class=\"tab-content\">\n      <ng-content></ng-content>\n    </div>\n  "
+                },] },
+    ];
+    /** @nocollapse */
+    TabsetComponent.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_1__tabset_config__["a" /* TabsetConfig */], },
+    ]; };
+    TabsetComponent.propDecorators = {
+        'vertical': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'justified': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'type': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'clazz': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */], args: ['class.tab-container',] },],
+    };
     return TabsetComponent;
 }());
-
 //# sourceMappingURL=tabset.component.js.map
 
 /***/ }),
@@ -9131,25 +4116,428 @@ var TabsetComponent = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsetConfig; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
 
 var TabsetConfig = (function () {
     function TabsetConfig() {
         /** provides default navigation context class: 'tabs' or 'pills' */
         this.type = 'tabs';
     }
-    TabsetConfig = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
-    ], TabsetConfig);
+    TabsetConfig.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
+    ];
+    /** @nocollapse */
+    TabsetConfig.ctorParameters = function () { return []; };
     return TabsetConfig;
 }());
-
 //# sourceMappingURL=tabset.config.js.map
+
+/***/ }),
+
+/***/ "../../../../ngx-bootstrap/timepicker/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__timepicker_config__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.config.js");
+/* unused harmony reexport TimepickerConfig */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__timepicker_component__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.component.js");
+/* unused harmony reexport TimepickerComponent */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__timepicker_module__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.module.js");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_2__timepicker_module__["a"]; });
+
+
+
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "../../../../ngx-bootstrap/timepicker/timepicker.component.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export TIMEPICKER_CONTROL_VALUE_ACCESSOR */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimepickerComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__timepicker_config__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.config.js");
+
+
+
+var TIMEPICKER_CONTROL_VALUE_ACCESSOR = {
+    provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* NG_VALUE_ACCESSOR */],
+    useExisting: Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_23" /* forwardRef */])(function () { return TimepickerComponent; }),
+    multi: true
+};
+// todo: refactor directive has to many functions! (extract to stateless helper)
+// todo: use moment js?
+// todo: implement `time` validator
+// todo: replace increment/decrement blockers with getters, or extract
+// todo: unify work with selected
+function isDefined(value) {
+    return typeof value !== 'undefined';
+}
+function addMinutes(date, minutes) {
+    var dt = new Date(date.getTime() + minutes * 60000);
+    var newDate = new Date(date);
+    newDate.setHours(dt.getHours(), dt.getMinutes());
+    return newDate;
+}
+var TimepickerComponent = (function () {
+    function TimepickerComponent(_config) {
+        this.onChange = Function.prototype;
+        this.onTouched = Function.prototype;
+        // result value
+        this._selected = new Date();
+        this.config = _config;
+        Object.assign(this, _config);
+    }
+    Object.defineProperty(TimepickerComponent.prototype, "showMeridian", {
+        /** if true works in 12H mode and displays AM/PM. If false works in 24H mode and hides AM/PM */
+        get: function () {
+            return this._showMeridian;
+        },
+        set: function (value) {
+            this._showMeridian = value;
+            // || !this.$error.time
+            // if (true) {
+            this.updateTemplate();
+            return;
+            // }
+            // Evaluate from template
+            /*let hours = this.getHoursFromTemplate();
+             let minutes = this.getMinutesFromTemplate();
+             if (isDefined(hours) && isDefined(minutes)) {
+             this.selected.setHours(hours);
+             this.refresh();
+             }*/
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(TimepickerComponent.prototype, "selected", {
+        get: function () {
+            return this._selected;
+        },
+        set: function (v) {
+            if (v) {
+                this._selected = v;
+                this.updateTemplate();
+                this.onChange(this.selected);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    // todo: add formatter value to Date object
+    TimepickerComponent.prototype.ngOnInit = function () {
+        // todo: take in account $locale.DATETIME_FORMATS.AMPMS;
+        if (this.mousewheel) {
+        }
+        if (this.arrowkeys) {
+        }
+        // this.setupInputEvents();
+    };
+    TimepickerComponent.prototype.writeValue = function (v) {
+        if (v === this.selected) {
+            return;
+        }
+        if (v && v instanceof Date) {
+            this.selected = v;
+            return;
+        }
+        this.selected = v ? new Date(v) : void 0;
+    };
+    TimepickerComponent.prototype.registerOnChange = function (fn) {
+        this.onChange = fn;
+    };
+    TimepickerComponent.prototype.registerOnTouched = function (fn) {
+        this.onTouched = fn;
+    };
+    TimepickerComponent.prototype.setDisabledState = function (isDisabled) {
+        this.readonlyInput = isDisabled;
+    };
+    TimepickerComponent.prototype.updateHours = function () {
+        if (this.readonlyInput) {
+            return;
+        }
+        var hours = this.getHoursFromTemplate();
+        var minutes = this.getMinutesFromTemplate();
+        this.invalidHours = !isDefined(hours);
+        this.invalidMinutes = !isDefined(minutes);
+        if (this.invalidHours || this.invalidMinutes) {
+            // TODO: needed a validation functionality.
+            return;
+        }
+        this.selected.setHours(hours);
+        this.invalidHours = (this.selected < this.min || this.selected > this.max);
+        if (this.invalidHours) {
+            // todo: validation?
+            // invalidate(true);
+            return;
+        }
+        else {
+            this.refresh();
+        }
+    };
+    TimepickerComponent.prototype.hoursOnBlur = function () {
+        if (this.readonlyInput) {
+            return;
+        }
+        // todo: binded with validation
+        if (!this.invalidHours && parseInt(this.hours, 10) < 10) {
+            this.hours = this.pad(this.hours);
+        }
+    };
+    TimepickerComponent.prototype.updateMinutes = function () {
+        if (this.readonlyInput) {
+            return;
+        }
+        var minutes = this.getMinutesFromTemplate();
+        var hours = this.getHoursFromTemplate();
+        this.invalidMinutes = !isDefined(minutes);
+        this.invalidHours = !isDefined(hours);
+        if (this.invalidMinutes || this.invalidHours) {
+            // TODO: needed a validation functionality.
+            return;
+        }
+        this.selected.setMinutes(minutes);
+        this.invalidMinutes = (this.selected < this.min || this.selected > this.max);
+        if (this.invalidMinutes) {
+            // todo: validation
+            // invalidate(undefined, true);
+            return;
+        }
+        else {
+            this.refresh();
+        }
+    };
+    TimepickerComponent.prototype.minutesOnBlur = function () {
+        if (this.readonlyInput) {
+            return;
+        }
+        if (!this.invalidMinutes && parseInt(this.minutes, 10) < 10) {
+            this.minutes = this.pad(this.minutes);
+        }
+    };
+    TimepickerComponent.prototype.incrementHours = function () {
+        if (!this.noIncrementHours()) {
+            this.addMinutesToSelected(this.hourStep * 60);
+        }
+    };
+    TimepickerComponent.prototype.decrementHours = function () {
+        if (!this.noDecrementHours()) {
+            this.addMinutesToSelected(-this.hourStep * 60);
+        }
+    };
+    TimepickerComponent.prototype.incrementMinutes = function () {
+        if (!this.noIncrementMinutes()) {
+            this.addMinutesToSelected(this.minuteStep);
+        }
+    };
+    TimepickerComponent.prototype.decrementMinutes = function () {
+        if (!this.noDecrementMinutes()) {
+            this.addMinutesToSelected(-this.minuteStep);
+        }
+    };
+    TimepickerComponent.prototype.noIncrementHours = function () {
+        var incrementedSelected = addMinutes(this.selected, this.hourStep * 60);
+        return incrementedSelected > this.max ||
+            (incrementedSelected < this.selected && incrementedSelected < this.min);
+    };
+    TimepickerComponent.prototype.noDecrementHours = function () {
+        var decrementedSelected = addMinutes(this.selected, -this.hourStep * 60);
+        return decrementedSelected < this.min ||
+            (decrementedSelected > this.selected && decrementedSelected > this.max);
+    };
+    TimepickerComponent.prototype.noIncrementMinutes = function () {
+        var incrementedSelected = addMinutes(this.selected, this.minuteStep);
+        return incrementedSelected > this.max ||
+            (incrementedSelected < this.selected && incrementedSelected < this.min);
+    };
+    TimepickerComponent.prototype.noDecrementMinutes = function () {
+        var decrementedSelected = addMinutes(this.selected, -this.minuteStep);
+        return decrementedSelected < this.min ||
+            (decrementedSelected > this.selected && decrementedSelected > this.max);
+    };
+    TimepickerComponent.prototype.toggleMeridian = function () {
+        if (!this.noToggleMeridian()) {
+            var sign = this.selected.getHours() < 12 ? 1 : -1;
+            this.addMinutesToSelected(12 * 60 * sign);
+        }
+    };
+    TimepickerComponent.prototype.noToggleMeridian = function () {
+        if (this.readonlyInput) {
+            return true;
+        }
+        if (this.selected.getHours() < 13) {
+            return addMinutes(this.selected, 12 * 60) > this.max;
+        }
+        else {
+            return addMinutes(this.selected, -12 * 60) < this.min;
+        }
+    };
+    TimepickerComponent.prototype.refresh = function () {
+        // this.makeValid();
+        this.updateTemplate();
+        this.onChange(this.selected);
+    };
+    TimepickerComponent.prototype.updateTemplate = function () {
+        var hours = this.selected.getHours();
+        var minutes = this.selected.getMinutes();
+        if (this.showMeridian) {
+            // Convert 24 to 12 hour system
+            hours = (hours === 0 || hours === 12) ? 12 : hours % 12;
+        }
+        // this.hours = keyboardChange === 'h' ? hours : this.pad(hours);
+        // if (keyboardChange !== 'm') {
+        //  this.minutes = this.pad(minutes);
+        // }
+        this.hours = this.pad(hours);
+        this.minutes = this.pad(minutes);
+        if (!this.meridians) {
+            this.meridians = this.config.meridians;
+        }
+        this.meridian = this.selected.getHours() < 12
+            ? this.meridians[0]
+            : this.meridians[1];
+    };
+    TimepickerComponent.prototype.getHoursFromTemplate = function () {
+        var hours = parseInt(this.hours, 10);
+        var valid = this.showMeridian
+            ? (hours > 0 && hours < 13)
+            : (hours >= 0 && hours < 24);
+        if (!valid) {
+            return void 0;
+        }
+        if (this.showMeridian) {
+            if (hours === 12) {
+                hours = 0;
+            }
+            if (this.meridian === this.meridians[1]) {
+                hours = hours + 12;
+            }
+        }
+        return hours;
+    };
+    TimepickerComponent.prototype.getMinutesFromTemplate = function () {
+        var minutes = parseInt(this.minutes, 10);
+        return (minutes >= 0 && minutes < 60) ? minutes : undefined;
+    };
+    TimepickerComponent.prototype.pad = function (value) {
+        return (isDefined(value) && value.toString().length < 2)
+            ? '0' + value
+            : value.toString();
+    };
+    TimepickerComponent.prototype.addMinutesToSelected = function (minutes) {
+        this.selected = addMinutes(this.selected, minutes);
+        this.refresh();
+    };
+    TimepickerComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    selector: 'timepicker',
+                    template: "\n    <table>\n      <tbody>\n        <tr class=\"text-center\" [ngClass]=\"{hidden: !showSpinners || readonlyInput}\">\n          <td><a (click)=\"incrementHours()\" [ngClass]=\"{disabled: noIncrementHours()}\" class=\"btn btn-link\"><span class=\"glyphicon glyphicon-chevron-up\"></span></a></td>\n          <td>&nbsp;</td>\n          <td><a (click)=\"incrementMinutes()\" [ngClass]=\"{disabled: noIncrementMinutes()}\" class=\"btn btn-link\"><span class=\"glyphicon glyphicon-chevron-up\"></span></a></td>\n          <td [ngClass]=\"{hidden: !showMeridian}\" *ngIf=\"showMeridian\"></td>\n        </tr>\n        <tr>\n          <td class=\"form-group\" [ngClass]=\"{'has-error': invalidHours}\">\n            <input style=\"width:50px;\" type=\"text\" [(ngModel)]=\"hours\" (change)=\"updateHours()\" class=\"form-control text-center\" [readonly]=\"readonlyInput\" (blur)=\"hoursOnBlur()\" maxlength=\"2\">\n          </td>\n          <td>:</td>\n          <td class=\"form-group\" [ngClass]=\"{'has-error': invalidMinutes}\">\n            <input style=\"width:50px;\" type=\"text\" [(ngModel)]=\"minutes\" (change)=\"updateMinutes()\" class=\"form-control text-center\" [readonly]=\"readonlyInput\" (blur)=\"minutesOnBlur()\" maxlength=\"2\">\n          </td>\n          <td [ngClass]=\"{hidden: !showMeridian}\" *ngIf=\"showMeridian\"><button type=\"button\" [ngClass]=\"{disabled: noToggleMeridian() || readonlyInput}\" class=\"btn btn-default text-center\" (click)=\"toggleMeridian()\">{{meridian}}</button></td>\n        </tr>\n        <tr class=\"text-center\" [ngClass]=\"{hidden: !showSpinners || readonlyInput}\">\n          <td><a (click)=\"decrementHours()\" [ngClass]=\"{disabled: noDecrementHours()}\" class=\"btn btn-link\"><span class=\"glyphicon glyphicon-chevron-down\"></span></a></td>\n          <td>&nbsp;</td>\n          <td><a (click)=\"decrementMinutes()\" [ngClass]=\"{disabled: noDecrementMinutes()}\" class=\"btn btn-link\"><span class=\"glyphicon glyphicon-chevron-down\"></span></a></td>\n          <td [ngClass]=\"{hidden: !showMeridian}\" *ngIf=\"showMeridian\"></td>\n        </tr>\n      </tbody>\n    </table>\n  ",
+                    providers: [TIMEPICKER_CONTROL_VALUE_ACCESSOR]
+                },] },
+    ];
+    /** @nocollapse */
+    TimepickerComponent.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_2__timepicker_config__["a" /* TimepickerConfig */], },
+    ]; };
+    TimepickerComponent.propDecorators = {
+        'hourStep': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'minuteStep': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'readonlyInput': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'mousewheel': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'arrowkeys': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'showSpinners': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'min': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'max': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'meridians': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'showMeridian': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    };
+    return TimepickerComponent;
+}());
+//# sourceMappingURL=timepicker.component.js.map
+
+/***/ }),
+
+/***/ "../../../../ngx-bootstrap/timepicker/timepicker.config.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimepickerConfig; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+
+/** Provides default configuration values for timepicker */
+var TimepickerConfig = (function () {
+    function TimepickerConfig() {
+        /** hours change step */
+        this.hourStep = 1;
+        /** hours change step */
+        this.minuteStep = 5;
+        /** if true works in 12H mode and displays AM/PM. If false works in 24H mode and hides AM/PM */
+        this.showMeridian = true;
+        /** meridian labels based on locale */
+        this.meridians = ['AM', 'PM'];
+        /** if true hours and minutes fields will be readonly */
+        this.readonlyInput = false;
+        /** if true scroll inside hours and minutes inputs will change time */
+        this.mousewheel = true;
+        /** if true up/down arrowkeys inside hours and minutes inputs will change time */
+        this.arrowkeys = true;
+        /** if true spinner arrows above and below the inputs will be shown */
+        this.showSpinners = true;
+        /** minimum time user can select */
+        this.min = void 0;
+        /** maximum time user can select */
+        this.max = void 0;
+    }
+    TimepickerConfig.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
+    ];
+    /** @nocollapse */
+    TimepickerConfig.ctorParameters = function () { return []; };
+    return TimepickerConfig;
+}());
+//# sourceMappingURL=timepicker.config.js.map
+
+/***/ }),
+
+/***/ "../../../../ngx-bootstrap/timepicker/timepicker.module.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimepickerModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__timepicker_component__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__timepicker_config__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.config.js");
+
+
+
+
+
+var TimepickerModule = (function () {
+    function TimepickerModule() {
+    }
+    TimepickerModule.forRoot = function () {
+        return {
+            ngModule: TimepickerModule,
+            providers: [__WEBPACK_IMPORTED_MODULE_4__timepicker_config__["a" /* TimepickerConfig */]]
+        };
+    };
+    TimepickerModule.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["M" /* NgModule */], args: [{
+                    imports: [__WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */]],
+                    declarations: [__WEBPACK_IMPORTED_MODULE_3__timepicker_component__["a" /* TimepickerComponent */]],
+                    exports: [__WEBPACK_IMPORTED_MODULE_3__timepicker_component__["a" /* TimepickerComponent */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */]]
+                },] },
+    ];
+    /** @nocollapse */
+    TimepickerModule.ctorParameters = function () { return []; };
+    return TimepickerModule;
+}());
+//# sourceMappingURL=timepicker.module.js.map
 
 /***/ }),
 
@@ -9228,7 +4616,6 @@ var Trigger = (function () {
     Trigger.prototype.isManual = function () { return this.open === 'manual' || this.close === 'manual'; };
     return Trigger;
 }());
-
 //# sourceMappingURL=trigger.class.js.map
 
 /***/ }),
@@ -9238,13 +4625,11 @@ var Trigger = (function () {
 
 "use strict";
 /* unused harmony export parseTriggers */
-/* unused harmony export listenToTriggers */
-/* harmony export (immutable) */ __webpack_exports__["a"] = listenToTriggersV2;
-/* harmony export (immutable) */ __webpack_exports__["b"] = registerOutsideClick;
+/* harmony export (immutable) */ __webpack_exports__["a"] = listenToTriggers;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__trigger_class__ = __webpack_require__("../../../../ngx-bootstrap/utils/trigger.class.js");
 
 var DEFAULT_ALIASES = {
-    hover: ['mouseover', 'mouseout'],
+    hover: ['mouseenter', 'mouseleave'],
     focus: ['focusin', 'focusout']
 };
 function parseTriggers(triggers, aliases) {
@@ -9284,50 +4669,6 @@ function listenToTriggers(renderer, target, triggers, showFn, hideFn, toggleFn) 
     });
     return function () { listeners.forEach(function (unsubscribeFn) { return unsubscribeFn(); }); };
 }
-function listenToTriggersV2(renderer, options) {
-    var parsedTriggers = parseTriggers(options.triggers);
-    var target = options.target;
-    // do nothing
-    if (parsedTriggers.length === 1 && parsedTriggers[0].isManual()) {
-        return Function.prototype;
-    }
-    // all listeners
-    var listeners = [];
-    // lazy listeners registration
-    var _registerHide = [];
-    var registerHide = function () {
-        // add hide listeners to unregister array
-        _registerHide.forEach(function (fn) { return listeners.push(fn()); });
-        // register hide events only once
-        _registerHide.length = 0;
-    };
-    // register open\close\toggle listeners
-    parsedTriggers.forEach(function (trigger) {
-        var useToggle = trigger.open === trigger.close;
-        var showFn = useToggle ? options.toggle : options.show;
-        if (!useToggle) {
-            _registerHide.push(function () { return renderer.listen(target, trigger.close, options.hide); });
-        }
-        listeners.push(renderer.listen(target, trigger.open, function () { return showFn(registerHide); }));
-    });
-    return function () {
-        listeners.forEach(function (unsubscribeFn) { return unsubscribeFn(); });
-    };
-}
-function registerOutsideClick(renderer, options) {
-    if (!options.outsideClick) {
-        return Function.prototype;
-    }
-    return renderer.listenGlobal('document', 'click', function (event) {
-        if (options.target && options.target.contains(event.target)) {
-            return;
-        }
-        if (options.targets && options.targets.some(function (target) { return target.contains(event.target); })) {
-            return;
-        }
-        options.hide();
-    });
-}
 //# sourceMappingURL=triggers.js.map
 
 /***/ }),
@@ -9358,7 +4699,6 @@ var Utils = (function () {
     };
     return Utils;
 }());
-
 //# sourceMappingURL=utils.class.js.map
 
 /***/ }),

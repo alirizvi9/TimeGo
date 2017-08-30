@@ -100,6 +100,41 @@ export function reducer(
             };
         }
 
+        case timesheetsActions.ADD: {
+            const date = action.payload as Date;
+            let lines = state.timesheet.Lines;
+            const newLine: TimesheetsLine = {
+                Date: date,
+                EndTime: new Date(),
+                Id: 0,
+                StartTime: new Date(),
+                Task: "",
+                TaskId: 0
+            }
+            lines.push(newLine);
+            lines = lines.sort((obj1, obj2) => {
+                if (obj1.Date > obj2.Date) {
+                    return 1;
+                }
+
+                if (obj1.Date < obj2.Date) {
+                    return -1;
+                }
+
+                return 0;
+            });
+            const timesheet = state.timesheet;
+            timesheet.Lines = lines;
+            return {
+                timesheet: timesheet,
+                isLoaded: true,
+                loading: false,
+                periods: state.periods,
+                periodId: state.periodId,
+                tasks: state.tasks
+            };
+        }
+
         default: {
             return state;
         }

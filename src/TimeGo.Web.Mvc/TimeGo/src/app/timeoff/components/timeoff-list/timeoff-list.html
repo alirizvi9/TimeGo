@@ -4,7 +4,7 @@
       <div class="card-header">
         Timeoff requests
         <button type="button" class="btn btn-sm btn-success float-right" data-toggle="modal" data-target="#addmodal">
-          Add
+          Request
         </button>
       </div>
       <div class="card-block" *ngIf="isLoaded">
@@ -17,7 +17,7 @@
               <td class="text-center">Returning to work <a class="fa fa-sort" (click)="order.emit('ReturningToWork')"></a></td>
               <td class="text-center">Reasone <a class="fa fa-sort" (click)="order.emit('Reason')"></a></td>
               <td class="text-center">Status <a class="fa fa-sort" (click)="order.emit('ApprovalStatusId')"></a></td>
-              <td class="text-center" *ngIf="role == 'Task Manager'">Action </td>
+              <td class="text-center">Action </td>
             </tr>
           </thead>
           <tbody>
@@ -27,10 +27,13 @@
               <td class="text-center">{{timeoff.EndDate | date: 'dd/MM/yyyy'}}</td>
               <td class="text-center">{{timeoff.ReturningToWork | date: 'dd/MM/yyyy'}}</td>
               <td class="text-center">{{timeoff.Reasone}}</td>
-              <td class="text-center">{{timeoff.Status}}</td>
+              <td class="text-center" *ngIf="timeoff.Status == 'Canceled'"><span class="badge badge-default timego-status">{{timeoff.Status}}</span></td>
+              <td class="text-center" *ngIf="timeoff.Status == 'Waiting for Approval'"><span class="badge badge-warning timego-status">{{timeoff.Status}}</span></td>
+              <td class="text-center" *ngIf="timeoff.Status == 'Denined'"><span class="badge badge-danger timego-status">{{timeoff.Status}}</span></td>
+              <td class="text-center" *ngIf="timeoff.Status == 'Accepted'"><span class="badge badge-success timego-status">{{timeoff.Status}}</span></td>
               <td class="text-center" *ngIf="role == 'Task Manager'">
-                <button type="button" *ngIf="timeoff.Status == 'Waiting for Approval' || timeoff.Status == 'Denined'" class="btn btn-success" (click)="changeStatus.emit({id: timeoff.Id, status: 'Accepted'})">Accepted</button>
-                <button type="button" *ngIf="timeoff.Status == 'Accepted' || timeoff.Status == 'Waiting for Approval'" class="btn btn-danger" (click)="changeStatus.emit({id: timeoff.Id, status: 'Denined'})">Denined</button>
+                <button type="button" *ngIf="timeoff.Status == 'Waiting for Approval' || timeoff.Status == 'Denined'" class="btn btn-success" (click)="changeStatus.emit({id: timeoff.Id, status: 'Accepted'})">Approve</button>
+                <button type="button" *ngIf="timeoff.Status == 'Accepted' || timeoff.Status == 'Waiting for Approval'" class="btn btn-danger" (click)="changeStatus.emit({id: timeoff.Id, status: 'Denined'})">Deny</button>
               </td>
               <td class="text-center" *ngIf="role == 'Employee'">
                 <button type="button" *ngIf="timeoff.Status != 'Canceled'" class="btn btn-danger" (click)="changeStatus.emit({id: timeoff.Id, status: 'Canceled'})">Cancel</button>

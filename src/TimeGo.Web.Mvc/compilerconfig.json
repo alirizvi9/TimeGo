@@ -2,5 +2,9 @@
   {
     "outputFile": "Content/css/style.css",
     "inputFile": "TimeGo/src/scss/style.scss"
+  },
+  {
+    "outputFile": "TimeGo/src/scss/_custom.css",
+    "inputFile": "TimeGo/src/scss/_custom.scss"
   }
 ]

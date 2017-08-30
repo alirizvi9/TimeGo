@@ -14215,3 +14215,9 @@ hr.transparent {
 .timego-modal {
   padding: 30px; }
 
+.timego-center {
+  padding-top: 6px; }
+
+.timego-timepicker .hidden {
+  display: none; }
+

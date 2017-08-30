@@ -1,4 +1,4 @@
-﻿export interface TimesheetsLine {
+﻿export class TimesheetsLine {
     Id: number;
     StartTime: Date;
     EndTime: Date;

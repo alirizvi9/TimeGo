@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { TimesheetsComponent } from './timesheets/timesheets';
 
 
@@ -13,6 +14,7 @@ export const COMPONENTS = [
 
 @NgModule({
     imports: [
+        TimepickerModule.forRoot(),
         CommonModule,
         ReactiveFormsModule,
         FormsModule,

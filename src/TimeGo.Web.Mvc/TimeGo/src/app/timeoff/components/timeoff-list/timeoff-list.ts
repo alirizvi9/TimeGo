@@ -4,7 +4,6 @@ import { AddTimeoff } from '../../models/add-timeoff.model';
 import { TimeoffListPagingModel } from '../../models/timeoff-list-paging.model';
 import { ChangeStatus } from '../../models/chagne-status-timeoff.model'
 import { DatePipe } from '@angular/common';
-import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 declare var commonServerData: any;
 
 @Component({

@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using System.Web.Http.Cors;
+using TimeGo.ApplicationDomain.Models.Timesheets;
 using TimeGo.ApplicationDomain.Services;
 using TimeGo.Web.Mvc.Infrastructure.Services;
 
@@ -48,6 +49,17 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
             if (user.CompanyId == null)
                 return Success();
             var result = _timesheetsService.GetTasks(user);
+            return Success(result);
+        }
+
+        [HttpPost]
+        [Route("api/Timesheets")]
+        public IHttpActionResult Edit(TimesheetViewModel model)
+        {
+            var user = _authorizationService.GetUser();
+            if (user.CompanyId == null)
+                return Success();
+            var result = _timesheetsService.EditTimesheet(user, model);
             return Success(result);
         }
     }

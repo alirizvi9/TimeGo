@@ -344,7 +344,6 @@
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\Setting.cs" />
     <Compile Include="Models\SignUpViewModel.cs" />
-    <Compile Include="Models\TimesheetViewModel.cs" />
     <Compile Include="Models\TimesoffViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -474,6 +473,12 @@
     </Content>
     <Content Include="TimeGo\src\scss\style.min.css">
       <DependentUpon>style.css</DependentUpon>
+    </Content>
+    <Content Include="TimeGo\src\scss\_custom.css">
+      <DependentUpon>_custom.scss</DependentUpon>
+    </Content>
+    <Content Include="TimeGo\src\scss\_custom.min.css">
+      <DependentUpon>_custom.css</DependentUpon>
     </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -829,6 +834,7 @@
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\components\timesheets\timesheets.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\containers\timesheets-page.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\effects\timesheets.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timesheets\models\add.model.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\models\period.model.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\models\task.model.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\models\timesheets-line.model.ts" />

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+﻿import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -8,7 +8,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 })
 export class SubscriptionDialogComponent implements OnInit {
     @ViewChild('subscriptionModal') modal: ModalDirective;
-
+    public mytime: Date = new Date();
     constructor() { }
 
     ngOnInit() {

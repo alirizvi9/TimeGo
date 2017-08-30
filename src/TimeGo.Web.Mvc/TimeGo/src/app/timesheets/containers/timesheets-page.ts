@@ -10,12 +10,13 @@ import { Timesheets } from '../models/timesheets.model'
 import { Period } from '../models/period.model'
 import { Task } from '../models/task.model'
 import { TimesheetsLine } from '../models/timesheets-line.model'
+import { AddModel } from '../models/add.model'
 
 @Component({
     selector: 'timesheets-page',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <up-timesheets [timesheets]="timesheets$ | async" [isLoaded]="isLoaded$ | async" [periods]="periods$ | async" [tasks]="tasks$ | async" [loading]="loading$ | async" (selectPeriod)="selectPeriod($event)"></up-timesheets>
+    <up-timesheets [timesheets]="timesheets$ | async" [isLoaded]="isLoaded$ | async" [periods]="periods$ | async" [tasks]="tasks$ | async" [loading]="loading$ | async" (selectPeriod)="selectPeriod($event)" (addLine)="addLine($event)" (save)="save($event)"></up-timesheets>
   `,
 })
 export class TimesheetsPageComponent {
@@ -41,5 +42,15 @@ export class TimesheetsPageComponent {
     selectPeriod(id: number)
     {
         this.store.dispatch(new timesheetsActions.GetAction(id));
+    }
+
+    addLine(date: Date)
+    {
+        this.store.dispatch(new timesheetsActions.AddAction(date));
+    }
+
+    save(model: AddModel)
+    {
+        this.store.dispatch(new timesheetsActions.EditAction(model));
     }
 }

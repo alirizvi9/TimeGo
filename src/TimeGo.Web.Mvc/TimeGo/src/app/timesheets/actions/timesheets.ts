@@ -1,6 +1,7 @@
 ﻿import { Action } from '@ngrx/store';
 import { Timesheets } from '../models/timesheets.model'
 import { Period } from '../models/period.model'
+import { AddModel } from '../models/add.model'
 import { Task } from '../models/task.model'
 import { TimesheetsLine } from '../models/timesheets-line.model'
 
@@ -50,22 +51,16 @@ export class GetTasksCompleteAction implements Action {
     constructor(public payload: Task[]) { }
 }
 
-export class SaveAction implements Action {
+export class AddAction implements Action {
     type = ADD;
 
-    constructor(public payload: TimesheetsLine) { }
-}
-
-export class SaveCompleteAction implements Action {
-    type = ADD_COMPLETE;
-
-    constructor(public payload: any[]) { }
+    constructor(public payload: Date) { }
 }
 
 export class EditAction implements Action {
     type = EDIT;
 
-    constructor(public payload: TimesheetsLine) { }
+    constructor(public payload: AddModel) { }
 }
 
 export class EditCompleteAction implements Action {
@@ -86,8 +81,7 @@ export class ChangeStatusCompleteAction implements Action {
 
 export type Actions = GetAction
     | GetCompleteAction
-    | SaveAction
-    | SaveCompleteAction
+    | AddAction
     | ChangeStatusAction
     | ChangeStatusCompleteAction
     | EditAction

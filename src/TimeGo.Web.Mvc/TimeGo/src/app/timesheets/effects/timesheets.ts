@@ -16,6 +16,7 @@ import { TimesheetsService } from '../timesheets.service';
 import * as timesheetsActions from '../actions/timesheets';
 import { Timesheets } from '../models/timesheets.model'
 import { Period } from '../models/period.model'
+import { AddModel } from '../models/add.model'
 import { Task } from '../models/task.model'
 import { TimesheetsLine } from '../models/timesheets-line.model'
 
@@ -55,6 +56,18 @@ export class TimesheetsEffects {
                 .takeUntil(nextGet$)
                 .map((result: Task[]) => new timesheetsActions.GetTasksCompleteAction(result))
                 .catch(() => of(new timesheetsActions.GetTasksCompleteAction(null)));
+        });
+
+    @Effect()
+    edit: Observable<Action> = this.actions$
+        .ofType(timesheetsActions.EDIT)
+        .map(toPayload)
+        .switchMap((query: AddModel) => {
+            const nextGet$ = this.actions$.ofType(timesheetsActions.GET);
+            return this.timesheetsService.editTimesheet(query.Timesheets)
+                .takeUntil(nextGet$)
+                .map((result: any) => new timesheetsActions.GetAction(query.Period))
+                .catch(() => of(new timesheetsActions.EditCompleteAction(null)));
         });
 
     constructor(
