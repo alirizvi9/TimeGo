@@ -21,5 +21,10 @@ export class FullLayoutComponent implements OnInit {
     this.status.isopen = !this.status.isopen;
   }
 
+  public logout()
+  {
+      window.location.href = '/account/logout';
+  }
+
   ngOnInit(): void {}
 }

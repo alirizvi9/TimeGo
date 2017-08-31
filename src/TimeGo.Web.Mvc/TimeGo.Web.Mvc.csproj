@@ -807,6 +807,7 @@
     <TypeScriptCompile Include="TimeGo\src\app\profile\profile.service.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\profile\reducers\index.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\profile\reducers\profile-edit.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\services\RequestService.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\shared\nav-dropdown.directive.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\state\state.module.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\TaskManagerAuthGuard.ts" />

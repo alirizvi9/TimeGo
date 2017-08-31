@@ -76,8 +76,6 @@ namespace TimeGo.Web.Mvc.Areas.Admin.Controllers
             if(company == null || emploee == null)
                 return RedirectToAction("Index");
             var tokenModel = _authorizationService.Authorization(emploee.EmailAddress, emploee.Password, company.Id);
-            Session["token"] = tokenModel.Token;
-            Session["role"] = tokenModel.Employee.Role.RoleType;
             return RedirectToSubDomain(company.TimeGoUrl, string.Format("set?token={0}&role={1}", tokenModel.Token, tokenModel.Employee.Role.RoleType));
         }
 

@@ -8,6 +8,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AlwaysAuthGuard } from './AlwaysAuthGuard'
 import { AdminAuthGuard } from './AdminAuthGuard'
 import { TaskManagerAuthGuard } from './TaskManagerAuthGuard'
+import { RequestService } from './services/RequestService'
 
 import { AppComponent } from './app.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -43,7 +44,7 @@ import { environment } from '../environments/environment';
     providers: [{
         provide: LocationStrategy,
         useClass: HashLocationStrategy
-    }, AlwaysAuthGuard, AdminAuthGuard, TaskManagerAuthGuard],
+    }, AlwaysAuthGuard, AdminAuthGuard, TaskManagerAuthGuard, RequestService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

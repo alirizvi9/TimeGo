@@ -170,7 +170,7 @@ ComponentsModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* ReactiveFormsModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
-            __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* RouterModule */]
+            __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* RouterModule */]
         ],
         declarations: COMPONENTS,
         exports: COMPONENTS,
@@ -725,8 +725,8 @@ var TimesheetsRoutingModule = (function () {
 }());
 TimesheetsRoutingModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */].forChild(routes)],
+        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */]]
     })
 ], TimesheetsRoutingModule);
 
@@ -806,13 +806,7 @@ TimesheetsModule = __decorate([
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimesheetsService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/Observable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/add/operator/catch.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_RequestService__ = __webpack_require__("../../../../../src/app/services/RequestService.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -824,51 +818,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-
-
-
 var TimesheetsService = (function () {
-    function TimesheetsService(http) {
-        this.http = http;
-        this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({
-            'Authorization': 'Bearer ' + commonServerData.Token,
-            'Content-Type': 'application/json'
-        });
-        this.options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: this.headers });
+    function TimesheetsService(requestService) {
+        this.requestService = requestService;
     }
     TimesheetsService.prototype.getTimesheet = function (idPeriod) {
-        return this.http.get("/api/Timesheets?periodId=" + idPeriod, this.options).map(function (response) {
-            return response.json();
-        })
-            .catch(this.handleError);
+        return this.requestService.get("/api/Timesheets?periodId=" + idPeriod);
     };
     TimesheetsService.prototype.getPeriods = function () {
-        return this.http.get("/api/periods/", this.options).map(function (response) {
-            return response.json();
-        })
-            .catch(this.handleError);
+        return this.requestService.get("/api/periods/");
     };
     TimesheetsService.prototype.getTasks = function () {
-        return this.http.get("/api/tasks/", this.options).map(function (response) {
-            return response.json();
-        })
-            .catch(this.handleError);
+        return this.requestService.get("/api/tasks/");
     };
     TimesheetsService.prototype.editTimesheet = function (timesheets) {
-        return this.http.post("/api/Timesheets/", timesheets, this.options).map(function (response) {
-            return response.json();
-        })
-            .catch(this.handleError);
-    };
-    TimesheetsService.prototype.handleError = function (error) {
-        console.error(error);
-        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].throw(error.json().error || 'Server error');
+        return this.requestService.post("/api/tasks/", timesheets);
     };
     return TimesheetsService;
 }());
 TimesheetsService = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_RequestService__["a" /* RequestService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_RequestService__["a" /* RequestService */]) === "function" && _a || Object])
 ], TimesheetsService);
 
 var _a;

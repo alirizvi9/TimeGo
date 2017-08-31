@@ -171,6 +171,15 @@ namespace TimeGo.Web.Mvc.Controllers
             });
         }
 
+        [AllowAnonymous]
+        [Route("account/logout")]
+        public ActionResult Logout()
+        {
+            Session["token"] = null;
+            Session["role"] = null;
+            return RedirectToAction("CompanyLogin");
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [Route("account/reset")]
