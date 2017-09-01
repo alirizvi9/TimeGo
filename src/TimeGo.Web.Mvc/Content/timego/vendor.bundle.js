@@ -2264,8 +2264,11 @@ function toComment(sourceMap) {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ComponentLoader; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__content_ref_class__ = __webpack_require__("../../../../ngx-bootstrap/component-loader/content-ref.class.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_triggers__ = __webpack_require__("../../../../ngx-bootstrap/utils/triggers.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_triggers__ = __webpack_require__("../../../../ngx-bootstrap/utils/triggers.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__content_ref_class__ = __webpack_require__("../../../../ngx-bootstrap/component-loader/content-ref.class.js");
+// todo: add delay support
+// todo: merge events onShow, onShown, etc...
+// todo: add global positioning configuration?
 
 
 
@@ -2274,28 +2277,24 @@ var ComponentLoader = (function () {
      * Do not use this directly, it should be instanced via
      * `ComponentLoadFactory.attach`
      * @internal
-     * @param _viewContainerRef
-     * @param _elementRef
-     * @param _injector
-     * @param _renderer
-     * @param _componentFactoryResolver
-     * @param _ngZone
-     * @param _posService
      */
     // tslint:disable-next-line
-    function ComponentLoader(_viewContainerRef, _renderer, _elementRef, _injector, _componentFactoryResolver, _ngZone, _posService) {
+    function ComponentLoader(_viewContainerRef, _renderer, _elementRef, _injector, _componentFactoryResolver, _ngZone, _applicationRef, _posService) {
+        this._viewContainerRef = _viewContainerRef;
+        this._renderer = _renderer;
+        this._elementRef = _elementRef;
+        this._injector = _injector;
+        this._componentFactoryResolver = _componentFactoryResolver;
+        this._ngZone = _ngZone;
+        this._applicationRef = _applicationRef;
+        this._posService = _posService;
         this.onBeforeShow = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.onShown = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.onBeforeHide = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.onHidden = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this._providers = [];
-        this._ngZone = _ngZone;
-        this._injector = _injector;
-        this._renderer = _renderer;
-        this._elementRef = _elementRef;
-        this._posService = _posService;
-        this._viewContainerRef = _viewContainerRef;
-        this._componentFactoryResolver = _componentFactoryResolver;
+        this._listenOpts = {};
+        this._globalListener = Function.prototype;
     }
     Object.defineProperty(ComponentLoader.prototype, "isShown", {
         get: function () {
@@ -2324,42 +2323,72 @@ var ComponentLoader = (function () {
         this._providers.push(provider);
         return this;
     };
+    // todo: appendChild to element or document.querySelector(this.container)
     ComponentLoader.prototype.show = function (opts) {
         if (opts === void 0) { opts = {}; }
         this._subscribePositioning();
+        this._innerComponent = null;
         if (!this._componentRef) {
             this.onBeforeShow.emit();
-            this._contentRef = this._getContentRef(opts.content);
+            this._contentRef = this._getContentRef(opts.content, opts.context);
             var injector = __WEBPACK_IMPORTED_MODULE_0__angular_core__["_0" /* ReflectiveInjector */].resolveAndCreate(this._providers, this._injector);
-            this._componentRef = this._viewContainerRef
-                .createComponent(this._componentFactory, 0, injector, this._contentRef.nodes);
+            this._componentRef = this._componentFactory.create(injector, this._contentRef.nodes);
+            this._applicationRef.attachView(this._componentRef.hostView);
+            // this._componentRef = this._viewContainerRef
+            //   .createComponent(this._componentFactory, 0, injector, this._contentRef.nodes);
             this.instance = this._componentRef.instance;
             Object.assign(this._componentRef.instance, opts);
+            if (this.container instanceof __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */]) {
+                this.container.nativeElement
+                    .appendChild(this._componentRef.location.nativeElement);
+            }
             if (this.container === 'body' && typeof document !== 'undefined') {
                 document.querySelector(this.container)
+                    .appendChild(this._componentRef.location.nativeElement);
+            }
+            if (!this.container && this._elementRef && this._elementRef.nativeElement.parentElement) {
+                this._elementRef.nativeElement.parentElement
                     .appendChild(this._componentRef.location.nativeElement);
             }
             // we need to manually invoke change detection since events registered
             // via
             // Renderer::listen() are not picked up by change detection with the
             // OnPush strategy
+            if (this._contentRef.componentRef) {
+                this._innerComponent = this._contentRef.componentRef.instance;
+                this._contentRef.componentRef.changeDetectorRef.markForCheck();
+                this._contentRef.componentRef.changeDetectorRef.detectChanges();
+            }
             this._componentRef.changeDetectorRef.markForCheck();
+            this._componentRef.changeDetectorRef.detectChanges();
             this.onShown.emit(this._componentRef.instance);
         }
+        this._registerOutsideClick();
         return this._componentRef;
     };
     ComponentLoader.prototype.hide = function () {
-        if (this._componentRef) {
-            this.onBeforeHide.emit(this._componentRef.instance);
-            this._viewContainerRef.remove(this._viewContainerRef.indexOf(this._componentRef.hostView));
-            this._componentRef = null;
-            if (this._contentRef.viewRef) {
-                this._viewContainerRef.remove(this._viewContainerRef.indexOf(this._contentRef.viewRef));
-                this._contentRef = null;
-            }
-            this._componentRef = null;
-            this.onHidden.emit();
+        if (!this._componentRef) {
+            return this;
         }
+        this.onBeforeHide.emit(this._componentRef.instance);
+        var componentEl = this._componentRef.location.nativeElement;
+        componentEl.parentNode.removeChild(componentEl);
+        if (this._contentRef.componentRef) {
+            this._contentRef.componentRef.destroy();
+        }
+        this._componentRef.destroy();
+        if (this._viewContainerRef && this._contentRef.viewRef) {
+            this._viewContainerRef.remove(this._viewContainerRef.indexOf(this._contentRef.viewRef));
+        }
+        // this._viewContainerRef.remove(this._viewContainerRef.indexOf(this._componentRef.hostView));
+        //
+        // if (this._contentRef.viewRef && this._viewContainerRef.indexOf(this._contentRef.viewRef) !== -1) {
+        //   this._viewContainerRef.remove(this._viewContainerRef.indexOf(this._contentRef.viewRef));
+        // }
+        this._contentRef = null;
+        this._componentRef = null;
+        this._removeGlobalListener();
+        this.onHidden.emit();
         return this;
     };
     ComponentLoader.prototype.toggle = function () {
@@ -2381,14 +2410,52 @@ var ComponentLoader = (function () {
     ComponentLoader.prototype.listen = function (listenOpts) {
         var _this = this;
         this.triggers = listenOpts.triggers || this.triggers;
-        listenOpts.target = listenOpts.target || this._elementRef;
-        listenOpts.show = listenOpts.show || (function () { return _this.show(); });
-        listenOpts.hide = listenOpts.hide || (function () { return _this.hide(); });
-        listenOpts.toggle = listenOpts.toggle || (function () { return _this.isShown
-            ? listenOpts.hide()
-            : listenOpts.show(); });
-        this._unregisterListenersFn = Object(__WEBPACK_IMPORTED_MODULE_2__utils_triggers__["a" /* listenToTriggers */])(this._renderer, listenOpts.target.nativeElement, this.triggers, listenOpts.show, listenOpts.hide, listenOpts.toggle);
+        this._listenOpts.outsideClick = listenOpts.outsideClick;
+        listenOpts.target = listenOpts.target || this._elementRef.nativeElement;
+        var hide = this._listenOpts.hide = function () { return listenOpts.hide ? listenOpts.hide() : _this.hide(); };
+        var show = this._listenOpts.show = function (registerHide) {
+            listenOpts.show ? listenOpts.show(registerHide) : _this.show(registerHide);
+            registerHide();
+        };
+        var toggle = function (registerHide) {
+            _this.isShown ? hide() : show(registerHide);
+        };
+        this._unregisterListenersFn = Object(__WEBPACK_IMPORTED_MODULE_1__utils_triggers__["a" /* listenToTriggersV2 */])(this._renderer, {
+            target: listenOpts.target,
+            triggers: listenOpts.triggers,
+            show: show, hide: hide, toggle: toggle
+        });
         return this;
+    };
+    ComponentLoader.prototype._removeGlobalListener = function () {
+        if (this._globalListener) {
+            this._globalListener();
+            this._globalListener = null;
+        }
+    };
+    ComponentLoader.prototype.attachInline = function (vRef, template) {
+        this._inlineViewRef = vRef.createEmbeddedView(template);
+        return this;
+    };
+    ComponentLoader.prototype._registerOutsideClick = function () {
+        var _this = this;
+        if (!this._componentRef || !this._componentRef.location) {
+            return;
+        }
+        // why: should run after first event bubble
+        if (this._listenOpts.outsideClick) {
+            var target_1 = this._componentRef.location.nativeElement;
+            setTimeout(function () {
+                _this._globalListener = Object(__WEBPACK_IMPORTED_MODULE_1__utils_triggers__["b" /* registerOutsideClick */])(_this._renderer, {
+                    targets: [target_1, _this._elementRef.nativeElement],
+                    outsideClick: _this._listenOpts.outsideClick,
+                    hide: function () { return _this._listenOpts.hide(); }
+                });
+            });
+        }
+    };
+    ComponentLoader.prototype.getInnerComponent = function () {
+        return this._innerComponent;
     };
     ComponentLoader.prototype._subscribePositioning = function () {
         var _this = this;
@@ -2415,19 +2482,32 @@ var ComponentLoader = (function () {
         this._zoneSubscription.unsubscribe();
         this._zoneSubscription = null;
     };
-    ComponentLoader.prototype._getContentRef = function (content) {
+    ComponentLoader.prototype._getContentRef = function (content, context) {
         if (!content) {
-            return new __WEBPACK_IMPORTED_MODULE_1__content_ref_class__["a" /* ContentRef */]([]);
+            return new __WEBPACK_IMPORTED_MODULE_2__content_ref_class__["a" /* ContentRef */]([]);
         }
         if (content instanceof __WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* TemplateRef */]) {
-            var viewRef = this._viewContainerRef
-                .createEmbeddedView(content);
-            return new __WEBPACK_IMPORTED_MODULE_1__content_ref_class__["a" /* ContentRef */]([viewRef.rootNodes], viewRef);
+            if (this._viewContainerRef) {
+                var viewRef_1 = this._viewContainerRef.createEmbeddedView(content, context);
+                viewRef_1.markForCheck();
+                return new __WEBPACK_IMPORTED_MODULE_2__content_ref_class__["a" /* ContentRef */]([viewRef_1.rootNodes], viewRef_1);
+            }
+            var viewRef = content.createEmbeddedView({});
+            this._applicationRef.attachView(viewRef);
+            return new __WEBPACK_IMPORTED_MODULE_2__content_ref_class__["a" /* ContentRef */]([viewRef.rootNodes], viewRef);
         }
-        return new __WEBPACK_IMPORTED_MODULE_1__content_ref_class__["a" /* ContentRef */]([[this._renderer.createText(null, "" + content)]]);
+        if (typeof content === 'function') {
+            var contentCmptFactory = this._componentFactoryResolver.resolveComponentFactory(content);
+            var modalContentInjector = __WEBPACK_IMPORTED_MODULE_0__angular_core__["_0" /* ReflectiveInjector */].resolveAndCreate(this._providers.concat([content]), this._injector);
+            var componentRef = contentCmptFactory.create(modalContentInjector);
+            this._applicationRef.attachView(componentRef.hostView);
+            return new __WEBPACK_IMPORTED_MODULE_2__content_ref_class__["a" /* ContentRef */]([[componentRef.location.nativeElement]], componentRef.hostView, componentRef);
+        }
+        return new __WEBPACK_IMPORTED_MODULE_2__content_ref_class__["a" /* ContentRef */]([[this._renderer.createText(null, "" + content)]]);
     };
     return ComponentLoader;
 }());
+
 //# sourceMappingURL=component-loader.class.js.map
 
 /***/ }),
@@ -2440,15 +2520,25 @@ var ComponentLoader = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__component_loader_class__ = __webpack_require__("../../../../ngx-bootstrap/component-loader/component-loader.class.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__positioning__ = __webpack_require__("../../../../ngx-bootstrap/positioning/index.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
 
 
 var ComponentLoaderFactory = (function () {
-    function ComponentLoaderFactory(componentFactoryResolver, ngZone, injector, posService) {
-        this._ngZone = ngZone;
-        this._injector = injector;
-        this._posService = posService;
-        this._componentFactoryResolver = componentFactoryResolver;
+    function ComponentLoaderFactory(_componentFactoryResolver, _ngZone, _injector, _posService, _applicationRef) {
+        this._componentFactoryResolver = _componentFactoryResolver;
+        this._ngZone = _ngZone;
+        this._injector = _injector;
+        this._posService = _posService;
+        this._applicationRef = _applicationRef;
     }
     /**
      *
@@ -2458,20 +2548,19 @@ var ComponentLoaderFactory = (function () {
      * @returns {ComponentLoader}
      */
     ComponentLoaderFactory.prototype.createLoader = function (_elementRef, _viewContainerRef, _renderer) {
-        return new __WEBPACK_IMPORTED_MODULE_1__component_loader_class__["a" /* ComponentLoader */](_viewContainerRef, _renderer, _elementRef, this._injector, this._componentFactoryResolver, this._ngZone, this._posService);
+        return new __WEBPACK_IMPORTED_MODULE_1__component_loader_class__["a" /* ComponentLoader */](_viewContainerRef, _renderer, _elementRef, this._injector, this._componentFactoryResolver, this._ngZone, this._applicationRef, this._posService);
     };
-    ComponentLoaderFactory.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
-    ];
-    /** @nocollapse */
-    ComponentLoaderFactory.ctorParameters = function () { return [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* ComponentFactoryResolver */], },
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["R" /* NgZone */], },
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Injector */], },
-        { type: __WEBPACK_IMPORTED_MODULE_2__positioning__["a" /* PositioningService */], },
-    ]; };
+    ComponentLoaderFactory = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* ComponentFactoryResolver */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["R" /* NgZone */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Injector */],
+            __WEBPACK_IMPORTED_MODULE_2__positioning__["a" /* PositioningService */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["g" /* ApplicationRef */]])
+    ], ComponentLoaderFactory);
     return ComponentLoaderFactory;
 }());
+
 //# sourceMappingURL=component-loader.factory.js.map
 
 /***/ }),
@@ -2493,6 +2582,7 @@ var ContentRef = (function () {
     }
     return ContentRef;
 }());
+
 //# sourceMappingURL=content-ref.class.js.map
 
 /***/ }),
@@ -2521,15 +2611,40 @@ var ContentRef = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDropdownContainerComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/bs-dropdown.state.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
 
 var BsDropdownContainerComponent = (function () {
-    function BsDropdownContainerComponent(_state) {
+    function BsDropdownContainerComponent(_state, cd, _renderer, _element) {
         var _this = this;
         this._state = _state;
+        this.cd = cd;
+        this._renderer = _renderer;
         this.isOpen = false;
         this._subscription = _state.isOpenChange.subscribe(function (value) {
             _this.isOpen = value;
+            var dropdown = _element.nativeElement.querySelector('.dropdown-menu');
+            if (dropdown) {
+                _this._renderer.setElementClass(dropdown, 'show', true);
+                if (dropdown.classList.contains('dropdown-menu-right')) {
+                    _this._renderer.setElementStyle(dropdown, 'left', 'auto');
+                    _this._renderer.setElementStyle(dropdown, 'right', '0');
+                }
+                if (_this.direction === 'up') {
+                    _this._renderer.setElementStyle(dropdown, 'top', 'auto');
+                    _this._renderer.setElementStyle(dropdown, 'transform', 'translateY(-101%)');
+                }
+            }
+            _this.cd.markForCheck();
+            _this.cd.detectChanges();
         });
     }
     Object.defineProperty(BsDropdownContainerComponent.prototype, "direction", {
@@ -2542,22 +2657,20 @@ var BsDropdownContainerComponent = (function () {
     BsDropdownContainerComponent.prototype.ngOnDestroy = function () {
         this._subscription.unsubscribe();
     };
-    BsDropdownContainerComponent.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
-                    selector: 'bs-dropdown-container',
-                    changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["k" /* ChangeDetectionStrategy */].OnPush,
-                    host: {
-                        style: 'display:block;position: absolute;'
-                    },
-                    template: "\n    <div [class.dropup]=\"direction === 'up'\"\n         [class.dropdown]=\"direction === 'down'\"\n         [class.show]=\"isOpen\"\n         [class.open]=\"isOpen\"><ng-content></ng-content></div>\n  "
-                },] },
-    ];
-    /** @nocollapse */
-    BsDropdownContainerComponent.ctorParameters = function () { return [
-        { type: __WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__["a" /* BsDropdownState */], },
-    ]; };
+    BsDropdownContainerComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'bs-dropdown-container',
+            changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["k" /* ChangeDetectionStrategy */].OnPush,
+            host: {
+                style: 'display:block;position: absolute;'
+            },
+            template: "\n    <div [class.dropup]=\"direction === 'up'\"\n         [class.dropdown]=\"direction === 'down'\"\n         [class.show]=\"isOpen\"\n         [class.open]=\"isOpen\"><ng-content></ng-content></div>\n  "
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__["a" /* BsDropdownState */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["l" /* ChangeDetectorRef */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */]])
+    ], BsDropdownContainerComponent);
     return BsDropdownContainerComponent;
 }());
+
 //# sourceMappingURL=bs-dropdown-container.component.js.map
 
 /***/ }),
@@ -2569,6 +2682,15 @@ var BsDropdownContainerComponent = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDropdownMenuDirective; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/bs-dropdown.state.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
 
 var BsDropdownMenuDirective = (function () {
@@ -2578,20 +2700,18 @@ var BsDropdownMenuDirective = (function () {
             viewContainer: _viewContainer
         });
     }
-    BsDropdownMenuDirective.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
-                    selector: '[bsDropdownMenu],[dropdownMenu]',
-                    exportAs: 'bs-dropdown-menu'
-                },] },
-    ];
-    /** @nocollapse */
-    BsDropdownMenuDirective.ctorParameters = function () { return [
-        { type: __WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__["a" /* BsDropdownState */], },
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */], },
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* TemplateRef */], },
-    ]; };
+    BsDropdownMenuDirective = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */])({
+            selector: '[bsDropdownMenu],[dropdownMenu]',
+            exportAs: 'bs-dropdown-menu'
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__["a" /* BsDropdownState */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* TemplateRef */]])
+    ], BsDropdownMenuDirective);
     return BsDropdownMenuDirective;
 }());
+
 //# sourceMappingURL=bs-dropdown-menu.directive.js.map
 
 /***/ }),
@@ -2603,6 +2723,15 @@ var BsDropdownMenuDirective = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDropdownToggleDirective; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/bs-dropdown.state.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
 
 var BsDropdownToggleDirective = (function () {
@@ -2643,29 +2772,46 @@ var BsDropdownToggleDirective = (function () {
             sub.unsubscribe();
         }
     };
-    BsDropdownToggleDirective.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
-                    selector: '[bsDropdownToggle],[dropdownToggle]',
-                    exportAs: 'bs-dropdown-toggle',
-                    host: {
-                        '[attr.aria-haspopup]': 'true'
-                    }
-                },] },
-    ];
-    /** @nocollapse */
-    BsDropdownToggleDirective.ctorParameters = function () { return [
-        { type: __WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__["a" /* BsDropdownState */], },
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], },
-    ]; };
-    BsDropdownToggleDirective.propDecorators = {
-        'isDisabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */], args: ['attr.disabled',] },],
-        'isOpen': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */], args: ['attr.aria-expanded',] },],
-        'onClick': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['click',] },],
-        'onDocumentClick': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['document:click', ['$event'],] },],
-        'onEsc': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['keyup.esc',] },],
-    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */])('attr.disabled'),
+        __metadata("design:type", Boolean)
+    ], BsDropdownToggleDirective.prototype, "isDisabled", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */])('attr.aria-expanded'),
+        __metadata("design:type", Boolean)
+    ], BsDropdownToggleDirective.prototype, "isOpen", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */])('click'),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", []),
+        __metadata("design:returntype", void 0)
+    ], BsDropdownToggleDirective.prototype, "onClick", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */])('document:click', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", void 0)
+    ], BsDropdownToggleDirective.prototype, "onDocumentClick", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */])('keyup.esc'),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", []),
+        __metadata("design:returntype", void 0)
+    ], BsDropdownToggleDirective.prototype, "onEsc", null);
+    BsDropdownToggleDirective = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */])({
+            selector: '[bsDropdownToggle],[dropdownToggle]',
+            exportAs: 'bs-dropdown-toggle',
+            host: {
+                '[attr.aria-haspopup]': 'true'
+            }
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__bs_dropdown_state__["a" /* BsDropdownState */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */]])
+    ], BsDropdownToggleDirective);
     return BsDropdownToggleDirective;
 }());
+
 //# sourceMappingURL=bs-dropdown-toggle.directive.js.map
 
 /***/ }),
@@ -2676,6 +2822,12 @@ var BsDropdownToggleDirective = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDropdownConfig; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 
 /** Default dropdown configuration */
 var BsDropdownConfig = (function () {
@@ -2683,13 +2835,12 @@ var BsDropdownConfig = (function () {
         /** default dropdown auto closing behavior */
         this.autoClose = true;
     }
-    BsDropdownConfig.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
-    ];
-    /** @nocollapse */
-    BsDropdownConfig.ctorParameters = function () { return []; };
+    BsDropdownConfig = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
+    ], BsDropdownConfig);
     return BsDropdownConfig;
 }());
+
 //# sourceMappingURL=bs-dropdown.config.js.map
 
 /***/ }),
@@ -2707,6 +2858,15 @@ var BsDropdownConfig = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__bs_dropdown_container_component__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/bs-dropdown-container.component.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__bs_dropdown_state__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/bs-dropdown.state.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__utils_ng2_bootstrap_config__ = __webpack_require__("../../../../ngx-bootstrap/utils/ng2-bootstrap-config.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
 
 
@@ -2796,6 +2956,14 @@ var BsDropdownDirective = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(BsDropdownDirective.prototype, "_showInline", {
+        get: function () {
+            return !this.container;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ;
     BsDropdownDirective.prototype.ngOnInit = function () {
         var _this = this;
         // fix: seems there are an issue with `routerLinkActive`
@@ -2805,7 +2973,6 @@ var BsDropdownDirective = (function () {
             return;
         }
         this._isInited = true;
-        this._showInline = !this.container;
         // attach DOM listeners
         this._dropdown.listen({
             triggers: this.triggers,
@@ -2819,13 +2986,6 @@ var BsDropdownDirective = (function () {
             .isDisabledChange
             .filter(function (value) { return value === true; })
             .subscribe(function (value) { return _this.hide(); }));
-        // attach dropdown menu inside of dropdown
-        if (this._showInline) {
-            this._state.dropdownMenu
-                .then(function (dropdownMenu) {
-                _this._inlinedMenu = dropdownMenu.viewContainer.createEmbeddedView(dropdownMenu.templateRef);
-            });
-        }
     };
     /**
      * Opens an element’s popover. This is considered a “manual” triggering of
@@ -2837,6 +2997,15 @@ var BsDropdownDirective = (function () {
             return;
         }
         if (this._showInline) {
+            if (!this._inlinedMenu) {
+                this._state.dropdownMenu
+                    .then(function (dropdownMenu) {
+                    _this._dropdown.attachInline(dropdownMenu.viewContainer, dropdownMenu.templateRef);
+                    _this._inlinedMenu = _this._dropdown._inlineViewRef;
+                    _this.addBs4Polyfills();
+                });
+            }
+            this.addBs4Polyfills();
             this._isInlineOpen = true;
             this.onShown.emit(true);
             this._state.isOpenChange.emit(true);
@@ -2871,6 +3040,7 @@ var BsDropdownDirective = (function () {
             return;
         }
         if (this._showInline) {
+            this.removeShowClass();
             this._isInlineOpen = false;
             this.onHidden.emit(true);
         }
@@ -2897,41 +3067,103 @@ var BsDropdownDirective = (function () {
         }
         this._dropdown.dispose();
     };
-    BsDropdownDirective.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
-                    selector: '[bsDropdown],[dropdown]',
-                    exportAs: 'bs-dropdown',
-                    providers: [__WEBPACK_IMPORTED_MODULE_5__bs_dropdown_state__["a" /* BsDropdownState */]],
-                    host: {
-                        '[class.dropup]': 'dropup',
-                        '[class.open]': 'isOpen',
-                        '[class.show]': 'isOpen && isBs4'
-                    }
-                },] },
-    ];
-    /** @nocollapse */
-    BsDropdownDirective.ctorParameters = function () { return [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], },
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */], },
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */], },
-        { type: __WEBPACK_IMPORTED_MODULE_2__component_loader__["a" /* ComponentLoaderFactory */], },
-        { type: __WEBPACK_IMPORTED_MODULE_3__bs_dropdown_config__["a" /* BsDropdownConfig */], },
-        { type: __WEBPACK_IMPORTED_MODULE_5__bs_dropdown_state__["a" /* BsDropdownState */], },
-    ]; };
-    BsDropdownDirective.propDecorators = {
-        'placement': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'triggers': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'container': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'dropup': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'autoClose': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'isDisabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'isOpen': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'isOpenChange': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
-        'onShown': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
-        'onHidden': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
+    BsDropdownDirective.prototype.addBs4Polyfills = function () {
+        if (!Object(__WEBPACK_IMPORTED_MODULE_6__utils_ng2_bootstrap_config__["a" /* isBs3 */])()) {
+            this.addShowClass();
+            this.checkRightAlignment();
+            this.checkDropup();
+        }
     };
+    BsDropdownDirective.prototype.addShowClass = function () {
+        if (this._inlinedMenu && this._inlinedMenu.rootNodes[0]) {
+            this._renderer.setElementClass(this._inlinedMenu.rootNodes[0], 'show', true);
+        }
+    };
+    BsDropdownDirective.prototype.removeShowClass = function () {
+        if (this._inlinedMenu && this._inlinedMenu.rootNodes[0]) {
+            this._renderer.setElementClass(this._inlinedMenu.rootNodes[0], 'show', false);
+        }
+    };
+    BsDropdownDirective.prototype.checkRightAlignment = function () {
+        if (this._inlinedMenu && this._inlinedMenu.rootNodes[0]) {
+            var isRightAligned = this._inlinedMenu.rootNodes[0].classList.contains('dropdown-menu-right');
+            this._renderer.setElementStyle(this._inlinedMenu.rootNodes[0], 'left', isRightAligned ? 'auto' : '0');
+            this._renderer.setElementStyle(this._inlinedMenu.rootNodes[0], 'right', isRightAligned ? '0' : 'auto');
+        }
+    };
+    BsDropdownDirective.prototype.checkDropup = function () {
+        if (this._inlinedMenu && this._inlinedMenu.rootNodes[0]) {
+            // a little hack to not break support of bootstrap 4 beta
+            var top_1 = getComputedStyle(this._inlinedMenu.rootNodes[0])['top'];
+            var topAuto = top_1 === 'auto' || top_1 === '100%';
+            this._renderer.setElementStyle(this._inlinedMenu.rootNodes[0], 'top', this.dropup ? 'auto' : '100%');
+            this._renderer.setElementStyle(this._inlinedMenu.rootNodes[0], 'transform', this.dropup && !topAuto ? 'translateY(-101%)' : 'translateY(0)');
+        }
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", String)
+    ], BsDropdownDirective.prototype, "placement", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", String)
+    ], BsDropdownDirective.prototype, "triggers", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", String)
+    ], BsDropdownDirective.prototype, "container", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Boolean)
+    ], BsDropdownDirective.prototype, "dropup", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [Boolean])
+    ], BsDropdownDirective.prototype, "autoClose", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [Boolean])
+    ], BsDropdownDirective.prototype, "isDisabled", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [Boolean])
+    ], BsDropdownDirective.prototype, "isOpen", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
+    ], BsDropdownDirective.prototype, "isOpenChange", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
+    ], BsDropdownDirective.prototype, "onShown", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
+    ], BsDropdownDirective.prototype, "onHidden", void 0);
+    BsDropdownDirective = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */])({
+            selector: '[bsDropdown],[dropdown]',
+            exportAs: 'bs-dropdown',
+            providers: [__WEBPACK_IMPORTED_MODULE_5__bs_dropdown_state__["a" /* BsDropdownState */]],
+            host: {
+                '[class.dropup]': 'dropup',
+                '[class.open]': 'isOpen',
+                '[class.show]': 'isOpen && isBs4'
+            }
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */],
+            __WEBPACK_IMPORTED_MODULE_2__component_loader__["a" /* ComponentLoaderFactory */],
+            __WEBPACK_IMPORTED_MODULE_3__bs_dropdown_config__["a" /* BsDropdownConfig */],
+            __WEBPACK_IMPORTED_MODULE_5__bs_dropdown_state__["a" /* BsDropdownState */]])
+    ], BsDropdownDirective);
     return BsDropdownDirective;
 }());
+
 //# sourceMappingURL=bs-dropdown.directive.js.map
 
 /***/ }),
@@ -2950,6 +3182,12 @@ var BsDropdownDirective = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__bs_dropdown_config__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/bs-dropdown.config.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__bs_dropdown_directive__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/bs-dropdown.directive.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__bs_dropdown_state__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/bs-dropdown.state.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 
 
 
@@ -2962,9 +3200,10 @@ var BsDropdownDirective = (function () {
 var BsDropdownModule = (function () {
     function BsDropdownModule() {
     }
+    BsDropdownModule_1 = BsDropdownModule;
     BsDropdownModule.forRoot = function (config) {
         return {
-            ngModule: BsDropdownModule, providers: [
+            ngModule: BsDropdownModule_1, providers: [
                 __WEBPACK_IMPORTED_MODULE_1__component_loader__["a" /* ComponentLoaderFactory */],
                 __WEBPACK_IMPORTED_MODULE_2__positioning__["a" /* PositioningService */],
                 __WEBPACK_IMPORTED_MODULE_8__bs_dropdown_state__["a" /* BsDropdownState */],
@@ -2973,26 +3212,26 @@ var BsDropdownModule = (function () {
         };
     };
     ;
-    BsDropdownModule.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */], args: [{
-                    declarations: [
-                        __WEBPACK_IMPORTED_MODULE_4__bs_dropdown_menu_directive__["a" /* BsDropdownMenuDirective */],
-                        __WEBPACK_IMPORTED_MODULE_5__bs_dropdown_toggle_directive__["a" /* BsDropdownToggleDirective */],
-                        __WEBPACK_IMPORTED_MODULE_3__bs_dropdown_container_component__["a" /* BsDropdownContainerComponent */],
-                        __WEBPACK_IMPORTED_MODULE_7__bs_dropdown_directive__["a" /* BsDropdownDirective */]
-                    ],
-                    exports: [
-                        __WEBPACK_IMPORTED_MODULE_4__bs_dropdown_menu_directive__["a" /* BsDropdownMenuDirective */],
-                        __WEBPACK_IMPORTED_MODULE_5__bs_dropdown_toggle_directive__["a" /* BsDropdownToggleDirective */],
-                        __WEBPACK_IMPORTED_MODULE_7__bs_dropdown_directive__["a" /* BsDropdownDirective */]
-                    ],
-                    entryComponents: [__WEBPACK_IMPORTED_MODULE_3__bs_dropdown_container_component__["a" /* BsDropdownContainerComponent */]]
-                },] },
-    ];
-    /** @nocollapse */
-    BsDropdownModule.ctorParameters = function () { return []; };
+    BsDropdownModule = BsDropdownModule_1 = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+            declarations: [
+                __WEBPACK_IMPORTED_MODULE_4__bs_dropdown_menu_directive__["a" /* BsDropdownMenuDirective */],
+                __WEBPACK_IMPORTED_MODULE_5__bs_dropdown_toggle_directive__["a" /* BsDropdownToggleDirective */],
+                __WEBPACK_IMPORTED_MODULE_3__bs_dropdown_container_component__["a" /* BsDropdownContainerComponent */],
+                __WEBPACK_IMPORTED_MODULE_7__bs_dropdown_directive__["a" /* BsDropdownDirective */]
+            ],
+            exports: [
+                __WEBPACK_IMPORTED_MODULE_4__bs_dropdown_menu_directive__["a" /* BsDropdownMenuDirective */],
+                __WEBPACK_IMPORTED_MODULE_5__bs_dropdown_toggle_directive__["a" /* BsDropdownToggleDirective */],
+                __WEBPACK_IMPORTED_MODULE_7__bs_dropdown_directive__["a" /* BsDropdownDirective */]
+            ],
+            entryComponents: [__WEBPACK_IMPORTED_MODULE_3__bs_dropdown_container_component__["a" /* BsDropdownContainerComponent */]]
+        })
+    ], BsDropdownModule);
     return BsDropdownModule;
+    var BsDropdownModule_1;
 }());
+
 //# sourceMappingURL=bs-dropdown.module.js.map
 
 /***/ }),
@@ -3003,6 +3242,15 @@ var BsDropdownModule = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsDropdownState; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
 var BsDropdownState = (function () {
     function BsDropdownState() {
@@ -3015,13 +3263,13 @@ var BsDropdownState = (function () {
             _this.resolveDropdownMenu = resolve;
         });
     }
-    BsDropdownState.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
-    ];
-    /** @nocollapse */
-    BsDropdownState.ctorParameters = function () { return []; };
+    BsDropdownState = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [])
+    ], BsDropdownState);
     return BsDropdownState;
 }());
+
 //# sourceMappingURL=bs-dropdown.state.js.map
 
 /***/ }),
@@ -3055,17 +3303,310 @@ var BsDropdownState = (function () {
 
 /***/ }),
 
+/***/ "../../../../ngx-bootstrap/mini-ngrx/state.class.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MiniState; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_BehaviorSubject__ = __webpack_require__("../../../../rxjs/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_BehaviorSubject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_BehaviorSubject__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_observeOn__ = __webpack_require__("../../../../rxjs/operator/observeOn.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_observeOn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_operator_observeOn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_scheduler_queue__ = __webpack_require__("../../../../rxjs/scheduler/queue.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_scheduler_queue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_scheduler_queue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operator_scan__ = __webpack_require__("../../../../rxjs/operator/scan.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operator_scan___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_operator_scan__);
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+/**
+ * @copyright ngrx
+ */
+
+
+
+
+var MiniState = (function (_super) {
+    __extends(MiniState, _super);
+    function MiniState(_initialState, actionsDispatcher$, reducer) {
+        var _this = _super.call(this, _initialState) || this;
+        var actionInQueue$ = __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_observeOn__["observeOn"].call(actionsDispatcher$, __WEBPACK_IMPORTED_MODULE_2_rxjs_scheduler_queue__["queue"]);
+        var state$ = __WEBPACK_IMPORTED_MODULE_3_rxjs_operator_scan__["scan"].call(actionInQueue$, function (state, action) {
+            if (!action) {
+                return state;
+            }
+            return reducer(state, action);
+        }, _initialState);
+        state$.subscribe(function (value) { return _this.next(value); });
+        return _this;
+    }
+    return MiniState;
+}(__WEBPACK_IMPORTED_MODULE_0_rxjs_BehaviorSubject__["BehaviorSubject"]));
+
+//# sourceMappingURL=state.class.js.map
+
+/***/ }),
+
+/***/ "../../../../ngx-bootstrap/mini-ngrx/store.class.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MiniStore; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Observable__ = __webpack_require__("../../../../rxjs/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_distinctUntilChanged__ = __webpack_require__("../../../../rxjs/operator/distinctUntilChanged.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_distinctUntilChanged___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_operator_distinctUntilChanged__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_operator_map__ = __webpack_require__("../../../../rxjs/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_operator_map__);
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+/**
+ * @copyright ngrx
+ */
+
+
+
+var MiniStore = (function (_super) {
+    __extends(MiniStore, _super);
+    function MiniStore(_dispatcher, _reducer, state$) {
+        var _this = _super.call(this) || this;
+        _this._dispatcher = _dispatcher;
+        _this._reducer = _reducer;
+        _this.source = state$;
+        return _this;
+    }
+    MiniStore.prototype.select = function (pathOrMapFn) {
+        var mapped$ = __WEBPACK_IMPORTED_MODULE_2_rxjs_operator_map__["map"].call(this, pathOrMapFn);
+        return __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_distinctUntilChanged__["distinctUntilChanged"].call(mapped$);
+    };
+    MiniStore.prototype.lift = function (operator) {
+        var store = new MiniStore(this._dispatcher, this._reducer, this);
+        store.operator = operator;
+        return store;
+    };
+    MiniStore.prototype.dispatch = function (action) { this._dispatcher.next(action); };
+    MiniStore.prototype.next = function (action) { this._dispatcher.next(action); };
+    MiniStore.prototype.error = function (err) { this._dispatcher.error(err); };
+    MiniStore.prototype.complete = function () { };
+    return MiniStore;
+}(__WEBPACK_IMPORTED_MODULE_0_rxjs_Observable__["Observable"]));
+
+//# sourceMappingURL=store.class.js.map
+
+/***/ }),
+
+/***/ "../../../../ngx-bootstrap/modal/bs-modal.service.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsModalService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__component_loader_component_loader_factory__ = __webpack_require__("../../../../ngx-bootstrap/component-loader/component-loader.factory.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_backdrop_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-backdrop.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modal_container_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-container.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modal_options_class__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-options.class.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var BsModalService = (function () {
+    function BsModalService(clf) {
+        this.clf = clf;
+        // constructor props
+        this.config = __WEBPACK_IMPORTED_MODULE_4__modal_options_class__["f" /* modalConfigDefaults */];
+        this.onShow = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.onShown = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.onHide = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.onHidden = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.isBodyOverflowing = false;
+        this.originalBodyPadding = 0;
+        this.scrollbarWidth = 0;
+        this.modalsCount = 0;
+        this.lastDismissReason = '';
+        this.loaders = [];
+        this._backdropLoader = this.clf.createLoader(null, null, null);
+    }
+    /** Shows a modal */
+    BsModalService.prototype.show = function (content, config) {
+        this.modalsCount++;
+        this._createLoaders();
+        this.config = Object.assign({}, __WEBPACK_IMPORTED_MODULE_4__modal_options_class__["f" /* modalConfigDefaults */], config);
+        this._showBackdrop();
+        this.lastDismissReason = null;
+        return this._showModal(content);
+    };
+    BsModalService.prototype.hide = function (level) {
+        var _this = this;
+        if (this.modalsCount === 1) {
+            this._hideBackdrop();
+            this.resetScrollbar();
+        }
+        this.modalsCount = this.modalsCount >= 1 ? this.modalsCount - 1 : 0;
+        setTimeout(function () {
+            _this._hideModal(level);
+            _this.removeLoaders(level);
+        }, this.config.animated ? __WEBPACK_IMPORTED_MODULE_4__modal_options_class__["e" /* TransitionDurations */].BACKDROP : 0);
+    };
+    BsModalService.prototype._showBackdrop = function () {
+        var isBackdropEnabled = this.config.backdrop || this.config.backdrop === 'static';
+        var isBackdropInDOM = !this.backdropRef || !this.backdropRef.instance.isShown;
+        if (this.modalsCount === 1) {
+            this.removeBackdrop();
+            if (isBackdropEnabled && isBackdropInDOM) {
+                this._backdropLoader
+                    .attach(__WEBPACK_IMPORTED_MODULE_2__modal_backdrop_component__["a" /* ModalBackdropComponent */])
+                    .to('body')
+                    .show({ isAnimated: this.config.animated });
+                this.backdropRef = this._backdropLoader._componentRef;
+            }
+        }
+    };
+    BsModalService.prototype._hideBackdrop = function () {
+        var _this = this;
+        if (!this.backdropRef) {
+            return;
+        }
+        this.backdropRef.instance.isShown = false;
+        var duration = this.config.animated ? __WEBPACK_IMPORTED_MODULE_4__modal_options_class__["e" /* TransitionDurations */].BACKDROP : 0;
+        setTimeout(function () { return _this.removeBackdrop(); }, duration);
+    };
+    BsModalService.prototype._showModal = function (content) {
+        var modalLoader = this.loaders[this.loaders.length - 1];
+        var bsModalRef = new __WEBPACK_IMPORTED_MODULE_4__modal_options_class__["a" /* BsModalRef */]();
+        var modalContainerRef = modalLoader
+            .provide({ provide: __WEBPACK_IMPORTED_MODULE_4__modal_options_class__["d" /* ModalOptions */], useValue: this.config })
+            .provide({ provide: __WEBPACK_IMPORTED_MODULE_4__modal_options_class__["a" /* BsModalRef */], useValue: bsModalRef })
+            .attach(__WEBPACK_IMPORTED_MODULE_3__modal_container_component__["a" /* ModalContainerComponent */])
+            .to('body')
+            .show({ content: content, isAnimated: this.config.animated });
+        modalContainerRef.instance.level = this.getModalsCount();
+        bsModalRef.hide = function () {
+            modalContainerRef.instance.hide();
+        };
+        bsModalRef.content = modalLoader.getInnerComponent() || null;
+        return bsModalRef;
+    };
+    BsModalService.prototype._hideModal = function (level) {
+        var modalLoader = this.loaders[level - 1];
+        if (modalLoader) {
+            modalLoader.hide();
+        }
+    };
+    BsModalService.prototype.getModalsCount = function () {
+        return this.modalsCount;
+    };
+    BsModalService.prototype.setDismissReason = function (reason) {
+        this.lastDismissReason = reason;
+    };
+    BsModalService.prototype.removeBackdrop = function () {
+        this._backdropLoader.hide();
+        this.backdropRef = null;
+    };
+    /** AFTER PR MERGE MODAL.COMPONENT WILL BE USING THIS CODE*/
+    /** Scroll bar tricks */
+    /** @internal */
+    BsModalService.prototype.checkScrollbar = function () {
+        this.isBodyOverflowing = document.body.clientWidth < window.innerWidth;
+        this.scrollbarWidth = this.getScrollbarWidth();
+    };
+    BsModalService.prototype.setScrollbar = function () {
+        if (!document) {
+            return;
+        }
+        this.originalBodyPadding = parseInt(window.getComputedStyle(document.body).getPropertyValue('padding-right') || '0', 10);
+        if (this.isBodyOverflowing) {
+            document.body.style.paddingRight = this.originalBodyPadding + this.scrollbarWidth + "px";
+        }
+    };
+    BsModalService.prototype.resetScrollbar = function () {
+        document.body.style.paddingRight = this.originalBodyPadding + 'px';
+    };
+    // thx d.walsh
+    BsModalService.prototype.getScrollbarWidth = function () {
+        var scrollDiv = document.createElement('div');
+        scrollDiv.className = __WEBPACK_IMPORTED_MODULE_4__modal_options_class__["b" /* ClassName */].SCROLLBAR_MEASURER;
+        document.body.appendChild(scrollDiv);
+        var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+        document.body.removeChild(scrollDiv);
+        return scrollbarWidth;
+    };
+    BsModalService.prototype._createLoaders = function () {
+        var loader = this.clf.createLoader(null, null, null);
+        this.copyEvent(loader.onBeforeShow, this.onShow);
+        this.copyEvent(loader.onShown, this.onShown);
+        this.copyEvent(loader.onBeforeHide, this.onHide);
+        this.copyEvent(loader.onHidden, this.onHidden);
+        this.loaders.push(loader);
+    };
+    BsModalService.prototype.removeLoaders = function (level) {
+        this.loaders.splice(level - 1, 1);
+        this.loaders.forEach(function (loader, i) {
+            loader.instance.level = i + 1;
+        });
+    };
+    BsModalService.prototype.copyEvent = function (from, to) {
+        var _this = this;
+        from.subscribe(function () {
+            to.emit(_this.lastDismissReason);
+        });
+    };
+    BsModalService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__component_loader_component_loader_factory__["a" /* ComponentLoaderFactory */]])
+    ], BsModalService);
+    return BsModalService;
+}());
+
+//# sourceMappingURL=bs-modal.service.js.map
+
+/***/ }),
+
 /***/ "../../../../ngx-bootstrap/modal/index.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modal_backdrop_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-backdrop.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modal_container_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-container.component.js");
+/* unused harmony reexport ModalContainerComponent */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modal_backdrop_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-backdrop.component.js");
 /* unused harmony reexport ModalBackdropComponent */
 /* unused harmony reexport ModalBackdropOptions */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modal_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal.component.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_1__modal_component__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_module__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal.module.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__modal_module__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_options_class__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-options.class.js");
+/* unused harmony reexport ModalOptions */
+/* unused harmony reexport BsModalRef */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modal_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal.component.js");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__modal_component__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modal_module__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal.module.js");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_4__modal_module__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__bs_modal_service__ = __webpack_require__("../../../../ngx-bootstrap/modal/bs-modal.service.js");
+/* unused harmony reexport BsModalService */
+
+
+
 
 
 
@@ -3082,6 +3623,17 @@ var BsDropdownState = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modal_options_class__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-options.class.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_ng2_bootstrap_config__ = __webpack_require__("../../../../ngx-bootstrap/utils/ng2-bootstrap-config.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_utils_class__ = __webpack_require__("../../../../ngx-bootstrap/utils/utils.class.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
 
 
 
@@ -3092,6 +3644,7 @@ var ModalBackdropOptions = (function () {
     }
     return ModalBackdropOptions;
 }());
+
 /** This component will be added as background layout for modals if enabled */
 var ModalBackdropComponent = (function () {
     function ModalBackdropComponent(element, renderer) {
@@ -3105,7 +3658,7 @@ var ModalBackdropComponent = (function () {
         },
         set: function (value) {
             this._isAnimated = value;
-            this.renderer.setElementClass(this.element.nativeElement, "" + __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["a" /* ClassName */].FADE, value);
+            // this.renderer.setElementClass(this.element.nativeElement, `${ClassName.FADE}`, value);
         },
         enumerable: true,
         configurable: true
@@ -3116,30 +3669,161 @@ var ModalBackdropComponent = (function () {
         },
         set: function (value) {
             this._isShown = value;
-            this.renderer.setElementClass(this.element.nativeElement, "" + __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["a" /* ClassName */].IN, value);
+            this.renderer.setElementClass(this.element.nativeElement, "" + __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].IN, value);
             if (!Object(__WEBPACK_IMPORTED_MODULE_2__utils_ng2_bootstrap_config__["a" /* isBs3 */])()) {
-                this.renderer.setElementClass(this.element.nativeElement, "" + __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["a" /* ClassName */].SHOW, value);
+                this.renderer.setElementClass(this.element.nativeElement, "" + __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].SHOW, value);
             }
         },
         enumerable: true,
         configurable: true
     });
-    ModalBackdropComponent.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
-                    selector: 'bs-modal-backdrop',
-                    template: '',
-                    // tslint:disable-next-line
-                    host: { 'class': __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["a" /* ClassName */].BACKDROP }
-                },] },
-    ];
-    /** @nocollapse */
-    ModalBackdropComponent.ctorParameters = function () { return [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], },
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */], },
-    ]; };
+    ModalBackdropComponent.prototype.ngOnInit = function () {
+        if (this.isAnimated) {
+            this.renderer.setElementClass(this.element.nativeElement, "" + __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].FADE, this.isAnimated);
+            __WEBPACK_IMPORTED_MODULE_3__utils_utils_class__["a" /* Utils */].reflow(this.element.nativeElement);
+        }
+        this.isShown = true;
+    };
+    ModalBackdropComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'bs-modal-backdrop',
+            template: '',
+            // tslint:disable-next-line
+            host: { 'class': __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].BACKDROP }
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */]])
+    ], ModalBackdropComponent);
     return ModalBackdropComponent;
 }());
+
 //# sourceMappingURL=modal-backdrop.component.js.map
+
+/***/ }),
+
+/***/ "../../../../ngx-bootstrap/modal/modal-container.component.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ModalContainerComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modal_options_class__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-options.class.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__bs_modal_service__ = __webpack_require__("../../../../ngx-bootstrap/modal/bs-modal.service.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_ng2_bootstrap_config__ = __webpack_require__("../../../../ngx-bootstrap/utils/ng2-bootstrap-config.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var ModalContainerComponent = (function () {
+    // @HostListener('window:focusin', ['$event'])
+    // public enforceFocus($event:any): void {
+    //   if (!(this._element.nativeElement === $event.target || this._element.nativeElement.contains($event.target))) {
+    //     this._element.nativeElement.focus();
+    //   }
+    // }
+    // @HostListener('focusout', ['$event'])
+    // public preventFocusOut($event:any): void {
+    //   if (!$event.relatedTarget) {
+    //     this._element.nativeElement.focus();
+    //   }
+    // }
+    function ModalContainerComponent(options, _element, bsModalService, _renderer) {
+        this.bsModalService = bsModalService;
+        this._renderer = _renderer;
+        this.isShown = false;
+        this.isModalHiding = false;
+        this._element = _element;
+        this.config = Object.assign({}, options);
+    }
+    ModalContainerComponent.prototype.onClick = function (event) {
+        if (this.config.ignoreBackdropClick || this.config.backdrop === 'static' || event.target !== this._element.nativeElement) {
+            return;
+        }
+        this.bsModalService.setDismissReason(__WEBPACK_IMPORTED_MODULE_1__modal_options_class__["c" /* DISMISS_REASONS */].BACKRDOP);
+        this.hide();
+    };
+    ModalContainerComponent.prototype.onEsc = function () {
+        if (this.config.keyboard && this.level === this.bsModalService.getModalsCount()) {
+            this.bsModalService.setDismissReason(__WEBPACK_IMPORTED_MODULE_1__modal_options_class__["c" /* DISMISS_REASONS */].ESC);
+            this.hide();
+        }
+    };
+    ModalContainerComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        if (this.isAnimated) {
+            this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].FADE, true);
+        }
+        this._renderer.setElementStyle(this._element.nativeElement, 'display', 'block');
+        setTimeout(function () {
+            _this.isShown = true;
+            _this._renderer.setElementClass(_this._element.nativeElement, Object(__WEBPACK_IMPORTED_MODULE_3__utils_ng2_bootstrap_config__["a" /* isBs3 */])() ? __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].IN : __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].SHOW, true);
+        }, this.isAnimated ? __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["e" /* TransitionDurations */].BACKDROP : 0);
+        if (document && document.body) {
+            if (this.bsModalService.getModalsCount() === 1) {
+                this.bsModalService.checkScrollbar();
+                this.bsModalService.setScrollbar();
+            }
+            this._renderer.setElementClass(document.body, __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].OPEN, true);
+        }
+    };
+    ModalContainerComponent.prototype.ngOnDestroy = function () {
+        if (this.isShown) {
+            this.hide();
+        }
+    };
+    ModalContainerComponent.prototype.hide = function () {
+        var _this = this;
+        if (this.isModalHiding || !this.isShown) {
+            return;
+        }
+        this.isModalHiding = true;
+        this._renderer.setElementClass(this._element.nativeElement, Object(__WEBPACK_IMPORTED_MODULE_3__utils_ng2_bootstrap_config__["a" /* isBs3 */])() ? __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].IN : __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].SHOW, false);
+        setTimeout(function () {
+            _this.isShown = false;
+            if (document && document.body && _this.bsModalService.getModalsCount() === 1) {
+                _this._renderer.setElementClass(document.body, __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["b" /* ClassName */].OPEN, false);
+            }
+            _this.bsModalService.hide(_this.level);
+            _this.isModalHiding = false;
+        }, this.isAnimated ? __WEBPACK_IMPORTED_MODULE_1__modal_options_class__["e" /* TransitionDurations */].MODAL : 0);
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */])('click', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", void 0)
+    ], ModalContainerComponent.prototype, "onClick", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */])('window:keydown.esc'),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", []),
+        __metadata("design:returntype", void 0)
+    ], ModalContainerComponent.prototype, "onEsc", null);
+    ModalContainerComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'modal-container',
+            template: "\n    <div [class]=\"'modal-dialog' + (config.class ? ' ' + config.class : '')\" role=\"document\">\n      <div class=\"modal-content\"><ng-content></ng-content></div>\n    </div>\n  ",
+            // tslint:disable-next-line
+            host: {
+                class: 'modal',
+                role: 'dialog',
+                tabindex: '-1'
+            }
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__modal_options_class__["d" /* ModalOptions */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], __WEBPACK_IMPORTED_MODULE_2__bs_modal_service__["a" /* BsModalService */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */]])
+    ], ModalContainerComponent);
+    return ModalContainerComponent;
+}());
+
+//# sourceMappingURL=modal-container.component.js.map
 
 /***/ }),
 
@@ -3147,15 +3831,51 @@ var ModalBackdropComponent = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return modalConfigDefaults; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ClassName; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Selector; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return ModalOptions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BsModalRef; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return modalConfigDefaults; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ClassName; });
+/* unused harmony export Selector */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return TransitionDurations; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return DISMISS_REASONS; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var ModalOptions = (function () {
+    function ModalOptions() {
+    }
+    ModalOptions = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
+    ], ModalOptions);
+    return ModalOptions;
+}());
+
+var BsModalRef = (function () {
+    function BsModalRef() {
+    }
+    /**
+     * Hides the modal
+     */
+    BsModalRef.prototype.hide = function () { };
+    BsModalRef = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
+    ], BsModalRef);
+    return BsModalRef;
+}());
+
 var modalConfigDefaults = {
     backdrop: true,
     keyboard: true,
     focus: true,
     show: false,
-    ignoreBackdropClick: false
+    ignoreBackdropClick: false,
+    class: '',
+    animated: true
 };
 var ClassName = {
     SCROLLBAR_MEASURER: 'modal-scrollbar-measure',
@@ -3170,6 +3890,14 @@ var Selector = {
     DATA_TOGGLE: '[data-toggle="modal"]',
     DATA_DISMISS: '[data-dismiss="modal"]',
     FIXED_CONTENT: '.navbar-fixed-top, .navbar-fixed-bottom, .is-fixed'
+};
+var TransitionDurations = {
+    MODAL: 300,
+    BACKDROP: 150
+};
+var DISMISS_REASONS = {
+    BACKRDOP: 'backdrop-click',
+    ESC: 'esc'
 };
 //# sourceMappingURL=modal-options.class.js.map
 
@@ -3191,6 +3919,15 @@ var Selector = {
 // todo: should we support enforce focus in?
 // todo: in original bs there are was a way to prevent modal from showing
 // todo: original modal had resize events
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
 
 
@@ -3247,11 +3984,13 @@ var ModalDirective = (function () {
         if (this.config.ignoreBackdropClick || this.config.backdrop === 'static' || event.target !== this._element.nativeElement) {
             return;
         }
+        this.dismissReason = __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["c" /* DISMISS_REASONS */].BACKRDOP;
         this.hide(event);
     };
     // todo: consider preventing default and stopping propagation
     ModalDirective.prototype.onEsc = function () {
         if (this.config.keyboard) {
+            this.dismissReason = __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["c" /* DISMISS_REASONS */].ESC;
             this.hide();
         }
     };
@@ -3264,10 +4003,13 @@ var ModalDirective = (function () {
         }
     };
     ModalDirective.prototype.ngAfterViewInit = function () {
+        var _this = this;
         this._config = this._config || this.getConfig();
-        if (this._config.show) {
-            this.show();
-        }
+        setTimeout(function () {
+            if (_this._config.show) {
+                _this.show();
+            }
+        }, 0);
     };
     /* Public methods */
     /** Allows to manually toggle modal visibility */
@@ -3277,6 +4019,7 @@ var ModalDirective = (function () {
     /** Allows to manually open modal */
     ModalDirective.prototype.show = function () {
         var _this = this;
+        this.dismissReason = null;
         this.onShow.emit(this);
         if (this._isShown) {
             return;
@@ -3287,11 +4030,11 @@ var ModalDirective = (function () {
         this.checkScrollbar();
         this.setScrollbar();
         if (__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */] && __WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body) {
-            if (__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body.classList.contains(__WEBPACK_IMPORTED_MODULE_5__modal_options_class__["a" /* ClassName */].OPEN)) {
+            if (__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body.classList.contains(__WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* ClassName */].OPEN)) {
                 this.isNested = true;
             }
             else {
-                this._renderer.setElementClass(__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["a" /* ClassName */].OPEN, true);
+                this._renderer.setElementClass(__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* ClassName */].OPEN, true);
             }
         }
         this.showBackdrop(function () {
@@ -3312,9 +4055,9 @@ var ModalDirective = (function () {
         clearTimeout(this.timerHideModal);
         clearTimeout(this.timerRmBackDrop);
         this._isShown = false;
-        this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["a" /* ClassName */].IN, false);
+        this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* ClassName */].IN, false);
         if (!Object(__WEBPACK_IMPORTED_MODULE_2__utils_ng2_bootstrap_config__["a" /* isBs3 */])()) {
-            this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["a" /* ClassName */].SHOW, false);
+            this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* ClassName */].SHOW, false);
         }
         // this._addClassIn = false;
         if (this.isAnimated) {
@@ -3326,7 +4069,7 @@ var ModalDirective = (function () {
     };
     /** Private methods @internal */
     ModalDirective.prototype.getConfig = function (config) {
-        return Object.assign({}, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["c" /* modalConfigDefaults */], config);
+        return Object.assign({}, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["f" /* modalConfigDefaults */], config);
     };
     /**
      *  Show dialog
@@ -3349,9 +4092,9 @@ var ModalDirective = (function () {
             __WEBPACK_IMPORTED_MODULE_3__utils_utils_class__["a" /* Utils */].reflow(this._element.nativeElement);
         }
         // this._addClassIn = true;
-        this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["a" /* ClassName */].IN, true);
+        this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* ClassName */].IN, true);
         if (!Object(__WEBPACK_IMPORTED_MODULE_2__utils_ng2_bootstrap_config__["a" /* isBs3 */])()) {
-            this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["a" /* ClassName */].SHOW, true);
+            this._renderer.setElementClass(this._element.nativeElement, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* ClassName */].SHOW, true);
         }
         var transitionComplete = function () {
             if (_this._config.focus) {
@@ -3374,11 +4117,12 @@ var ModalDirective = (function () {
         this.showBackdrop(function () {
             if (!_this.isNested) {
                 if (__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */] && __WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body) {
-                    _this._renderer.setElementClass(__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["a" /* ClassName */].OPEN, false);
+                    _this._renderer.setElementClass(__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body, __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* ClassName */].OPEN, false);
                 }
                 _this.resetScrollbar();
             }
             _this.resetAdjustments();
+            _this.focusOtherModal();
             _this.onHidden.emit(_this);
         });
     };
@@ -3391,13 +4135,8 @@ var ModalDirective = (function () {
             this._backdrop
                 .attach(__WEBPACK_IMPORTED_MODULE_4__modal_backdrop_component__["a" /* ModalBackdropComponent */])
                 .to('body')
-                .show({ isAnimated: false });
+                .show({ isAnimated: this.isAnimated });
             this.backdrop = this._backdrop._componentRef;
-            if (this.isAnimated) {
-                this.backdrop.instance.isAnimated = this.isAnimated;
-                __WEBPACK_IMPORTED_MODULE_3__utils_utils_class__["a" /* Utils */].reflow(this.backdrop.instance.element.nativeElement);
-            }
-            this.backdrop.instance.isShown = true;
             if (!callback) {
                 return;
             }
@@ -3452,6 +4191,13 @@ var ModalDirective = (function () {
     //   $(window).off(Event.RESIZE)
     // }
     // }
+    ModalDirective.prototype.focusOtherModal = function () {
+        var otherOpenedModals = this._element.nativeElement.parentElement.querySelectorAll('.in[bsModal]');
+        if (!otherOpenedModals.length) {
+            return;
+        }
+        this._renderer.invokeElementMethod(otherOpenedModals[otherOpenedModals.length - 1], 'focus');
+    };
     /** @internal */
     ModalDirective.prototype.resetAdjustments = function () {
         this._renderer.setElementStyle(this._element.nativeElement, 'paddingLeft', '');
@@ -3467,14 +4213,9 @@ var ModalDirective = (function () {
         if (!__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */]) {
             return;
         }
-        var fixedEl = __WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].querySelector(__WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* Selector */].FIXED_CONTENT);
-        if (!fixedEl) {
-            return;
-        }
-        var bodyPadding = parseInt(__WEBPACK_IMPORTED_MODULE_3__utils_utils_class__["a" /* Utils */].getStyles(fixedEl).paddingRight || 0, 10);
-        this.originalBodyPadding = parseInt(__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body.style.paddingRight || 0, 10);
+        this.originalBodyPadding = parseInt(__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["b" /* window */].getComputedStyle(__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body).getPropertyValue('padding-right') || 0, 10);
         if (this.isBodyOverflowing) {
-            __WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body.style.paddingRight = (bodyPadding + this.scrollbarWidth) + "px";
+            __WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body.style.paddingRight = this.originalBodyPadding + this.scrollbarWidth + "px";
         }
     };
     ModalDirective.prototype.resetScrollbar = function () {
@@ -3483,35 +4224,54 @@ var ModalDirective = (function () {
     // thx d.walsh
     ModalDirective.prototype.getScrollbarWidth = function () {
         var scrollDiv = this._renderer.createElement(__WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body, 'div', void 0);
-        scrollDiv.className = __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["a" /* ClassName */].SCROLLBAR_MEASURER;
+        scrollDiv.className = __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["b" /* ClassName */].SCROLLBAR_MEASURER;
         var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
         __WEBPACK_IMPORTED_MODULE_1__utils_facade_browser__["a" /* document */].body.removeChild(scrollDiv);
         return scrollbarWidth;
     };
-    ModalDirective.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
-                    selector: '[bsModal]',
-                    exportAs: 'bs-modal'
-                },] },
-    ];
-    /** @nocollapse */
-    ModalDirective.ctorParameters = function () { return [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], },
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */], },
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */], },
-        { type: __WEBPACK_IMPORTED_MODULE_6__component_loader_component_loader_factory__["a" /* ComponentLoaderFactory */], },
-    ]; };
-    ModalDirective.propDecorators = {
-        'config': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'onShow': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
-        'onShown': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
-        'onHide': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
-        'onHidden': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
-        'onClick': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['click', ['$event'],] },],
-        'onEsc': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['keydown.esc',] },],
-    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_5__modal_options_class__["d" /* ModalOptions */]),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__modal_options_class__["d" /* ModalOptions */]])
+    ], ModalDirective.prototype, "config", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
+    ], ModalDirective.prototype, "onShow", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
+    ], ModalDirective.prototype, "onShown", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
+    ], ModalDirective.prototype, "onHide", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
+    ], ModalDirective.prototype, "onHidden", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */])('click', ['$event']),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object]),
+        __metadata("design:returntype", void 0)
+    ], ModalDirective.prototype, "onClick", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */])('keydown.esc'),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", []),
+        __metadata("design:returntype", void 0)
+    ], ModalDirective.prototype, "onEsc", null);
+    ModalDirective = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */])({
+            selector: '[bsModal]',
+            exportAs: 'bs-modal'
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */], __WEBPACK_IMPORTED_MODULE_6__component_loader_component_loader_factory__["a" /* ComponentLoaderFactory */]])
+    ], ModalDirective);
     return ModalDirective;
 }());
+
 //# sourceMappingURL=modal.component.js.map
 
 /***/ }),
@@ -3526,6 +4286,16 @@ var ModalDirective = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal.component.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__positioning__ = __webpack_require__("../../../../ngx-bootstrap/positioning/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__component_loader__ = __webpack_require__("../../../../ngx-bootstrap/component-loader/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modal_container_component__ = __webpack_require__("../../../../ngx-bootstrap/modal/modal-container.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__bs_modal_service__ = __webpack_require__("../../../../ngx-bootstrap/modal/bs-modal.service.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
 
 
 
@@ -3534,20 +4304,21 @@ var ModalDirective = (function () {
 var ModalModule = (function () {
     function ModalModule() {
     }
+    ModalModule_1 = ModalModule;
     ModalModule.forRoot = function () {
-        return { ngModule: ModalModule, providers: [__WEBPACK_IMPORTED_MODULE_4__component_loader__["a" /* ComponentLoaderFactory */], __WEBPACK_IMPORTED_MODULE_3__positioning__["a" /* PositioningService */]] };
+        return { ngModule: ModalModule_1, providers: [__WEBPACK_IMPORTED_MODULE_6__bs_modal_service__["a" /* BsModalService */], __WEBPACK_IMPORTED_MODULE_4__component_loader__["a" /* ComponentLoaderFactory */], __WEBPACK_IMPORTED_MODULE_3__positioning__["a" /* PositioningService */]] };
     };
-    ModalModule.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */], args: [{
-                    declarations: [__WEBPACK_IMPORTED_MODULE_1__modal_backdrop_component__["a" /* ModalBackdropComponent */], __WEBPACK_IMPORTED_MODULE_2__modal_component__["a" /* ModalDirective */]],
-                    exports: [__WEBPACK_IMPORTED_MODULE_1__modal_backdrop_component__["a" /* ModalBackdropComponent */], __WEBPACK_IMPORTED_MODULE_2__modal_component__["a" /* ModalDirective */]],
-                    entryComponents: [__WEBPACK_IMPORTED_MODULE_1__modal_backdrop_component__["a" /* ModalBackdropComponent */]]
-                },] },
-    ];
-    /** @nocollapse */
-    ModalModule.ctorParameters = function () { return []; };
+    ModalModule = ModalModule_1 = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+            declarations: [__WEBPACK_IMPORTED_MODULE_1__modal_backdrop_component__["a" /* ModalBackdropComponent */], __WEBPACK_IMPORTED_MODULE_2__modal_component__["a" /* ModalDirective */], __WEBPACK_IMPORTED_MODULE_5__modal_container_component__["a" /* ModalContainerComponent */]],
+            exports: [__WEBPACK_IMPORTED_MODULE_1__modal_backdrop_component__["a" /* ModalBackdropComponent */], __WEBPACK_IMPORTED_MODULE_2__modal_component__["a" /* ModalDirective */]],
+            entryComponents: [__WEBPACK_IMPORTED_MODULE_1__modal_backdrop_component__["a" /* ModalBackdropComponent */], __WEBPACK_IMPORTED_MODULE_5__modal_container_component__["a" /* ModalContainerComponent */]]
+        })
+    ], ModalModule);
     return ModalModule;
+    var ModalModule_1;
 }());
+
 //# sourceMappingURL=modal.module.js.map
 
 /***/ }),
@@ -3588,7 +4359,15 @@ var Positioning = (function () {
         var elPosition;
         var parentOffset = { width: 0, height: 0, top: 0, bottom: 0, left: 0, right: 0 };
         if (this.getStyle(element, 'position') === 'fixed') {
-            elPosition = element.getBoundingClientRect();
+            var bcRect = element.getBoundingClientRect();
+            elPosition = {
+                width: bcRect.width,
+                height: bcRect.height,
+                top: bcRect.top,
+                bottom: bcRect.bottom,
+                left: bcRect.left,
+                right: bcRect.right
+            };
         }
         else {
             var offsetParentEl = this.offsetParent(element);
@@ -3638,6 +4417,7 @@ var Positioning = (function () {
     };
     Positioning.prototype.positionElements = function (hostElement, targetElement, placement, appendToBody) {
         var hostElPosition = appendToBody ? this.offset(hostElement, false) : this.position(hostElement, false);
+        var targetElStyles = this.getAllStyles(targetElement);
         var shiftWidth = {
             left: hostElPosition.left,
             center: hostElPosition.left + hostElPosition.width / 2 - targetElement.offsetWidth / 2,
@@ -3661,7 +4441,7 @@ var Positioning = (function () {
         };
         switch (placementPrimary) {
             case 'top':
-                targetElPosition.top = hostElPosition.top - targetElement.offsetHeight;
+                targetElPosition.top = hostElPosition.top - (targetElement.offsetHeight + parseFloat(targetElStyles.marginBottom));
                 targetElPosition.bottom += hostElPosition.top - targetElement.offsetHeight;
                 targetElPosition.left = shiftWidth[placementSecondary];
                 targetElPosition.right += shiftWidth[placementSecondary];
@@ -3675,7 +4455,7 @@ var Positioning = (function () {
             case 'left':
                 targetElPosition.top = shiftHeight[placementSecondary];
                 targetElPosition.bottom += shiftHeight[placementSecondary];
-                targetElPosition.left = hostElPosition.left - targetElement.offsetWidth;
+                targetElPosition.left = hostElPosition.left - (targetElement.offsetWidth + parseFloat(targetElStyles.marginRight));
                 targetElPosition.right += hostElPosition.left - targetElement.offsetWidth;
                 break;
             case 'right':
@@ -3691,7 +4471,8 @@ var Positioning = (function () {
         targetElPosition.right = Math.round(targetElPosition.right);
         return targetElPosition;
     };
-    Positioning.prototype.getStyle = function (element, prop) { return window.getComputedStyle(element)[prop]; };
+    Positioning.prototype.getAllStyles = function (element) { return window.getComputedStyle(element); };
+    Positioning.prototype.getStyle = function (element, prop) { return this.getAllStyles(element)[prop]; };
     Positioning.prototype.isStaticPositioned = function (element) {
         return (this.getStyle(element, 'position') || 'static') === 'static';
     };
@@ -3704,6 +4485,7 @@ var Positioning = (function () {
     };
     return Positioning;
 }());
+
 var positionService = new Positioning();
 function positionElements(hostElement, targetElement, placement, appendToBody) {
     var pos = positionService.positionElements(hostElement, targetElement, placement, appendToBody);
@@ -3721,6 +4503,12 @@ function positionElements(hostElement, targetElement, placement, appendToBody) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PositioningService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_positioning__ = __webpack_require__("../../../../ngx-bootstrap/positioning/ng-positioning.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 
 
 var PositioningService = (function () {
@@ -3740,13 +4528,12 @@ var PositioningService = (function () {
         }
         return element;
     };
-    PositioningService.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
-    ];
-    /** @nocollapse */
-    PositioningService.ctorParameters = function () { return []; };
+    PositioningService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
+    ], PositioningService);
     return PositioningService;
 }());
+
 //# sourceMappingURL=positioning.service.js.map
 
 /***/ }),
@@ -3783,6 +4570,15 @@ var PositioningService = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgTranscludeDirective; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
 var NgTranscludeDirective = (function () {
     function NgTranscludeDirective(viewRef) {
@@ -3801,20 +4597,20 @@ var NgTranscludeDirective = (function () {
         enumerable: true,
         configurable: true
     });
-    NgTranscludeDirective.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
-                    selector: '[ngTransclude]'
-                },] },
-    ];
-    /** @nocollapse */
-    NgTranscludeDirective.ctorParameters = function () { return [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */], },
-    ]; };
-    NgTranscludeDirective.propDecorators = {
-        'ngTransclude': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* TemplateRef */]),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* TemplateRef */]])
+    ], NgTranscludeDirective.prototype, "ngTransclude", null);
+    NgTranscludeDirective = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */])({
+            selector: '[ngTransclude]'
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["_17" /* ViewContainerRef */]])
+    ], NgTranscludeDirective);
     return NgTranscludeDirective;
 }());
+
 //# sourceMappingURL=ng-transclude.directive.js.map
 
 /***/ }),
@@ -3826,6 +4622,15 @@ var NgTranscludeDirective = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabHeadingDirective; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tab_directive__ = __webpack_require__("../../../../ngx-bootstrap/tabs/tab.directive.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
 
 /** Should be used to mark <template> element as a template for tab heading */
@@ -3833,16 +4638,13 @@ var TabHeadingDirective = (function () {
     function TabHeadingDirective(templateRef, tab) {
         tab.headingRef = templateRef;
     }
-    TabHeadingDirective.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{ selector: '[tabHeading]' },] },
-    ];
-    /** @nocollapse */
-    TabHeadingDirective.ctorParameters = function () { return [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* TemplateRef */], },
-        { type: __WEBPACK_IMPORTED_MODULE_1__tab_directive__["a" /* TabDirective */], },
-    ]; };
+    TabHeadingDirective = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */])({ selector: '[tabHeading]' }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* TemplateRef */], __WEBPACK_IMPORTED_MODULE_1__tab_directive__["a" /* TabDirective */]])
+    ], TabHeadingDirective);
     return TabHeadingDirective;
 }());
+
 //# sourceMappingURL=tab-heading.directive.js.map
 
 /***/ }),
@@ -3854,11 +4656,21 @@ var TabHeadingDirective = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabDirective; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tabset_component__ = __webpack_require__("../../../../ngx-bootstrap/tabs/tabset.component.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
 
 var TabDirective = (function () {
-    function TabDirective(tabset, elementRef) {
+    function TabDirective(tabset, elementRef, renderer) {
         this.elementRef = elementRef;
+        this.renderer = renderer;
         /** fired when tab became active, $event:Tab equals to selected instance of Tab component */
         this.select = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         /** fired when tab became inactive, $event:Tab equals to deselected instance of Tab component */
@@ -3869,6 +4681,23 @@ var TabDirective = (function () {
         this.tabset = tabset;
         this.tabset.addTab(this);
     }
+    Object.defineProperty(TabDirective.prototype, "customClass", {
+        /** if set, will be added to the tab's class atribute */
+        get: function () {
+            return this._customClass;
+        },
+        set: function (customClass) {
+            if (this._customClass && this._customClass !== customClass) {
+                this.renderer.setElementClass(this.elementRef.nativeElement, this._customClass, false);
+            }
+            this._customClass = customClass;
+            if (this._customClass) {
+                this.renderer.setElementClass(this.elementRef.nativeElement, this._customClass, true);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(TabDirective.prototype, "active", {
         /** tab active state toggle */
         get: function () {
@@ -3876,11 +4705,14 @@ var TabDirective = (function () {
         },
         set: function (active) {
             var _this = this;
+            if (this._active === active) {
+                return;
+            }
             if (this.disabled && active || !active) {
-                if (!active) {
+                if (this._active && !active) {
+                    this.deselect.emit(this);
                     this._active = active;
                 }
-                this.deselect.emit(this);
                 return;
             }
             this._active = active;
@@ -3900,28 +4732,56 @@ var TabDirective = (function () {
     TabDirective.prototype.ngOnDestroy = function () {
         this.tabset.removeTab(this, { reselect: false, emit: false });
     };
-    TabDirective.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{ selector: 'tab, [tab]' },] },
-    ];
-    /** @nocollapse */
-    TabDirective.ctorParameters = function () { return [
-        { type: __WEBPACK_IMPORTED_MODULE_1__tabset_component__["a" /* TabsetComponent */], },
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], },
-    ]; };
-    TabDirective.propDecorators = {
-        'heading': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'id': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'disabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'removable': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'customClass': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'active': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */], args: ['class.active',] }, { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'select': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
-        'deselect': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
-        'removed': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */] },],
-        'addClass': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */], args: ['class.tab-pane',] },],
-    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", String)
+    ], TabDirective.prototype, "heading", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", String)
+    ], TabDirective.prototype, "id", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Boolean)
+    ], TabDirective.prototype, "disabled", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Boolean)
+    ], TabDirective.prototype, "removable", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", String),
+        __metadata("design:paramtypes", [String])
+    ], TabDirective.prototype, "customClass", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */])('class.active'),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [Boolean])
+    ], TabDirective.prototype, "active", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
+    ], TabDirective.prototype, "select", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
+    ], TabDirective.prototype, "deselect", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
+    ], TabDirective.prototype, "removed", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */])('class.tab-pane'),
+        __metadata("design:type", Boolean)
+    ], TabDirective.prototype, "addClass", void 0);
+    TabDirective = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */])({ selector: 'tab, [tab]' }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__tabset_component__["a" /* TabsetComponent */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], __WEBPACK_IMPORTED_MODULE_0__angular_core__["_1" /* Renderer */]])
+    ], TabDirective);
     return TabDirective;
 }());
+
 //# sourceMappingURL=tab.directive.js.map
 
 /***/ }),
@@ -3938,6 +4798,12 @@ var TabDirective = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tab_directive__ = __webpack_require__("../../../../ngx-bootstrap/tabs/tab.directive.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__tabset_component__ = __webpack_require__("../../../../ngx-bootstrap/tabs/tabset.component.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__tabset_config__ = __webpack_require__("../../../../ngx-bootstrap/tabs/tabset.config.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 
 
 
@@ -3948,23 +4814,24 @@ var TabDirective = (function () {
 var TabsModule = (function () {
     function TabsModule() {
     }
+    TabsModule_1 = TabsModule;
     TabsModule.forRoot = function () {
         return {
-            ngModule: TabsModule,
+            ngModule: TabsModule_1,
             providers: [__WEBPACK_IMPORTED_MODULE_6__tabset_config__["a" /* TabsetConfig */]]
         };
     };
-    TabsModule.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["M" /* NgModule */], args: [{
-                    imports: [__WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */]],
-                    declarations: [__WEBPACK_IMPORTED_MODULE_2__ng_transclude_directive__["a" /* NgTranscludeDirective */], __WEBPACK_IMPORTED_MODULE_4__tab_directive__["a" /* TabDirective */], __WEBPACK_IMPORTED_MODULE_5__tabset_component__["a" /* TabsetComponent */], __WEBPACK_IMPORTED_MODULE_3__tab_heading_directive__["a" /* TabHeadingDirective */]],
-                    exports: [__WEBPACK_IMPORTED_MODULE_4__tab_directive__["a" /* TabDirective */], __WEBPACK_IMPORTED_MODULE_5__tabset_component__["a" /* TabsetComponent */], __WEBPACK_IMPORTED_MODULE_3__tab_heading_directive__["a" /* TabHeadingDirective */], __WEBPACK_IMPORTED_MODULE_2__ng_transclude_directive__["a" /* NgTranscludeDirective */]]
-                },] },
-    ];
-    /** @nocollapse */
-    TabsModule.ctorParameters = function () { return []; };
+    TabsModule = TabsModule_1 = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["M" /* NgModule */])({
+            imports: [__WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */]],
+            declarations: [__WEBPACK_IMPORTED_MODULE_2__ng_transclude_directive__["a" /* NgTranscludeDirective */], __WEBPACK_IMPORTED_MODULE_4__tab_directive__["a" /* TabDirective */], __WEBPACK_IMPORTED_MODULE_5__tabset_component__["a" /* TabsetComponent */], __WEBPACK_IMPORTED_MODULE_3__tab_heading_directive__["a" /* TabHeadingDirective */]],
+            exports: [__WEBPACK_IMPORTED_MODULE_4__tab_directive__["a" /* TabDirective */], __WEBPACK_IMPORTED_MODULE_5__tabset_component__["a" /* TabsetComponent */], __WEBPACK_IMPORTED_MODULE_3__tab_heading_directive__["a" /* TabHeadingDirective */], __WEBPACK_IMPORTED_MODULE_2__ng_transclude_directive__["a" /* NgTranscludeDirective */]]
+        })
+    ], TabsModule);
     return TabsModule;
+    var TabsModule_1;
 }());
+
 //# sourceMappingURL=tabs.module.js.map
 
 /***/ }),
@@ -3976,6 +4843,15 @@ var TabsModule = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsetComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tabset_config__ = __webpack_require__("../../../../ngx-bootstrap/tabs/tabset.config.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
 
 // todo: add active event to tab
@@ -4045,8 +4921,8 @@ var TabsetComponent = (function () {
             tab.removed.emit(tab);
         }
         this.tabs.splice(index, 1);
-        if (tab.elementRef.nativeElement && tab.elementRef.nativeElement.remove) {
-            tab.elementRef.nativeElement.remove();
+        if (tab.elementRef.nativeElement.parentNode) {
+            tab.elementRef.nativeElement.parentNode.removeChild(tab.elementRef.nativeElement);
         }
     };
     TabsetComponent.prototype.getClosestTabIndex = function (index) {
@@ -4081,31 +4957,42 @@ var TabsetComponent = (function () {
     TabsetComponent.prototype.setClassMap = function () {
         this.classMap = (_a = {
                 'nav-stacked': this.vertical,
+                'flex-column': this.vertical,
                 'nav-justified': this.justified
             },
             _a["nav-" + this.type] = true,
-            _a
-        );
+            _a);
         var _a;
     };
-    TabsetComponent.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
-                    selector: 'tabset',
-                    template: "\n    <ul class=\"nav\" [ngClass]=\"classMap\" (click)=\"$event.preventDefault()\">\n        <li *ngFor=\"let tabz of tabs\" [ngClass]=\"['nav-item', tabz.customClass || '']\"\n          [class.active]=\"tabz.active\" [class.disabled]=\"tabz.disabled\">\n          <a href=\"javascript:void(0);\" class=\"nav-link\"\n            [class.active]=\"tabz.active\" [class.disabled]=\"tabz.disabled\"\n            (click)=\"tabz.active = true\">\n            <span [ngTransclude]=\"tabz.headingRef\">{{tabz.heading}}</span>\n            <span *ngIf=\"tabz.removable\">\n              <span (click)=\"$event.preventDefault(); removeTab(tabz);\" class=\"glyphicon glyphicon-remove-circle\"></span>\n            </span>\n          </a>\n        </li>\n    </ul>\n    <div class=\"tab-content\">\n      <ng-content></ng-content>\n    </div>\n  "
-                },] },
-    ];
-    /** @nocollapse */
-    TabsetComponent.ctorParameters = function () { return [
-        { type: __WEBPACK_IMPORTED_MODULE_1__tabset_config__["a" /* TabsetConfig */], },
-    ]; };
-    TabsetComponent.propDecorators = {
-        'vertical': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'justified': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'type': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'clazz': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */], args: ['class.tab-container',] },],
-    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [Boolean])
+    ], TabsetComponent.prototype, "vertical", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Boolean),
+        __metadata("design:paramtypes", [Boolean])
+    ], TabsetComponent.prototype, "justified", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", String),
+        __metadata("design:paramtypes", [String])
+    ], TabsetComponent.prototype, "type", null);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["z" /* HostBinding */])('class.tab-container'),
+        __metadata("design:type", Boolean)
+    ], TabsetComponent.prototype, "clazz", void 0);
+    TabsetComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'tabset',
+            template: "\n    <ul class=\"nav\" [ngClass]=\"classMap\" (click)=\"$event.preventDefault()\">\n        <li *ngFor=\"let tabz of tabs\" [ngClass]=\"['nav-item', tabz.customClass || '']\"\n          [class.active]=\"tabz.active\" [class.disabled]=\"tabz.disabled\">\n          <a href=\"javascript:void(0);\" class=\"nav-link\"\n            [class.active]=\"tabz.active\" [class.disabled]=\"tabz.disabled\"\n            (click)=\"tabz.active = true\">\n            <span [ngTransclude]=\"tabz.headingRef\">{{tabz.heading}}</span>\n            <span *ngIf=\"tabz.removable\">\n              <span (click)=\"$event.preventDefault(); removeTab(tabz);\" class=\"glyphicon glyphicon-remove-circle\"></span>\n            </span>\n          </a>\n        </li>\n    </ul>\n    <div class=\"tab-content\">\n      <ng-content></ng-content>\n    </div>\n  "
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__tabset_config__["a" /* TabsetConfig */]])
+    ], TabsetComponent);
     return TabsetComponent;
 }());
+
 //# sourceMappingURL=tabset.component.js.map
 
 /***/ }),
@@ -4116,19 +5003,24 @@ var TabsetComponent = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsetConfig; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 
 var TabsetConfig = (function () {
     function TabsetConfig() {
         /** provides default navigation context class: 'tabs' or 'pills' */
         this.type = 'tabs';
     }
-    TabsetConfig.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
-    ];
-    /** @nocollapse */
-    TabsetConfig.ctorParameters = function () { return []; };
+    TabsetConfig = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
+    ], TabsetConfig);
     return TabsetConfig;
 }());
+
 //# sourceMappingURL=tabset.config.js.map
 
 /***/ }),
@@ -4137,16 +5029,352 @@ var TabsetConfig = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__timepicker_config__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.config.js");
-/* unused harmony reexport TimepickerConfig */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__timepicker_component__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__timepicker_component__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.component.js");
 /* unused harmony reexport TimepickerComponent */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__timepicker_module__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.module.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_2__timepicker_module__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__reducer_timepicker_actions__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/reducer/timepicker.actions.js");
+/* unused harmony reexport TimepickerActions */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__reducer_timepicker_store__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/reducer/timepicker.store.js");
+/* unused harmony reexport TimepickerStore */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__timepicker_config__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.config.js");
+/* unused harmony reexport TimepickerConfig */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__timepicker_module__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.module.js");
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_4__timepicker_module__["a"]; });
+
+
 
 
 
 //# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "../../../../ngx-bootstrap/timepicker/reducer/timepicker.actions.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimepickerActions; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var TimepickerActions = (function () {
+    function TimepickerActions() {
+    }
+    TimepickerActions_1 = TimepickerActions;
+    TimepickerActions.prototype.writeValue = function (value) {
+        return {
+            type: TimepickerActions_1.WRITE_VALUE,
+            payload: value
+        };
+    };
+    TimepickerActions.prototype.changeHours = function (event) {
+        return {
+            type: TimepickerActions_1.CHANGE_HOURS,
+            payload: event
+        };
+    };
+    TimepickerActions.prototype.changeMinutes = function (event) {
+        return {
+            type: TimepickerActions_1.CHANGE_MINUTES,
+            payload: event
+        };
+    };
+    TimepickerActions.prototype.changeSeconds = function (event) {
+        return {
+            type: TimepickerActions_1.CHANGE_SECONDS,
+            payload: event
+        };
+    };
+    TimepickerActions.prototype.setTime = function (value) {
+        return {
+            type: TimepickerActions_1.SET_TIME_UNIT,
+            payload: value
+        };
+    };
+    TimepickerActions.prototype.updateControls = function (value) {
+        return {
+            type: TimepickerActions_1.UPDATE_CONTROLS,
+            payload: value
+        };
+    };
+    TimepickerActions.WRITE_VALUE = '[timepicker] write value from ng model';
+    TimepickerActions.CHANGE_HOURS = '[timepicker] change hours';
+    TimepickerActions.CHANGE_MINUTES = '[timepicker] change minutes';
+    TimepickerActions.CHANGE_SECONDS = '[timepicker] change seconds';
+    TimepickerActions.SET_TIME_UNIT = '[timepicker] set time unit';
+    TimepickerActions.UPDATE_CONTROLS = '[timepicker] update controls';
+    TimepickerActions = TimepickerActions_1 = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
+    ], TimepickerActions);
+    return TimepickerActions;
+    var TimepickerActions_1;
+}());
+
+//# sourceMappingURL=timepicker.actions.js.map
+
+/***/ }),
+
+/***/ "../../../../ngx-bootstrap/timepicker/reducer/timepicker.reducer.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export TimepickerState */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return initialState; });
+/* harmony export (immutable) */ __webpack_exports__["b"] = timepickerReducer;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__timepicker_controls_util__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker-controls.util.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__timepicker_config__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.config.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__timepicker_utils__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.utils.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__timepicker_actions__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/reducer/timepicker.actions.js");
+
+
+
+
+var TimepickerState = (function () {
+    function TimepickerState() {
+    }
+    return TimepickerState;
+}());
+
+var initialState = {
+    value: null,
+    config: new __WEBPACK_IMPORTED_MODULE_1__timepicker_config__["a" /* TimepickerConfig */](),
+    controls: {
+        canIncrementHours: true,
+        canIncrementMinutes: true,
+        canIncrementSeconds: true,
+        canDecrementHours: true,
+        canDecrementMinutes: true,
+        canDecrementSeconds: true
+    }
+};
+function timepickerReducer(state, action) {
+    if (state === void 0) { state = initialState; }
+    switch (action.type) {
+        case (__WEBPACK_IMPORTED_MODULE_3__timepicker_actions__["a" /* TimepickerActions */].WRITE_VALUE): {
+            return Object.assign({}, state, { value: action.payload });
+        }
+        case (__WEBPACK_IMPORTED_MODULE_3__timepicker_actions__["a" /* TimepickerActions */].CHANGE_HOURS): {
+            if (!Object(__WEBPACK_IMPORTED_MODULE_0__timepicker_controls_util__["d" /* canChangeValue */])(state.config, action.payload) ||
+                !Object(__WEBPACK_IMPORTED_MODULE_0__timepicker_controls_util__["a" /* canChangeHours */])(action.payload, state.controls)) {
+                return state;
+            }
+            var _newTime = Object(__WEBPACK_IMPORTED_MODULE_2__timepicker_utils__["a" /* changeTime */])(state.value, { hour: action.payload.step });
+            return Object.assign({}, state, { value: _newTime });
+        }
+        case (__WEBPACK_IMPORTED_MODULE_3__timepicker_actions__["a" /* TimepickerActions */].CHANGE_MINUTES): {
+            if (!Object(__WEBPACK_IMPORTED_MODULE_0__timepicker_controls_util__["d" /* canChangeValue */])(state.config, action.payload) ||
+                !Object(__WEBPACK_IMPORTED_MODULE_0__timepicker_controls_util__["b" /* canChangeMinutes */])(action.payload, state.controls)) {
+                return state;
+            }
+            var _newTime = Object(__WEBPACK_IMPORTED_MODULE_2__timepicker_utils__["a" /* changeTime */])(state.value, { minute: action.payload.step });
+            return Object.assign({}, state, { value: _newTime });
+        }
+        case (__WEBPACK_IMPORTED_MODULE_3__timepicker_actions__["a" /* TimepickerActions */].CHANGE_SECONDS): {
+            if (!Object(__WEBPACK_IMPORTED_MODULE_0__timepicker_controls_util__["d" /* canChangeValue */])(state.config, action.payload) ||
+                !Object(__WEBPACK_IMPORTED_MODULE_0__timepicker_controls_util__["c" /* canChangeSeconds */])(action.payload, state.controls)) {
+                return state;
+            }
+            var _newTime = Object(__WEBPACK_IMPORTED_MODULE_2__timepicker_utils__["a" /* changeTime */])(state.value, { seconds: action.payload.step });
+            return Object.assign({}, state, { value: _newTime });
+        }
+        case (__WEBPACK_IMPORTED_MODULE_3__timepicker_actions__["a" /* TimepickerActions */].SET_TIME_UNIT): {
+            if (!Object(__WEBPACK_IMPORTED_MODULE_0__timepicker_controls_util__["d" /* canChangeValue */])(state.config)) {
+                return state;
+            }
+            var _newTime = Object(__WEBPACK_IMPORTED_MODULE_2__timepicker_utils__["f" /* setTime */])(state.value, action.payload);
+            return Object.assign({}, state, { value: _newTime });
+        }
+        case (__WEBPACK_IMPORTED_MODULE_3__timepicker_actions__["a" /* TimepickerActions */].UPDATE_CONTROLS): {
+            var _newControlsState = Object(__WEBPACK_IMPORTED_MODULE_0__timepicker_controls_util__["f" /* timepickerControls */])(state.value, action.payload);
+            var _newState = {
+                value: state.value,
+                config: action.payload,
+                controls: _newControlsState
+            };
+            if (state.config.showMeridian !== _newState.config.showMeridian) {
+                _newState.value = new Date(state.value);
+            }
+            return Object.assign({}, state, _newState);
+        }
+        default:
+            return state;
+    }
+}
+//# sourceMappingURL=timepicker.reducer.js.map
+
+/***/ }),
+
+/***/ "../../../../ngx-bootstrap/timepicker/reducer/timepicker.store.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimepickerStore; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__timepicker_reducer__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/reducer/timepicker.reducer.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("../../../../rxjs/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mini_ngrx_store_class__ = __webpack_require__("../../../../ngx-bootstrap/mini-ngrx/store.class.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mini_ngrx_state_class__ = __webpack_require__("../../../../ngx-bootstrap/mini-ngrx/state.class.js");
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var TimepickerStore = (function (_super) {
+    __extends(TimepickerStore, _super);
+    function TimepickerStore() {
+        var _this = this;
+        var _dispatcher = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["BehaviorSubject"]({ type: '[mini-ngrx] dispatcher init' });
+        var state = new __WEBPACK_IMPORTED_MODULE_4__mini_ngrx_state_class__["a" /* MiniState */](__WEBPACK_IMPORTED_MODULE_1__timepicker_reducer__["a" /* initialState */], _dispatcher, __WEBPACK_IMPORTED_MODULE_1__timepicker_reducer__["b" /* timepickerReducer */]);
+        _this = _super.call(this, _dispatcher, __WEBPACK_IMPORTED_MODULE_1__timepicker_reducer__["b" /* timepickerReducer */], state) || this;
+        return _this;
+    }
+    TimepickerStore = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [])
+    ], TimepickerStore);
+    return TimepickerStore;
+}(__WEBPACK_IMPORTED_MODULE_3__mini_ngrx_store_class__["a" /* MiniStore */]));
+
+//# sourceMappingURL=timepicker.store.js.map
+
+/***/ }),
+
+/***/ "../../../../ngx-bootstrap/timepicker/timepicker-controls.util.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["d"] = canChangeValue;
+/* harmony export (immutable) */ __webpack_exports__["a"] = canChangeHours;
+/* harmony export (immutable) */ __webpack_exports__["b"] = canChangeMinutes;
+/* harmony export (immutable) */ __webpack_exports__["c"] = canChangeSeconds;
+/* harmony export (immutable) */ __webpack_exports__["e"] = getControlsValue;
+/* harmony export (immutable) */ __webpack_exports__["f"] = timepickerControls;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__timepicker_utils__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.utils.js");
+
+function canChangeValue(state, event) {
+    if (state.readonlyInput) {
+        return false;
+    }
+    if (event) {
+        if (event.source === 'wheel' && !state.mousewheel) {
+            return false;
+        }
+        if (event.source === 'key' && !state.arrowkeys) {
+            return false;
+        }
+    }
+    return true;
+}
+function canChangeHours(event, controls) {
+    if (!event.step) {
+        return false;
+    }
+    if (event.step > 0 && !controls.canIncrementHours) {
+        return false;
+    }
+    if (event.step < 0 && !controls.canDecrementHours) {
+        return false;
+    }
+    return true;
+}
+function canChangeMinutes(event, controls) {
+    if (!event.step) {
+        return false;
+    }
+    if (event.step > 0 && !controls.canIncrementMinutes) {
+        return false;
+    }
+    if (event.step < 0 && !controls.canDecrementMinutes) {
+        return false;
+    }
+    return true;
+}
+function canChangeSeconds(event, controls) {
+    if (!event.step) {
+        return false;
+    }
+    if (event.step > 0 && !controls.canIncrementSeconds) {
+        return false;
+    }
+    if (event.step < 0 && !controls.canDecrementSeconds) {
+        return false;
+    }
+    return true;
+}
+function getControlsValue(state) {
+    var hourStep = state.hourStep, minuteStep = state.minuteStep, secondsStep = state.secondsStep, readonlyInput = state.readonlyInput, mousewheel = state.mousewheel, arrowkeys = state.arrowkeys, showSpinners = state.showSpinners, showMeridian = state.showMeridian, showSeconds = state.showSeconds, meridians = state.meridians, min = state.min, max = state.max;
+    return {
+        hourStep: hourStep, minuteStep: minuteStep, secondsStep: secondsStep,
+        readonlyInput: readonlyInput, mousewheel: mousewheel, arrowkeys: arrowkeys,
+        showSpinners: showSpinners, showMeridian: showMeridian, showSeconds: showSeconds,
+        meridians: meridians, min: min, max: max
+    };
+}
+function timepickerControls(value, state) {
+    var min = state.min, max = state.max, hourStep = state.hourStep, minuteStep = state.minuteStep, secondsStep = state.secondsStep, showSeconds = state.showSeconds;
+    var res = {
+        canIncrementHours: true,
+        canIncrementMinutes: true,
+        canIncrementSeconds: true,
+        canDecrementHours: true,
+        canDecrementMinutes: true,
+        canDecrementSeconds: true
+    };
+    if (!value) {
+        return res;
+    }
+    // compare dates
+    if (max) {
+        var _newHour = Object(__WEBPACK_IMPORTED_MODULE_0__timepicker_utils__["a" /* changeTime */])(value, { hour: hourStep });
+        res.canIncrementHours = max > _newHour;
+        if (!res.canIncrementHours) {
+            var _newMinutes = Object(__WEBPACK_IMPORTED_MODULE_0__timepicker_utils__["a" /* changeTime */])(value, { minute: minuteStep });
+            res.canIncrementMinutes = showSeconds ? max > _newMinutes : max >= _newMinutes;
+        }
+        if (!res.canIncrementMinutes) {
+            var _newSeconds = Object(__WEBPACK_IMPORTED_MODULE_0__timepicker_utils__["a" /* changeTime */])(value, { seconds: secondsStep });
+            res.canIncrementSeconds = max >= _newSeconds;
+        }
+    }
+    if (min) {
+        var _newHour = Object(__WEBPACK_IMPORTED_MODULE_0__timepicker_utils__["a" /* changeTime */])(value, { hour: -hourStep });
+        res.canDecrementHours = min < _newHour;
+        if (!res.canDecrementHours) {
+            var _newMinutes = Object(__WEBPACK_IMPORTED_MODULE_0__timepicker_utils__["a" /* changeTime */])(value, { minute: -minuteStep });
+            res.canDecrementMinutes = showSeconds ? min < _newMinutes : min <= _newMinutes;
+        }
+        if (!res.canDecrementMinutes) {
+            var _newSeconds = Object(__WEBPACK_IMPORTED_MODULE_0__timepicker_utils__["a" /* changeTime */])(value, { seconds: -secondsStep });
+            res.canDecrementSeconds = min <= _newSeconds;
+        }
+    }
+    return res;
+}
+//# sourceMappingURL=timepicker-controls.util.js.map
 
 /***/ }),
 
@@ -4158,304 +5386,249 @@ var TabsetConfig = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimepickerComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__timepicker_config__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.config.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__reducer_timepicker_actions__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/reducer/timepicker.actions.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__reducer_timepicker_store__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/reducer/timepicker.store.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__timepicker_controls_util__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker-controls.util.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__timepicker_config__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.config.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__timepicker_utils__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.utils.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+/* tslint:disable:no-forward-ref max-file-line-count */
+
+
+
+
 
 
 
 var TIMEPICKER_CONTROL_VALUE_ACCESSOR = {
     provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* NG_VALUE_ACCESSOR */],
+    // tslint:disable-next-line
     useExisting: Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_23" /* forwardRef */])(function () { return TimepickerComponent; }),
     multi: true
 };
-// todo: refactor directive has to many functions! (extract to stateless helper)
-// todo: use moment js?
-// todo: implement `time` validator
-// todo: replace increment/decrement blockers with getters, or extract
-// todo: unify work with selected
-function isDefined(value) {
-    return typeof value !== 'undefined';
-}
-function addMinutes(date, minutes) {
-    var dt = new Date(date.getTime() + minutes * 60000);
-    var newDate = new Date(date);
-    newDate.setHours(dt.getHours(), dt.getMinutes());
-    return newDate;
-}
 var TimepickerComponent = (function () {
-    function TimepickerComponent(_config) {
+    function TimepickerComponent(_config, _cd, _store, _timepickerActions) {
+        var _this = this;
+        this._cd = _cd;
+        this._store = _store;
+        this._timepickerActions = _timepickerActions;
+        /** emits true if value is a valid date */
+        this.isValid = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        // min\max validation for input fields
+        this.invalidHours = false;
+        this.invalidMinutes = false;
+        this.invalidSeconds = false;
+        // control value accessor methods
         this.onChange = Function.prototype;
         this.onTouched = Function.prototype;
-        // result value
-        this._selected = new Date();
-        this.config = _config;
         Object.assign(this, _config);
+        // todo: add unsubscribe
+        _store
+            .select(function (state) { return state.value; })
+            .subscribe(function (value) {
+            // update UI values if date changed
+            _this._renderTime(value);
+            _this.onChange(value);
+            _this._store.dispatch(_this._timepickerActions.updateControls(Object(__WEBPACK_IMPORTED_MODULE_4__timepicker_controls_util__["e" /* getControlsValue */])(_this)));
+        });
+        _store
+            .select(function (state) { return state.controls; })
+            .subscribe(function (controlsState) {
+            _this.isValid.emit(Object(__WEBPACK_IMPORTED_MODULE_6__timepicker_utils__["b" /* isInputValid */])(_this.hours, _this.minutes, _this.seconds, _this.isPM()));
+            Object.assign(_this, controlsState);
+            _cd.markForCheck();
+        });
     }
-    Object.defineProperty(TimepickerComponent.prototype, "showMeridian", {
-        /** if true works in 12H mode and displays AM/PM. If false works in 24H mode and hides AM/PM */
+    Object.defineProperty(TimepickerComponent.prototype, "isSpinnersVisible", {
         get: function () {
-            return this._showMeridian;
-        },
-        set: function (value) {
-            this._showMeridian = value;
-            // || !this.$error.time
-            // if (true) {
-            this.updateTemplate();
-            return;
-            // }
-            // Evaluate from template
-            /*let hours = this.getHoursFromTemplate();
-             let minutes = this.getMinutesFromTemplate();
-             if (isDefined(hours) && isDefined(minutes)) {
-             this.selected.setHours(hours);
-             this.refresh();
-             }*/
+            return this.showSpinners && !this.readonlyInput;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(TimepickerComponent.prototype, "selected", {
-        get: function () {
-            return this._selected;
-        },
-        set: function (v) {
-            if (v) {
-                this._selected = v;
-                this.updateTemplate();
-                this.onChange(this.selected);
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    // todo: add formatter value to Date object
-    TimepickerComponent.prototype.ngOnInit = function () {
-        // todo: take in account $locale.DATETIME_FORMATS.AMPMS;
-        if (this.mousewheel) {
-        }
-        if (this.arrowkeys) {
-        }
-        // this.setupInputEvents();
+    TimepickerComponent.prototype.isPM = function () {
+        return this.showMeridian && this.meridian === this.meridians[1];
     };
-    TimepickerComponent.prototype.writeValue = function (v) {
-        if (v === this.selected) {
+    TimepickerComponent.prototype.prevDef = function ($event) {
+        $event.preventDefault();
+    };
+    TimepickerComponent.prototype.wheelSign = function ($event) {
+        return Math.sign($event.deltaY) * -1;
+    };
+    TimepickerComponent.prototype.ngOnChanges = function (changes) {
+        this._store.dispatch(this._timepickerActions.updateControls(Object(__WEBPACK_IMPORTED_MODULE_4__timepicker_controls_util__["e" /* getControlsValue */])(this)));
+    };
+    TimepickerComponent.prototype.changeHours = function (step, source) {
+        if (source === void 0) { source = ''; }
+        this._store.dispatch(this._timepickerActions.changeHours({ step: step, source: source }));
+    };
+    TimepickerComponent.prototype.changeMinutes = function (step, source) {
+        if (source === void 0) { source = ''; }
+        this._store.dispatch(this._timepickerActions.changeMinutes({ step: step, source: source }));
+    };
+    TimepickerComponent.prototype.changeSeconds = function (step, source) {
+        if (source === void 0) { source = ''; }
+        this._store.dispatch(this._timepickerActions.changeSeconds({ step: step, source: source }));
+    };
+    TimepickerComponent.prototype.updateHours = function (hours) {
+        this.hours = hours;
+        this._updateTime();
+    };
+    TimepickerComponent.prototype.updateMinutes = function (minutes) {
+        this.minutes = minutes;
+        this._updateTime();
+    };
+    TimepickerComponent.prototype.updateSeconds = function (seconds) {
+        this.seconds = seconds;
+        this._updateTime();
+    };
+    TimepickerComponent.prototype._updateTime = function () {
+        if (!Object(__WEBPACK_IMPORTED_MODULE_6__timepicker_utils__["b" /* isInputValid */])(this.hours, this.minutes, this.seconds, this.isPM())) {
+            this.onChange(null);
             return;
         }
-        if (v && v instanceof Date) {
-            this.selected = v;
+        this._store.dispatch(this._timepickerActions
+            .setTime({
+            hour: this.hours,
+            minute: this.minutes,
+            seconds: this.seconds,
+            isPM: this.isPM()
+        }));
+    };
+    TimepickerComponent.prototype.toggleMeridian = function () {
+        if (!this.showMeridian || this.readonlyInput) {
             return;
         }
-        this.selected = v ? new Date(v) : void 0;
+        var _hoursPerDayHalf = 12;
+        this._store.dispatch(this._timepickerActions.changeHours({ step: _hoursPerDayHalf, source: '' }));
     };
+    /**
+     * Write a new value to the element.
+     */
+    TimepickerComponent.prototype.writeValue = function (obj) {
+        if (Object(__WEBPACK_IMPORTED_MODULE_6__timepicker_utils__["c" /* isValidDate */])(obj)) {
+            this._store.dispatch(this._timepickerActions.writeValue(Object(__WEBPACK_IMPORTED_MODULE_6__timepicker_utils__["e" /* parseTime */])(obj)));
+        }
+    };
+    /**
+     * Set the function to be called when the control receives a change event.
+     */
     TimepickerComponent.prototype.registerOnChange = function (fn) {
         this.onChange = fn;
     };
+    /**
+     * Set the function to be called when the control receives a touch event.
+     */
     TimepickerComponent.prototype.registerOnTouched = function (fn) {
         this.onTouched = fn;
     };
+    /**
+     * This function is called when the control status changes to or from "DISABLED".
+     * Depending on the value, it will enable or disable the appropriate DOM element.
+     *
+     * @param isDisabled
+     */
     TimepickerComponent.prototype.setDisabledState = function (isDisabled) {
         this.readonlyInput = isDisabled;
     };
-    TimepickerComponent.prototype.updateHours = function () {
-        if (this.readonlyInput) {
+    TimepickerComponent.prototype._renderTime = function (value) {
+        if (!Object(__WEBPACK_IMPORTED_MODULE_6__timepicker_utils__["c" /* isValidDate */])(value)) {
+            this.hours = '';
+            this.minutes = '';
+            this.seconds = '';
+            this.meridian = this.meridians[0];
             return;
         }
-        var hours = this.getHoursFromTemplate();
-        var minutes = this.getMinutesFromTemplate();
-        this.invalidHours = !isDefined(hours);
-        this.invalidMinutes = !isDefined(minutes);
-        if (this.invalidHours || this.invalidMinutes) {
-            // TODO: needed a validation functionality.
-            return;
-        }
-        this.selected.setHours(hours);
-        this.invalidHours = (this.selected < this.min || this.selected > this.max);
-        if (this.invalidHours) {
-            // todo: validation?
-            // invalidate(true);
-            return;
-        }
-        else {
-            this.refresh();
-        }
-    };
-    TimepickerComponent.prototype.hoursOnBlur = function () {
-        if (this.readonlyInput) {
-            return;
-        }
-        // todo: binded with validation
-        if (!this.invalidHours && parseInt(this.hours, 10) < 10) {
-            this.hours = this.pad(this.hours);
-        }
-    };
-    TimepickerComponent.prototype.updateMinutes = function () {
-        if (this.readonlyInput) {
-            return;
-        }
-        var minutes = this.getMinutesFromTemplate();
-        var hours = this.getHoursFromTemplate();
-        this.invalidMinutes = !isDefined(minutes);
-        this.invalidHours = !isDefined(hours);
-        if (this.invalidMinutes || this.invalidHours) {
-            // TODO: needed a validation functionality.
-            return;
-        }
-        this.selected.setMinutes(minutes);
-        this.invalidMinutes = (this.selected < this.min || this.selected > this.max);
-        if (this.invalidMinutes) {
-            // todo: validation
-            // invalidate(undefined, true);
-            return;
-        }
-        else {
-            this.refresh();
-        }
-    };
-    TimepickerComponent.prototype.minutesOnBlur = function () {
-        if (this.readonlyInput) {
-            return;
-        }
-        if (!this.invalidMinutes && parseInt(this.minutes, 10) < 10) {
-            this.minutes = this.pad(this.minutes);
-        }
-    };
-    TimepickerComponent.prototype.incrementHours = function () {
-        if (!this.noIncrementHours()) {
-            this.addMinutesToSelected(this.hourStep * 60);
-        }
-    };
-    TimepickerComponent.prototype.decrementHours = function () {
-        if (!this.noDecrementHours()) {
-            this.addMinutesToSelected(-this.hourStep * 60);
-        }
-    };
-    TimepickerComponent.prototype.incrementMinutes = function () {
-        if (!this.noIncrementMinutes()) {
-            this.addMinutesToSelected(this.minuteStep);
-        }
-    };
-    TimepickerComponent.prototype.decrementMinutes = function () {
-        if (!this.noDecrementMinutes()) {
-            this.addMinutesToSelected(-this.minuteStep);
-        }
-    };
-    TimepickerComponent.prototype.noIncrementHours = function () {
-        var incrementedSelected = addMinutes(this.selected, this.hourStep * 60);
-        return incrementedSelected > this.max ||
-            (incrementedSelected < this.selected && incrementedSelected < this.min);
-    };
-    TimepickerComponent.prototype.noDecrementHours = function () {
-        var decrementedSelected = addMinutes(this.selected, -this.hourStep * 60);
-        return decrementedSelected < this.min ||
-            (decrementedSelected > this.selected && decrementedSelected > this.max);
-    };
-    TimepickerComponent.prototype.noIncrementMinutes = function () {
-        var incrementedSelected = addMinutes(this.selected, this.minuteStep);
-        return incrementedSelected > this.max ||
-            (incrementedSelected < this.selected && incrementedSelected < this.min);
-    };
-    TimepickerComponent.prototype.noDecrementMinutes = function () {
-        var decrementedSelected = addMinutes(this.selected, -this.minuteStep);
-        return decrementedSelected < this.min ||
-            (decrementedSelected > this.selected && decrementedSelected > this.max);
-    };
-    TimepickerComponent.prototype.toggleMeridian = function () {
-        if (!this.noToggleMeridian()) {
-            var sign = this.selected.getHours() < 12 ? 1 : -1;
-            this.addMinutesToSelected(12 * 60 * sign);
-        }
-    };
-    TimepickerComponent.prototype.noToggleMeridian = function () {
-        if (this.readonlyInput) {
-            return true;
-        }
-        if (this.selected.getHours() < 13) {
-            return addMinutes(this.selected, 12 * 60) > this.max;
-        }
-        else {
-            return addMinutes(this.selected, -12 * 60) < this.min;
-        }
-    };
-    TimepickerComponent.prototype.refresh = function () {
-        // this.makeValid();
-        this.updateTemplate();
-        this.onChange(this.selected);
-    };
-    TimepickerComponent.prototype.updateTemplate = function () {
-        var hours = this.selected.getHours();
-        var minutes = this.selected.getMinutes();
+        var _value = Object(__WEBPACK_IMPORTED_MODULE_6__timepicker_utils__["e" /* parseTime */])(value);
+        var _hoursPerDayHalf = 12;
+        var _hours = _value.getHours();
         if (this.showMeridian) {
-            // Convert 24 to 12 hour system
-            hours = (hours === 0 || hours === 12) ? 12 : hours % 12;
-        }
-        // this.hours = keyboardChange === 'h' ? hours : this.pad(hours);
-        // if (keyboardChange !== 'm') {
-        //  this.minutes = this.pad(minutes);
-        // }
-        this.hours = this.pad(hours);
-        this.minutes = this.pad(minutes);
-        if (!this.meridians) {
-            this.meridians = this.config.meridians;
-        }
-        this.meridian = this.selected.getHours() < 12
-            ? this.meridians[0]
-            : this.meridians[1];
-    };
-    TimepickerComponent.prototype.getHoursFromTemplate = function () {
-        var hours = parseInt(this.hours, 10);
-        var valid = this.showMeridian
-            ? (hours > 0 && hours < 13)
-            : (hours >= 0 && hours < 24);
-        if (!valid) {
-            return void 0;
-        }
-        if (this.showMeridian) {
-            if (hours === 12) {
-                hours = 0;
-            }
-            if (this.meridian === this.meridians[1]) {
-                hours = hours + 12;
+            this.meridian = this.meridians[_hours >= _hoursPerDayHalf ? 1 : 0];
+            _hours = _hours % _hoursPerDayHalf;
+            // should be 12 PM, not 00 PM
+            if (_hours === 0) {
+                _hours = _hoursPerDayHalf;
             }
         }
-        return hours;
+        this.hours = Object(__WEBPACK_IMPORTED_MODULE_6__timepicker_utils__["d" /* padNumber */])(_hours);
+        this.minutes = Object(__WEBPACK_IMPORTED_MODULE_6__timepicker_utils__["d" /* padNumber */])(_value.getMinutes());
+        this.seconds = Object(__WEBPACK_IMPORTED_MODULE_6__timepicker_utils__["d" /* padNumber */])(_value.getUTCSeconds());
     };
-    TimepickerComponent.prototype.getMinutesFromTemplate = function () {
-        var minutes = parseInt(this.minutes, 10);
-        return (minutes >= 0 && minutes < 60) ? minutes : undefined;
-    };
-    TimepickerComponent.prototype.pad = function (value) {
-        return (isDefined(value) && value.toString().length < 2)
-            ? '0' + value
-            : value.toString();
-    };
-    TimepickerComponent.prototype.addMinutesToSelected = function (minutes) {
-        this.selected = addMinutes(this.selected, minutes);
-        this.refresh();
-    };
-    TimepickerComponent.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
-                    selector: 'timepicker',
-                    template: "\n    <table>\n      <tbody>\n        <tr class=\"text-center\" [ngClass]=\"{hidden: !showSpinners || readonlyInput}\">\n          <td><a (click)=\"incrementHours()\" [ngClass]=\"{disabled: noIncrementHours()}\" class=\"btn btn-link\"><span class=\"glyphicon glyphicon-chevron-up\"></span></a></td>\n          <td>&nbsp;</td>\n          <td><a (click)=\"incrementMinutes()\" [ngClass]=\"{disabled: noIncrementMinutes()}\" class=\"btn btn-link\"><span class=\"glyphicon glyphicon-chevron-up\"></span></a></td>\n          <td [ngClass]=\"{hidden: !showMeridian}\" *ngIf=\"showMeridian\"></td>\n        </tr>\n        <tr>\n          <td class=\"form-group\" [ngClass]=\"{'has-error': invalidHours}\">\n            <input style=\"width:50px;\" type=\"text\" [(ngModel)]=\"hours\" (change)=\"updateHours()\" class=\"form-control text-center\" [readonly]=\"readonlyInput\" (blur)=\"hoursOnBlur()\" maxlength=\"2\">\n          </td>\n          <td>:</td>\n          <td class=\"form-group\" [ngClass]=\"{'has-error': invalidMinutes}\">\n            <input style=\"width:50px;\" type=\"text\" [(ngModel)]=\"minutes\" (change)=\"updateMinutes()\" class=\"form-control text-center\" [readonly]=\"readonlyInput\" (blur)=\"minutesOnBlur()\" maxlength=\"2\">\n          </td>\n          <td [ngClass]=\"{hidden: !showMeridian}\" *ngIf=\"showMeridian\"><button type=\"button\" [ngClass]=\"{disabled: noToggleMeridian() || readonlyInput}\" class=\"btn btn-default text-center\" (click)=\"toggleMeridian()\">{{meridian}}</button></td>\n        </tr>\n        <tr class=\"text-center\" [ngClass]=\"{hidden: !showSpinners || readonlyInput}\">\n          <td><a (click)=\"decrementHours()\" [ngClass]=\"{disabled: noDecrementHours()}\" class=\"btn btn-link\"><span class=\"glyphicon glyphicon-chevron-down\"></span></a></td>\n          <td>&nbsp;</td>\n          <td><a (click)=\"decrementMinutes()\" [ngClass]=\"{disabled: noDecrementMinutes()}\" class=\"btn btn-link\"><span class=\"glyphicon glyphicon-chevron-down\"></span></a></td>\n          <td [ngClass]=\"{hidden: !showMeridian}\" *ngIf=\"showMeridian\"></td>\n        </tr>\n      </tbody>\n    </table>\n  ",
-                    providers: [TIMEPICKER_CONTROL_VALUE_ACCESSOR]
-                },] },
-    ];
-    /** @nocollapse */
-    TimepickerComponent.ctorParameters = function () { return [
-        { type: __WEBPACK_IMPORTED_MODULE_2__timepicker_config__["a" /* TimepickerConfig */], },
-    ]; };
-    TimepickerComponent.propDecorators = {
-        'hourStep': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'minuteStep': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'readonlyInput': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'mousewheel': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'arrowkeys': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'showSpinners': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'min': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'max': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'meridians': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-        'showMeridian': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
-    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Number)
+    ], TimepickerComponent.prototype, "hourStep", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Number)
+    ], TimepickerComponent.prototype, "minuteStep", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Number)
+    ], TimepickerComponent.prototype, "secondsStep", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Boolean)
+    ], TimepickerComponent.prototype, "readonlyInput", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Boolean)
+    ], TimepickerComponent.prototype, "mousewheel", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Boolean)
+    ], TimepickerComponent.prototype, "arrowkeys", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Boolean)
+    ], TimepickerComponent.prototype, "showSpinners", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Boolean)
+    ], TimepickerComponent.prototype, "showMeridian", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Boolean)
+    ], TimepickerComponent.prototype, "showSeconds", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Array)
+    ], TimepickerComponent.prototype, "meridians", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Date)
+    ], TimepickerComponent.prototype, "min", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Date)
+    ], TimepickerComponent.prototype, "max", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */])
+    ], TimepickerComponent.prototype, "isValid", void 0);
+    TimepickerComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'timepicker',
+            changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["k" /* ChangeDetectionStrategy */].OnPush,
+            providers: [TIMEPICKER_CONTROL_VALUE_ACCESSOR, __WEBPACK_IMPORTED_MODULE_3__reducer_timepicker_store__["a" /* TimepickerStore */]],
+            template: "\n    <table>\n      <tbody>\n      <tr class=\"text-center\" [class.hidden]=\"!isSpinnersVisible\">\n        <!-- increment hours button-->\n        <td>\n          <a class=\"btn btn-link\" [class.disabled]=\"!canIncrementHours\"\n             (click)=\"changeHours(hourStep)\"\n          ><span class=\"glyphicon glyphicon-chevron-up\"></span></a>\n        </td>\n        <!-- divider -->\n        <td>&nbsp;&nbsp;&nbsp;</td>\n        <!-- increment minutes button -->\n        <td>\n          <a class=\"btn btn-link\" [class.disabled]=\"!canIncrementMinutes\"\n             (click)=\"changeMinutes(minuteStep)\"\n          ><span class=\"glyphicon glyphicon-chevron-up\"></span></a>\n        </td>\n        <!-- divider -->\n        <td *ngIf=\"showSeconds\">&nbsp;</td>\n        <!-- increment seconds button -->\n        <td *ngIf=\"showSeconds\">\n          <a class=\"btn btn-link\" [class.disabled]=\"!canIncrementSeconds\"\n             (click)=\"changeSeconds(secondsStep)\">\n            <span class=\"glyphicon glyphicon-chevron-up\"></span>\n          </a>\n        </td>\n        <!-- space between -->\n        <td>&nbsp;&nbsp;&nbsp;</td>\n        <!-- meridian placeholder-->\n        <td *ngIf=\"showMeridian\"></td>\n      </tr>\n      <tr>\n        <!-- hours -->\n        <td class=\"form-group\" [class.has-error]=\"invalidHours\">\n          <input type=\"text\" style=\"width:50px;\"\n                 class=\"form-control text-center\"\n                 placeholder=\"HH\"\n                 maxlength=\"2\"\n                 [readonly]=\"readonlyInput\"\n                 [value]=\"hours\"\n                 (wheel)=\"prevDef($event);changeHours(hourStep * wheelSign($event), 'wheel')\"\n                 (keydown.ArrowUp)=\"changeHours(hourStep, 'key')\"\n                 (keydown.ArrowDown)=\"changeHours(-hourStep, 'key')\"\n                 (change)=\"updateHours($event.target.value)\"></td>\n        <!-- divider -->\n        <td>&nbsp;:&nbsp;</td>\n        <!-- minutes -->\n        <td class=\"form-group\" [class.has-error]=\"invalidMinutes\">\n          <input style=\"width:50px;\" type=\"text\"\n                 class=\"form-control text-center\"\n                 placeholder=\"MM\"\n                 maxlength=\"2\"\n                 [readonly]=\"readonlyInput\"\n                 [value]=\"minutes\"\n                 (wheel)=\"prevDef($event);changeMinutes(minuteStep * wheelSign($event), 'wheel')\"\n                 (keydown.ArrowUp)=\"changeMinutes(minuteStep, 'key')\"\n                 (keydown.ArrowDown)=\"changeMinutes(-minuteStep, 'key')\"\n                 (change)=\"updateMinutes($event.target.value)\">\n        </td>\n        <!-- divider -->\n        <td *ngIf=\"showSeconds\">&nbsp;:&nbsp;</td>\n        <!-- seconds -->\n        <td class=\"form-group\" *ngIf=\"showSeconds\" [class.has-error]=\"invalidSeconds\">\n          <input style=\"width:50px;\" type=\"text\"\n                 class=\"form-control text-center\"\n                 placeholder=\"SS\"\n                 maxlength=\"2\"\n                 [readonly]=\"readonlyInput\"\n                 [value]=\"seconds\"\n                 (wheel)=\"prevDef($event);changeSeconds(secondsStep * wheelSign($event), 'wheel')\"\n                 (keydown.ArrowUp)=\"changeSeconds(secondsStep, 'key')\"\n                 (keydown.ArrowDown)=\"changeSeconds(-secondsStep, 'key')\"\n                 (change)=\"updateSeconds($event.target.value)\">\n        </td>\n        <!-- space between -->\n        <td>&nbsp;&nbsp;&nbsp;</td>\n        <!-- meridian -->\n        <td *ngIf=\"showMeridian\">\n          <button type=\"button\" class=\"btn btn-default text-center\"\n                  [disabled]=\"readonlyInput\"\n                  [class.disabled]=\"readonlyInput\"\n                  (click)=\"toggleMeridian()\"\n          >{{ meridian }}\n          </button>\n        </td>\n      </tr>\n      <tr class=\"text-center\" [class.hidden]=\"!isSpinnersVisible\">\n        <!-- decrement hours button-->\n        <td>\n          <a class=\"btn btn-link\" [class.disabled]=\"!canDecrementHours\" (click)=\"changeHours(-hourStep)\">\n            <span class=\"glyphicon glyphicon-chevron-down\"></span>\n          </a>\n        </td>\n        <!-- divider -->\n        <td>&nbsp;&nbsp;&nbsp;</td>\n        <!-- decrement minutes button-->\n        <td>\n          <a class=\"btn btn-link\" [class.disabled]=\"!canDecrementMinutes\" (click)=\"changeMinutes(-minuteStep)\">\n            <span class=\"glyphicon glyphicon-chevron-down\"></span>\n          </a>\n        </td>\n        <!-- divider -->\n        <td *ngIf=\"showSeconds\">&nbsp;</td>\n        <!-- decrement seconds button-->\n        <td *ngIf=\"showSeconds\">\n          <a class=\"btn btn-link\" [class.disabled]=\"!canDecrementSeconds\" (click)=\"changeSeconds(-secondsStep)\">\n            <span class=\"glyphicon glyphicon-chevron-down\"></span>\n          </a>\n        </td>\n        <!-- space between -->\n        <td>&nbsp;&nbsp;&nbsp;</td>\n        <!-- meridian placeholder-->\n        <td *ngIf=\"showMeridian\"></td>\n      </tr>\n      </tbody>\n    </table>\n  "
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__timepicker_config__["a" /* TimepickerConfig */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_core__["l" /* ChangeDetectorRef */],
+            __WEBPACK_IMPORTED_MODULE_3__reducer_timepicker_store__["a" /* TimepickerStore */],
+            __WEBPACK_IMPORTED_MODULE_2__reducer_timepicker_actions__["a" /* TimepickerActions */]])
+    ], TimepickerComponent);
     return TimepickerComponent;
 }());
+
 //# sourceMappingURL=timepicker.component.js.map
 
 /***/ }),
@@ -4466,6 +5639,12 @@ var TimepickerComponent = (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimepickerConfig; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 
 /** Provides default configuration values for timepicker */
 var TimepickerConfig = (function () {
@@ -4474,6 +5653,8 @@ var TimepickerConfig = (function () {
         this.hourStep = 1;
         /** hours change step */
         this.minuteStep = 5;
+        /** seconds changes step */
+        this.secondsStep = 10;
         /** if true works in 12H mode and displays AM/PM. If false works in 24H mode and hides AM/PM */
         this.showMeridian = true;
         /** meridian labels based on locale */
@@ -4486,18 +5667,15 @@ var TimepickerConfig = (function () {
         this.arrowkeys = true;
         /** if true spinner arrows above and below the inputs will be shown */
         this.showSpinners = true;
-        /** minimum time user can select */
-        this.min = void 0;
-        /** maximum time user can select */
-        this.max = void 0;
+        /** show seconds in timepicker */
+        this.showSeconds = false;
     }
-    TimepickerConfig.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
-    ];
-    /** @nocollapse */
-    TimepickerConfig.ctorParameters = function () { return []; };
+    TimepickerConfig = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
+    ], TimepickerConfig);
     return TimepickerConfig;
 }());
+
 //# sourceMappingURL=timepicker.config.js.map
 
 /***/ }),
@@ -4507,11 +5685,19 @@ var TimepickerConfig = (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimepickerModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__timepicker_component__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__timepicker_component__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__reducer_timepicker_actions__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/reducer/timepicker.actions.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__timepicker_config__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.config.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__reducer_timepicker_store__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/reducer/timepicker.store.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
 
 
 
@@ -4520,24 +5706,158 @@ var TimepickerConfig = (function () {
 var TimepickerModule = (function () {
     function TimepickerModule() {
     }
+    TimepickerModule_1 = TimepickerModule;
     TimepickerModule.forRoot = function () {
         return {
-            ngModule: TimepickerModule,
-            providers: [__WEBPACK_IMPORTED_MODULE_4__timepicker_config__["a" /* TimepickerConfig */]]
+            ngModule: TimepickerModule_1,
+            providers: [__WEBPACK_IMPORTED_MODULE_4__timepicker_config__["a" /* TimepickerConfig */], __WEBPACK_IMPORTED_MODULE_3__reducer_timepicker_actions__["a" /* TimepickerActions */], __WEBPACK_IMPORTED_MODULE_5__reducer_timepicker_store__["a" /* TimepickerStore */]]
         };
     };
-    TimepickerModule.decorators = [
-        { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["M" /* NgModule */], args: [{
-                    imports: [__WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */]],
-                    declarations: [__WEBPACK_IMPORTED_MODULE_3__timepicker_component__["a" /* TimepickerComponent */]],
-                    exports: [__WEBPACK_IMPORTED_MODULE_3__timepicker_component__["a" /* TimepickerComponent */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */]]
-                },] },
-    ];
-    /** @nocollapse */
-    TimepickerModule.ctorParameters = function () { return []; };
+    TimepickerModule = TimepickerModule_1 = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]],
+            declarations: [__WEBPACK_IMPORTED_MODULE_2__timepicker_component__["a" /* TimepickerComponent */]],
+            exports: [__WEBPACK_IMPORTED_MODULE_2__timepicker_component__["a" /* TimepickerComponent */]]
+        })
+    ], TimepickerModule);
     return TimepickerModule;
+    var TimepickerModule_1;
 }());
+
 //# sourceMappingURL=timepicker.module.js.map
+
+/***/ }),
+
+/***/ "../../../../ngx-bootstrap/timepicker/timepicker.utils.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["c"] = isValidDate;
+/* unused harmony export toNumber */
+/* unused harmony export isNumber */
+/* unused harmony export parseHours */
+/* unused harmony export parseMinutes */
+/* unused harmony export parseSeconds */
+/* harmony export (immutable) */ __webpack_exports__["e"] = parseTime;
+/* harmony export (immutable) */ __webpack_exports__["a"] = changeTime;
+/* harmony export (immutable) */ __webpack_exports__["f"] = setTime;
+/* unused harmony export createDate */
+/* harmony export (immutable) */ __webpack_exports__["d"] = padNumber;
+/* harmony export (immutable) */ __webpack_exports__["b"] = isInputValid;
+var dex = 10;
+var hoursPerDay = 24;
+var hoursPerDayHalf = 12;
+var minutesPerHour = 60;
+var secondsPerMinute = 60;
+function isValidDate(value) {
+    if (!value) {
+        return false;
+    }
+    if (value instanceof Date && isNaN(value.getHours())) {
+        return false;
+    }
+    if (typeof value === 'string') {
+        return isValidDate(new Date(value));
+    }
+    return true;
+}
+function toNumber(value) {
+    if (typeof value === 'number') {
+        return value;
+    }
+    return parseInt(value, dex);
+}
+function isNumber(value) {
+    return !isNaN(toNumber(value));
+}
+function parseHours(value, isPM) {
+    if (isPM === void 0) { isPM = false; }
+    var hour = toNumber(value);
+    if (isNaN(hour) || hour < 0 || hour > (isPM ? hoursPerDayHalf : hoursPerDay)) {
+        return NaN;
+    }
+    return hour;
+}
+function parseMinutes(value) {
+    var minute = toNumber(value);
+    if (isNaN(minute) || minute < 0 || minute > minutesPerHour) {
+        return NaN;
+    }
+    return minute;
+}
+function parseSeconds(value) {
+    var seconds = toNumber(value);
+    if (isNaN(seconds) || seconds < 0 || seconds > secondsPerMinute) {
+        return NaN;
+    }
+    return seconds;
+}
+function parseTime(value) {
+    if (typeof value === 'string') {
+        return new Date(value);
+    }
+    return value;
+}
+function changeTime(value, diff) {
+    if (!value) {
+        return changeTime(createDate(new Date(), 0, 0, 0), diff);
+    }
+    var hour = value.getHours();
+    var minutes = value.getMinutes();
+    var seconds = value.getSeconds();
+    if (diff.hour) {
+        hour = (hour + toNumber(diff.hour)) % hoursPerDay;
+        if (hour < 0) {
+            hour += hoursPerDay;
+        }
+    }
+    if (diff.minute) {
+        minutes = (minutes + toNumber(diff.minute));
+    }
+    if (diff.seconds) {
+        seconds = (seconds + toNumber(diff.seconds));
+    }
+    return createDate(value, hour, minutes, seconds);
+}
+function setTime(value, opts) {
+    var hour = parseHours(opts.hour);
+    var minute = parseMinutes(opts.minute);
+    var seconds = parseSeconds(opts.seconds) || 0;
+    if (opts.isPM) {
+        hour += hoursPerDayHalf;
+    }
+    // fixme: unreachable code, value is mandatory
+    if (!value) {
+        if (!isNaN(hour) && !isNaN(minute)) {
+            return createDate(new Date(), hour, minute, seconds);
+        }
+        return value;
+    }
+    if (isNaN(hour) || isNaN(minute)) {
+        return value;
+    }
+    return createDate(value, hour, minute, seconds);
+}
+function createDate(value, hours, minutes, seconds) {
+    // fixme: unreachable code, value is mandatory
+    var _value = value || new Date();
+    return new Date(_value.getFullYear(), _value.getMonth(), _value.getDate(), hours, minutes, seconds, _value.getMilliseconds());
+}
+function padNumber(value) {
+    var _value = value.toString();
+    if (_value.length > 1) {
+        return _value;
+    }
+    return "0" + _value;
+}
+function isInputValid(hours, minutes, seconds, isPM) {
+    if (seconds === void 0) { seconds = '0'; }
+    if (isNaN(parseHours(hours, isPM)) || isNaN(parseMinutes(minutes)) || isNaN(parseSeconds(seconds))) {
+        return false;
+    }
+    return true;
+}
+//# sourceMappingURL=timepicker.utils.js.map
 
 /***/ }),
 
@@ -4616,6 +5936,7 @@ var Trigger = (function () {
     Trigger.prototype.isManual = function () { return this.open === 'manual' || this.close === 'manual'; };
     return Trigger;
 }());
+
 //# sourceMappingURL=trigger.class.js.map
 
 /***/ }),
@@ -4625,11 +5946,13 @@ var Trigger = (function () {
 
 "use strict";
 /* unused harmony export parseTriggers */
-/* harmony export (immutable) */ __webpack_exports__["a"] = listenToTriggers;
+/* unused harmony export listenToTriggers */
+/* harmony export (immutable) */ __webpack_exports__["a"] = listenToTriggersV2;
+/* harmony export (immutable) */ __webpack_exports__["b"] = registerOutsideClick;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__trigger_class__ = __webpack_require__("../../../../ngx-bootstrap/utils/trigger.class.js");
 
 var DEFAULT_ALIASES = {
-    hover: ['mouseenter', 'mouseleave'],
+    hover: ['mouseover', 'mouseout'],
     focus: ['focusin', 'focusout']
 };
 function parseTriggers(triggers, aliases) {
@@ -4669,6 +5992,50 @@ function listenToTriggers(renderer, target, triggers, showFn, hideFn, toggleFn) 
     });
     return function () { listeners.forEach(function (unsubscribeFn) { return unsubscribeFn(); }); };
 }
+function listenToTriggersV2(renderer, options) {
+    var parsedTriggers = parseTriggers(options.triggers);
+    var target = options.target;
+    // do nothing
+    if (parsedTriggers.length === 1 && parsedTriggers[0].isManual()) {
+        return Function.prototype;
+    }
+    // all listeners
+    var listeners = [];
+    // lazy listeners registration
+    var _registerHide = [];
+    var registerHide = function () {
+        // add hide listeners to unregister array
+        _registerHide.forEach(function (fn) { return listeners.push(fn()); });
+        // register hide events only once
+        _registerHide.length = 0;
+    };
+    // register open\close\toggle listeners
+    parsedTriggers.forEach(function (trigger) {
+        var useToggle = trigger.open === trigger.close;
+        var showFn = useToggle ? options.toggle : options.show;
+        if (!useToggle) {
+            _registerHide.push(function () { return renderer.listen(target, trigger.close, options.hide); });
+        }
+        listeners.push(renderer.listen(target, trigger.open, function () { return showFn(registerHide); }));
+    });
+    return function () {
+        listeners.forEach(function (unsubscribeFn) { return unsubscribeFn(); });
+    };
+}
+function registerOutsideClick(renderer, options) {
+    if (!options.outsideClick) {
+        return Function.prototype;
+    }
+    return renderer.listenGlobal('document', 'click', function (event) {
+        if (options.target && options.target.contains(event.target)) {
+            return;
+        }
+        if (options.targets && options.targets.some(function (target) { return target.contains(event.target); })) {
+            return;
+        }
+        options.hide();
+    });
+}
 //# sourceMappingURL=triggers.js.map
 
 /***/ }),
@@ -4699,6 +6066,7 @@ var Utils = (function () {
     };
     return Utils;
 }());
+
 //# sourceMappingURL=utils.class.js.map
 
 /***/ }),

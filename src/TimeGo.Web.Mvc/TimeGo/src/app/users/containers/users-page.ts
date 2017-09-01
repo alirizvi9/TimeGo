@@ -13,7 +13,7 @@ import {UsersListItem} from '../models/users-list-item.model';
     selector: 'users-page',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <up-users-list [users]="users$ | async" [isLoaded]="isLoaded$ | async" [loading]="loading$ | async" (order)="orderUser($event)"></up-users-list>
+    <up-users-list [users]="users$ | async" [pagingModel]="pagingModel$ | async" [isLoaded]="isLoaded$ | async" [loading]="loading$ | async" (order)="orderUser($event)" (changePage)="changePage($event)"></up-users-list>
   `,
 })
 export class UsersPageComponent {
@@ -34,7 +34,9 @@ export class UsersPageComponent {
             orderBy: "id",
             page: 1,
             pageSize: 10,
-            IsAscending: true
+            IsAscending: true,
+            count: 1,
+            IsOrder: true
         }
         this.store.dispatch(new usersActions.GetAction(pagingModelView));
     }
@@ -44,8 +46,15 @@ export class UsersPageComponent {
             orderBy: orderBy,
             page: 1,
             pageSize: 10,
-            IsAscending: true
+            IsAscending: true,
+            count: 1,
+            IsOrder: true
         }
         this.store.dispatch(new usersActions.GetAction(pagingModelView));
+    }
+
+    changePage(model: UsersListPagingModel)
+    {
+        this.store.dispatch(new usersActions.GetAction(model));
     }
 }

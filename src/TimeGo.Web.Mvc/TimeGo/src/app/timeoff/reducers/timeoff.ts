@@ -20,7 +20,8 @@ export const initialState: State = {
         page: 1,
         pageSize: 10,
         IsAscending: true,
-        count: 10
+        count: 10,
+        IsOrder: true
     }
 };
 
@@ -31,7 +32,7 @@ export function reducer(
     switch (action.type) {
         case timeoffActions.GET:
             const pagingModel = action.payload as TimeoffListPagingModel;
-            pagingModel.IsAscending = pagingModel != null && pagingModel.orderBy != "id" ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
+            pagingModel.IsAscending = pagingModel.IsOrder ? state.pagingModel.IsAscending : pagingModel != null && pagingModel.orderBy != "id" ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
             {
                 return {
                     timeoffRequests: state.timeoffRequests,
@@ -52,7 +53,8 @@ export function reducer(
                     count: loadedTimeoffRequests.Count,
                     orderBy: state.pagingModel.orderBy,
                     page: state.pagingModel.page,
-                    pageSize: state.pagingModel.pageSize
+                    pageSize: state.pagingModel.pageSize,
+                    IsOrder: true
                 }
             };
         }

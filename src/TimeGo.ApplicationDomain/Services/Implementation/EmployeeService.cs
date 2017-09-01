@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TimeGo.ApplicationDomain.Entities;
-using TimeGo.ApplicationDomain.Enums;
 using TimeGo.ApplicationDomain.Persistance;
 using System.Linq.Dynamic;
+using TimeGo.ApplicationDomain.Models.Users;
+using TimeGo.ApplicationDomain.Models;
+using AutoMapper;
 
 namespace TimeGo.ApplicationDomain.Services.Implementation
 {
@@ -26,31 +28,30 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             return _repository.Find<Employee>().OrderBy(sortExpression).Skip(pageSize * (page - 1)).Take(pageSize);
         }
 
+        public ResultsModel<UsersListItemViewModel> GetPage(Employee user, string sortExpression, int page, int pageSize)
+        {
+            var model = new ResultsModel<UsersListItemViewModel>();
+            var company = _repository.Find<Company>(x=>x.Id == user.CompanyId).Single();
+            var items = _repository.Find<Employee>(x=> company.Id == x.CompanyId).OrderBy(sortExpression).Skip(pageSize * (page - 1)).Take(pageSize);
+            model.Results = Mapper.Map<List<UsersListItemViewModel>>(items);
+            model.Count = Count();
+            model.Page = page;
+            return model;
+        }
+
         public int Count()
         {
             return _repository.Find<Employee>().Count();
         }
 
-        public ErrorCodes EditCompany(Employee model)
+        public void DeleteEmployee(long id)
         {
-            var company = _repository.FindForUpdate<Employee>(model.Id);
-            
-            _repository.Save();
-            return ErrorCodes.Success;
-        }
-
-        public Employee GetCompany(long id)
-        {
-            return _repository.Find<Employee>(x => x.Id == id).SingleOrDefault();
-        }
-
-        public void DeleteCompany(long id)
-        {
-            var company = _repository.Find<Employee>(x => x.Id == id).SingleOrDefault();
-            if (company != null)
+            var employee = _repository.Find<Employee>(x => x.Id == id).SingleOrDefault();
+            if (employee != null)
             {
-                _repository.Delete(company);
+                _repository.Delete(employee);
             }
+
         }
     }
 }

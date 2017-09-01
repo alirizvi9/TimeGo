@@ -30,7 +30,7 @@ namespace TimeGo.Web.Mvc.Areas.Admin.Controllers
 
         public ActionResult DeleteEmployee(long id)
         {
-            _employeeService.DeleteCompany(id);
+            _employeeService.DeleteEmployee(id);
             return RedirectToAction("Index");
         }
     }

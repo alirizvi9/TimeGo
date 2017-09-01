@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TimeGo.ApplicationDomain.Entities;
-using TimeGo.ApplicationDomain.Enums;
+using TimeGo.ApplicationDomain.Models;
+using TimeGo.ApplicationDomain.Models.Users;
 
 namespace TimeGo.ApplicationDomain.Services
 {
@@ -8,9 +9,8 @@ namespace TimeGo.ApplicationDomain.Services
     {
         IEnumerable<Employee> GetAll();
         int Count();
-        ErrorCodes EditCompany(Employee model);
+        ResultsModel<UsersListItemViewModel> GetPage(Employee user, string sortExpression, int page, int pageSize);
         IEnumerable<Employee> GetPage(string sortExpression, int page, int pageSize);
-        Employee GetCompany(long id);
-        void DeleteCompany(long id);
+        void DeleteEmployee(long id);
     }
 }

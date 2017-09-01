@@ -2,37 +2,51 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        Employees
+        EMPLOYEES
       </div>
       <div class="card-block" *ngIf="isLoaded">
-        <table class="table table-hover table-outline mb-0 hidden-sm-down" *ngIf="isLoaded">
-          <thead class="thead-default">
-            <tr>
-              <td class="text-center">Employee Id <a class="fa fa-sort" (click)="order.emit('id')"></a></td>
-              <td class="text-center">First Name <a class="fa fa-sort" (click)="order.emit('FirstName')"></a></td>
-              <td class="text-center">Last Name <a class="fa fa-sort" (click)="order.emit('LastName')"></a></td>
-              <td class="text-center">Email <a class="fa fa-sort" (click)="order.emit('EmailAddress')"></a></td>
-              <td class="text-center">Phone <a class="fa fa-sort" (click)="order.emit('PhoneNumber')"></a></td>
-              <td class="text-center">Last4SS <a class="fa fa-sort" (click)="order.emit('SocialSecurityNumber')"></a></td>
-              <td class="text-center">IsAdmin? <a class="fa fa-sort" (click)="order.emit('IsAdmin')"></a></td>
-              <td class="text-center">IsActive? <a class="fa fa-sort" (click)="order.emit('IsActive')"></a></td>
-              <td class="text-center">Calculate Overtime? <a class="fa fa-sort" (click)="order.emit('IsOvertimeCalculated')"></a></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let user of users">
-              <td class="text-center">{{user.Id}}</td>
-              <td class="text-center">{{user.FirstName}}</td>
-              <td class="text-center">{{user.LastName}}</td>
-              <td class="text-center">{{user.Email}}</td>
-              <td class="text-center">{{user.Phone}}</td>
-              <td class="text-center">{{user.Last4Ss}}</td>
-              <td class="text-center">{{user.IsAdmin ? 'Yes' : 'No'}}</td>
-              <td class="text-center">{{user.IsActive ? 'Yes' : 'No'}}</td>
-              <td class="text-center">{{user.IsOvertimeCalculated ? 'Yes' : 'No'}}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="form-group">
+          <table class="table table-hover table-outline mb-0 hidden-sm-down" *ngIf="isLoaded">
+            <thead class="thead-default">
+              <tr>
+                <td class="text-center">Employee Id <a class="fa fa-sort" (click)="order.emit('id')"></a></td>
+                <td class="text-center">First Name <a class="fa fa-sort" (click)="order.emit('FirstName')"></a></td>
+                <td class="text-center">Last Name <a class="fa fa-sort" (click)="order.emit('LastName')"></a></td>
+                <td class="text-center">Email <a class="fa fa-sort" (click)="order.emit('EmailAddress')"></a></td>
+                <td class="text-center">Phone <a class="fa fa-sort" (click)="order.emit('PhoneNumber')"></a></td>
+                <td class="text-center">Last 4 SS <a class="fa fa-sort" (click)="order.emit('SocialSecurityNumber')"></a></td>
+                <td class="text-center">Is Admin? <a class="fa fa-sort" (click)="order.emit('IsAdmin')"></a></td>
+                <td class="text-center">Is Active? <a class="fa fa-sort" (click)="order.emit('IsActive')"></a></td>
+                <td class="text-center">Calculate Overtime? <a class="fa fa-sort" (click)="order.emit('IsOvertimeCalculated')"></a></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users">
+                <td class="text-center">{{user.Id}}</td>
+                <td class="text-center">{{user.FirstName}}</td>
+                <td class="text-center">{{user.LastName}}</td>
+                <td class="text-center">{{user.Email}}</td>
+                <td class="text-center">{{user.Phone}}</td>
+                <td class="text-center">{{user.Last4Ss}}</td>
+                <td class="text-center" *ngIf="user.IsAdmin"><span class="badge badge-success timego-status">{{user.IsAdmin ? 'Yes' : 'No'}}</span></td>
+                <td class="text-center" *ngIf="!user.IsAdmin"><span class="badge badge-danger timego-status">{{user.IsAdmin ? 'Yes' : 'No'}}</span></td>
+                <td class="text-center" *ngIf="user.IsActive"><span class="badge badge-success timego-status">{{user.IsActive ? 'Yes' : 'No'}}</span></td>
+                <td class="text-center" *ngIf="!user.IsActive"><span class="badge badge-danger timego-status">{{user.IsActive ? 'Yes' : 'No'}}</span></td>
+                <td class="text-center" *ngIf="user.IsOvertimeCalculated"><span class="badge badge-success timego-status">{{user.IsOvertimeCalculated ? 'Yes' : 'No'}}</span></td>
+                <td class="text-center" *ngIf="!user.IsOvertimeCalculated"><span class="badge badge-danger timego-status">{{user.IsOvertimeCalculated ? 'Yes' : 'No'}}</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="form-group">
+          <pagination [totalItems]="pagingModel.count" [(ngModel)]="pagingModel.page" (pageChanged)="changePage.emit({
+            orderBy: pagingModel.orderBy,
+            page: $event.page,
+            pageSize: pagingModel.pageSize,
+            IsAscending: pagingModel.IsAscending,
+            count: pagingModel.count,
+            IsOrder: false})"></pagination>
+        </div>
       </div>
     </div>
   </div>

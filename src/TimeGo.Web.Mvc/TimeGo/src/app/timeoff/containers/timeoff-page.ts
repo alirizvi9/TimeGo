@@ -38,7 +38,8 @@ export class TimeoffPageComponent {
             page: 1,
             pageSize: 10,
             IsAscending: true,
-            count: 10
+            count: 10,
+            IsOrder: true
         }
         this.store.dispatch(new timeoffActions.GetAction(pagingModelView));
     }
@@ -49,7 +50,8 @@ export class TimeoffPageComponent {
             page: 1,
             pageSize: 10,
             IsAscending: true,
-            count: 10
+            count: 10,
+            IsOrder: true
         }
         this.store.dispatch(new timeoffActions.GetAction(pagingModelView));
     }

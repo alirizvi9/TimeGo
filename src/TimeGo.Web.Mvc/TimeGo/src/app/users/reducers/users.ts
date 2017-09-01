@@ -2,6 +2,7 @@
 import {UsersListItem} from '../models/users-list-item.model'
 import * as usersActions from '../actions/users';
 import { UsersListPagingModel } from "../models/users-list-paging.model";
+import { UsersList } from "../models/user-list.model";
 
 export interface State {
     users: UsersListItem[];
@@ -18,7 +19,9 @@ export const initialState: State = {
         orderBy: "id",
         page: 1,
         pageSize: 10,
-        IsAscending: true
+        IsAscending: true,
+        count: 1,
+        IsOrder: true
     }
 };
 
@@ -29,7 +32,7 @@ export function reducer(
     switch (action.type) {
         case usersActions.GET:
             const pagingModel = action.payload as UsersListPagingModel;
-            pagingModel.IsAscending = pagingModel != null ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
+            pagingModel.IsAscending = !pagingModel.IsOrder ? state.pagingModel.IsAscending : pagingModel != null ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
             {
                 return {
                     users: state.users,
@@ -40,12 +43,19 @@ export function reducer(
             }
 
         case usersActions.GET_COMPLETE: {
-            const loadedUsers = action.payload as UsersListItem[];
+            const loadedUsers = action.payload as UsersList;
             return {
-                users: loadedUsers,
+                users: loadedUsers.Results,
                 isLoaded: true,
                 loading: false,
-                pagingModel: state.pagingModel
+                pagingModel: {
+                    IsAscending: state.pagingModel.IsAscending,
+                    count: loadedUsers.Count,
+                    orderBy: state.pagingModel.orderBy,
+                    page: state.pagingModel.page,
+                    pageSize: state.pagingModel.pageSize,
+                    IsOrder: true
+                }
             };
         }
 

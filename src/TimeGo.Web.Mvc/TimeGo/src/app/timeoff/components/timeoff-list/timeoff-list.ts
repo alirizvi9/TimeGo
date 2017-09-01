@@ -19,7 +19,7 @@ export class TimeoffListComponent {
     @Input() pagingModel: TimeoffListPagingModel;
     @Output() order = new EventEmitter<string>();
     @Output() add = new EventEmitter<AddTimeoff>();
-    @Output() changeStatus = new EventEmitter<AddTimeoff>();
+    @Output() changeStatus = new EventEmitter<ChangeStatus>();
     @Output() changePage = new EventEmitter<TimeoffListPagingModel>();
 
     role: string;
@@ -31,8 +31,20 @@ export class TimeoffListComponent {
         ReturningToWork: new Date(),
     };
 
+    
+
     ngOnInit() {
         this.role = commonServerData.Role;
+    }
+
+    addTimeoffAction(model: AddTimeoff) {
+        this.add.emit(model);
+        this.changePage.emit(this.pagingModel);
+    }
+
+    changeStatusAction(model: ChangeStatus) {
+        this.changeStatus.emit(model);
+        this.changePage.emit(this.pagingModel);
     }
 }
 

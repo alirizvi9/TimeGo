@@ -1,6 +1,7 @@
 ﻿import { Action } from '@ngrx/store';
 import {UsersListItem} from '../models/users-list-item.model'
-import {UsersListPagingModel} from '../models/users-list-paging.model';
+import { UsersListPagingModel } from '../models/users-list-paging.model';
+import { UsersList } from "../models/user-list.model";
 
 export const GET = '[Users] Get users';
 export const GET_COMPLETE = '[Users] Get Complete';
@@ -15,7 +16,7 @@ export class GetAction implements Action {
 export class GetCompleteAction implements Action {
     type = GET_COMPLETE;
 
-    constructor(public payload: UsersListItem[]) { }
+    constructor(public payload: UsersList) { }
 }
 
 export class SaveAction implements Action {

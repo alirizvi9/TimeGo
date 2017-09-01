@@ -850,6 +850,7 @@
     <TypeScriptCompile Include="TimeGo\src\app\users\components\users-list\users-list.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\users\containers\users-page.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\users\effects\users.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\models\user-list.model.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\users\models\users-list-item.model.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\users\models\users-list-paging.model.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\users\reducers\index.ts" />

@@ -148,3 +148,42 @@
 .timego-status {
   font-size: 14px;
 }
+
+.datepicker-container {
+  width: 100% !important;
+}
+
+.datepicker-input-container {
+  width: 100% !important;
+}
+
+.datepicker-input {
+  width: 75% !important;
+}
+
+.datepicker-calendar-top {
+  background: #20a8d8 !important;
+}
+
+.datepicker-calendar-container {
+  background-color: white !important;
+}
+
+.datepicker-calendar-month-section {
+  color: #f8f9fa !important;
+  background-color: #67c2ef !important;
+  padding: 10px !important;
+}
+
+.day:hover:not(.disabled) {
+  background: #67c2ef !important;
+}
+
+.year:hover:not(.disabled) {
+  background: #67c2ef !important;
+}
+
+.u-is-secondary {
+  background: #f8f9fa !important;
+  color: #1985ac !important;
+}

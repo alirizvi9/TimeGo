@@ -22,7 +22,8 @@ var map = {
 	],
 	"./timeoff/timeoff.module": [
 		"../../../../../src/app/timeoff/timeoff.module.ts",
-		"timeoff.module"
+		"timeoff.module",
+		"common"
 	],
 	"./timesheets/timesheets.module": [
 		"../../../../../src/app/timesheets/timesheets.module.ts",
@@ -30,14 +31,15 @@ var map = {
 	],
 	"./users/users.module": [
 		"../../../../../src/app/users/users.module.ts",
-		"users.module"
+		"users.module",
+		"common"
 	]
 };
 function webpackAsyncContext(req) {
 	var ids = map[req];
 	if(!ids)
 		return Promise.reject(new Error("Cannot find module '" + req + "'."));
-	return __webpack_require__.e(ids[1]).then(function() {
+	return Promise.all(ids.slice(1).map(__webpack_require__.e)).then(function() {
 		return __webpack_require__(ids[0]);
 	});
 };

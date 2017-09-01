@@ -85,7 +85,8 @@ var ChangeStatusCompleteAction = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_datepicker__ = __webpack_require__("../../../../ng2-datepicker/lib-dist/ng2-datepicker.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__timeoff_list_timeoff_list__ = __webpack_require__("../../../../../src/app/timeoff/components/timeoff-list/timeoff-list.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap_pagination__ = __webpack_require__("../../../../ngx-bootstrap/pagination/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__timeoff_list_timeoff_list__ = __webpack_require__("../../../../../src/app/timeoff/components/timeoff-list/timeoff-list.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -98,8 +99,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var COMPONENTS = [
-    __WEBPACK_IMPORTED_MODULE_5__timeoff_list_timeoff_list__["a" /* TimeoffListComponent */]
+    __WEBPACK_IMPORTED_MODULE_6__timeoff_list_timeoff_list__["a" /* TimeoffListComponent */]
 ];
 var ComponentsModule = (function () {
     function ComponentsModule() {
@@ -109,6 +111,7 @@ var ComponentsModule = (function () {
 ComponentsModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
         imports: [
+            __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap_pagination__["a" /* PaginationModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_4_ng2_datepicker__["a" /* DatePickerModule */],
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* ReactiveFormsModule */],
@@ -127,7 +130,7 @@ ComponentsModule = __decorate([
 /***/ "../../../../../src/app/timeoff/components/timeoff-list/timeoff-list.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-12\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        Timeoff requests\r\n        <button type=\"button\" class=\"btn btn-sm btn-success float-right\" data-toggle=\"modal\" data-target=\"#addmodal\">\r\n          Request\r\n        </button>\r\n      </div>\r\n      <div class=\"card-block\" *ngIf=\"isLoaded\">\r\n        <table class=\"table table-hover table-outline mb-0 hidden-sm-down\" *ngIf=\"isLoaded\">\r\n          <thead class=\"thead-default\">\r\n            <tr>\r\n              <td class=\"text-center\">User Name <a class=\"fa fa-sort\" (click)=\"order.emit('id')\"></a></td>\r\n              <td class=\"text-center\">Start Date <a class=\"fa fa-sort\" (click)=\"order.emit('FromDate')\"></a></td>\r\n              <td class=\"text-center\">End Date <a class=\"fa fa-sort\" (click)=\"order.emit('ToDate')\"></a></td>\r\n              <td class=\"text-center\">Returning to work <a class=\"fa fa-sort\" (click)=\"order.emit('ReturningToWork')\"></a></td>\r\n              <td class=\"text-center\">Reasone <a class=\"fa fa-sort\" (click)=\"order.emit('Reason')\"></a></td>\r\n              <td class=\"text-center\">Status <a class=\"fa fa-sort\" (click)=\"order.emit('ApprovalStatusId')\"></a></td>\r\n              <td class=\"text-center\">Action </td>\r\n            </tr>\r\n          </thead>\r\n          <tbody>\r\n            <tr *ngFor=\"let timeoff of timeoffrequests\">\r\n              <td class=\"text-center\">{{timeoff.UserName}}</td>\r\n              <td class=\"text-center\">{{timeoff.StartDate | date: 'dd/MM/yyyy'}}</td>\r\n              <td class=\"text-center\">{{timeoff.EndDate | date: 'dd/MM/yyyy'}}</td>\r\n              <td class=\"text-center\">{{timeoff.ReturningToWork | date: 'dd/MM/yyyy'}}</td>\r\n              <td class=\"text-center\">{{timeoff.Reasone}}</td>\r\n              <td class=\"text-center\" *ngIf=\"timeoff.Status == 'Canceled'\"><span class=\"badge badge-default timego-status\">{{timeoff.Status}}</span></td>\n              <td class=\"text-center\" *ngIf=\"timeoff.Status == 'Waiting for Approval'\"><span class=\"badge badge-warning timego-status\">{{timeoff.Status}}</span></td>\n              <td class=\"text-center\" *ngIf=\"timeoff.Status == 'Denined'\"><span class=\"badge badge-danger timego-status\">{{timeoff.Status}}</span></td>\n              <td class=\"text-center\" *ngIf=\"timeoff.Status == 'Accepted'\"><span class=\"badge badge-success timego-status\">{{timeoff.Status}}</span></td>\r\n              <td class=\"text-center\" *ngIf=\"role == 'Task Manager'\">\r\n                <button type=\"button\" *ngIf=\"timeoff.Status == 'Waiting for Approval' || timeoff.Status == 'Denined'\" class=\"btn btn-success\" (click)=\"changeStatus.emit({id: timeoff.Id, status: 'Accepted'})\">Approve</button>\r\n                <button type=\"button\" *ngIf=\"timeoff.Status == 'Accepted' || timeoff.Status == 'Waiting for Approval'\" class=\"btn btn-danger\" (click)=\"changeStatus.emit({id: timeoff.Id, status: 'Denined'})\">Deny</button>\r\n              </td>\r\n              <td class=\"text-center\" *ngIf=\"role == 'Employee'\">\r\n                <button type=\"button\" *ngIf=\"timeoff.Status != 'Canceled'\" class=\"btn btn-danger\" (click)=\"changeStatus.emit({id: timeoff.Id, status: 'Canceled'})\">Cancel</button>\r\n              </td>\r\n            </tr>\r\n          </tbody>\r\n        </table>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal fade\" id=\"addmodal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Add Timeoff request\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">Add Timeoff request</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n        <div class=\"modal-body timego-modal\">\r\n          <div class=\"form-group\">\r\n            <label for=\"company-name\">Start date</label>\r\n            <div class=\"input-group mb-3 required\">\r\n              <span class=\"input-group-addon\">\r\n                <i class=\"icon-calendar\"></i>\r\n              </span>\r\n              <input required [(ngModel)]=\"addTimeoff.StartDate\" type=\"date\" class=\"datepicker\"/>\r\n            </div>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"company-name\">End date</label>\r\n            <div class=\"input-group mb-3 required\">\r\n              <span class=\"input-group-addon\">\r\n                <i class=\"icon-calendar\"></i>\r\n              </span>\r\n              <input required [(ngModel)]=\"addTimeoff.EndDate\" type=\"date\" class=\"datepicker\"/>\r\n            </div>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"company-name\">Returning to work</label>\r\n            <div class=\"input-group mb-3 required\">\r\n              <span class=\"input-group-addon\">\r\n                <i class=\"icon-calendar\"></i>\r\n              </span>\r\n              <input required [(ngModel)]=\"addTimeoff.ReturningToWork\" type=\"date\" class=\"datepicker\"/>\r\n            </div>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <label for=\"company-name\">Reasone</label>\r\n            <div class=\"input-group mb-3 required\">\r\n              <span class=\"input-group-addon\">\r\n                <i class=\"icon-note\"></i>\r\n              </span>\r\n              <input type=\"text\" class=\"form-control\" id=\"company-name\" placeholder=\"Reasone\" [(ngModel)]=\"addTimeoff.Reasone\" />\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"modal-footer\">\r\n          <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n          <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"add.emit(addTimeoff)\">Add</button>\r\n        </div>\r\n    </div>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-12\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        TIMEOFF REQUESTS\r\n      </div>\r\n      <div class=\"card-block\" *ngIf=\"isLoaded\">\r\n        <div class=\"form-group float-right\">\r\n          <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#addmodal\">\r\n            Request\r\n          </button>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <table class=\"table table-hover table-outline mb-0 hidden-sm-down\" *ngIf=\"isLoaded\">\r\n            <thead class=\"thead-default\">\r\n              <tr>\r\n                <td class=\"text-center\">User Name <a class=\"fa fa-sort\" (click)=\"order.emit('id')\"></a></td>\r\n                <td class=\"text-center\">Start Date <a class=\"fa fa-sort\" (click)=\"order.emit('FromDate')\"></a></td>\r\n                <td class=\"text-center\">End Date <a class=\"fa fa-sort\" (click)=\"order.emit('ToDate')\"></a></td>\r\n                <td class=\"text-center\">Returning to work <a class=\"fa fa-sort\" (click)=\"order.emit('ReturningToWork')\"></a></td>\r\n                <td class=\"text-center\">Reasone <a class=\"fa fa-sort\" (click)=\"order.emit('Reason')\"></a></td>\r\n                <td class=\"text-center\">Status <a class=\"fa fa-sort\" (click)=\"order.emit('ApprovalStatusId')\"></a></td>\r\n                <td class=\"text-center\">Action </td>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr *ngFor=\"let timeoff of timeoffrequests\">\r\n                <td class=\"text-center\">{{timeoff.UserName}}</td>\r\n                <td class=\"text-center\">{{timeoff.StartDate | date: 'dd/MM/yyyy'}}</td>\r\n                <td class=\"text-center\">{{timeoff.EndDate | date: 'dd/MM/yyyy'}}</td>\r\n                <td class=\"text-center\">{{timeoff.ReturningToWork | date: 'dd/MM/yyyy'}}</td>\r\n                <td class=\"text-center\">{{timeoff.Reasone}}</td>\r\n                <td class=\"text-center\" *ngIf=\"timeoff.Status == 'Canceled'\"><span class=\"badge badge-default timego-status\">{{timeoff.Status}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"timeoff.Status == 'Waiting for Approval'\"><span class=\"badge badge-warning timego-status\">{{timeoff.Status}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"timeoff.Status == 'Denined'\"><span class=\"badge badge-danger timego-status\">{{timeoff.Status}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"timeoff.Status == 'Accepted'\"><span class=\"badge badge-success timego-status\">{{timeoff.Status}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"role == 'Task Manager'\">\r\n                  <button type=\"button\" [disabled]=\"timeoff.Status != 'Waiting for Approval'\" class=\"btn btn-sm btn-success\" (click)=\"changeStatusAction({id: timeoff.Id, status: 'Accepted'})\">Approve</button>\r\n                  <button type=\"button\" [disabled]=\"timeoff.Status != 'Waiting for Approval'\" class=\"btn btn-sm btn-danger\" (click)=\"changeStatusAction({id: timeoff.Id, status: 'Denined'})\">Deny</button>\r\n                </td>\r\n                <td class=\"text-center\" *ngIf=\"role == 'Employee'\">\r\n                  <button type=\"button\" [disabled]=\"timeoff.Status == 'Canceled'\" class=\"btn btn-sm btn-danger\" (click)=\"changeStatusAction({id: timeoff.Id, status: 'Canceled'})\">Cancel</button>\r\n                </td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <pagination [totalItems]=\"pagingModel.count\" [(ngModel)]=\"pagingModel.page\" (pageChanged)=\"changePage.emit({\r\n            orderBy: pagingModel.orderBy,\r\n            page: $event.page,\r\n            pageSize: pagingModel.pageSize,\r\n            IsAscending: !pagingModel.IsAscending,\r\n            count: pagingModel.count,\n            IsOrder: false})\"></pagination>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal fade\" id=\"addmodal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Add Timeoff request\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">Add Timeoff request</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\">\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">Start date</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <!--<ng2-datepicker [(ngModel)]=\"addTimeoff.StartDate\" class=\"col-md-12\"></ng2-datepicker>-->\r\n            <input required [(ngModel)]=\"addTimeoff.StartDate\" type=\"date\" class=\"datepicker\" />\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">End date</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <input required [(ngModel)]=\"addTimeoff.EndDate\" type=\"date\" class=\"datepicker\" />\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">Returning to work</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <input required [(ngModel)]=\"addTimeoff.ReturningToWork\" type=\"date\" class=\"datepicker\" />\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">Reasone</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-note\"></i>\r\n            </span>\r\n            <input type=\"text\" class=\"form-control\" id=\"company-name\" placeholder=\"Reasone\" [(ngModel)]=\"addTimeoff.Reasone\" />\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"addTimeoffAction(addTimeoff)\">Add</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -185,6 +188,14 @@ var TimeoffListComponent = (function () {
     }
     TimeoffListComponent.prototype.ngOnInit = function () {
         this.role = commonServerData.Role;
+    };
+    TimeoffListComponent.prototype.addTimeoffAction = function (model) {
+        this.add.emit(model);
+        this.changePage.emit(this.pagingModel);
+    };
+    TimeoffListComponent.prototype.changeStatusAction = function (model) {
+        this.changeStatus.emit(model);
+        this.changePage.emit(this.pagingModel);
     };
     return TimeoffListComponent;
 }());
@@ -272,7 +283,8 @@ var TimeoffPageComponent = (function () {
             page: 1,
             pageSize: 10,
             IsAscending: true,
-            count: 10
+            count: 10,
+            IsOrder: true
         };
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timeoff__["h" /* GetAction */](pagingModelView));
     };
@@ -282,7 +294,8 @@ var TimeoffPageComponent = (function () {
             page: 1,
             pageSize: 10,
             IsAscending: true,
-            count: 10
+            count: 10,
+            IsOrder: true
         };
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timeoff__["h" /* GetAction */](pagingModelView));
     };
@@ -478,7 +491,8 @@ var initialState = {
         page: 1,
         pageSize: 10,
         IsAscending: true,
-        count: 10
+        count: 10,
+        IsOrder: true
     }
 };
 function reducer(state, action) {
@@ -486,7 +500,7 @@ function reducer(state, action) {
     switch (action.type) {
         case __WEBPACK_IMPORTED_MODULE_0__actions_timeoff__["f" /* GET */]:
             var pagingModel = action.payload;
-            pagingModel.IsAscending = pagingModel != null && pagingModel.orderBy != "id" ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
+            pagingModel.IsAscending = pagingModel.IsOrder ? state.pagingModel.IsAscending : pagingModel != null && pagingModel.orderBy != "id" ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
             {
                 return {
                     timeoffRequests: state.timeoffRequests,
@@ -506,7 +520,8 @@ function reducer(state, action) {
                     count: loadedTimeoffRequests.Count,
                     orderBy: state.pagingModel.orderBy,
                     page: state.pagingModel.page,
-                    pageSize: state.pagingModel.pageSize
+                    pageSize: state.pagingModel.pageSize,
+                    IsOrder: true
                 }
             };
         }

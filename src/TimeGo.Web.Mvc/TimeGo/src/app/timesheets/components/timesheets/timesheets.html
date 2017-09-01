@@ -2,11 +2,11 @@
   <div class="col-md-8 push-md-2">
     <div class="card">
       <div class="card-header">
-        Timesheets
+        TIMESHEETS
       </div>
       <div class="card-block">
         <div class="form-group row">
-            <h5 class="col-md-1">Period</h5>
+            <h5 class="col-md-1 timego-center">Period</h5>
             <select (change)="selectPeriod.emit($event.target.value)" [(ngModel)]="periodId" class="form-control col-md-3">
               <option [value]="0">none</option>
               <option [value]="period.Id" *ngFor="let period of periods">{{period.PeriodStart | date: 'EEE d-MMM'}} to {{period.PeriodEnd | date: 'EEE d-MMM'}}</option>
@@ -49,9 +49,9 @@
           </div>
           <div class="row form-group" *ngIf="isLoaded">
             <label class="col-md-1">Notes: </label>
-            <textarea rows="4" class="col-md-7" cols="50" [(ngModel)]="timesheets.EmployeeNotes"></textarea>
+            <textarea rows="4" class="col-md-11" cols="50" [(ngModel)]="timesheets.EmployeeNotes"></textarea>
           </div>
-          <div class="row col-md-2 form-group">
+          <div class="form-group float-right">
             <button type="button" class="btn btn-primary" (click)="save.emit({Period: periodId, Timesheets: timesheets})">Save</button>
           </div>
         </div>

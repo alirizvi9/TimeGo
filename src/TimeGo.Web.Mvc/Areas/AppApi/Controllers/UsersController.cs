@@ -31,8 +31,7 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
             var user = _authorizationService.GetUser();
             if (user.CompanyId == null)
                 return Success();
-            var employees = _employeeService.GetPage(model.SortExpression, model.Page, model.PageSize).ToList();
-            var result = Mapper.Map<List<UsersListItemViewModel>>(employees);
+            var result = _employeeService.GetPage(user, model.SortExpression, model.Page, model.PageSize);
             return Success(result);
         }
     }

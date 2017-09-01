@@ -62,7 +62,8 @@ var SaveCompleteAction = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__users_list_users_list__ = __webpack_require__("../../../../../src/app/users/components/users-list/users-list.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap_pagination__ = __webpack_require__("../../../../ngx-bootstrap/pagination/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__users_list_users_list__ = __webpack_require__("../../../../../src/app/users/components/users-list/users-list.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -74,8 +75,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var COMPONENTS = [
-    __WEBPACK_IMPORTED_MODULE_4__users_list_users_list__["a" /* UsersListComponent */]
+    __WEBPACK_IMPORTED_MODULE_5__users_list_users_list__["a" /* UsersListComponent */]
 ];
 var ComponentsModule = (function () {
     function ComponentsModule() {
@@ -85,6 +87,7 @@ var ComponentsModule = (function () {
 ComponentsModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
         imports: [
+            __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap_pagination__["a" /* PaginationModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* ReactiveFormsModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
@@ -102,7 +105,7 @@ ComponentsModule = __decorate([
 /***/ "../../../../../src/app/users/components/users-list/users-list.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-12\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        Employees\r\n      </div>\r\n      <div class=\"card-block\" *ngIf=\"isLoaded\">\r\n        <table class=\"table table-hover table-outline mb-0 hidden-sm-down\" *ngIf=\"isLoaded\">\r\n          <thead class=\"thead-default\">\r\n            <tr>\r\n              <td class=\"text-center\">Employee Id <a class=\"fa fa-sort\" (click)=\"order.emit('id')\"></a></td>\r\n              <td class=\"text-center\">First Name <a class=\"fa fa-sort\" (click)=\"order.emit('FirstName')\"></a></td>\r\n              <td class=\"text-center\">Last Name <a class=\"fa fa-sort\" (click)=\"order.emit('LastName')\"></a></td>\r\n              <td class=\"text-center\">Email <a class=\"fa fa-sort\" (click)=\"order.emit('EmailAddress')\"></a></td>\r\n              <td class=\"text-center\">Phone <a class=\"fa fa-sort\" (click)=\"order.emit('PhoneNumber')\"></a></td>\r\n              <td class=\"text-center\">Last4SS <a class=\"fa fa-sort\" (click)=\"order.emit('SocialSecurityNumber')\"></a></td>\r\n              <td class=\"text-center\">IsAdmin? <a class=\"fa fa-sort\" (click)=\"order.emit('IsAdmin')\"></a></td>\r\n              <td class=\"text-center\">IsActive? <a class=\"fa fa-sort\" (click)=\"order.emit('IsActive')\"></a></td>\r\n              <td class=\"text-center\">Calculate Overtime? <a class=\"fa fa-sort\" (click)=\"order.emit('IsOvertimeCalculated')\"></a></td>\r\n            </tr>\r\n          </thead>\r\n          <tbody>\r\n            <tr *ngFor=\"let user of users\">\r\n              <td class=\"text-center\">{{user.Id}}</td>\r\n              <td class=\"text-center\">{{user.FirstName}}</td>\r\n              <td class=\"text-center\">{{user.LastName}}</td>\r\n              <td class=\"text-center\">{{user.Email}}</td>\r\n              <td class=\"text-center\">{{user.Phone}}</td>\r\n              <td class=\"text-center\">{{user.Last4Ss}}</td>\r\n              <td class=\"text-center\">{{user.IsAdmin ? 'Yes' : 'No'}}</td>\r\n              <td class=\"text-center\">{{user.IsActive ? 'Yes' : 'No'}}</td>\r\n              <td class=\"text-center\">{{user.IsOvertimeCalculated ? 'Yes' : 'No'}}</td>\r\n            </tr>\r\n          </tbody>\r\n        </table>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-12\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        EMPLOYEES\r\n      </div>\r\n      <div class=\"card-block\" *ngIf=\"isLoaded\">\n        <div class=\"form-group\">\r\n          <table class=\"table table-hover table-outline mb-0 hidden-sm-down\" *ngIf=\"isLoaded\">\r\n            <thead class=\"thead-default\">\r\n              <tr>\r\n                <td class=\"text-center\">Employee Id <a class=\"fa fa-sort\" (click)=\"order.emit('id')\"></a></td>\r\n                <td class=\"text-center\">First Name <a class=\"fa fa-sort\" (click)=\"order.emit('FirstName')\"></a></td>\r\n                <td class=\"text-center\">Last Name <a class=\"fa fa-sort\" (click)=\"order.emit('LastName')\"></a></td>\r\n                <td class=\"text-center\">Email <a class=\"fa fa-sort\" (click)=\"order.emit('EmailAddress')\"></a></td>\r\n                <td class=\"text-center\">Phone <a class=\"fa fa-sort\" (click)=\"order.emit('PhoneNumber')\"></a></td>\r\n                <td class=\"text-center\">Last 4 SS <a class=\"fa fa-sort\" (click)=\"order.emit('SocialSecurityNumber')\"></a></td>\r\n                <td class=\"text-center\">Is Admin? <a class=\"fa fa-sort\" (click)=\"order.emit('IsAdmin')\"></a></td>\r\n                <td class=\"text-center\">Is Active? <a class=\"fa fa-sort\" (click)=\"order.emit('IsActive')\"></a></td>\r\n                <td class=\"text-center\">Calculate Overtime? <a class=\"fa fa-sort\" (click)=\"order.emit('IsOvertimeCalculated')\"></a></td>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr *ngFor=\"let user of users\">\r\n                <td class=\"text-center\">{{user.Id}}</td>\r\n                <td class=\"text-center\">{{user.FirstName}}</td>\r\n                <td class=\"text-center\">{{user.LastName}}</td>\r\n                <td class=\"text-center\">{{user.Email}}</td>\r\n                <td class=\"text-center\">{{user.Phone}}</td>\r\n                <td class=\"text-center\">{{user.Last4Ss}}</td>\r\n                <td class=\"text-center\" *ngIf=\"user.IsAdmin\"><span class=\"badge badge-success timego-status\">{{user.IsAdmin ? 'Yes' : 'No'}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"!user.IsAdmin\"><span class=\"badge badge-danger timego-status\">{{user.IsAdmin ? 'Yes' : 'No'}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"user.IsActive\"><span class=\"badge badge-success timego-status\">{{user.IsActive ? 'Yes' : 'No'}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"!user.IsActive\"><span class=\"badge badge-danger timego-status\">{{user.IsActive ? 'Yes' : 'No'}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"user.IsOvertimeCalculated\"><span class=\"badge badge-success timego-status\">{{user.IsOvertimeCalculated ? 'Yes' : 'No'}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"!user.IsOvertimeCalculated\"><span class=\"badge badge-danger timego-status\">{{user.IsOvertimeCalculated ? 'Yes' : 'No'}}</span></td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <pagination [totalItems]=\"pagingModel.count\" [(ngModel)]=\"pagingModel.page\" (pageChanged)=\"changePage.emit({\r\n            orderBy: pagingModel.orderBy,\r\n            page: $event.page,\r\n            pageSize: pagingModel.pageSize,\r\n            IsAscending: pagingModel.IsAscending,\r\n            count: pagingModel.count,\n            IsOrder: false})\"></pagination>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -130,6 +133,8 @@ module.exports = module.exports.toString();
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UsersListComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_users_list_paging_model__ = __webpack_require__("../../../../../src/app/users/models/users-list-paging.model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_users_list_paging_model___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__models_users_list_paging_model__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -140,11 +145,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var UsersListComponent = (function () {
     function UsersListComponent() {
         this.isLoaded = false;
         this.loading = false;
         this.order = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.changePage = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
     }
     return UsersListComponent;
 }());
@@ -161,9 +168,17 @@ __decorate([
     __metadata("design:type", Boolean)
 ], UsersListComponent.prototype, "loading", void 0);
 __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__models_users_list_paging_model__["UsersListPagingModel"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__models_users_list_paging_model__["UsersListPagingModel"]) === "function" && _a || Object)
+], UsersListComponent.prototype, "pagingModel", void 0);
+__decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
     __metadata("design:type", Object)
 ], UsersListComponent.prototype, "order", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+    __metadata("design:type", Object)
+], UsersListComponent.prototype, "changePage", void 0);
 UsersListComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
         selector: 'up-users-list',
@@ -172,6 +187,7 @@ UsersListComponent = __decorate([
     })
 ], UsersListComponent);
 
+var _a;
 //# sourceMappingURL=users-list.js.map
 
 /***/ }),
@@ -214,7 +230,9 @@ var UsersPageComponent = (function () {
             orderBy: "id",
             page: 1,
             pageSize: 10,
-            IsAscending: true
+            IsAscending: true,
+            count: 1,
+            IsOrder: true
         };
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_users__["c" /* GetAction */](pagingModelView));
     };
@@ -223,9 +241,14 @@ var UsersPageComponent = (function () {
             orderBy: orderBy,
             page: 1,
             pageSize: 10,
-            IsAscending: true
+            IsAscending: true,
+            count: 1,
+            IsOrder: true
         };
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_users__["c" /* GetAction */](pagingModelView));
+    };
+    UsersPageComponent.prototype.changePage = function (model) {
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_users__["c" /* GetAction */](model));
     };
     return UsersPageComponent;
 }());
@@ -233,7 +256,7 @@ UsersPageComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["o" /* Component */])({
         selector: 'users-page',
         changeDetection: __WEBPACK_IMPORTED_MODULE_1__angular_core__["k" /* ChangeDetectionStrategy */].OnPush,
-        template: "\n    <up-users-list [users]=\"users$ | async\" [isLoaded]=\"isLoaded$ | async\" [loading]=\"loading$ | async\" (order)=\"orderUser($event)\"></up-users-list>\n  ",
+        template: "\n    <up-users-list [users]=\"users$ | async\" [pagingModel]=\"pagingModel$ | async\" [isLoaded]=\"isLoaded$ | async\" [loading]=\"loading$ | async\" (order)=\"orderUser($event)\" (changePage)=\"changePage($event)\"></up-users-list>\n  ",
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object])
 ], UsersPageComponent);
@@ -322,6 +345,13 @@ var _a, _b, _c;
 
 /***/ }),
 
+/***/ "../../../../../src/app/users/models/users-list-paging.model.ts":
+/***/ (function(module, exports) {
+
+//# sourceMappingURL=users-list-paging.model.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/users/reducers/index.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -370,7 +400,9 @@ var initialState = {
         orderBy: "id",
         page: 1,
         pageSize: 10,
-        IsAscending: true
+        IsAscending: true,
+        count: 1,
+        IsOrder: true
     }
 };
 function reducer(state, action) {
@@ -378,7 +410,7 @@ function reducer(state, action) {
     switch (action.type) {
         case __WEBPACK_IMPORTED_MODULE_0__actions_users__["a" /* GET */]:
             var pagingModel = action.payload;
-            pagingModel.IsAscending = pagingModel != null ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
+            pagingModel.IsAscending = !pagingModel.IsOrder ? state.pagingModel.IsAscending : pagingModel != null ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
             {
                 return {
                     users: state.users,
@@ -390,10 +422,17 @@ function reducer(state, action) {
         case __WEBPACK_IMPORTED_MODULE_0__actions_users__["b" /* GET_COMPLETE */]: {
             var loadedUsers = action.payload;
             return {
-                users: loadedUsers,
+                users: loadedUsers.Results,
                 isLoaded: true,
                 loading: false,
-                pagingModel: state.pagingModel
+                pagingModel: {
+                    IsAscending: state.pagingModel.IsAscending,
+                    count: loadedUsers.Count,
+                    orderBy: state.pagingModel.orderBy,
+                    page: state.pagingModel.page,
+                    pageSize: state.pagingModel.pageSize,
+                    IsOrder: true
+                }
             };
         }
         default: {

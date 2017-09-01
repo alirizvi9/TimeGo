@@ -14,8 +14,9 @@ import { of } from 'rxjs/observable/of';
 
 import { UsersService } from '../users.service';
 import * as usersActions from '../actions/users';
-import {UsersListItem} from '../models/users-list-item.model'
-import {UsersListPagingModel} from '../models/users-list-paging.model'
+import { UsersListItem } from '../models/users-list-item.model';
+import { UsersList } from '../models/user-list.model';
+import { UsersListPagingModel } from '../models/users-list-paging.model';
 
 @Injectable()
 export class UsersEffects {
@@ -28,7 +29,7 @@ export class UsersEffects {
             return this.usersService
                 .getUsersList(query)
                 .takeUntil(nextGet$)
-                .map((users: UsersListItem[]) => new usersActions.GetCompleteAction(users))
+                .map((users: UsersList) => new usersActions.GetCompleteAction(users))
                 .catch(() => of(new usersActions.GetCompleteAction(null)));
         });
 
