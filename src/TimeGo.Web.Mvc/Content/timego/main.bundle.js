@@ -8,9 +8,10 @@ var map = {
 		"../../../../../src/app/dashboard/dashboard.module.ts",
 		"dashboard.module"
 	],
-	"./periods/periods.module": [
-		"../../../../../src/app/periods/periods.module.ts",
-		"periods.module"
+	"./periods/period.module": [
+		"../../../../../src/app/periods/period.module.ts",
+		"common",
+		"period.module"
 	],
 	"./profile/profile.module": [
 		"../../../../../src/app/profile/profile.module.ts",
@@ -22,8 +23,8 @@ var map = {
 	],
 	"./timeoff/timeoff.module": [
 		"../../../../../src/app/timeoff/timeoff.module.ts",
-		"timeoff.module",
-		"common"
+		"common",
+		"timeoff.module"
 	],
 	"./timesheets/timesheets.module": [
 		"../../../../../src/app/timesheets/timesheets.module.ts",
@@ -31,8 +32,8 @@ var map = {
 	],
 	"./users/users.module": [
 		"../../../../../src/app/users/users.module.ts",
-		"users.module",
-		"common"
+		"common",
+		"users.module"
 	]
 };
 function webpackAsyncContext(req) {
@@ -318,7 +319,7 @@ var routes = [
             },
             {
                 path: 'periods',
-                loadChildren: './periods/periods.module#PeriodsModule'
+                loadChildren: './periods/period.module#PeriodModule'
             },
             {
                 path: 'profile',

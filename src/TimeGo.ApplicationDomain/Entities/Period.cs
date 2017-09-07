@@ -17,9 +17,11 @@ namespace TimeGo.ApplicationDomain.Entities
         public DateTime? PeriodEnd { get; set; }
         public DateTime? Reminder1Date { get; set; }
         public DateTime? Reminder2Date { get; set; }
+        public long LockStatusId { get; set; }
         public int PeriodStatusId { get; set; }
         public virtual Company Company { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual ICollection<Timesheet> Timesheet { get; set; }
+        public virtual LockStatus LockStatus { get; set; }
     }
 }

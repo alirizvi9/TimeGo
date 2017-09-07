@@ -17,8 +17,8 @@ namespace TimeGo.ApplicationDomain.Entities
         public string EmployeeNotes { get; set; }
         public string ApproverNotes { get; set; }
         public long ApprovalStatusId { get; set; }
-        public long LockStatusId { get; set; }
         public long? RevisedById { get; set; }
+        public long LockStatusId { get; set; }
         public long? ApprovedById { get; set; }
         public DateTime? SavedOn { get; set; }
         public DateTime? SubmittedOn { get; set; }
@@ -29,8 +29,8 @@ namespace TimeGo.ApplicationDomain.Entities
         public virtual Employee Employee { get; set; }
         public virtual Employee RevisedBy { get; set; }
         public virtual Employee ApprovedBy { get; set; }
-        public virtual LockStatus LockStatus { get; set; }
         public virtual Period Period { get; set; }
         public virtual ICollection<TimesheetLine> TimesheetLines { get; set; }
+        public virtual LockStatus LockStatus { get; set; }
     }
 }

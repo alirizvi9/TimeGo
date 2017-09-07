@@ -205,35 +205,40 @@ namespace TimeGo.ApplicationDomain.DbInitialization
         {
             var approvalStatus = _repository.Find<ApprovalStatus>(x => x.Id == 4).SingleOrDefault();
 
-            var newTimeoffRequest = new TimeoffRequest()
+            for (var i = 1; i < 7; i++)
             {
-                ReturningToWork = DateTime.Now,
-                ToDate = DateTime.Now,
-                FromDate = DateTime.Now,
-                EmployeeId = _employeeTestcompany.Id,
-                CompanyId = _testCompany.Id,
-                Reason = "Test",
-                ApprovalStatusId = approvalStatus.Id,
-                ApprovedById = _taskManagerTestcompany.Id,
-                ModifiedOn = DateTime.Now,
-            };
+                var newTimeoffRequest = new TimeoffRequest()
+                {
+                    ReturningToWork = DateTime.Now,
+                    ToDate = DateTime.Now,
+                    FromDate = DateTime.Now,
+                    EmployeeId = _employeeTestcompany.Id,
+                    CompanyId = _testCompany.Id,
+                    Reason = "Test employee 1 request " + i,
+                    ApprovalStatusId = approvalStatus.Id,
+                    ApprovedById = _taskManagerTestcompany.Id,
+                    ModifiedOn = DateTime.Now,
+                };
+                _repository.Add(newTimeoffRequest);
+            }
 
-            _repository.Add(newTimeoffRequest);
-
-            var newTimeoffRequest2 = new TimeoffRequest()
+            for (var i = 1; i < 7; i++)
             {
-                ReturningToWork = DateTime.Now,
-                ToDate = DateTime.Now,
-                FromDate = DateTime.Now,
-                EmployeeId = _secondEmployeeTestcompany.Id,
-                CompanyId = _testCompany.Id,
-                Reason = "Test 2",
-                ApprovalStatusId = approvalStatus.Id,
-                ApprovedById = _taskManagerTestcompany.Id,
-                ModifiedOn = DateTime.Now,
-            };
+                var newTimeoffRequest = new TimeoffRequest()
+                {
+                    ReturningToWork = DateTime.Now,
+                    ToDate = DateTime.Now,
+                    FromDate = DateTime.Now,
+                    EmployeeId = _secondEmployeeTestcompany.Id,
+                    CompanyId = _testCompany.Id,
+                    Reason = "Test employee 2 request " + i,
+                    ApprovalStatusId = approvalStatus.Id,
+                    ApprovedById = _taskManagerTestcompany.Id,
+                    ModifiedOn = DateTime.Now,
+                };
+                _repository.Add(newTimeoffRequest);
+            }
 
-            _repository.Add(newTimeoffRequest2);
             _repository.Save();
         }
 
@@ -259,7 +264,7 @@ namespace TimeGo.ApplicationDomain.DbInitialization
                 Code = "XXX1",
                 IsAdmin = true,
                 IsActive = true,
-                IsOvertimeCalculated = true,
+                IsOvertimeCalculated = false,
                 Company = _testCompany,
                 Role = managerRole
             };
@@ -275,9 +280,9 @@ namespace TimeGo.ApplicationDomain.DbInitialization
                 PhoneNumber = "7327572923",
                 SocialSecurityNumber = "1111111",
                 Code = "XXX1",
-                IsAdmin = true,
+                IsAdmin = false,
                 IsActive = true,
-                IsOvertimeCalculated = true,
+                IsOvertimeCalculated = false,
                 Company = _testCompany,
                 Role = employeeRole
             };
@@ -294,8 +299,8 @@ namespace TimeGo.ApplicationDomain.DbInitialization
                 PhoneNumber = "7327572923",
                 SocialSecurityNumber = "1111111",
                 Code = "XXX1",
-                IsAdmin = true,
-                IsActive = true,
+                IsAdmin = false,
+                IsActive = false,
                 IsOvertimeCalculated = true,
                 Company = _testCompany,
                 Role = employeeRole
@@ -347,12 +352,14 @@ namespace TimeGo.ApplicationDomain.DbInitialization
 
         private static void CreatePeriods()
         {
+            var lockStatus = _repository.Find<LockStatus>(x => x.LockStatusType == "Locked").FirstOrDefault();
             var period = new Period()
             {
                 Company = _testCompany,
                 Employee = _taskManagerTestcompany,
                 PeriodStart = new DateTime(2017, 8, 24),
-                PeriodEnd = new DateTime(2017, 9, 1)
+                PeriodEnd = new DateTime(2017, 9, 1),
+                LockStatusId = lockStatus.Id
             };
             _repository.Add(period);
             _repository.Save();

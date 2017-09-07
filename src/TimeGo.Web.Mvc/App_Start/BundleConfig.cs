@@ -41,7 +41,7 @@ namespace TimeGo.Web.Mvc
                     "~/Content/timego/main.bundle.js",
                     "~/Content/timego/common.chunk.js",
                     "~/Content/timego/dashboard.module.chunk.js",
-                    "~/Content/timego/periods.module.chunk.js",
+                    "~/Content/timego/period.module.chunk.js",
                     "~/Content/timego/profile.module.chunk.js",
                     "~/Content/timego/tasks.module.chunk.js",
                     "~/Content/timego/timeoff.module.chunk.js",

@@ -17,10 +17,6 @@ namespace TimeGo.ApplicationDomain.Entities.Mappings
             HasMany(x => x.Timesheet)
                 .WithRequired(x => x.LockStatus)
                 .WillCascadeOnDelete(false);
-
-            HasMany(x => x.TimesheetLine)
-                .WithRequired(x => x.LockStatus)
-                .WillCascadeOnDelete(false);
         }
     }
 }

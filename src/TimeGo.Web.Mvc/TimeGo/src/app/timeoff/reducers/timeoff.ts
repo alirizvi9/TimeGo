@@ -32,7 +32,7 @@ export function reducer(
     switch (action.type) {
         case timeoffActions.GET:
             const pagingModel = action.payload as TimeoffListPagingModel;
-            pagingModel.IsAscending = pagingModel.IsOrder ? state.pagingModel.IsAscending : pagingModel != null && pagingModel.orderBy != "id" ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
+            pagingModel.IsAscending = !pagingModel.IsOrder ? state.pagingModel.IsAscending : pagingModel != null && pagingModel.orderBy != "id" ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
             {
                 return {
                     timeoffRequests: state.timeoffRequests,

@@ -4,6 +4,8 @@ import { Period } from '../../models/period.model'
 import { AddModel } from '../../models/add.model'
 import { Task } from '../../models/task.model'
 import { TimesheetsLine } from '../../models/timesheets-line.model'
+import { UsersListItem } from '../../../users/models/users-list-item.model'
+import { SelectModel } from '../../models/select-period.model'
 import { DatePipe } from '@angular/common';
 declare var commonServerData: any;
 
@@ -19,13 +21,22 @@ export class TimesheetsComponent {
     @Input() loading: boolean = false;
     @Input() periods: Period[];
     @Input() tasks: Task[];
-    @Output() selectPeriod = new EventEmitter<number>();
+    @Input() users: UsersListItem[];
+    @Output() selectPeriod = new EventEmitter<SelectModel>();
     @Output() addLine = new EventEmitter<Date>();
     @Output() save = new EventEmitter<AddModel>();
+    @Output() submite = new EventEmitter<number>();
+    @Output() approve = new EventEmitter<number>();
+    @Output() unlock = new EventEmitter<number>();
+    @Output() delete = new EventEmitter<TimesheetsLine>();
+
+    role: string;
     public periodId: number;
+    public userId: number;
     public mytime: Date = new Date();
 
     ngOnInit() {
+        this.role = commonServerData.Role;
     }
 
     public totalLineTimeHr(line: TimesheetsLine): number

@@ -7,9 +7,14 @@
       <div class="card-block">
         <div class="form-group row">
             <h5 class="col-md-1 timego-center">Period</h5>
-            <select (change)="selectPeriod.emit($event.target.value)" [(ngModel)]="periodId" class="form-control col-md-3">
+            <select (change)="selectPeriod.emit({periodId: $event.target.value, userId: userId})" [(ngModel)]="periodId" class="form-control col-md-3">
               <option [value]="0">none</option>
               <option [value]="period.Id" *ngFor="let period of periods">{{period.PeriodStart | date: 'EEE d-MMM'}} to {{period.PeriodEnd | date: 'EEE d-MMM'}}</option>
+            </select>
+            <h5 class="col-md-2 timego-center" *ngIf="role == 'Task Manager'">Employees</h5>
+            <select *ngIf="role == 'Task Manager'" (change)="selectPeriod.emit({periodId: periodId, userId: $event.target.value})" [(ngModel)]="userId" class="form-control col-md-3">
+              <option [value]="0">none</option>
+              <option [value]="user.Id" *ngFor="let user of users">{{user.FirstName}} {{user.LastName}}</option>
             </select>
         </div>
         <div *ngIf="isLoaded && timesheets != null" class="form-group">
@@ -27,10 +32,18 @@
                 <i class="fa fa-arrows-h fa-lg timego-rangetimepiker-icon"></i>
                 <timepicker [(ngModel)]="line.EndTime" [min]="line.StartTime" [mousewheel]="false" [showMeridian]="false" [arrowkeys]="false" [showSpinners]="false" class="timego-timepicker"></timepicker>
               </div>
-              <div class="col-md-2 timego-center">
+              <div class="col-md-1 timego-center">
                 <b>
                   {{totalLineTimeHr(line)}} h {{totalLineTimeMin(line)}} m
                 </b>
+              </div>
+              <div class="col-md-1">
+                <button type="button" class="btn btn-danger" 
+                        *ngIf="!((i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date) && (i === 0 || timesheets.Lines[i].Date != timesheets.Lines[i-1].Date))" 
+                        (click)="delete.emit(line)"><i class="fa fa-remove"></i> Delete</button>
+                <button type="button" class="btn btn-danger" 
+                        *ngIf="(i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date) && (i === 0 || timesheets.Lines[i].Date != timesheets.Lines[i-1].Date)" 
+                        (click)="delete.emit(line)" disabled><i class="fa fa-remove"></i> Delete</button>
               </div>
             </div>
             <div class="row form-group border-bottom" *ngIf="i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date">
@@ -47,12 +60,36 @@
               Total time: {{totalTimeHr(timesheets.Lines)}} h {{totalTimeMin(timesheets.Lines)}} m
             </h5>
           </div>
-          <div class="row form-group" *ngIf="isLoaded">
-            <label class="col-md-1">Notes: </label>
-            <textarea rows="4" class="col-md-11" cols="50" [(ngModel)]="timesheets.EmployeeNotes"></textarea>
+          <div class="row form-group" *ngIf="isLoaded && role == 'Employee'">
+            <label class="col-md-1">Employee Notes: </label>
+            <textarea rows="4" class="col-md-10" cols="50" [(ngModel)]="timesheets.EmployeeNotes"></textarea>
+          </div>
+          <div class="row form-group" *ngIf="isLoaded && role == 'Task Manager'">
+            <label class="col-md-1">Employee Notes: {{timesheets.EmployeeNotes}}</label>
+          </div>
+          <div class="row form-group" *ngIf="isLoaded && role == 'Task Manager'">
+            <label class="col-md-1">Approver Notes: </label>
+            <textarea rows="4" class="col-md-10" cols="50" [(ngModel)]="timesheets.ApproverNotes"></textarea>
+          </div>
+          <div class="row form-group" *ngIf="isLoaded && role == 'Task Manager'">
+            <div class="checkbox push-md-1 col-md-3">
+              <label>
+                Locked for User: <input type="checkbox" [(ngModel)]="timesheets.Lock" >
+              </label>
+            </div>
           </div>
           <div class="form-group float-right">
-            <button type="button" class="btn btn-primary" (click)="save.emit({Period: periodId, Timesheets: timesheets})">Save</button>
+            <button type="button" class="btn btn-primary" (click)="save.emit({Period: periodId, Timesheets: timesheets})">Approve</button>
+            <button type="button" class="btn btn-primary" *ngIf="isLoaded && role == 'Task Manager'" (click)="submit.emit(timesheets.Id)">Request Resubmit</button>
+            <button type="button" class="btn btn-primary" *ngIf="isLoaded && role == 'Employee'" [disabled]="timesheets.Lock" (click)="submit.emit(timesheets.Id)">Submit</button>
+            <button type="button" class="btn btn-primary" *ngIf="isLoaded && role == 'Employee'" [disabled]="timesheets.Lock" (click)="unlock.emit(timesheets.Id)">Request to Unlock</button>
+            <button type="button" class="btn btn-primary" (click)="approve.emit(timesheets.Id)">Save</button>
+          </div>
+          <div class="row form-group" *ngIf="isLoaded && role == 'Employee'">
+            <label class="col-md-10">Submited on: {{timesheets.SubmittedOn | date: 'd-MMM-yy'}}</label>
+          </div>
+          <div class="row form-group" *ngIf="isLoaded && role == 'Employee'">
+            <label class="col-md-10">Employee Notes: {{timesheets.ApproverNotes}}</label>
           </div>
         </div>
       </div>

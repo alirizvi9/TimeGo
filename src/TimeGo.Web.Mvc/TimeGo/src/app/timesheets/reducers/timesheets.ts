@@ -3,6 +3,7 @@ import { Timesheets } from '../models/timesheets.model'
 import { Period } from '../models/period.model'
 import { Task } from '../models/task.model'
 import { TimesheetsLine } from '../models/timesheets-line.model'
+import { UsersListItem } from '../../users/models/users-list-item.model'
 import * as timesheetsActions from '../actions/timesheets';
 
 export interface State {
@@ -12,6 +13,7 @@ export interface State {
     isLoaded: boolean;
     loading: boolean;
     tasks: Task[];
+    users: UsersListItem[];
 }
 
 export const initialState: State = {
@@ -20,7 +22,8 @@ export const initialState: State = {
     loading: false,
     periods: [],
     periodId: 0,
-    tasks: []
+    tasks: [],
+    users: []
 };
 
 export function reducer(
@@ -37,7 +40,8 @@ export function reducer(
                     loading: true,
                     periods: state.periods,
                     periodId: periodId,
-                    tasks: state.tasks
+                    tasks: state.tasks,
+                    users: state.users
                 };
             }
 
@@ -49,7 +53,8 @@ export function reducer(
                 loading: false,
                 periods: state.periods,
                 periodId: state.periodId,
-                tasks: state.tasks
+                tasks: state.tasks,
+                users: state.users
             };
         }
 
@@ -61,7 +66,8 @@ export function reducer(
                     loading: false,
                     periods: state.periods,
                     periodId: state.periodId,
-                    tasks: state.tasks
+                    tasks: state.tasks,
+                    users: state.users
                 };
             }
 
@@ -73,7 +79,8 @@ export function reducer(
                 loading: false,
                 periods: periods,
                 periodId: state.periodId,
-                tasks: state.tasks
+                tasks: state.tasks,
+                users: state.users
             };
         }
         case timesheetsActions.GET_Tasks:
@@ -84,7 +91,8 @@ export function reducer(
                     loading: false,
                     periods: state.periods,
                     periodId: state.periodId,
-                    tasks: state.tasks
+                    tasks: state.tasks,
+                    users: state.users
                 };
             }
 
@@ -96,7 +104,21 @@ export function reducer(
                 loading: false,
                 periods: state.periods,
                 periodId: state.periodId,
-                tasks: tasks
+                tasks: tasks,
+                users: state.users
+            };
+        }
+
+        case timesheetsActions.GET_USERS_COMPLETE: {
+            const users = action.payload as UsersListItem[];
+            return {
+                timesheet: state.timesheet,
+                isLoaded: true,
+                loading: false,
+                periods: state.periods,
+                periodId: state.periodId,
+                tasks: state.tasks,
+                users: users
             };
         }
 
@@ -131,10 +153,31 @@ export function reducer(
                 loading: false,
                 periods: state.periods,
                 periodId: state.periodId,
-                tasks: state.tasks
+                tasks: state.tasks,
+                users: state.users
             };
         }
 
+
+        case timesheetsActions.DELETE: {
+            const line = action.payload as TimesheetsLine;
+            let lines = state.timesheet.Lines;
+            let index = lines.indexOf(line, 0);
+            if (index > -1) {
+                lines.splice(index, 1);
+            }
+            const timesheet = state.timesheet;
+            timesheet.Lines = lines;
+            return {
+                timesheet: timesheet,
+                isLoaded: true,
+                loading: false,
+                periods: state.periods,
+                periodId: state.periodId,
+                tasks: state.tasks,
+                users: state.users
+            };
+        }
         default: {
             return state;
         }
@@ -146,5 +189,7 @@ export const getLoadingStatus = (state: State) => state.loading;
 export const getIsLoadedStatus = (state: State) => state.isLoaded;
 export const getTimesheet = (state: State) => state.timesheet;
 export const getTasks = (state: State) => state.tasks;
+export const getUsers = (state: State) => state.users;
+
 
 

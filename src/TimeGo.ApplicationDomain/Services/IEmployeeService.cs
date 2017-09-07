@@ -12,5 +12,6 @@ namespace TimeGo.ApplicationDomain.Services
         ResultsModel<UsersListItemViewModel> GetPage(Employee user, string sortExpression, int page, int pageSize);
         IEnumerable<Employee> GetPage(string sortExpression, int page, int pageSize);
         void DeleteEmployee(long id);
+        IEnumerable<UsersListItemViewModel> Get(Employee user);
     }
 }

@@ -197,6 +197,7 @@
     <Compile Include="Models\Email\ConfirmEmailModel.cs" />
     <Compile Include="Models\Email\ForgotPasswordEmailModel.cs" />
     <Compile Include="Models\PagingModel.cs" />
+    <Compile Include="Models\Period\AddPeriodViewModel.cs" />
     <Compile Include="Models\Period\PeriodViewModel.cs" />
     <Compile Include="Models\ResultsModel.cs" />
     <Compile Include="Models\SignUpRequest.cs" />
@@ -229,8 +230,10 @@
     <Compile Include="Services\Implementation\EmailService.cs" />
     <Compile Include="Services\Implementation\EmployeeService.cs" />
     <Compile Include="Services\Implementation\HttpContextProvider.cs" />
+    <Compile Include="Services\Implementation\PeriodService.cs" />
     <Compile Include="Services\Implementation\TimeoffService.cs" />
     <Compile Include="Services\Implementation\TimesheetsService.cs" />
+    <Compile Include="Services\IPeriodService.cs" />
     <Compile Include="Services\ITimeoffService.cs" />
     <Compile Include="Services\ITimesheetsService.cs" />
     <Compile Include="SignalR\ICollaborationHub.cs" />

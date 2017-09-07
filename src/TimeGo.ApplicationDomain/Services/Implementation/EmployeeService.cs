@@ -23,6 +23,13 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             return _repository.Find<Employee>();
         }
 
+        public IEnumerable<UsersListItemViewModel> Get(Employee user)
+        {
+            var company = _repository.Find<Company>(x => x.Id == user.CompanyId).Single();
+            var items = _repository.Find<Employee>(x => company.Id == x.CompanyId);
+            return Mapper.Map<List<UsersListItemViewModel>>(items);
+        }
+
         public IEnumerable<Employee> GetPage(string sortExpression, int page, int pageSize)
         {
             return _repository.Find<Employee>().OrderBy(sortExpression).Skip(pageSize * (page - 1)).Take(pageSize);

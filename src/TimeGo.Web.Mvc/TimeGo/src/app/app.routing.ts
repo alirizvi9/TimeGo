@@ -36,7 +36,7 @@ export const routes: Routes = [
       ,
       {
         path: 'periods',
-        loadChildren: './periods/periods.module#PeriodsModule'
+        loadChildren: './periods/period.module#PeriodModule'
       },
       {
           path: 'profile',

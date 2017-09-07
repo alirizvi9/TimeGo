@@ -52,3 +52,8 @@ export const getTasks = createSelector(
     getTimesheetsEntityState,
     fromTimesheets.getTasks
 );
+
+export const getUsers = createSelector(
+    getTimesheetsEntityState,
+    fromTimesheets.getUsers
+);

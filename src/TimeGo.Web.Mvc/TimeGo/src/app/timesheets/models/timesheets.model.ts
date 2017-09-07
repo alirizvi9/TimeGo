@@ -7,5 +7,9 @@ export interface Timesheets {
     ApprovalStatus: string;
     SubmittedOn: Date;
     ApprovedOn: Date;
+    RevisedOn: Date;
+    ApprovedBy: string;
+    RevisedBy: string;
+    Lock: boolean;
     Id: number;
 }

@@ -65,6 +65,7 @@ namespace TimeGo.Web.Mvc.Infrastructure.Dependency
             Bind<IEmployeeService>().To<EmployeeService>().InRequestScope();
             Bind<ITimeoffService>().To<TimeoffService>().InRequestScope();
             Bind<ITimesheetsService>().To<TimesheetsService>().InRequestScope();
+            Bind<IPeriodService>().To<PeriodService>().InRequestScope();
         }
     }
 }

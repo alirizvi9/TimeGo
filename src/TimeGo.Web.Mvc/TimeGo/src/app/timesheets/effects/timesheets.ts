@@ -12,12 +12,14 @@ import { async } from 'rxjs/scheduler/async';
 import { empty } from 'rxjs/observable/empty';
 import { of } from 'rxjs/observable/of';
 
+import { SelectModel } from '../models/select-period.model'
 import { TimesheetsService } from '../timesheets.service';
 import * as timesheetsActions from '../actions/timesheets';
 import { Timesheets } from '../models/timesheets.model'
 import { Period } from '../models/period.model'
 import { AddModel } from '../models/add.model'
 import { Task } from '../models/task.model'
+import { UsersListItem } from '../../users/models/users-list-item.model'
 import { TimesheetsLine } from '../models/timesheets-line.model'
 
 @Injectable()
@@ -26,7 +28,7 @@ export class TimesheetsEffects {
     get$: Observable<Action> = this.actions$
         .ofType(timesheetsActions.GET)
         .map(toPayload)
-        .switchMap((query: number) => {
+        .switchMap((query: SelectModel) => {
             const nextGet$ = this.actions$.ofType(timesheetsActions.GET).skip(1);
             return this.timesheetsService.getTimesheet(query)
                 .takeUntil(nextGet$)
@@ -59,14 +61,62 @@ export class TimesheetsEffects {
         });
 
     @Effect()
-    edit: Observable<Action> = this.actions$
+    getUsers$: Observable<Action> = this.actions$
+        .ofType(timesheetsActions.GET_USERS)
+        .map(toPayload)
+        .switchMap(() => {
+            const nextGet$ = this.actions$.ofType(timesheetsActions.GET_USERS_COMPLETE);
+            return this.timesheetsService.getUsers()
+                .takeUntil(nextGet$)
+                .map((result: UsersListItem[]) => new timesheetsActions.GetUsersCompleteAction(result))
+                .catch(() => of(new timesheetsActions.GetUsersCompleteAction(null)));
+        });
+
+    @Effect()
+    approve$: Observable<Action> = this.actions$
+        .ofType(timesheetsActions.APPROVE)
+        .map(toPayload)
+        .switchMap((query: number) => {
+            const nextGet$ = this.actions$.ofType(timesheetsActions.APPROVE_COMPLETE);
+            return this.timesheetsService.approve(query)
+                .takeUntil(nextGet$)
+                .map((result: any) => new timesheetsActions.ApproveCompleteAction(result))
+                .catch(() => of(new timesheetsActions.ApproveCompleteAction(null)));
+        });
+
+    @Effect()
+    submite$: Observable<Action> = this.actions$
+        .ofType(timesheetsActions.SUBMIT)
+        .map(toPayload)
+        .switchMap((query: number) => {
+            const nextGet$ = this.actions$.ofType(timesheetsActions.SUBMIT_COMPLETE);
+            return this.timesheetsService.submit(query)
+                .takeUntil(nextGet$)
+                .map((result: any) => new timesheetsActions.SubmitCompleteAction(result))
+                .catch(() => of(new timesheetsActions.SubmitCompleteAction(null)));
+        });
+
+    @Effect()
+    unlock: Observable<Action> = this.actions$
+        .ofType(timesheetsActions.REQUEST_TO_UNLOCK)
+        .map(toPayload)
+        .switchMap((query: number) => {
+            const nextGet$ = this.actions$.ofType(timesheetsActions.REQUEST_TO_UNLOCK_COMPLETE);
+            return this.timesheetsService.unlock(query)
+                .takeUntil(nextGet$)
+                .map((result: any) => new timesheetsActions.ToUnlockCompleteAction(result))
+                .catch(() => of(new timesheetsActions.ToUnlockCompleteAction(null)));
+        });
+
+    @Effect()
+    edit$: Observable<Action> = this.actions$
         .ofType(timesheetsActions.EDIT)
         .map(toPayload)
         .switchMap((query: AddModel) => {
             const nextGet$ = this.actions$.ofType(timesheetsActions.GET);
             return this.timesheetsService.editTimesheet(query.Timesheets)
                 .takeUntil(nextGet$)
-                .map((result: any) => new timesheetsActions.GetAction(query.Period))
+                .map((result: any) => new timesheetsActions.GetAction({ PeriodId: query.Period, UserId: query.User }))
                 .catch(() => of(new timesheetsActions.EditCompleteAction(null)));
         });
 

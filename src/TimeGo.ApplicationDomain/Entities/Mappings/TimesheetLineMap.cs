@@ -24,10 +24,6 @@ namespace TimeGo.ApplicationDomain.Entities.Mappings
                 .WithMany()
                 .WillCascadeOnDelete(false);
 
-            HasRequired(x => x.LockStatus)
-                .WithMany(x => x.TimesheetLine)
-                .WillCascadeOnDelete(false);
-
             HasRequired(x => x.Task)
                 .WithMany()
                 .WillCascadeOnDelete(false);

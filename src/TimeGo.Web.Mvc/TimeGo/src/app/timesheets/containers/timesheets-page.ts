@@ -6,7 +6,10 @@ import { Observable } from 'rxjs/Observable';
 import * as fromTimesheets from '../reducers';
 import * as timesheetsActions from '../actions/timesheets';
 
+
+import { UsersListItem } from '../../users/models/users-list-item.model'
 import { Timesheets } from '../models/timesheets.model'
+import { SelectModel } from '../models/select-period.model'
 import { Period } from '../models/period.model'
 import { Task } from '../models/task.model'
 import { TimesheetsLine } from '../models/timesheets-line.model'
@@ -16,7 +19,10 @@ import { AddModel } from '../models/add.model'
     selector: 'timesheets-page',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <up-timesheets [timesheets]="timesheets$ | async" [isLoaded]="isLoaded$ | async" [periods]="periods$ | async" [tasks]="tasks$ | async" [loading]="loading$ | async" (selectPeriod)="selectPeriod($event)" (addLine)="addLine($event)" (save)="save($event)"></up-timesheets>
+    <up-timesheets [timesheets]="timesheets$ | async" [isLoaded]="isLoaded$ | async" [periods]="periods$ | async" 
+    [users]="users$ | async" [tasks]="tasks$ | async" [loading]="loading$ | async" 
+    (selectPeriod)="selectPeriod($event)" (addLine)="addLine($event)" 
+    (save)="save($event)" (delete)="delete($event)" (submit)="submit($event)" (approve)="approve($event)" (unlock)="unlock($event)"></up-timesheets>
   `,
 })
 export class TimesheetsPageComponent {
@@ -25,6 +31,7 @@ export class TimesheetsPageComponent {
     loading$: Observable<boolean>;
     periods$: Observable<Period[]>;
     tasks$: Observable<Task[]>;
+    users$: Observable<UsersListItem[]>;
 
     constructor(private store: Store<fromTimesheets.State>) {
         this.timesheets$ = store.select(fromTimesheets.getTimesheet);
@@ -32,16 +39,18 @@ export class TimesheetsPageComponent {
         this.loading$ = store.select(fromTimesheets.getLoadingStatus);
         this.periods$ = store.select(fromTimesheets.getPeriods);
         this.tasks$ = store.select(fromTimesheets.getTasks);
+        this.users$ = store.select(fromTimesheets.getUsers);
     }
 
     ngOnInit() {
         this.store.dispatch(new timesheetsActions.GetPeriodAction(0));
         this.store.dispatch(new timesheetsActions.GetTasksAction(0));
+        this.store.dispatch(new timesheetsActions.GetUsersAction(0));
     }
 
-    selectPeriod(id: number)
+    selectPeriod(model: SelectModel)
     {
-        this.store.dispatch(new timesheetsActions.GetAction(id));
+        this.store.dispatch(new timesheetsActions.GetAction(model));
     }
 
     addLine(date: Date)
@@ -52,5 +61,23 @@ export class TimesheetsPageComponent {
     save(model: AddModel)
     {
         this.store.dispatch(new timesheetsActions.EditAction(model));
+    }
+
+    delete(model: TimesheetsLine)
+    {
+        this.store.dispatch(new timesheetsActions.DeleteAction(model));
+    }
+
+    submit(id: number)
+    {
+        this.store.dispatch(new timesheetsActions.SubmitAction(id));
+    }
+
+    unlock(id: number) {
+        this.store.dispatch(new timesheetsActions.ToUnlockAction(id));
+    }
+
+    approve(id: number) {
+        this.store.dispatch(new timesheetsActions.ApproveAction(id));
     }
 }

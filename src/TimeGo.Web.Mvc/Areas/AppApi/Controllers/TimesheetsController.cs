@@ -3,6 +3,7 @@ using System.Web.Http.Cors;
 using TimeGo.ApplicationDomain.Models.Timesheets;
 using TimeGo.ApplicationDomain.Services;
 using TimeGo.Web.Mvc.Infrastructure.Services;
+using TimeGo.Web.Mvc.Models;
 
 namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
 {
@@ -19,14 +20,14 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
             _authorizationService = authorizationService;
         }
 
-        [HttpGet]
-        [Route("api/Timesheets")]
-        public IHttpActionResult Get(long periodId)
+        [HttpPost]
+        [Route("api/GetTimesheets")]
+        public IHttpActionResult Get(SelectPeriodViewModel model)
         {
             var user = _authorizationService.GetUser();
             if (user.CompanyId == null)
                 return Success();
-            var result = _timesheetsService.GetTimesheet (user, periodId);
+            var result = _timesheetsService.GetTimesheet(user, model.PeriodId, model.UserId);
             return Success(result);
         }
 
@@ -49,6 +50,39 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
             if (user.CompanyId == null)
                 return Success();
             var result = _timesheetsService.GetTasks(user);
+            return Success(result);
+        }
+
+        [HttpGet]
+        [Route("api/ApproveTimesheets")]
+        public IHttpActionResult Approve(long id)
+        {
+            var user = _authorizationService.GetUser();
+            if (user.CompanyId == null)
+                return Success();
+            var result = _timesheetsService.Approve(user, id);
+            return Success(result);
+        }
+
+        [HttpGet]
+        [Route("api/UnlockTimesheets")]
+        public IHttpActionResult Unlock(long id)
+        {
+            var user = _authorizationService.GetUser();
+            if (user.CompanyId == null)
+                return Success();
+            var result = _timesheetsService.Approve(user, id);
+            return Success(result);
+        }
+
+        [HttpGet]
+        [Route("api/SubmitTimesheets")]
+        public IHttpActionResult Submit(long id)
+        {
+            var user = _authorizationService.GetUser();
+            if (user.CompanyId == null)
+                return Success();
+            var result = _timesheetsService.Submit(user, id);
             return Success(result);
         }
 

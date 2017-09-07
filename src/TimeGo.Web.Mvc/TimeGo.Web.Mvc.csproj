@@ -294,6 +294,7 @@
     <Compile Include="Areas\AppApi\AppApiAreaRegistration.cs" />
     <Compile Include="Areas\AppApi\Controllers\AccountController.cs" />
     <Compile Include="Areas\AppApi\Controllers\BaseApiController.cs" />
+    <Compile Include="Areas\AppApi\Controllers\PeriodController.cs" />
     <Compile Include="Areas\AppApi\Controllers\ProfileController.cs" />
     <Compile Include="Areas\AppApi\Controllers\TimeoffController.cs" />
     <Compile Include="Areas\AppApi\Controllers\TimesheetsController.cs" />
@@ -342,6 +343,7 @@
     <Compile Include="Models\AuthorizationResponse.cs" />
     <Compile Include="Models\BaseApiModel.cs" />
     <Compile Include="Models\BaseViewModel.cs" />
+    <Compile Include="Models\SelectPeriodViewModel.cs" />
     <Compile Include="Models\Setting.cs" />
     <Compile Include="Models\SignUpViewModel.cs" />
     <Compile Include="Models\TimesoffViewModel.cs" />
@@ -397,7 +399,7 @@
     <Content Include="Content\timego\index.html" />
     <Content Include="Content\timego\inline.bundle.js" />
     <Content Include="Content\timego\main.bundle.js" />
-    <Content Include="Content\timego\periods.module.chunk.js" />
+    <Content Include="Content\timego\period.module.chunk.js" />
     <Content Include="Content\timego\polyfills.bundle.js" />
     <Content Include="Content\timego\profile.module.chunk.js" />
     <Content Include="Content\timego\styles.bundle.js" />
@@ -413,7 +415,7 @@
     <Content Include="TimeGo\src\app\dashboard\dashboard.component.html" />
     <Content Include="TimeGo\src\app\dialogs\subscription\subscription.component.html" />
     <Content Include="TimeGo\src\app\layouts\full-layout.component.html" />
-    <Content Include="TimeGo\src\app\periods\periods.component.html" />
+    <Content Include="TimeGo\src\app\periods\components\period-list\period-list.html" />
     <Content Include="TimeGo\src\app\profile\components\profile-edit\profile-edit.html" />
     <Content Include="TimeGo\src\app\tasks\tasks.component.html" />
     <Content Include="TimeGo\src\app\timeoff\components\timeoff-list\timeoff-list.html" />
@@ -533,6 +535,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\AppApi\Views\Account\" />
+    <Folder Include="Areas\AppApi\Views\Period\" />
     <Folder Include="Areas\AppApi\Views\Timeoff\" />
     <Folder Include="Areas\AppApi\Views\Timesheets\" />
     <Folder Include="TimeGo\src\app\state\models\" />
@@ -723,7 +726,6 @@
     <Content Include="TimeGo\src\tsconfig.spec.json" />
     <Content Include="TimeGo\tsconfig.json" />
     <Content Include="TimeGo\tslint.json" />
-    <Content Include="TimeGo\src\app\periods\periods.component.scss" />
     <Content Include="TimeGo\src\app\dialogs\subscription\subscription.component.scss" />
     <Content Include="Areas\Admin\Views\Employee\Index.cshtml" />
     <Content Include="TimeGo\src\app\profile\components\profile-edit\profile-edit.scss" />
@@ -761,16 +763,17 @@
     <Content Include="Content\timego\vendor.bundle.js.map" />
     <Content Include="Content\timego\common.chunk.js.map" />
     <Content Include="Content\timego\dashboard.module.chunk.js.map" />
-    <Content Include="Content\timego\periods.module.chunk.js.map" />
     <Content Include="Content\timego\profile.module.chunk.js.map" />
     <Content Include="Content\timego\tasks.module.chunk.js.map" />
     <Content Include="Content\timego\timeoff.module.chunk.js.map" />
     <Content Include="Content\timego\timesheets.module.chunk.js.map" />
     <Content Include="Content\timego\users.module.chunk.js.map" />
+    <Content Include="Content\timego\period.module.chunk.js.map" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <Content Include="TimeGo\src\app\users\components\users-list\users-list.scss" />
     <Content Include="TimeGo\src\app\timeoff\components\timeoff-list\timeoff-list.scss" />
     <Content Include="TimeGo\src\app\timesheets\components\timesheets\timesheets.scss" />
+    <Content Include="TimeGo\src\app\periods\components\period-list\period.scss" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="TimeGo\e2e\app.e2e-spec.ts" />
@@ -792,10 +795,22 @@
     <TypeScriptCompile Include="TimeGo\src\app\dialogs\subscription\subscription.component.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\index.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\layouts\full-layout.component.ts" />
-    <TypeScriptCompile Include="TimeGo\src\app\periods\periods-routing.module.ts" />
-    <TypeScriptCompile Include="TimeGo\src\app\periods\periods.component.spec.ts" />
-    <TypeScriptCompile Include="TimeGo\src\app\periods\periods.component.ts" />
-    <TypeScriptCompile Include="TimeGo\src\app\periods\periods.module.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\periods\actions\period.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\periods\components\index.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\periods\components\period-list\period-list.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\periods\containers\period-page.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\periods\effects\period.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\periods\models\add-period.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\periods\models\chagne-status-period.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\periods\models\delete.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\periods\models\period-list-item.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\periods\models\period-list-paging.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\periods\models\period-list.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\periods\reducers\index.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\periods\reducers\period.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\periods\period-routing.module.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\periods\period.module.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\periods\period.service.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\profile\actions\profile-edit.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\profile\components\index.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\profile\components\profile-edit\profile-edit.ts" />
@@ -837,6 +852,7 @@
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\effects\timesheets.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\models\add.model.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\models\period.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\timesheets\models\select-period.model.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\models\task.model.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\models\timesheets-line.model.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timesheets\models\timesheets.model.ts" />

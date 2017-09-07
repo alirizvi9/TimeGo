@@ -3,4 +3,5 @@
 export interface AddModel {
     Timesheets: Timesheets;
     Period: number;
+    User: number;
 }
