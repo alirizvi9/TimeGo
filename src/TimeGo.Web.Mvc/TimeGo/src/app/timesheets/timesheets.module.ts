@@ -22,7 +22,7 @@ import { reducers } from './reducers';
         TimesheetsRoutingModule,
         ComponentsModule,
         StoreModule.forFeature('timesheetsPage', reducers),
-        EffectsModule.forFeature([TimesheetsEffects]),
+        EffectsModule.forFeature([TimesheetsEffects])
     ],
     declarations: [
         TimesheetsPageComponent

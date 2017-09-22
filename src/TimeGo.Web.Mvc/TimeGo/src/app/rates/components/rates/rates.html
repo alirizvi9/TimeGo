@@ -1,0 +1,129 @@
+﻿<div class="row">
+  <div class="col-md-8 push-md-2">
+    <div class="card">
+      <div class="card-header">
+        {{ 'RatesHeader' | translate }}
+      </div>
+      <div class="card-block" *ngIf="isLoaded">
+        <div class="form-group float-right">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addmodal">
+            {{ 'AddUserRate' | translate }}
+          </button>
+        </div>
+        <div class="form-group">
+          <table class="table table-hover table-outline mb-0 hidden-sm-down" *ngIf="isLoaded">
+            <thead class="thead-default">
+              <tr>
+                <td class="text-center">{{ 'EmployeeId' | translate }} <a [ngClass]="getArrowClass('EmployeeId')" (click)="order.emit('EmployeeId')"></a></td>
+                <td class="text-center">{{ 'FirstName' | translate }} <a [ngClass]="getArrowClass('FirstName')" (click)="order.emit('FirstName')"></a></td>
+                <td class="text-center">{{ 'LastName' | translate }} <a [ngClass]="getArrowClass('LastName')" (click)="order.emit('LastName')"></a></td>
+                <td class="text-center">{{ 'EffectiveStartDate' | translate }} <a [ngClass]="getArrowClass('EffectiveStartDate')" (click)="order.emit('EffectiveStartDate')"></a></td>
+                <td class="text-center">{{ 'EffectiveEndDate' | translate }} <a [ngClass]="getArrowClass('EffectiveEndDate')" (click)="order.emit('EffectiveEndDate')"></a></td>
+                <td class="text-center">{{ 'CostRate' | translate }} <a [ngClass]="getArrowClass('RateAmount')" (click)="order.emit('RateAmount')"></a></td>
+                <td class="text-center">{{ 'Action' | translate }} </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rate of rates">
+                <td class="text-center">{{rate.UserId}}</td>
+                <td class="text-center">{{rate.FirstName}}</td>
+                <td class="text-center">{{rate.LastName}}</td>
+                <td class="text-center">{{rate.StartDate | date: 'dd-MMM-yy'}}</td>
+                <td class="text-center">{{rate.EndDate | date: 'dd-MMM-yy'}}</td>
+                <td class="text-center">{{rate.Rate}}</td>
+                <td class="text-center">
+                  <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal" (click)="deleteId = rate.Id">{{ 'Delete' | translate }}</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="form-group">
+          <pagination [totalItems]="pagingModel.count" [(ngModel)]="pagingModel.page" (pageChanged)="changePage.emit({
+            orderBy: pagingModel.orderBy,
+            page: $event.page,
+            pageSize: pagingModel.pageSize,
+            IsAscending: !pagingModel.IsAscending,
+            count: pagingModel.count,
+            IsOrder: false})"></pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="addmodal" tabindex="-1" role="dialog" aria-labelledby="Add period" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header timego-modal">
+        <h4 class="modal-title">{{ 'AddRate' | translate }}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body timego-modal">
+        <div class="form-group">
+          <label for="company-name">{{ 'Employee' | translate }}</label>
+          <div class="input-group mb-3 required">
+            <span class="input-group-addon">
+              <i class="icon-user"></i>
+            </span>
+            <select [(ngModel)]="addRate.UserId" class="form-control">
+              <option [value]="0">{{ 'SelectEmployee' | translate }}</option>
+              <option [value]="user.Id" *ngFor="let user of users">{{user.FirstName}} {{user.LastName}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="company-name">{{ 'EffectiveStartDate' | translate }}</label>
+          <div class="input-group mb-3 required">
+            <span class="input-group-addon">
+              <i class="icon-calendar"></i>
+            </span>
+            <ngx-date-picker [(selectedDate)]="addRate.StartDate"></ngx-date-picker>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="company-name">{{ 'EffectiveEndDate' | translate }}</label>
+          <div class="input-group mb-3 required">
+            <span class="input-group-addon">
+              <i class="icon-calendar"></i>
+            </span>
+            <ngx-date-picker [(selectedDate)]="addRate.EndDate"></ngx-date-picker>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="company-name">{{ 'CostRate' | translate }}</label>
+          <div class="input-group mb-3 required">
+            <span class="input-group-addon">
+              <i class="icon-note"></i>
+            </span>
+            <input required [(ngModel)]="addRate.Rate" type="number" class="form-control"/>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close' | translate }}</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addRateAction(addRate)">{{ 'Add' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="Delete period" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header timego-modal">
+        <h4 class="modal-title">{{ 'Delete' | translate }} {{ 'UserRate' | translate }}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body timego-modal">
+        <h6>{{ 'DeleteMessage' | translate }} {{ 'UserRate' | translate }}?</h6>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'No' | translate }}</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="delete.emit({id: deleteId, paging: pagingModel})">{{ 'Yes' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -53,5 +53,24 @@ namespace TimeGo.Web.Mvc.Infrastructure.Services.Implementation
             }
             return null;
         }
+
+        public string GetInviteToken(string email)
+        {
+            var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Email, email)
+                };
+            var identity = new ClaimsIdentity(claims, OwinConfig.OAuthOptions.AuthenticationType);
+            var ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
+            return OwinConfig.OAuthOptions.AccessTokenFormat.Protect(ticket);
+        }
+
+        public string GetInviteEmail(string token)
+        {
+            var ticket = OwinConfig.OAuthOptions.AccessTokenFormat.Unprotect(token);
+            var identity = ticket.Identity;
+            var email = identity.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault();
+            return email;
+        }
     }
 }

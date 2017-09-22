@@ -17,9 +17,15 @@ var map = {
 		"../../../../../src/app/profile/profile.module.ts",
 		"profile.module"
 	],
+	"./rates/rates.module": [
+		"../../../../../src/app/rates/rates.module.ts",
+		"common",
+		"rates.module"
+	],
 	"./tasks/tasks.module": [
 		"../../../../../src/app/tasks/tasks.module.ts",
-		"tasks.module"
+		"tasks.module",
+		"common"
 	],
 	"./timeoff/timeoff.module": [
 		"../../../../../src/app/timeoff/timeoff.module.ts",
@@ -47,8 +53,8 @@ function webpackAsyncContext(req) {
 webpackAsyncContext.keys = function webpackAsyncContextKeys() {
 	return Object.keys(map);
 };
-module.exports = webpackAsyncContext;
 webpackAsyncContext.id = "../../../../../src/$$_gendir lazy recursive";
+module.exports = webpackAsyncContext;
 
 /***/ }),
 
@@ -197,15 +203,20 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__AdminAuthGuard__ = __webpack_require__("../../../../../src/app/AdminAuthGuard.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__TaskManagerAuthGuard__ = __webpack_require__("../../../../../src/app/TaskManagerAuthGuard.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_RequestService__ = __webpack_require__("../../../../../src/app/services/RequestService.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_ngx_bootstrap_dropdown__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_ngx_bootstrap_tabs__ = __webpack_require__("../../../../ngx-bootstrap/tabs/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__shared_nav_dropdown_directive__ = __webpack_require__("../../../../../src/app/shared/nav-dropdown.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__app_routing__ = __webpack_require__("../../../../../src/app/app.routing.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__layouts_full_layout_component__ = __webpack_require__("../../../../../src/app/layouts/full-layout.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__dialogs_dialogs_module__ = __webpack_require__("../../../../../src/app/dialogs/dialogs.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_ngx_bootstrap_dropdown__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_ngx_bootstrap_tabs__ = __webpack_require__("../../../../ngx-bootstrap/tabs/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__shared_nav_dropdown_directive__ = __webpack_require__("../../../../../src/app/shared/nav-dropdown.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__app_routing__ = __webpack_require__("../../../../../src/app/app.routing.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__layouts_full_layout_component__ = __webpack_require__("../../../../../src/app/layouts/full-layout.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__dialogs_dialogs_module__ = __webpack_require__("../../../../../src/app/dialogs/dialogs.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__services_HttpLoaderFactory__ = __webpack_require__("../../../../../src/app/services/HttpLoaderFactory.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_angular2_toaster_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_angular_spinners__ = __webpack_require__("../../../../angular-spinners/index.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -228,9 +239,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 // Routing Module
 
 //Layouts
+
+
+
+
 
 
 
@@ -244,25 +260,34 @@ AppModule = __decorate([
         imports: [
             __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["a" /* BrowserModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
-            __WEBPACK_IMPORTED_MODULE_16__app_routing__["a" /* AppRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_17__app_routing__["a" /* AppRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_4__ngrx_store__["i" /* StoreModule */].forRoot({}),
-            !__WEBPACK_IMPORTED_MODULE_19__environments_environment__["a" /* environment */].production ? __WEBPACK_IMPORTED_MODULE_6__ngrx_store_devtools__["a" /* StoreDevtoolsModule */].instrument() : [],
+            !__WEBPACK_IMPORTED_MODULE_22__environments_environment__["a" /* environment */].production ? __WEBPACK_IMPORTED_MODULE_6__ngrx_store_devtools__["a" /* StoreDevtoolsModule */].instrument() : [],
             __WEBPACK_IMPORTED_MODULE_5__ngrx_effects__["c" /* EffectsModule */].forRoot([]),
-            __WEBPACK_IMPORTED_MODULE_12_ngx_bootstrap_dropdown__["a" /* BsDropdownModule */].forRoot(),
-            __WEBPACK_IMPORTED_MODULE_13_ngx_bootstrap_tabs__["a" /* TabsModule */].forRoot(),
-            __WEBPACK_IMPORTED_MODULE_18__dialogs_dialogs_module__["a" /* DialogsModule */],
-            __WEBPACK_IMPORTED_MODULE_15__angular_http__["c" /* HttpModule */]
+            __WEBPACK_IMPORTED_MODULE_13_ngx_bootstrap_dropdown__["a" /* BsDropdownModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_14_ngx_bootstrap_tabs__["a" /* TabsModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_19__dialogs_dialogs_module__["a" /* DialogsModule */],
+            __WEBPACK_IMPORTED_MODULE_24_angular_spinners__["a" /* SpinnerModule */],
+            __WEBPACK_IMPORTED_MODULE_16__angular_http__["c" /* HttpModule */],
+            __WEBPACK_IMPORTED_MODULE_23_angular2_toaster_angular2_toaster__["b" /* ToasterModule */],
+            __WEBPACK_IMPORTED_MODULE_20__ngx_translate_core__["b" /* TranslateModule */].forRoot({
+                loader: {
+                    provide: __WEBPACK_IMPORTED_MODULE_20__ngx_translate_core__["a" /* TranslateLoader */],
+                    useFactory: __WEBPACK_IMPORTED_MODULE_21__services_HttpLoaderFactory__["a" /* HttpLoaderFactory */],
+                    deps: [__WEBPACK_IMPORTED_MODULE_11__angular_common_http__["a" /* HttpClient */]]
+                }
+            })
         ],
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_11__app_component__["a" /* AppComponent */],
-            __WEBPACK_IMPORTED_MODULE_17__layouts_full_layout_component__["a" /* FullLayoutComponent */],
-            __WEBPACK_IMPORTED_MODULE_14__shared_nav_dropdown_directive__["a" /* NAV_DROPDOWN_DIRECTIVES */]
+            __WEBPACK_IMPORTED_MODULE_12__app_component__["a" /* AppComponent */],
+            __WEBPACK_IMPORTED_MODULE_18__layouts_full_layout_component__["a" /* FullLayoutComponent */],
+            __WEBPACK_IMPORTED_MODULE_15__shared_nav_dropdown_directive__["a" /* NAV_DROPDOWN_DIRECTIVES */]
         ],
         providers: [{
-                provide: __WEBPACK_IMPORTED_MODULE_3__angular_common__["f" /* LocationStrategy */],
-                useClass: __WEBPACK_IMPORTED_MODULE_3__angular_common__["c" /* HashLocationStrategy */]
-            }, __WEBPACK_IMPORTED_MODULE_7__AlwaysAuthGuard__["a" /* AlwaysAuthGuard */], __WEBPACK_IMPORTED_MODULE_8__AdminAuthGuard__["a" /* AdminAuthGuard */], __WEBPACK_IMPORTED_MODULE_9__TaskManagerAuthGuard__["a" /* TaskManagerAuthGuard */], __WEBPACK_IMPORTED_MODULE_10__services_RequestService__["a" /* RequestService */]],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_11__app_component__["a" /* AppComponent */]]
+                provide: __WEBPACK_IMPORTED_MODULE_3__angular_common__["g" /* LocationStrategy */],
+                useClass: __WEBPACK_IMPORTED_MODULE_3__angular_common__["d" /* HashLocationStrategy */]
+            }, __WEBPACK_IMPORTED_MODULE_7__AlwaysAuthGuard__["a" /* AlwaysAuthGuard */], __WEBPACK_IMPORTED_MODULE_8__AdminAuthGuard__["a" /* AdminAuthGuard */], __WEBPACK_IMPORTED_MODULE_9__TaskManagerAuthGuard__["a" /* TaskManagerAuthGuard */], __WEBPACK_IMPORTED_MODULE_10__services_RequestService__["a" /* RequestService */], __WEBPACK_IMPORTED_MODULE_23_angular2_toaster_angular2_toaster__["c" /* ToasterService */], __WEBPACK_IMPORTED_MODULE_24_angular_spinners__["b" /* SpinnerService */]],
+        bootstrap: [__WEBPACK_IMPORTED_MODULE_12__app_component__["a" /* AppComponent */]]
     })
 ], AppModule);
 
@@ -328,6 +353,10 @@ var routes = [
             {
                 path: 'users',
                 loadChildren: './users/users.module#UsersModule'
+            },
+            {
+                path: 'rates',
+                loadChildren: './rates/rates.module#RatesModule'
             }
         ]
     }
@@ -450,7 +479,7 @@ var SubscriptionDialogComponent = (function () {
     return SubscriptionDialogComponent;
 }());
 __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_15" /* ViewChild */])('subscriptionModal'),
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_16" /* ViewChild */])('subscriptionModal'),
     __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap_modal__["a" /* ModalDirective */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap_modal__["a" /* ModalDirective */]) === "function" && _a || Object)
 ], SubscriptionDialogComponent.prototype, "modal", void 0);
 SubscriptionDialogComponent = __decorate([
@@ -470,7 +499,7 @@ var _a;
 /***/ "../../../../../src/app/layouts/full-layout.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header class=\"app-header navbar\">\r\n  <button class=\"navbar-toggler d-lg-none\" type=\"button\" appMobileSidebarToggler>&#9776;</button>\r\n  <ul class=\"nav navbar-nav d-md-down-none\">\r\n    <li class=\"nav-item\">\r\n      <a class=\"nav-link navbar-toggler\" href=\"#\" appSidebarToggler>&#9776;</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/dashboard\">Dashboard</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/timesheets\">Timesheets</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/periods\">Timesheets Periods</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/tasks\">Tasks</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/timeoff\">Timeoff Requests</a>\r\n    </li>\r\n  </ul>\r\n  <ul class=\"nav navbar-nav ml-auto\">\r\n    <li class=\"nav-item d-md-down-none\">\r\n      <a class=\"nav-link\" href=\"#\"><i class=\"icon-location-pin\"></i></a>\r\n    </li>\r\n    <li class=\"nav-item dropdown\" dropdown placement=\"bottom right\">\r\n      <a class=\"nav-link dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\" dropdownToggle (click)=\"false\">\r\n        <img src=\"assets/img/avatars/default.jpg\" class=\"img-avatar\" alt=\"admin@bootstrapmaster.com\">\r\n      </a>\r\n      <div class=\"dropdown-menu dropdown-menu-right\" *dropdownMenu aria-labelledby=\"simple-dropdown\">\r\n        <div class=\"dropdown-header text-center\"><strong>Manage</strong></div>\r\n        <a class=\"dropdown-item\" routerLink=\"/users\"><i class=\"fa fa-user\"></i>Users</a>\r\n        <a class=\"dropdown-item\"><i class=\"fa fa-file\"></i>Users Rates</a>\r\n        <div class=\"dropdown-header text-center\"><strong>Settings</strong></div>\r\n        <a class=\"dropdown-item\" routerLink=\"/profile\"><i class=\"fa fa-user\"></i>Profile</a>\r\n        <a class=\"dropdown-item\" (click)=\"subscriptionModal.showModal()\"><i class=\"fa fa-wrench\"></i>Subcription</a>\r\n        <div class=\"divider\"></div>\r\n        <a class=\"dropdown-item\" (click)=\"logout()\"><i class=\"fa fa-lock\"></i> Logout</a>\r\n      </div>\r\n    </li>\r\n  </ul>\r\n  \r\n</header>\r\n\r\n<div class=\"app-body\">\r\n  <main class=\"main\">\r\n    <div class=\"container-fluid\">\r\n      <router-outlet></router-outlet>\r\n    </div>\r\n  </main>\r\n</div>\r\n\r\n<footer class=\"app-footer\">\r\n  <a href=\"https://timego.com\">TimeGo</a> &copy; 2017 TimeGo Inc.\r\n</footer>\r\n\r\n<subscription-modal #subscriptionModal></subscription-modal>"
+module.exports = "<header class=\"app-header navbar\">\r\n  <button class=\"navbar-toggler d-lg-none\" type=\"button\" appMobileSidebarToggler>&#9776;</button>\r\n  <ul class=\"nav navbar-nav d-md-down-none\">\r\n    <li class=\"nav-item\">\r\n      <a class=\"nav-link navbar-toggler\" href=\"#\" appSidebarToggler>&#9776;</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/dashboard\">Dashboard</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/timesheets\">Timesheets</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/periods\">Timesheets Periods</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/tasks\">Tasks</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/timeoff\">Timeoff Requests</a>\r\n    </li>\r\n  </ul>\r\n  <ul class=\"nav navbar-nav ml-auto\">\r\n    <li class=\"nav-item d-md-down-none\">\r\n      <a class=\"nav-link\" href=\"#\"><i class=\"icon-location-pin\"></i></a>\r\n    </li>\r\n    <li class=\"nav-item dropdown\" dropdown placement=\"bottom right\">\r\n      <a class=\"nav-link dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\" dropdownToggle (click)=\"false\">\r\n        <img src=\"assets/img/avatars/default.jpg\" class=\"img-avatar\" alt=\"admin@bootstrapmaster.com\">\r\n      </a>\r\n      <div class=\"dropdown-menu dropdown-menu-right\" *dropdownMenu aria-labelledby=\"simple-dropdown\">\r\n        <div class=\"dropdown-header text-center\"><strong>Manage</strong></div>\r\n        <a class=\"dropdown-item\" routerLink=\"/users\"><i class=\"fa fa-user\"></i>Users</a>\r\n        <a class=\"dropdown-item\" routerLink=\"/rates\"><i class=\"fa fa-file\"></i>Users Rates</a>\r\n        <div class=\"dropdown-header text-center\"><strong>Settings</strong></div>\r\n        <a class=\"dropdown-item\" routerLink=\"/profile\"><i class=\"fa fa-user\"></i>Profile</a>\r\n        <a class=\"dropdown-item\" (click)=\"subscriptionModal.showModal()\"><i class=\"fa fa-wrench\"></i>Subcription</a>\r\n        <div class=\"divider\"></div>\r\n        <a class=\"dropdown-item\" (click)=\"logout()\"><i class=\"fa fa-lock\"></i> Logout</a>\r\n      </div>\r\n    </li>\r\n  </ul>\r\n  \r\n</header>\r\n<toaster-container [toasterconfig]=\"toasterconfig\"></toaster-container>\r\n<spinner name=\"mySpinner\" loadingImage=\"../../../../Content/img/preloader.gif\" class=\"timego-spinner\"></spinner>\r\n<div class=\"app-body\">\r\n  <main class=\"main\">\r\n    <div class=\"container-fluid\">\r\n      <router-outlet></router-outlet>\r\n    </div>\r\n  </main>\r\n</div>\r\n\r\n<footer class=\"app-footer\">\r\n  <a href=\"https://timego.com\">TimeGo</a> &copy; 2017 TimeGo Inc.\r\n</footer>\r\n\r\n<subscription-modal #subscriptionModal></subscription-modal>"
 
 /***/ }),
 
@@ -480,6 +509,7 @@ module.exports = "<header class=\"app-header navbar\">\r\n  <button class=\"navb
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FullLayoutComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular2_toaster_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -490,10 +520,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var FullLayoutComponent = (function () {
     function FullLayoutComponent() {
         this.disabled = false;
         this.status = { isopen: false };
+        this.toasterconfig = new __WEBPACK_IMPORTED_MODULE_1_angular2_toaster_angular2_toaster__["a" /* ToasterConfig */]({
+            tapToDismiss: true,
+            timeout: 5000
+        });
     }
     FullLayoutComponent.prototype.toggled = function (open) {
         console.log('Dropdown is now: ', open);
@@ -521,6 +556,20 @@ FullLayoutComponent = __decorate([
 
 /***/ }),
 
+/***/ "../../../../../src/app/services/HttpLoaderFactory.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = HttpLoaderFactory;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ngx_translate_http_loader__ = __webpack_require__("../../../../@ngx-translate/http-loader/index.js");
+
+function HttpLoaderFactory(httpClient) {
+    return new __WEBPACK_IMPORTED_MODULE_0__ngx_translate_http_loader__["a" /* TranslateHttpLoader */](httpClient, "i18n/", "");
+}
+//# sourceMappingURL=HttpLoaderFactory.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/services/RequestService.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -531,6 +580,7 @@ FullLayoutComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_angular_spinners__ = __webpack_require__("../../../../angular-spinners/index.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -544,10 +594,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var RequestService = (function () {
-    function RequestService(http, router) {
+    function RequestService(http, router, spinnerService) {
         this.http = http;
         this.router = router;
+        this.spinnerService = spinnerService;
         this.headers = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Headers */]({
             'Authorization': 'Bearer ' + commonServerData.Token,
             'Content-Type': 'application/json'
@@ -555,10 +607,20 @@ var RequestService = (function () {
         this.options = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["d" /* RequestOptions */]({ headers: this.headers });
     }
     RequestService.prototype.get = function (path) {
-        return this.intercept(this.http.get(path, this.options).map(function (res) { return res.json(); }));
+        var _this = this;
+        this.spinnerService.show('mySpinner');
+        return this.intercept(this.http.get(path, this.options).map(function (res) {
+            _this.spinnerService.hide('mySpinner');
+            return res.json();
+        }));
     };
     RequestService.prototype.post = function (path, body) {
-        return this.intercept(this.http.post(path, body, this.options).map(function (res) { return res.json(); }));
+        var _this = this;
+        this.spinnerService.show('mySpinner');
+        return this.intercept(this.http.post(path, body, this.options).map(function (res) {
+            _this.spinnerService.hide('mySpinner');
+            return res.json();
+        }));
     };
     RequestService.prototype.intercept = function (observable) {
         var _this = this;
@@ -586,10 +648,10 @@ var RequestService = (function () {
 }());
 RequestService = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4_angular_spinners__["b" /* SpinnerService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4_angular_spinners__["b" /* SpinnerService */]) === "function" && _c || Object])
 ], RequestService);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=RequestService.js.map
 
 /***/ }),
@@ -691,7 +753,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 if (__WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].production) {
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_22" /* enableProdMode */])();
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_23" /* enableProdMode */])();
 }
 Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_app_module__["a" /* AppModule */]);
 //# sourceMappingURL=main.js.map

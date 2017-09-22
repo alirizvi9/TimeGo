@@ -19,15 +19,20 @@ import { PeriodListPagingModel } from '../models/period-list-paging.model'
 import { AddPeriod } from '../models/add-period.model';
 import { ChangeStatus } from '../models/chagne-status-period.model'
 import { DeletePeriodModel } from '../models/delete.model'
+import { ToasterModule, ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
 
 @Injectable()
 export class PeriodEffects {
+
+    pagingModel: PeriodListPagingModel;
+
     @Effect()
     get$: Observable<Action> = this.actions$
         .ofType(periodActions.GET)
         .map(toPayload)
         .switchMap((query: PeriodListPagingModel) => {
             const nextGet$ = this.actions$.ofType(periodActions.GET).skip(1);
+            this.pagingModel = query;
             return this.periodService
                 .getPeriodList(query)
                 .takeUntil(nextGet$)
@@ -44,7 +49,10 @@ export class PeriodEffects {
             return this.periodService
                 .addPeriod(query)
                 .takeUntil(nextGet$)
-                .map((result: any) => new periodActions.SaveCompleteAction(result))
+                .map((result: any) => {
+                    this.toasterService.pop('success', 'Success', 'Success Add Period');
+                    return new periodActions.SaveCompleteAction(result);
+                })
                 .catch(() => of(new periodActions.SaveCompleteAction(null)));
         });
 
@@ -57,7 +65,10 @@ export class PeriodEffects {
             return this.periodService
                 .changeStatus(model)
                 .takeUntil(nextGet$)
-                .map((result: any) => new periodActions.ChangeStatusCompleteAction(result))
+                .map((result: any) => {
+                    this.toasterService.pop('success', 'Success', 'Success Change Status To ' + model.status);
+                    return new periodActions.ChangeStatusCompleteAction(result);
+                })
                 .catch(() => of(new periodActions.ChangeStatusCompleteAction(null)));
         });
 
@@ -70,12 +81,29 @@ export class PeriodEffects {
             return this.periodService
                 .delete(model.id)
                 .takeUntil(nextGet$)
-                .map((result: any) => new periodActions.GetAction(model.paging))
+                .map((result: any) => {
+                    this.toasterService.pop('success', 'Success', 'Success Delete Period');
+                    return new periodActions.GetAction(model.paging);
+                })
                 .catch(() => of(new periodActions.SaveCompleteAction(null)));
+        });
+
+    @Effect()
+    update$: Observable<Action> = this.actions$
+        .ofType(periodActions.CHANGE_STATUS_COMPLETE, periodActions.ADD_COMPLETE)
+        .map(toPayload)
+        .switchMap((model: any) => {
+            const nextGet$ = this.actions$.ofType(periodActions.GET_COMPLETE);
+            return this.periodService
+                .getPeriodList(this.pagingModel)
+                .takeUntil(nextGet$)
+                .map((users: PeriodList) => new periodActions.GetCompleteAction(users))
+                .catch(() => of(new periodActions.GetCompleteAction(null)));
         });
 
     constructor(
         private actions$: Actions,
-        private periodService: PeriodService
+        private periodService: PeriodService,
+        private toasterService: ToasterService 
     ) { }
 }

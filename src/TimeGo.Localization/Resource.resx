@@ -309,4 +309,226 @@
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="AddRequest" xml:space="preserve">
+    <value>Add Request</value>
+  </data>
+  <data name="AddRequestTimeoff" xml:space="preserve">
+    <value>Add Request Timeoff</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Approve</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Deny" xml:space="preserve">
+    <value>Deny</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End Date</value>
+  </data>
+  <data name="Reasone" xml:space="preserve">
+    <value>Reasone</value>
+  </data>
+  <data name="Request" xml:space="preserve">
+    <value>Request</value>
+  </data>
+  <data name="ReturningToWork" xml:space="preserve">
+    <value>Returning to work</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start Date</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="TimeoffHeader" xml:space="preserve">
+    <value>TIMEOFF REQUESTS</value>
+  </data>
+  <data name="UserNameTable" xml:space="preserve">
+    <value>User Name</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddLine" xml:space="preserve">
+    <value>add another line for</value>
+  </data>
+  <data name="AddPeriod" xml:space="preserve">
+    <value>Add Period</value>
+  </data>
+  <data name="AddTask" xml:space="preserve">
+    <value>Add Task</value>
+  </data>
+  <data name="AddUserRate" xml:space="preserve">
+    <value>Add User Rate</value>
+  </data>
+  <data name="Approver1Email" xml:space="preserve">
+    <value>Approver 1 Email</value>
+  </data>
+  <data name="Approver2Email" xml:space="preserve">
+    <value>Approver 2 Email</value>
+  </data>
+  <data name="ApproverNotes" xml:space="preserve">
+    <value>Approver Notes:</value>
+  </data>
+  <data name="CalculateOvertime" xml:space="preserve">
+    <value>Calculate Overtime?</value>
+  </data>
+  <data name="ContactName" xml:space="preserve">
+    <value>Contact Name</value>
+  </data>
+  <data name="CostRate" xml:space="preserve">
+    <value>Cost Rate</value>
+  </data>
+  <data name="EffectiveEndDate" xml:space="preserve">
+    <value>Effective End Date</value>
+  </data>
+  <data name="EffectiveStartDate" xml:space="preserve">
+    <value>Effective Start Date</value>
+  </data>
+  <data name="EmployeeHeader" xml:space="preserve">
+    <value>EMPLOYEES</value>
+  </data>
+  <data name="EmployeeId" xml:space="preserve">
+    <value>Employee Id</value>
+  </data>
+  <data name="EmployeeNotes" xml:space="preserve">
+    <value>Employee Notes:</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>h</value>
+  </data>
+  <data name="IsActive" xml:space="preserve">
+    <value>Is Active?</value>
+  </data>
+  <data name="IsAdmin" xml:space="preserve">
+    <value>Is Admin?</value>
+  </data>
+  <data name="Last4SS" xml:space="preserve">
+    <value>Last 4 SS</value>
+  </data>
+  <data name="Lock" xml:space="preserve">
+    <value>Lock</value>
+  </data>
+  <data name="LockedForUser" xml:space="preserve">
+    <value>Locked for User:</value>
+  </data>
+  <data name="Minutes" xml:space="preserve">
+    <value>m</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>none</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="PeriodEndDate" xml:space="preserve">
+    <value>Period End Date</value>
+  </data>
+  <data name="PeriodHeader" xml:space="preserve">
+    <value>TIMESHEETS PERIODS</value>
+  </data>
+  <data name="PeriodStartDate" xml:space="preserve">
+    <value>Period Start Date</value>
+  </data>
+  <data name="PeriodStatus" xml:space="preserve">
+    <value>Period Status</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="ProfileHeader" xml:space="preserve">
+    <value>MY PROFILE</value>
+  </data>
+  <data name="RatesHeader" xml:space="preserve">
+    <value>USER RATES</value>
+  </data>
+  <data name="Reminder1Date" xml:space="preserve">
+    <value>Reminder 1 Date</value>
+  </data>
+  <data name="Reminder2Date" xml:space="preserve">
+    <value>Reminder 2 Date</value>
+  </data>
+  <data name="RequestResubmit" xml:space="preserve">
+    <value>Request Resubmit</value>
+  </data>
+  <data name="RequestToUnlock" xml:space="preserve">
+    <value>Request to Unlock</value>
+  </data>
+  <data name="SelectEmployee" xml:space="preserve">
+    <value>Select Employee</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="SubmitedOn" xml:space="preserve">
+    <value>Submited on:</value>
+  </data>
+  <data name="Task" xml:space="preserve">
+    <value>Task</value>
+  </data>
+  <data name="TaskHeader" xml:space="preserve">
+    <value>TASKS</value>
+  </data>
+  <data name="TaskName" xml:space="preserve">
+    <value>Task Name</value>
+  </data>
+  <data name="TimesheetHeader" xml:space="preserve">
+    <value>TIMESHEETS</value>
+  </data>
+  <data name="TimesheetsWeeksInAdvance" xml:space="preserve">
+    <value>Timesheets Weeks in advance</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>to</value>
+  </data>
+  <data name="TotalTime" xml:space="preserve">
+    <value>Total time:</value>
+  </data>
+  <data name="Unlock" xml:space="preserve">
+    <value>Unlock</value>
+  </data>
+  <data name="VacationApproverEmail" xml:space="preserve">
+    <value>Vacation Approver Email</value>
+  </data>
+  <data name="WorkWeekStartDay" xml:space="preserve">
+    <value>Work Week Start Day</value>
+  </data>
+  <data name="DeleteMessage" xml:space="preserve">
+    <value>Are you sure you want to delete this</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="UserRate" xml:space="preserve">
+    <value>User Rate</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Allow" xml:space="preserve">
+    <value>Allow</value>
+  </data>
+  <data name="AllowTaskMessage" xml:space="preserve">
+    <value>Check allowed task below</value>
+  </data>
+  <data name="AddEmployee" xml:space="preserve">
+    <value>Add Employee</value>
+  </data>
+  <data name="Employee" xml:space="preserve">
+    <value>Employee</value>
+  </data>
+  <data name="Invite" xml:space="preserve">
+    <value>Invite</value>
+  </data>
+  <data name="InviteEmployee" xml:space="preserve">
+    <value>Invite Employee</value>
+  </data>
+  <data name="InviteMessage" xml:space="preserve">
+    <value>Enter email employee and we send him original url for registration</value>
+  </data>
 </root>

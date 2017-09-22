@@ -1,9 +1,10 @@
-﻿import { Component, Input, Output, EventEmitter } from '@angular/core';
+﻿import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { TimeoffListItem } from '../../models/timeoff-list-item.model';
 import { AddTimeoff } from '../../models/add-timeoff.model';
 import { TimeoffListPagingModel } from '../../models/timeoff-list-paging.model';
 import { ChangeStatus } from '../../models/chagne-status-timeoff.model'
 import { DatePipe } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 declare var commonServerData: any;
 
 @Component({
@@ -22,7 +23,13 @@ export class TimeoffListComponent {
     @Output() changeStatus = new EventEmitter<ChangeStatus>();
     @Output() changePage = new EventEmitter<TimeoffListPagingModel>();
 
+    constructor(private translate: TranslateService) {
+        translate.addLangs(["en", "fr"]);
+        translate.setDefaultLang('en');
+    }
+
     role: string;
+    dateNow: Date = new Date();
 
     addTimeoff: AddTimeoff = {
         StartDate: new Date(),
@@ -31,10 +38,16 @@ export class TimeoffListComponent {
         ReturningToWork: new Date(),
     };
 
-    
-
     ngOnInit() {
         this.role = commonServerData.Role;
+    }
+
+    getArrowClass(field: string): string {
+        if (field != this.pagingModel.orderBy)
+            return "fa fa-sort";
+        if (this.pagingModel.IsAscending)
+            return "fa fa-sort-asc";
+        return "fa fa-sort-desc";
     }
 
     addTimeoffAction(model: AddTimeoff) {

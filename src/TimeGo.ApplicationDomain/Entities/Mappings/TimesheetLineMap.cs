@@ -23,10 +23,6 @@ namespace TimeGo.ApplicationDomain.Entities.Mappings
             HasRequired(x => x.ApprovedBy)
                 .WithMany()
                 .WillCascadeOnDelete(false);
-
-            HasRequired(x => x.Task)
-                .WithMany()
-                .WillCascadeOnDelete(false);
         }
     }
 }

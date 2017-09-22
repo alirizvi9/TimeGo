@@ -5,6 +5,7 @@ using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.Enums;
 using TimeGo.ApplicationDomain.Extensions;
 using TimeGo.ApplicationDomain.Models;
+using TimeGo.ApplicationDomain.Models.Users;
 using TimeGo.ApplicationDomain.Persistance;
 
 namespace TimeGo.ApplicationDomain.Services.Implementation
@@ -33,6 +34,65 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
         public List<Timezone> GetTimeZones()
         {
             return _repository.Find<Timezone>().ToList();
+        }
+
+        public ErrorCodes AddEmployee(AddEmployeeViewModel model, Employee user)
+        {
+            if (user.Role.RoleType != "Task Manager")
+                return ErrorCodes.NoAccess;
+            var employee = _repository.Find<Employee>().SingleOrDefault(x => x.EmailAddress == model.Email);
+            if (employee != null)
+                return ErrorCodes.EmailAlreadyExists;
+            var company = _repository.Find<Company>().SingleOrDefault(x => x.Id == user.CompanyId);
+            var newEmployee = new Employee
+            {
+                CompanyId = company.Id,
+                EmailAddress = model.Email,
+                PhoneNumber = model.PhoneNumber,
+                Password = model.Password,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                IsActive = true,
+                RoleId = 1,
+                Company = company,
+                IsAdmin = false,
+                IsOvertimeCalculated = true,
+            };
+            _repository.Add(newEmployee);
+            _repository.Save();
+            return ErrorCodes.Success;
+        }
+
+        public ErrorCodes AddEmployee(AddEmployeeViewModel model, Company company)
+        {
+            var employee = _repository.Find<Employee>().SingleOrDefault(x => x.EmailAddress == model.Email);
+            if (employee != null)
+                return ErrorCodes.EmailAlreadyExists;
+            var newEmployee = new Employee
+            {
+                CompanyId = company.Id,
+                EmailAddress = model.Email,
+                PhoneNumber = model.PhoneNumber,
+                Password = model.Password,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                IsActive = true,
+                RoleId = 1,
+                Company = company,
+                IsAdmin = false,
+                IsOvertimeCalculated = true,
+            };
+            _repository.Add(newEmployee);
+            _repository.Save();
+            return ErrorCodes.Success;
+        }
+
+        public ErrorCodes InviteEmployee(string token, Employee user, string email)
+        {
+            if (user.Role.RoleType != "Task Manager")
+                return ErrorCodes.NoAccess;
+            _emailService.SendInviteEmail(token, user.Company.TimeGoUrl, email);
+            return ErrorCodes.Success;
         }
 
         public ErrorCodes SignUp(SignUpRequest model)

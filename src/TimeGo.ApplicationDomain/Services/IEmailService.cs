@@ -7,5 +7,6 @@ namespace TimeGo.ApplicationDomain.Services
         void SendWelcomeEmail(Employee user);
         void SendConfirmEmail(Employee user, string code);
         void SendForgotPasswordEmail(Employee user, string code);
+        void SendInviteEmail(string token, string subdomen, string email);
     }
 }

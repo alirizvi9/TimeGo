@@ -2,6 +2,7 @@
 using TimeGo.ApplicationDomain.Entities;
 using TimeGo.ApplicationDomain.Enums;
 using TimeGo.ApplicationDomain.Models;
+using TimeGo.ApplicationDomain.Models.Users;
 
 namespace TimeGo.ApplicationDomain.Services
 {
@@ -14,5 +15,8 @@ namespace TimeGo.ApplicationDomain.Services
         ErrorCodes ForgotPassword(string email);
         void ResetPassword(int userId, string code, string password);
         void ConfirmEmail(int userId, string code);
+        ErrorCodes AddEmployee(AddEmployeeViewModel model, Employee user);
+        ErrorCodes AddEmployee(AddEmployeeViewModel model, Company company);
+        ErrorCodes InviteEmployee(string token, Employee user, string email);
     }
 }

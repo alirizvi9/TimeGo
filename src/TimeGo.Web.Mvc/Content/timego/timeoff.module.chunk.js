@@ -4,18 +4,18 @@ webpackJsonp(["timeoff.module"],{
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return GET; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return GET_COMPLETE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return GET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GET_COMPLETE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ADD; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ADD_COMPLETE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return CHANGE_STATUS; });
-/* unused harmony export CHANGE_STATUS_COMPLETE */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GetAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GetCompleteAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return SaveAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return SaveCompleteAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return ChangeStatusAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return ChangeStatusCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return CHANGE_STATUS_COMPLETE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GetAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GetCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return SaveAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return SaveCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return ChangeStatusAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return ChangeStatusCompleteAction; });
 var GET = '[Timeoff] Get timeoff requests';
 var GET_COMPLETE = '[Timeoff] Get Complete';
 var ADD = '[Timeoff] Add timeoff request';
@@ -84,9 +84,12 @@ var ChangeStatusCompleteAction = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_datepicker__ = __webpack_require__("../../../../ng2-datepicker/lib-dist/ng2-datepicker.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap_pagination__ = __webpack_require__("../../../../ngx-bootstrap/pagination/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__timeoff_list_timeoff_list__ = __webpack_require__("../../../../../src/app/timeoff/components/timeoff-list/timeoff-list.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap_pagination__ = __webpack_require__("../../../../ngx-bootstrap/pagination/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__timeoff_list_timeoff_list__ = __webpack_require__("../../../../../src/app/timeoff/components/timeoff-list/timeoff-list.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ngx_datetime_picker__ = __webpack_require__("../../../../ngx-datetime-picker/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_HttpLoaderFactory__ = __webpack_require__("../../../../../src/app/services/HttpLoaderFactory.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -100,8 +103,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
+
+
 var COMPONENTS = [
-    __WEBPACK_IMPORTED_MODULE_6__timeoff_list_timeoff_list__["a" /* TimeoffListComponent */]
+    __WEBPACK_IMPORTED_MODULE_5__timeoff_list_timeoff_list__["a" /* TimeoffListComponent */]
 ];
 var ComponentsModule = (function () {
     function ComponentsModule() {
@@ -111,12 +117,20 @@ var ComponentsModule = (function () {
 ComponentsModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap_pagination__["a" /* PaginationModule */].forRoot(),
-            __WEBPACK_IMPORTED_MODULE_4_ng2_datepicker__["a" /* DatePickerModule */],
+            __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap_pagination__["a" /* PaginationModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_6_ngx_datetime_picker__["a" /* DateTimePickerModule */],
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* ReactiveFormsModule */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
-            __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* RouterModule */]
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["e" /* ReactiveFormsModule */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* FormsModule */],
+            __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* RouterModule */],
+            __WEBPACK_IMPORTED_MODULE_7__angular_common_http__["b" /* HttpClientModule */],
+            __WEBPACK_IMPORTED_MODULE_8__ngx_translate_core__["b" /* TranslateModule */].forRoot({
+                loader: {
+                    provide: __WEBPACK_IMPORTED_MODULE_8__ngx_translate_core__["a" /* TranslateLoader */],
+                    useFactory: __WEBPACK_IMPORTED_MODULE_9__services_HttpLoaderFactory__["a" /* HttpLoaderFactory */],
+                    deps: [__WEBPACK_IMPORTED_MODULE_7__angular_common_http__["a" /* HttpClient */]]
+                }
+            })
         ],
         declarations: COMPONENTS,
         exports: COMPONENTS,
@@ -130,7 +144,7 @@ ComponentsModule = __decorate([
 /***/ "../../../../../src/app/timeoff/components/timeoff-list/timeoff-list.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-12\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        TIMEOFF REQUESTS\r\n      </div>\r\n      <div class=\"card-block\" *ngIf=\"isLoaded\">\r\n        <div class=\"form-group float-right\">\r\n          <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#addmodal\">\r\n            Request\r\n          </button>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <table class=\"table table-hover table-outline mb-0 hidden-sm-down\" *ngIf=\"isLoaded\">\r\n            <thead class=\"thead-default\">\r\n              <tr>\r\n                <td class=\"text-center\">User Name <a class=\"fa fa-sort\" (click)=\"order.emit('id')\"></a></td>\r\n                <td class=\"text-center\">Start Date <a class=\"fa fa-sort\" (click)=\"order.emit('FromDate')\"></a></td>\r\n                <td class=\"text-center\">End Date <a class=\"fa fa-sort\" (click)=\"order.emit('ToDate')\"></a></td>\r\n                <td class=\"text-center\">Returning to work <a class=\"fa fa-sort\" (click)=\"order.emit('ReturningToWork')\"></a></td>\r\n                <td class=\"text-center\">Reasone <a class=\"fa fa-sort\" (click)=\"order.emit('Reason')\"></a></td>\r\n                <td class=\"text-center\">Status <a class=\"fa fa-sort\" (click)=\"order.emit('ApprovalStatusId')\"></a></td>\r\n                <td class=\"text-center\">Action </td>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr *ngFor=\"let timeoff of timeoffrequests\">\r\n                <td class=\"text-center\">{{timeoff.UserName}}</td>\r\n                <td class=\"text-center\">{{timeoff.StartDate | date: 'dd/MM/yyyy'}}</td>\r\n                <td class=\"text-center\">{{timeoff.EndDate | date: 'dd/MM/yyyy'}}</td>\r\n                <td class=\"text-center\">{{timeoff.ReturningToWork | date: 'dd/MM/yyyy'}}</td>\r\n                <td class=\"text-center\">{{timeoff.Reasone}}</td>\r\n                <td class=\"text-center\" *ngIf=\"timeoff.Status == 'Canceled'\"><span class=\"badge badge-default timego-status\">{{timeoff.Status}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"timeoff.Status == 'Waiting for Approval'\"><span class=\"badge badge-warning timego-status\">{{timeoff.Status}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"timeoff.Status == 'Denined'\"><span class=\"badge badge-danger timego-status\">{{timeoff.Status}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"timeoff.Status == 'Accepted'\"><span class=\"badge badge-success timego-status\">{{timeoff.Status}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"role == 'Task Manager'\">\r\n                  <button type=\"button\" [disabled]=\"timeoff.Status != 'Waiting for Approval'\" class=\"btn btn-sm btn-success\" (click)=\"changeStatusAction({id: timeoff.Id, status: 'Accepted'})\">Approve</button>\r\n                  <button type=\"button\" [disabled]=\"timeoff.Status != 'Waiting for Approval'\" class=\"btn btn-sm btn-danger\" (click)=\"changeStatusAction({id: timeoff.Id, status: 'Denined'})\">Deny</button>\r\n                </td>\r\n                <td class=\"text-center\" *ngIf=\"role == 'Employee'\">\r\n                  <button type=\"button\" [disabled]=\"timeoff.Status == 'Canceled'\" class=\"btn btn-sm btn-danger\" (click)=\"changeStatusAction({id: timeoff.Id, status: 'Canceled'})\">Cancel</button>\r\n                </td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <pagination [totalItems]=\"pagingModel.count\" [(ngModel)]=\"pagingModel.page\" (pageChanged)=\"changePage.emit({\r\n            orderBy: pagingModel.orderBy,\r\n            page: $event.page,\r\n            pageSize: pagingModel.pageSize,\r\n            IsAscending: !pagingModel.IsAscending,\r\n            count: pagingModel.count,\r\n            IsOrder: false})\"></pagination>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal fade\" id=\"addmodal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Add Timeoff request\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">Add Timeoff request</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\">\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">Start date</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <!--<ng2-datepicker [(ngModel)]=\"addTimeoff.StartDate\" class=\"col-md-12\"></ng2-datepicker>-->\r\n            <input required [(ngModel)]=\"addTimeoff.StartDate\" type=\"date\" class=\"datepicker\" />\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">End date</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <input required [(ngModel)]=\"addTimeoff.EndDate\" type=\"date\" class=\"datepicker\" />\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">Returning to work</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <input required [(ngModel)]=\"addTimeoff.ReturningToWork\" type=\"date\" class=\"datepicker\" />\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">Reasone</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-note\"></i>\r\n            </span>\r\n            <input type=\"text\" class=\"form-control\" id=\"company-name\" placeholder=\"Reasone\" [(ngModel)]=\"addTimeoff.Reasone\" />\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"addTimeoffAction(addTimeoff)\">Add Request</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-12\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        {{ 'TimeoffHeader' | translate }}\r\n      </div>\r\n      <div class=\"card-block\" *ngIf=\"isLoaded\">\r\n        <div class=\"form-group float-right\">\r\n          <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#addmodal\">\r\n            {{ 'AddRequest' | translate }}\r\n          </button>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <table class=\"table table-hover table-outline mb-0 hidden-sm-down\" *ngIf=\"isLoaded\">\r\n            <thead class=\"thead-default\">\r\n              <tr>\r\n                <td class=\"text-center\">{{ 'UserNameTable' | translate }} <a [ngClass]=\"getArrowClass('id')\" (click)=\"order.emit('id')\"></a></td>\r\n                <td class=\"text-center\">{{ 'StartDate' | translate }} <a [ngClass]=\"getArrowClass('FromDate')\" (click)=\"order.emit('FromDate')\"></a></td>\r\n                <td class=\"text-center\">{{ 'EndDate' | translate }} <a [ngClass]=\"getArrowClass('ToDate')\" (click)=\"order.emit('ToDate')\"></a></td>\r\n                <td class=\"text-center\">{{ 'ReturningToWork' | translate }} <a [ngClass]=\"getArrowClass('ReturningToWork')\" (click)=\"order.emit('ReturningToWork')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Reasone' | translate }} <a [ngClass]=\"getArrowClass('Reason')\" (click)=\"order.emit('Reason')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Status' | translate }} <a [ngClass]=\"getArrowClass('ApprovalStatusId')\" (click)=\"order.emit('ApprovalStatusId')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Action' | translate }} </td>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr *ngFor=\"let timeoff of timeoffrequests\">\r\n                <td class=\"text-center\">{{timeoff.UserName}}</td>\r\n                <td class=\"text-center\">{{timeoff.StartDate | date: 'dd/MM/yyyy'}}</td>\r\n                <td class=\"text-center\">{{timeoff.EndDate | date: 'dd/MM/yyyy'}}</td>\r\n                <td class=\"text-center\">{{timeoff.ReturningToWork | date: 'dd/MM/yyyy'}}</td>\r\n                <td class=\"text-center\">{{timeoff.Reasone}}</td>\r\n                <td class=\"text-center\" *ngIf=\"timeoff.Status == 'Canceled'\"><span class=\"badge badge-default timego-status\">{{timeoff.Status}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"timeoff.Status == 'Waiting for Approval'\"><span class=\"badge badge-warning timego-status\">{{timeoff.Status}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"timeoff.Status == 'Denined'\"><span class=\"badge badge-danger timego-status\">{{timeoff.Status}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"timeoff.Status == 'Accepted'\"><span class=\"badge badge-success timego-status\">{{timeoff.Status}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"role == 'Task Manager'\">\r\n                  <button type=\"button\" [disabled]=\"timeoff.Status != 'Waiting for Approval'\" class=\"btn btn-sm btn-success\" (click)=\"changeStatusAction({id: timeoff.Id, status: 'Accepted'})\">{{ 'Approve' | translate }}</button>\r\n                  <button type=\"button\" [disabled]=\"timeoff.Status != 'Waiting for Approval'\" class=\"btn btn-sm btn-danger\" (click)=\"changeStatusAction({id: timeoff.Id, status: 'Denined'})\">{{ 'Deny' | translate }}</button>\r\n                </td>\r\n                <td class=\"text-center\" *ngIf=\"role == 'Employee'\">\r\n                  <button type=\"button\" [disabled]=\"timeoff.Status == 'Canceled'\" class=\"btn btn-sm btn-danger\" (click)=\"changeStatusAction({id: timeoff.Id, status: 'Canceled'})\">{{ 'Cancel' | translate }}</button>\r\n                </td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <pagination [totalItems]=\"pagingModel.count\" [(ngModel)]=\"pagingModel.page\" (pageChanged)=\"changePage.emit({\r\n            orderBy: pagingModel.orderBy,\r\n            page: $event.page,\r\n            pageSize: pagingModel.pageSize,\r\n            IsAscending: !pagingModel.IsAscending,\r\n            count: pagingModel.count,\r\n            IsOrder: false})\"></pagination>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal fade\" id=\"addmodal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Add Timeoff request\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">{{ 'AddRequestTimeoff' | translate }}</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\">\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'StartDate' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <ngx-date-picker [(selectedDate)]=\"addTimeoff.StartDate\"></ngx-date-picker>\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'EndDate' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <ngx-date-picker [(selectedDate)]=\"addTimeoff.EndDate\"></ngx-date-picker>\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'ReturningToWork' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <ngx-date-picker [(selectedDate)]=\"addTimeoff.ReturningToWork\"></ngx-date-picker>\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'Reasone' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-note\"></i>\r\n            </span>\r\n            <input type=\"text\" class=\"form-control\" id=\"company-name\" placeholder=\"Reasone\" [(ngModel)]=\"addTimeoff.Reasone\" />\r\n          </div>\r\n        </div>\n        <div class=\"row form-group validation-error\" *ngIf=\"addTimeoff.StartDate < dateNow || addTimeoff.EndDate < dateNow\">\r\n          <h6 class=\"col-md-10\">Please, select a date after today's date</h6>\r\n        </div>\n        <div class=\"row form-group validation-error\" *ngIf=\"addTimeoff.StartDate > addTimeoff.EndDate\">\r\n          <h6 class=\"col-md-10\">Please, select a end date after start date</h6>\r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">{{ 'Close' | translate }}</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"addTimeoffAction(addTimeoff)\" [disabled]=\"addTimeoff.StartDate < dateNow || addTimeoff.EndDate < dateNow || addTimeoff.StartDate > addTimeoff.EndDate\">{{ 'Request' | translate }}</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -160,6 +174,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_timeoff_list_paging_model__ = __webpack_require__("../../../../../src/app/timeoff/models/timeoff-list-paging.model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_timeoff_list_paging_model___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__models_timeoff_list_paging_model__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -171,23 +186,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var TimeoffListComponent = (function () {
-    function TimeoffListComponent() {
+    function TimeoffListComponent(translate) {
+        this.translate = translate;
         this.isLoaded = false;
         this.loading = false;
         this.order = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.add = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.changeStatus = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.changePage = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.dateNow = new Date();
         this.addTimeoff = {
             StartDate: new Date(),
             EndDate: new Date(),
             Reasone: "",
             ReturningToWork: new Date(),
         };
+        translate.addLangs(["en", "fr"]);
+        translate.setDefaultLang('en');
     }
     TimeoffListComponent.prototype.ngOnInit = function () {
         this.role = commonServerData.Role;
+    };
+    TimeoffListComponent.prototype.getArrowClass = function (field) {
+        if (field != this.pagingModel.orderBy)
+            return "fa fa-sort";
+        if (this.pagingModel.IsAscending)
+            return "fa fa-sort-asc";
+        return "fa fa-sort-desc";
     };
     TimeoffListComponent.prototype.addTimeoffAction = function (model) {
         this.add.emit(model);
@@ -236,10 +263,11 @@ TimeoffListComponent = __decorate([
         selector: 'up-timeoff-list',
         template: __webpack_require__("../../../../../src/app/timeoff/components/timeoff-list/timeoff-list.html"),
         styles: [__webpack_require__("../../../../../src/app/timeoff/components/timeoff-list/timeoff-list.scss")]
-    })
+    }),
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */]) === "function" && _b || Object])
 ], TimeoffListComponent);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=timeoff-list.js.map
 
 /***/ }),
@@ -286,7 +314,7 @@ var TimeoffPageComponent = (function () {
             count: 10,
             IsOrder: true
         };
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timeoff__["h" /* GetAction */](pagingModelView));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timeoff__["i" /* GetAction */](pagingModelView));
     };
     TimeoffPageComponent.prototype.orderTimeoffrequests = function (orderBy) {
         var pagingModelView = {
@@ -297,18 +325,16 @@ var TimeoffPageComponent = (function () {
             count: 10,
             IsOrder: true
         };
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timeoff__["h" /* GetAction */](pagingModelView));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timeoff__["i" /* GetAction */](pagingModelView));
     };
     TimeoffPageComponent.prototype.addTimeoffrequest = function (model) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timeoff__["j" /* SaveAction */](model));
-        this.orderTimeoffrequests("id");
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timeoff__["k" /* SaveAction */](model));
     };
     TimeoffPageComponent.prototype.changeStatus = function (model) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timeoff__["d" /* ChangeStatusAction */](model));
-        this.orderTimeoffrequests("id");
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timeoff__["e" /* ChangeStatusAction */](model));
     };
     TimeoffPageComponent.prototype.changePage = function (model) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timeoff__["h" /* GetAction */](model));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timeoff__["i" /* GetAction */](model));
     };
     return TimeoffPageComponent;
 }());
@@ -351,6 +377,7 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__timeoff_service__ = __webpack_require__("../../../../../src/app/timeoff/timeoff.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__actions_timeoff__ = __webpack_require__("../../../../../src/app/timeoff/actions/timeoff.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -372,21 +399,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var TimeoffEffects = (function () {
-    function TimeoffEffects(actions$, timeoffService) {
+    function TimeoffEffects(actions$, timeoffService, toasterService) {
         var _this = this;
         this.actions$ = actions$;
         this.timeoffService = timeoffService;
+        this.toasterService = toasterService;
         this.get$ = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["f" /* GET */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["g" /* GET */])
             .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
             .switchMap(function (query) {
-            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["f" /* GET */]).skip(1);
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["g" /* GET */]).skip(1);
+            _this.pagingModel = query;
             return _this.timeoffService
                 .getTimeoffList(query)
                 .takeUntil(nextGet$)
-                .map(function (users) { return new __WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["i" /* GetCompleteAction */](users); })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["i" /* GetCompleteAction */](null)); });
+                .map(function (users) { return new __WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["j" /* GetCompleteAction */](users); })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["j" /* GetCompleteAction */](null)); });
         });
         this.save$ = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["a" /* ADD */])
@@ -396,8 +426,11 @@ var TimeoffEffects = (function () {
             return _this.timeoffService
                 .addTimeoff(query)
                 .takeUntil(nextGet$)
-                .map(function (result) { return new __WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["k" /* SaveCompleteAction */](result); })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["k" /* SaveCompleteAction */](null)); });
+                .map(function (result) {
+                _this.toasterService.pop('success', 'Success', 'Success Add Timeoff');
+                return new __WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["l" /* SaveCompleteAction */](result);
+            })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["l" /* SaveCompleteAction */](null)); });
         });
         this.change$ = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["c" /* CHANGE_STATUS */])
@@ -407,8 +440,22 @@ var TimeoffEffects = (function () {
             return _this.timeoffService
                 .changeStatus(model)
                 .takeUntil(nextGet$)
-                .map(function (result) { return new __WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["e" /* ChangeStatusCompleteAction */](result); })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["e" /* ChangeStatusCompleteAction */](null)); });
+                .map(function (result) {
+                _this.toasterService.pop('success', 'Success Change status', 'Timeoff request: ' + model.status);
+                return new __WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["f" /* ChangeStatusCompleteAction */](result);
+            })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["f" /* ChangeStatusCompleteAction */](null)); });
+        });
+        this.update$ = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["d" /* CHANGE_STATUS_COMPLETE */], __WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["b" /* ADD_COMPLETE */])
+            .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
+            .switchMap(function (model) {
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["h" /* GET_COMPLETE */]);
+            return _this.timeoffService
+                .getTimeoffList(_this.pagingModel)
+                .takeUntil(nextGet$)
+                .map(function (users) { return new __WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["j" /* GetCompleteAction */](users); })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timeoff__["j" /* GetCompleteAction */](null)); });
         });
     }
     return TimeoffEffects;
@@ -425,12 +472,16 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"]) === "function" && _c || Object)
 ], TimeoffEffects.prototype, "change$", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"]) === "function" && _d || Object)
+], TimeoffEffects.prototype, "update$", void 0);
 TimeoffEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_10__timeoff_service__["a" /* TimeoffService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__timeoff_service__["a" /* TimeoffService */]) === "function" && _e || Object])
+    __metadata("design:paramtypes", [typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_10__timeoff_service__["a" /* TimeoffService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__timeoff_service__["a" /* TimeoffService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */]) === "function" && _g || Object])
 ], TimeoffEffects);
 
-var _a, _b, _c, _d, _e;
+var _a, _b, _c, _d, _e, _f, _g;
 //# sourceMappingURL=timeoff.js.map
 
 /***/ }),
@@ -498,7 +549,7 @@ var initialState = {
 function reducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
-        case __WEBPACK_IMPORTED_MODULE_0__actions_timeoff__["f" /* GET */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_timeoff__["g" /* GET */]:
             var pagingModel = action.payload;
             pagingModel.IsAscending = !pagingModel.IsOrder ? state.pagingModel.IsAscending : pagingModel != null && pagingModel.orderBy != "id" ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
             {
@@ -509,7 +560,7 @@ function reducer(state, action) {
                     pagingModel: pagingModel,
                 };
             }
-        case __WEBPACK_IMPORTED_MODULE_0__actions_timeoff__["g" /* GET_COMPLETE */]: {
+        case __WEBPACK_IMPORTED_MODULE_0__actions_timeoff__["h" /* GET_COMPLETE */]: {
             var loadedTimeoffRequests = action.payload;
             return {
                 timeoffRequests: loadedTimeoffRequests.Results,
@@ -645,7 +696,7 @@ TimeoffModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
         imports: [
             __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* HttpModule */],
-            __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormsModule */],
+            __WEBPACK_IMPORTED_MODULE_3__angular_forms__["c" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_6__timeoff_routing_module__["a" /* TimeoffRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_10__components_index__["a" /* ComponentsModule */],

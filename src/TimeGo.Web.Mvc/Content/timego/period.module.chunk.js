@@ -4,20 +4,20 @@ webpackJsonp(["period.module"],{
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GET; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET_COMPLETE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_COMPLETE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ADD; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ADD_COMPLETE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return CHANGE_STATUS; });
-/* unused harmony export CHANGE_STATUS_COMPLETE */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return DELETE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GetAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GetCompleteAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return SaveAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return SaveCompleteAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return ChangeStatusAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return ChangeStatusCompleteAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return DeleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return CHANGE_STATUS_COMPLETE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return DELETE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GetAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GetCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return SaveAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return SaveCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return ChangeStatusAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return ChangeStatusCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return DeleteAction; });
 var GET = '[Period] Get periods';
 var GET_COMPLETE = '[Period] Get Complete';
 var ADD = '[Period] Add period';
@@ -95,9 +95,12 @@ var DeleteAction = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_datepicker__ = __webpack_require__("../../../../ng2-datepicker/lib-dist/ng2-datepicker.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap_pagination__ = __webpack_require__("../../../../ngx-bootstrap/pagination/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__period_list_period_list__ = __webpack_require__("../../../../../src/app/periods/components/period-list/period-list.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap_pagination__ = __webpack_require__("../../../../ngx-bootstrap/pagination/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__period_list_period_list__ = __webpack_require__("../../../../../src/app/periods/components/period-list/period-list.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ngx_datetime_picker__ = __webpack_require__("../../../../ngx-datetime-picker/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__services_HttpLoaderFactory__ = __webpack_require__("../../../../../src/app/services/HttpLoaderFactory.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -111,8 +114,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
+
+
 var COMPONENTS = [
-    __WEBPACK_IMPORTED_MODULE_6__period_list_period_list__["a" /* PeriodListComponent */]
+    __WEBPACK_IMPORTED_MODULE_5__period_list_period_list__["a" /* PeriodListComponent */]
 ];
 var ComponentsModule = (function () {
     function ComponentsModule() {
@@ -122,12 +128,20 @@ var ComponentsModule = (function () {
 ComponentsModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap_pagination__["a" /* PaginationModule */].forRoot(),
-            __WEBPACK_IMPORTED_MODULE_4_ng2_datepicker__["a" /* DatePickerModule */],
+            __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap_pagination__["a" /* PaginationModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_6_ngx_datetime_picker__["a" /* DateTimePickerModule */],
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* ReactiveFormsModule */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
-            __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* RouterModule */]
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["e" /* ReactiveFormsModule */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* FormsModule */],
+            __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* RouterModule */],
+            __WEBPACK_IMPORTED_MODULE_7__angular_common_http__["b" /* HttpClientModule */],
+            __WEBPACK_IMPORTED_MODULE_8__ngx_translate_core__["b" /* TranslateModule */].forRoot({
+                loader: {
+                    provide: __WEBPACK_IMPORTED_MODULE_8__ngx_translate_core__["a" /* TranslateLoader */],
+                    useFactory: __WEBPACK_IMPORTED_MODULE_9__services_HttpLoaderFactory__["a" /* HttpLoaderFactory */],
+                    deps: [__WEBPACK_IMPORTED_MODULE_7__angular_common_http__["a" /* HttpClient */]]
+                }
+            })
         ],
         declarations: COMPONENTS,
         exports: COMPONENTS,
@@ -141,7 +155,7 @@ ComponentsModule = __decorate([
 /***/ "../../../../../src/app/periods/components/period-list/period-list.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-8 push-md-2\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        TIMESHEETS PERIODS\r\n      </div>\r\n      <div class=\"card-block\" *ngIf=\"isLoaded\">\r\n        <div class=\"form-group float-right\">\r\n          <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#addmodal\">\r\n            Add Period\r\n          </button>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <table class=\"table table-hover table-outline mb-0 hidden-sm-down\" *ngIf=\"isLoaded\">\r\n            <thead class=\"thead-default\">\r\n              <tr>\r\n                <td class=\"text-center\">Period Start Date <a class=\"fa fa-sort\" (click)=\"order.emit('PeriodStart')\"></a></td>\r\n                <td class=\"text-center\">Period End Date <a class=\"fa fa-sort\" (click)=\"order.emit('PeriodEnd')\"></a></td>\r\n                <td class=\"text-center\">Reminder 1 Date <a class=\"fa fa-sort\" (click)=\"order.emit('Reminder1Date')\"></a></td>\r\n                <td class=\"text-center\">Reminder 2 Date <a class=\"fa fa-sort\" (click)=\"order.emit('Reminder2Date')\"></a></td>\r\n                <td class=\"text-center\">Period Status <a class=\"fa fa-sort\" (click)=\"order.emit('LockStatusId')\"></a></td>\r\n                <td class=\"text-center\">Action </td>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr *ngFor=\"let period of periods\">\r\n                <td class=\"text-center\">{{period.PeriodStart | date: 'dd-MMM-yy'}}</td>\r\n                <td class=\"text-center\">{{period.PeriodEnd | date: 'dd-MMM-yy'}}</td>\r\n                <td class=\"text-center\">{{period.Reminder1 | date: 'dd-MMM-yy'}}</td>\r\n                <td class=\"text-center\">{{period.Reminder2 | date: 'dd-MMM-yy'}}</td>\r\n                <td class=\"text-center\" *ngIf=\"period.Status == 'Locked'\"><span class=\"badge badge-danger timego-status\">{{period.Status}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"period.Status == 'Unlocked'\"><span class=\"badge badge-success timego-status\">{{period.Status}}</span></td>\r\n                <td class=\"text-center\">\r\n                  <button type=\"button\" *ngIf=\"period.Status == 'Unlocked'\" class=\"btn btn-sm btn-danger\" (click)=\"changeStatusAction({id: period.Id, status: 'Locked'})\">Lock</button>\r\n                  <button type=\"button\" *ngIf=\"period.Status == 'Locked'\" class=\"btn btn-sm btn-success\" (click)=\"changeStatusAction({id: period.Id, status: 'Unlocked'})\">Unlock</button>\n                  <button type=\"button\" class=\"btn btn-sm btn-danger\" (click)=\"delete.emit({id: period.Id, paging: pagingModel})\">Delete</button>\r\n                </td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <pagination [totalItems]=\"pagingModel.count\" [(ngModel)]=\"pagingModel.page\" (pageChanged)=\"changePage.emit({\r\n            orderBy: pagingModel.orderBy,\r\n            page: $event.page,\r\n            pageSize: pagingModel.pageSize,\r\n            IsAscending: !pagingModel.IsAscending,\r\n            count: pagingModel.count,\r\n            IsOrder: false})\"></pagination>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal fade\" id=\"addmodal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Add period\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">Add period</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\">\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">Start date</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <!--<ng2-datepicker [(ngModel)]=\"addTimeoff.StartDate\" class=\"col-md-12\"></ng2-datepicker>-->\r\n            <input required [(ngModel)]=\"addPeriod.StartDate\" type=\"date\" class=\"datepicker\" />\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">Reminder 1 Date</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <input required [(ngModel)]=\"addPeriod.Reminder1\" type=\"date\" class=\"datepicker\" />\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">Reminder 2 Date</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <input required [(ngModel)]=\"addPeriod.Reminder2\" type=\"date\" class=\"datepicker\" />\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"addPeriodAction(addPeriod)\">Add</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-8 push-md-2\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        {{ 'PeriodHeader' | translate }}\r\n      </div>\r\n      <div class=\"card-block\" *ngIf=\"isLoaded\">\r\n        <div class=\"form-group float-right\">\r\n          <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#addmodal\">\r\n            {{ 'AddPeriod' | translate }}\r\n          </button>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <table class=\"table table-hover table-outline mb-0 hidden-sm-down\" *ngIf=\"isLoaded\">\r\n            <thead class=\"thead-default\">\r\n              <tr>\r\n                <td class=\"text-center\">{{ 'PeriodStartDate' | translate }} <a [ngClass]=\"getArrowClass('PeriodStart')\" (click)=\"order.emit('PeriodStart')\"></a></td>\r\n                <td class=\"text-center\">{{ 'PeriodEndDate' | translate }} <a [ngClass]=\"getArrowClass('PeriodEnd')\" (click)=\"order.emit('PeriodEnd')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Reminder1Date' | translate }} <a [ngClass]=\"getArrowClass('Reminder1Date')\" (click)=\"order.emit('Reminder1Date')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Reminder2Date' | translate }} <a [ngClass]=\"getArrowClass('Reminder2Date')\" (click)=\"order.emit('Reminder2Date')\"></a></td>\r\n                <td class=\"text-center\">{{ 'PeriodStatus' | translate }} <a [ngClass]=\"getArrowClass('LockStatusId')\" (click)=\"order.emit('LockStatusId')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Action' | translate }} </td>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr *ngFor=\"let period of periods\">\r\n                <td class=\"text-center\">{{period.PeriodStart | date: 'dd-MMM-yy'}}</td>\r\n                <td class=\"text-center\">{{period.PeriodEnd | date: 'dd-MMM-yy'}}</td>\r\n                <td class=\"text-center\">{{period.Reminder1 | date: 'dd-MMM-yy'}}</td>\r\n                <td class=\"text-center\">{{period.Reminder2 | date: 'dd-MMM-yy'}}</td>\r\n                <td class=\"text-center\" *ngIf=\"period.Status == 'Locked'\"><span class=\"badge badge-danger timego-status\">{{period.Status}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"period.Status == 'Unlocked'\"><span class=\"badge badge-success timego-status\">{{period.Status}}</span></td>\r\n                <td class=\"text-center\">\r\n                  <button type=\"button\" *ngIf=\"period.Status == 'Unlocked'\" class=\"btn btn-sm btn-danger\" (click)=\"changeStatusAction({id: period.Id, status: 'Locked'})\">{{ 'Lock' | translate }}</button>\r\n                  <button type=\"button\" *ngIf=\"period.Status == 'Locked'\" class=\"btn btn-sm btn-success\" (click)=\"changeStatusAction({id: period.Id, status: 'Unlocked'})\">{{ 'Unlock' | translate }}</button>\r\n                  <button type=\"button\" class=\"btn btn-sm btn-danger\" data-toggle=\"modal\" data-target=\"#deleteModal\" (click)=\"deleteId = period.Id\">{{ 'Delete' | translate }}</button>\r\n                </td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <pagination [totalItems]=\"pagingModel.count\" [(ngModel)]=\"pagingModel.page\" (pageChanged)=\"changePage.emit({\r\n            orderBy: pagingModel.orderBy,\r\n            page: $event.page,\r\n            pageSize: pagingModel.pageSize,\r\n            IsAscending: !pagingModel.IsAscending,\r\n            count: pagingModel.count,\r\n            IsOrder: false})\"></pagination>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal fade\" id=\"addmodal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Add period\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">{{ 'AddPeriod' | translate }}</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\">\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'Startdate' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <ngx-date-picker [(selectedDate)]=\"addPeriod.StartDate\"></ngx-date-picker>\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'Reminder1Date' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <ngx-date-picker [(selectedDate)]=\"addPeriod.Reminder1\"></ngx-date-picker>\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'Reminder2Date' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <ngx-date-picker [(selectedDate)]=\"addPeriod.Reminder2\"></ngx-date-picker>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">{{ 'Close' | translate }}</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"addPeriodAction(addPeriod)\">{{ 'Add' | translate }}</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal fade\" id=\"deleteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Delete period\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">{{ 'Delete' | translate }} {{ 'Period' | translate }}</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\">\r\n        <h6>{{ 'DeleteMessage' | translate }} {{ 'Period' | translate }}?</h6>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">{{ 'No' | translate }}</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"delete.emit({id: deleteId, paging: pagingModel})\">{{ 'Yes' | translate }}</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -153,6 +167,7 @@ module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-8 push-md-2\">\r\
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_period_list_paging_model__ = __webpack_require__("../../../../../src/app/periods/models/period-list-paging.model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_period_list_paging_model___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__models_period_list_paging_model__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -164,8 +179,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var PeriodListComponent = (function () {
-    function PeriodListComponent() {
+    function PeriodListComponent(translate) {
+        this.translate = translate;
         this.isLoaded = false;
         this.loading = false;
         this.order = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
@@ -178,7 +195,16 @@ var PeriodListComponent = (function () {
             Reminder2: new Date(),
             StartDate: new Date()
         };
+        translate.addLangs(["en", "fr"]);
+        translate.setDefaultLang('en');
     }
+    PeriodListComponent.prototype.getArrowClass = function (field) {
+        if (field != this.pagingModel.orderBy)
+            return "fa fa-sort";
+        if (this.pagingModel.IsAscending)
+            return "fa fa-sort-asc";
+        return "fa fa-sort-desc";
+    };
     PeriodListComponent.prototype.ngOnInit = function () {
         this.role = commonServerData.Role;
     };
@@ -233,10 +259,11 @@ PeriodListComponent = __decorate([
         selector: 'up-period-list',
         template: __webpack_require__("../../../../../src/app/periods/components/period-list/period-list.html"),
         styles: [__webpack_require__("../../../../../src/app/periods/components/period-list/period.scss")]
-    })
+    }),
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */]) === "function" && _b || Object])
 ], PeriodListComponent);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=period-list.js.map
 
 /***/ }),
@@ -301,7 +328,7 @@ var PeriodPageComponent = (function () {
             count: 10,
             IsOrder: true
         };
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["j" /* GetAction */](pagingModelView));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["k" /* GetAction */](pagingModelView));
     };
     PeriodPageComponent.prototype.orderPeriods = function (orderBy) {
         var pagingModelView = {
@@ -312,21 +339,19 @@ var PeriodPageComponent = (function () {
             count: 10,
             IsOrder: true
         };
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["j" /* GetAction */](pagingModelView));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["k" /* GetAction */](pagingModelView));
     };
     PeriodPageComponent.prototype.addPeriod = function (model) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["l" /* SaveAction */](model));
-        this.orderPeriods("id");
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["m" /* SaveAction */](model));
     };
     PeriodPageComponent.prototype.changeStatus = function (model) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["d" /* ChangeStatusAction */](model));
-        this.orderPeriods("id");
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["e" /* ChangeStatusAction */](model));
     };
     PeriodPageComponent.prototype.changePage = function (model) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["j" /* GetAction */](model));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["k" /* GetAction */](model));
     };
     PeriodPageComponent.prototype.delete = function (model) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["g" /* DeleteAction */](model));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["h" /* DeleteAction */](model));
     };
     return PeriodPageComponent;
 }());
@@ -369,6 +394,7 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__period_service__ = __webpack_require__("../../../../../src/app/periods/period.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__actions_period__ = __webpack_require__("../../../../../src/app/periods/actions/period.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -390,21 +416,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var PeriodEffects = (function () {
-    function PeriodEffects(actions$, periodService) {
+    function PeriodEffects(actions$, periodService, toasterService) {
         var _this = this;
         this.actions$ = actions$;
         this.periodService = periodService;
+        this.toasterService = toasterService;
         this.get$ = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["h" /* GET */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["i" /* GET */])
             .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
             .switchMap(function (query) {
-            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["h" /* GET */]).skip(1);
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["i" /* GET */]).skip(1);
+            _this.pagingModel = query;
             return _this.periodService
                 .getPeriodList(query)
                 .takeUntil(nextGet$)
-                .map(function (users) { return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["k" /* GetCompleteAction */](users); })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["k" /* GetCompleteAction */](null)); });
+                .map(function (users) { return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["l" /* GetCompleteAction */](users); })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["l" /* GetCompleteAction */](null)); });
         });
         this.save$ = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["a" /* ADD */])
@@ -414,8 +443,11 @@ var PeriodEffects = (function () {
             return _this.periodService
                 .addPeriod(query)
                 .takeUntil(nextGet$)
-                .map(function (result) { return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["m" /* SaveCompleteAction */](result); })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["m" /* SaveCompleteAction */](null)); });
+                .map(function (result) {
+                _this.toasterService.pop('success', 'Success', 'Success Add Period');
+                return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["n" /* SaveCompleteAction */](result);
+            })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["n" /* SaveCompleteAction */](null)); });
         });
         this.change$ = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["c" /* CHANGE_STATUS */])
@@ -425,19 +457,36 @@ var PeriodEffects = (function () {
             return _this.periodService
                 .changeStatus(model)
                 .takeUntil(nextGet$)
-                .map(function (result) { return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["e" /* ChangeStatusCompleteAction */](result); })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["e" /* ChangeStatusCompleteAction */](null)); });
+                .map(function (result) {
+                _this.toasterService.pop('success', 'Success', 'Success Change Status To ' + model.status);
+                return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["f" /* ChangeStatusCompleteAction */](result);
+            })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["f" /* ChangeStatusCompleteAction */](null)); });
         });
         this.delete$ = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["f" /* DELETE */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["g" /* DELETE */])
             .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
             .switchMap(function (model) {
-            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["h" /* GET */]);
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["i" /* GET */]);
             return _this.periodService
                 .delete(model.id)
                 .takeUntil(nextGet$)
-                .map(function (result) { return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["j" /* GetAction */](model.paging); })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["m" /* SaveCompleteAction */](null)); });
+                .map(function (result) {
+                _this.toasterService.pop('success', 'Success', 'Success Delete Period');
+                return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["k" /* GetAction */](model.paging);
+            })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["n" /* SaveCompleteAction */](null)); });
+        });
+        this.update$ = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["d" /* CHANGE_STATUS_COMPLETE */], __WEBPACK_IMPORTED_MODULE_11__actions_period__["b" /* ADD_COMPLETE */])
+            .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
+            .switchMap(function (model) {
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["j" /* GET_COMPLETE */]);
+            return _this.periodService
+                .getPeriodList(_this.pagingModel)
+                .takeUntil(nextGet$)
+                .map(function (users) { return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["l" /* GetCompleteAction */](users); })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["l" /* GetCompleteAction */](null)); });
         });
     }
     return PeriodEffects;
@@ -458,12 +507,16 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"]) === "function" && _d || Object)
 ], PeriodEffects.prototype, "delete$", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"]) === "function" && _e || Object)
+], PeriodEffects.prototype, "update$", void 0);
 PeriodEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_10__period_service__["a" /* PeriodService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__period_service__["a" /* PeriodService */]) === "function" && _f || Object])
+    __metadata("design:paramtypes", [typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_10__period_service__["a" /* PeriodService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__period_service__["a" /* PeriodService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */]) === "function" && _h || Object])
 ], PeriodEffects);
 
-var _a, _b, _c, _d, _e, _f;
+var _a, _b, _c, _d, _e, _f, _g, _h;
 //# sourceMappingURL=period.js.map
 
 /***/ }),
@@ -565,7 +618,7 @@ PeriodModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
         imports: [
             __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* HttpModule */],
-            __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormsModule */],
+            __WEBPACK_IMPORTED_MODULE_3__angular_forms__["c" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_6__period_routing_module__["a" /* PeriodRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_10__components_index__["a" /* ComponentsModule */],
@@ -685,7 +738,7 @@ var initialState = {
 function reducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
-        case __WEBPACK_IMPORTED_MODULE_0__actions_period__["h" /* GET */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_period__["i" /* GET */]:
             var pagingModel = action.payload;
             pagingModel.IsAscending = !pagingModel.IsOrder ? state.pagingModel.IsAscending : pagingModel != null && pagingModel.orderBy != "id" ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
             {
@@ -696,7 +749,7 @@ function reducer(state, action) {
                     pagingModel: pagingModel,
                 };
             }
-        case __WEBPACK_IMPORTED_MODULE_0__actions_period__["i" /* GET_COMPLETE */]: {
+        case __WEBPACK_IMPORTED_MODULE_0__actions_period__["j" /* GET_COMPLETE */]: {
             var loadedPeriods = action.payload;
             return {
                 periods: loadedPeriods.Results,

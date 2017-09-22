@@ -17,6 +17,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
+        "../node_modules/ngx-datetime-picker/ngx-datetimepicker/src/assets/ngx-datetime-picker.css",
         "scss/style.scss"
       ],
       "environmentSource": "environments/environment.ts",

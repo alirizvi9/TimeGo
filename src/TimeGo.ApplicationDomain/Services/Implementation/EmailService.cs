@@ -30,6 +30,13 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             SendEmail(emailModel, "ConfirmEmail");
         }
 
+        public void SendInviteEmail(string token, string subdomen, string email)
+        {
+            var url = string.Format(_settings.SieUrlForSubdomen, subdomen) + $"SignUpInvite?token={token}";
+            var emailModel = new InviteEmailModel(url, email, _settings) { Subject = Resource.WelcomeEmail };
+            SendEmail(emailModel, "InviteEmail");
+        }
+
         public void SendForgotPasswordEmail(Employee user, string code)
         {
             var url = _settings.SiteUrl + $"Account/reset?userId={user.Id}&code={code}";

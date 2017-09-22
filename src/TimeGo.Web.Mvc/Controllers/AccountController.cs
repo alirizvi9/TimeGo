@@ -8,6 +8,7 @@ using TimeGo.ApplicationDomain.Services;
 using System;
 using System.Web.UI.WebControls;
 using System.Collections.Generic;
+using TimeGo.ApplicationDomain.Models.Users;
 
 namespace TimeGo.Web.Mvc.Controllers
 {
@@ -61,6 +62,40 @@ namespace TimeGo.Web.Mvc.Controllers
                 return View(model);
             }
             return RedirectToSubDomain(model.CompanyUrl);
+        }
+
+        [AllowAnonymous]
+        [Route("SignUpInvite")]
+        public ActionResult SignUpInvite(string token)
+        {
+            if (Company == null || string.IsNullOrEmpty(token))
+                return RedirectToAction("SignUp");
+            ViewBag.CompanyName = Company.CompanyName;
+            var email = _authorizationService.GetInviteEmail(token);
+            var model = new SignUpEmployee() { Email = email };
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("SignUpInvite")]
+        public ActionResult SignUpInvite(SignUpEmployee model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            if (Company == null)
+                return RedirectToAction("SignUp");
+            var newEmployee = Mapper.Map<AddEmployeeViewModel>(model);
+            var error = _accountService.AddEmployee(newEmployee, Company);
+            if (error != ErrorCodes.Success)
+            {
+                if (error == ErrorCodes.EmailAlreadyExists)
+                    ModelState.AddModelError<SignUpEmployee>(x => x.Email, Resource.EmailAlreadyExist);
+                return View(model);
+            }
+            return RedirectToAction("CompanyLogin");
         }
 
         private SelectList GetWeekDays()

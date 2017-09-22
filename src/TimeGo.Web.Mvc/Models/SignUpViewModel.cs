@@ -15,6 +15,7 @@ namespace TimeGo.Web.Mvc.Models
 
         [Required(ErrorMessageResourceName = "FieldIsRequired", ErrorMessageResourceType = typeof(Resource))]
         public string FullName { get; set; }
+
         [Required(ErrorMessageResourceName = "FieldIsRequired", ErrorMessageResourceType = typeof(Resource))]
         [DataType(DataType.PhoneNumber, ErrorMessageResourceName = "PhoneNumberNotValid", ErrorMessageResourceType = typeof(Resource))]
         public string PhoneNumber { get; set; }

@@ -2,13 +2,13 @@
   <div class="col-md-8 push-md-2">
     <div class="card">
       <div class="card-header">
-        MY PROFILE
+        {{ 'ProfileHeader' | translate }}
       </div>
       <div class="card-block" *ngIf="isLoaded">
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="company-name">Company Name</label>
+              <label for="company-name">{{ 'CompanyName' | translate }}</label>
               <div class="input-group mb-3 required">
                 <span class="input-group-addon">
                   <i class="icon-organization"></i>
@@ -19,7 +19,7 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="contact-name">Contact Name</label>
+              <label for="contact-name">{{ 'ContactName' | translate }}</label>
               <div class="input-group mb-3 required">
                 <span class="input-group-addon">
                   <i class="icon-user"></i>
@@ -32,7 +32,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="phone-number">Phone Number</label>
+              <label for="phone-number">{{ 'PhoneNumber' | translate }}</label>
               <div class="input-group mb-3 required">
                 <span class="input-group-addon">
                   <i class="icon-phone"></i>
@@ -43,7 +43,7 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="email">Email</label>
+              <label for="email">{{ 'Email' | translate }}</label>
               <div class="input-group mb-3 required">
                 <span class="input-group-addon">
                   <i class="">@</i>
@@ -56,7 +56,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="vacation-approver-email">Vacation Approver Email</label>
+              <label for="vacation-approver-email">{{ 'VacationApproverEmail' | translate }}</label>
               <div class="input-group mb-3 required">
                 <span class="input-group-addon">
                   <i class="">@</i>
@@ -67,7 +67,7 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="week-day">Work Week Start Day</label>
+              <label for="week-day">{{ 'WorkWeekStartDay' | translate }}</label>
               <div class="input-group mb-3 required">
                 <span class="input-group-addon">
                   <i class="icon-calendar"></i>
@@ -82,7 +82,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="timesheets">Timesheets Weeks in advance</label>
+              <label for="timesheets">{{ 'Timesheets WeeksInAdvance' | translate }}</label>
               <div class="input-group mb-3 required">
                 <span class="input-group-addon">
                   <i class="icon-globe"></i>
@@ -95,7 +95,7 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="companyUrl">Company Url</label>
+              <label for="companyUrl">{{ 'CompanyUrl' | translate }}</label>
               <div class="input-group">
                 <input type="text" class="form-control" id="companyUrl" [(ngModel)]="company.TimeGoUrl">
                 <span class="input-group-addon">
@@ -106,7 +106,7 @@
           </div>
         </div>
         <div class="form-group float-right">
-          <input type="button" class="btn btn-primary" value="Save" (click)="save.emit(company)" />
+          <input type="button" class="btn btn-primary" value="{{ 'Save' | translate }}" (click)="save.emit(company)" />
         </div>
       </div>
     </div>

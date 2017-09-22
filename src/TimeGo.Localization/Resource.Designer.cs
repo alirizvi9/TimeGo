@@ -61,11 +61,92 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Action.
+        /// </summary>
+        public static string Action {
+            get {
+                return ResourceManager.GetString("Action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Actions.
         /// </summary>
         public static string Actions {
             get {
                 return ResourceManager.GetString("Actions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Employee.
+        /// </summary>
+        public static string AddEmployee {
+            get {
+                return ResourceManager.GetString("AddEmployee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to add another line for.
+        /// </summary>
+        public static string AddLine {
+            get {
+                return ResourceManager.GetString("AddLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Period.
+        /// </summary>
+        public static string AddPeriod {
+            get {
+                return ResourceManager.GetString("AddPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Request.
+        /// </summary>
+        public static string AddRequest {
+            get {
+                return ResourceManager.GetString("AddRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Request Timeoff.
+        /// </summary>
+        public static string AddRequestTimeoff {
+            get {
+                return ResourceManager.GetString("AddRequestTimeoff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Task.
+        /// </summary>
+        public static string AddTask {
+            get {
+                return ResourceManager.GetString("AddTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add User Rate.
+        /// </summary>
+        public static string AddUserRate {
+            get {
+                return ResourceManager.GetString("AddUserRate", resourceCulture);
             }
         }
         
@@ -79,6 +160,24 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allow.
+        /// </summary>
+        public static string Allow {
+            get {
+                return ResourceManager.GetString("Allow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check allowed task below.
+        /// </summary>
+        public static string AllowTaskMessage {
+            get {
+                return ResourceManager.GetString("AllowTaskMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Approval Status.
         /// </summary>
         public static string ApprovalStatus {
@@ -88,11 +187,56 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Approve.
+        /// </summary>
+        public static string Approve {
+            get {
+                return ResourceManager.GetString("Approve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approver 1 Email.
+        /// </summary>
+        public static string Approver1Email {
+            get {
+                return ResourceManager.GetString("Approver1Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approver 2 Email.
+        /// </summary>
+        public static string Approver2Email {
+            get {
+                return ResourceManager.GetString("Approver2Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Approver Notes:.
+        /// </summary>
+        public static string ApproverNotes {
+            get {
+                return ResourceManager.GetString("ApproverNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Billing Address.
         /// </summary>
         public static string BillingAddress {
             get {
                 return ResourceManager.GetString("BillingAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Calculate Overtime?.
+        /// </summary>
+        public static string CalculateOvertime {
+            get {
+                return ResourceManager.GetString("CalculateOvertime", resourceCulture);
             }
         }
         
@@ -120,6 +264,15 @@ namespace TimeGo {
         public static string ClickToLogIn {
             get {
                 return ResourceManager.GetString("ClickToLogIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
             }
         }
         
@@ -205,6 +358,24 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contact Name.
+        /// </summary>
+        public static string ContactName {
+            get {
+                return ResourceManager.GetString("ContactName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cost Rate.
+        /// </summary>
+        public static string CostRate {
+            get {
+                return ResourceManager.GetString("CostRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Country.
         /// </summary>
         public static string Country {
@@ -241,6 +412,24 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this.
+        /// </summary>
+        public static string DeleteMessage {
+            get {
+                return ResourceManager.GetString("DeleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deny.
+        /// </summary>
+        public static string Deny {
+            get {
+                return ResourceManager.GetString("Deny", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {
@@ -255,6 +444,24 @@ namespace TimeGo {
         public static string EditCompany {
             get {
                 return ResourceManager.GetString("EditCompany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Effective End Date.
+        /// </summary>
+        public static string EffectiveEndDate {
+            get {
+                return ResourceManager.GetString("EffectiveEndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Effective Start Date.
+        /// </summary>
+        public static string EffectiveStartDate {
+            get {
+                return ResourceManager.GetString("EffectiveStartDate", resourceCulture);
             }
         }
         
@@ -295,11 +502,56 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employee.
+        /// </summary>
+        public static string Employee {
+            get {
+                return ResourceManager.GetString("Employee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EMPLOYEES.
+        /// </summary>
+        public static string EmployeeHeader {
+            get {
+                return ResourceManager.GetString("EmployeeHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Employee Id.
+        /// </summary>
+        public static string EmployeeId {
+            get {
+                return ResourceManager.GetString("EmployeeId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Employee Notes:.
+        /// </summary>
+        public static string EmployeeNotes {
+            get {
+                return ResourceManager.GetString("EmployeeNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Employees.
         /// </summary>
         public static string Employees {
             get {
                 return ResourceManager.GetString("Employees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End Date.
+        /// </summary>
+        public static string EndDate {
+            get {
+                return ResourceManager.GetString("EndDate", resourceCulture);
             }
         }
         
@@ -376,6 +628,69 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to h.
+        /// </summary>
+        public static string Hours {
+            get {
+                return ResourceManager.GetString("Hours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invite.
+        /// </summary>
+        public static string Invite {
+            get {
+                return ResourceManager.GetString("Invite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invite Employee.
+        /// </summary>
+        public static string InviteEmployee {
+            get {
+                return ResourceManager.GetString("InviteEmployee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter email employee and we send him original url for registration.
+        /// </summary>
+        public static string InviteMessage {
+            get {
+                return ResourceManager.GetString("InviteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is Active?.
+        /// </summary>
+        public static string IsActive {
+            get {
+                return ResourceManager.GetString("IsActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is Admin?.
+        /// </summary>
+        public static string IsAdmin {
+            get {
+                return ResourceManager.GetString("IsAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last 4 SS.
+        /// </summary>
+        public static string Last4SS {
+            get {
+                return ResourceManager.GetString("Last4SS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last Name.
         /// </summary>
         public static string LastName {
@@ -399,6 +714,24 @@ namespace TimeGo {
         public static string Line2 {
             get {
                 return ResourceManager.GetString("Line2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lock.
+        /// </summary>
+        public static string Lock {
+            get {
+                return ResourceManager.GetString("Lock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Locked for User:.
+        /// </summary>
+        public static string LockedForUser {
+            get {
+                return ResourceManager.GetString("LockedForUser", resourceCulture);
             }
         }
         
@@ -439,11 +772,38 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to m.
+        /// </summary>
+        public static string Minutes {
+            get {
+                return ResourceManager.GetString("Minutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New password.
         /// </summary>
         public static string NewPassword {
             get {
                 return ResourceManager.GetString("NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to none.
+        /// </summary>
+        public static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
             }
         }
         
@@ -493,6 +853,60 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Period.
+        /// </summary>
+        public static string Period {
+            get {
+                return ResourceManager.GetString("Period", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Period End Date.
+        /// </summary>
+        public static string PeriodEndDate {
+            get {
+                return ResourceManager.GetString("PeriodEndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TIMESHEETS PERIODS.
+        /// </summary>
+        public static string PeriodHeader {
+            get {
+                return ResourceManager.GetString("PeriodHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Period Start Date.
+        /// </summary>
+        public static string PeriodStartDate {
+            get {
+                return ResourceManager.GetString("PeriodStartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Period Status.
+        /// </summary>
+        public static string PeriodStatus {
+            get {
+                return ResourceManager.GetString("PeriodStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone.
+        /// </summary>
+        public static string Phone {
+            get {
+                return ResourceManager.GetString("Phone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phone Number.
         /// </summary>
         public static string PhoneNumber {
@@ -516,6 +930,78 @@ namespace TimeGo {
         public static string PlanType {
             get {
                 return ResourceManager.GetString("PlanType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MY PROFILE.
+        /// </summary>
+        public static string ProfileHeader {
+            get {
+                return ResourceManager.GetString("ProfileHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USER RATES.
+        /// </summary>
+        public static string RatesHeader {
+            get {
+                return ResourceManager.GetString("RatesHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reasone.
+        /// </summary>
+        public static string Reasone {
+            get {
+                return ResourceManager.GetString("Reasone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reminder 1 Date.
+        /// </summary>
+        public static string Reminder1Date {
+            get {
+                return ResourceManager.GetString("Reminder1Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reminder 2 Date.
+        /// </summary>
+        public static string Reminder2Date {
+            get {
+                return ResourceManager.GetString("Reminder2Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Request.
+        /// </summary>
+        public static string Request {
+            get {
+                return ResourceManager.GetString("Request", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Request Resubmit.
+        /// </summary>
+        public static string RequestResubmit {
+            get {
+                return ResourceManager.GetString("RequestResubmit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Request to Unlock.
+        /// </summary>
+        public static string RequestToUnlock {
+            get {
+                return ResourceManager.GetString("RequestToUnlock", resourceCulture);
             }
         }
         
@@ -547,11 +1033,29 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Returning to work.
+        /// </summary>
+        public static string ReturningToWork {
+            get {
+                return ResourceManager.GetString("ReturningToWork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Employee.
+        /// </summary>
+        public static string SelectEmployee {
+            get {
+                return ResourceManager.GetString("SelectEmployee", resourceCulture);
             }
         }
         
@@ -574,6 +1078,15 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start Date.
+        /// </summary>
+        public static string StartDate {
+            get {
+                return ResourceManager.GetString("StartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to State.
         /// </summary>
         public static string State {
@@ -583,11 +1096,119 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string Status {
+            get {
+                return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        public static string Submit {
+            get {
+                return ResourceManager.GetString("Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submited on:.
+        /// </summary>
+        public static string SubmitedOn {
+            get {
+                return ResourceManager.GetString("SubmitedOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Task.
+        /// </summary>
+        public static string Task {
+            get {
+                return ResourceManager.GetString("Task", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TASKS.
+        /// </summary>
+        public static string TaskHeader {
+            get {
+                return ResourceManager.GetString("TaskHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Task Name.
+        /// </summary>
+        public static string TaskName {
+            get {
+                return ResourceManager.GetString("TaskName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TIMEOFF REQUESTS.
+        /// </summary>
+        public static string TimeoffHeader {
+            get {
+                return ResourceManager.GetString("TimeoffHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TIMESHEETS.
+        /// </summary>
+        public static string TimesheetHeader {
+            get {
+                return ResourceManager.GetString("TimesheetHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timesheets Weeks in advance.
+        /// </summary>
+        public static string TimesheetsWeeksInAdvance {
+            get {
+                return ResourceManager.GetString("TimesheetsWeeksInAdvance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Timezone.
         /// </summary>
         public static string Timezone {
             get {
                 return ResourceManager.GetString("Timezone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to to.
+        /// </summary>
+        public static string To {
+            get {
+                return ResourceManager.GetString("To", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total time:.
+        /// </summary>
+        public static string TotalTime {
+            get {
+                return ResourceManager.GetString("TotalTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unlock.
+        /// </summary>
+        public static string Unlock {
+            get {
+                return ResourceManager.GetString("Unlock", resourceCulture);
             }
         }
         
@@ -610,6 +1231,33 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User Name.
+        /// </summary>
+        public static string UserNameTable {
+            get {
+                return ResourceManager.GetString("UserNameTable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Rate.
+        /// </summary>
+        public static string UserRate {
+            get {
+                return ResourceManager.GetString("UserRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vacation Approver Email.
+        /// </summary>
+        public static string VacationApproverEmail {
+            get {
+                return ResourceManager.GetString("VacationApproverEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Week start.
         /// </summary>
         public static string WeekStart {
@@ -624,6 +1272,24 @@ namespace TimeGo {
         public static string WelcomeEmail {
             get {
                 return ResourceManager.GetString("WelcomeEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Work Week Start Day.
+        /// </summary>
+        public static string WorkWeekStartDay {
+            get {
+                return ResourceManager.GetString("WorkWeekStartDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
         

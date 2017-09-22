@@ -5,6 +5,7 @@ import { PeriodListPagingModel } from '../../models/period-list-paging.model';
 import { ChangeStatus } from '../../models/chagne-status-period.model'
 import { DeletePeriodModel } from '../../models/delete.model'
 import { DatePipe } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 declare var commonServerData: any;
 
 @Component({
@@ -25,6 +26,7 @@ export class PeriodListComponent {
     @Output() delete = new EventEmitter<DeletePeriodModel>();
 
     role: string;
+    deleteId: number;
 
     addPeriod: AddPeriod = {
         Reminder1: new Date(),
@@ -32,7 +34,20 @@ export class PeriodListComponent {
         StartDate: new Date()
     };
 
-    
+
+
+    constructor(private translate: TranslateService) {
+        translate.addLangs(["en", "fr"]);
+        translate.setDefaultLang('en');
+    }
+
+    getArrowClass(field: string): string {
+        if (field != this.pagingModel.orderBy)
+            return "fa fa-sort";
+        if (this.pagingModel.IsAscending)
+            return "fa fa-sort-asc";
+        return "fa fa-sort-desc";
+    }
 
     ngOnInit() {
         this.role = commonServerData.Role;

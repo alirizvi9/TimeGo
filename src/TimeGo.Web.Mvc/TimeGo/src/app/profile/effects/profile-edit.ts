@@ -15,6 +15,7 @@ import { of } from 'rxjs/observable/of';
 import { ProfileService } from '../profile.service';
 import * as profileEdit from '../actions/profile-edit';
 import { CompanyProfile } from '../models/company-profile.model';
+import { ToasterModule, ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
 
 @Injectable()
 export class ProfileEditEffects {
@@ -41,12 +42,16 @@ export class ProfileEditEffects {
             
             return this.profileService
                 .editCurrentProfile(company)
-                .map((result: any) => new profileEdit.SaveCompleteAction(result))
+                .map((result: any) => {
+                    this.toasterService.pop('success', 'Success Save', 'Success Save Profile');
+                    return new profileEdit.SaveCompleteAction(result);
+                })
                 .catch(() => of(new profileEdit.SaveCompleteAction(null)));
         });
 
     constructor(
         private actions$: Actions,
-        private profileService: ProfileService
+        private profileService: ProfileService,
+        private toasterService: ToasterService 
     ) { }
 }

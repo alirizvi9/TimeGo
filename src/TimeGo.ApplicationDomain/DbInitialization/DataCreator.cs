@@ -328,40 +328,50 @@ namespace TimeGo.ApplicationDomain.DbInitialization
 
         private static void CreateTasks()
         {
-            var task = new Task
+            for (var i = 0; i < 15; i++)
             {
-                TaskName = "Task 1",
-                IsActive = true,
-                ApproverPrimary = _taskManagerTestcompany,
-                Company = _testCompany,
-            };
-            _repository.Add(task);
+                var task = new Task
+                {
+                    TaskName = "Task " + i,
+                    IsActive = true,
+                    ApproverPrimary = _taskManagerTestcompany,
+                    Company = _testCompany,
+                };
+                _repository.Add(task);
 
-            _repository.Save();
+                _repository.Save();
 
-            var taskAllowed = new TaskAllowed
-            {
-                IsActive = true,
-                Employee = _employeeTestcompany,
-                Task = task
-            };
-            _repository.Add(taskAllowed);
+                var taskAllowed = new TaskAllowed
+                {
+                    IsActive = true,
+                    Employee = _employeeTestcompany,
+                    Task = task
+                };
+                _repository.Add(taskAllowed);
 
-            _repository.Save();
+                _repository.Save();
+            }
         }
 
         private static void CreatePeriods()
         {
             var lockStatus = _repository.Find<LockStatus>(x => x.LockStatusType == "Locked").FirstOrDefault();
-            var period = new Period()
+            var startDate = new DateTime(2017, 9, 24);
+            var endDate = new DateTime(2017, 9, 30);
+            for (var i=0; i< 12; i++)
             {
-                Company = _testCompany,
-                Employee = _taskManagerTestcompany,
-                PeriodStart = new DateTime(2017, 8, 24),
-                PeriodEnd = new DateTime(2017, 9, 1),
-                LockStatusId = lockStatus.Id
-            };
-            _repository.Add(period);
+                var period = new Period()
+                {
+                    Company = _testCompany,
+                    Employee = _taskManagerTestcompany,
+                    PeriodStart = startDate,
+                    PeriodEnd = endDate,
+                    LockStatusId = lockStatus.Id
+                };
+                _repository.Add(period);
+                startDate = startDate.AddDays(7);
+                endDate = endDate.AddDays(7);
+            }
             _repository.Save();
         }
     }

@@ -1,4 +1,5 @@
 ﻿import { Component, OnInit } from '@angular/core';
+import { ToasterModule, ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +15,14 @@ export class FullLayoutComponent implements OnInit {
   public toggled(open:boolean):void {
     console.log('Dropdown is now: ', open);
   }
+
+
+
+  public toasterconfig: ToasterConfig =
+  new ToasterConfig({
+      tapToDismiss: true,
+      timeout: 5000
+  });
 
   public toggleDropdown($event:MouseEvent):void {
     $event.preventDefault();

@@ -58,13 +58,11 @@ export class TimeoffPageComponent {
 
     addTimeoffrequest(model: AddTimeoff) {
         this.store.dispatch(new timeoffActions.SaveAction(model));
-        this.orderTimeoffrequests("id")
     }
 
     changeStatus(model: ChangeStatus)
     {
         this.store.dispatch(new timeoffActions.ChangeStatusAction(model));
-        this.orderTimeoffrequests("id")
     }
 
     changePage(model: TimeoffListPagingModel)

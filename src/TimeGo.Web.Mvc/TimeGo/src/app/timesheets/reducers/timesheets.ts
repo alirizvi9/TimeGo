@@ -127,11 +127,12 @@ export function reducer(
             let lines = state.timesheet.Lines;
             const newLine: TimesheetsLine = {
                 Date: date,
-                EndTime: new Date(),
+                EndTime: date,
                 Id: 0,
-                StartTime: new Date(),
+                StartTime: date,
                 Task: "",
-                TaskId: 0
+                TaskId: 0,
+                ValidationError: null
             }
             lines.push(newLine);
             lines = lines.sort((obj1, obj2) => {

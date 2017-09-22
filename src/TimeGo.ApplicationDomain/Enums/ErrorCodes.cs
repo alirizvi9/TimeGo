@@ -8,6 +8,7 @@
         CompanyAlreadyExists = 3,
         NotFoundEmail = 4,
         NotFoundTimeoffRequest = 5,
-        NotFoundStatus = 6
+        NotFoundStatus = 6,
+        NoAccess = 7
     }
 }

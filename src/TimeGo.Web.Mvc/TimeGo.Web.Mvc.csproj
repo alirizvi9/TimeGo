@@ -294,10 +294,13 @@
     <Compile Include="Areas\AppApi\AppApiAreaRegistration.cs" />
     <Compile Include="Areas\AppApi\Controllers\AccountController.cs" />
     <Compile Include="Areas\AppApi\Controllers\BaseApiController.cs" />
+    <Compile Include="Areas\AppApi\Controllers\LocalizationController.cs" />
     <Compile Include="Areas\AppApi\Controllers\PeriodController.cs" />
     <Compile Include="Areas\AppApi\Controllers\ProfileController.cs" />
+    <Compile Include="Areas\AppApi\Controllers\TaskController.cs" />
     <Compile Include="Areas\AppApi\Controllers\TimeoffController.cs" />
     <Compile Include="Areas\AppApi\Controllers\TimesheetsController.cs" />
+    <Compile Include="Areas\AppApi\Controllers\UserRatesController.cs" />
     <Compile Include="Areas\AppApi\Controllers\UsersController.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
@@ -336,6 +339,7 @@
     <Compile Include="Infrastructure\Dependency\CoreModule.cs" />
     <Compile Include="Infrastructure\Mapping\CompanyProfileMapper.cs" />
     <Compile Include="Infrastructure\Mapping\EditCompanyMapper.cs" />
+    <Compile Include="Infrastructure\Mapping\SignUpEmployeeMapper.cs" />
     <Compile Include="Infrastructure\Mapping\SignUpViewModelMapper.cs" />
     <Compile Include="Infrastructure\Mapping\UsersMapper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -345,6 +349,7 @@
     <Compile Include="Models\BaseViewModel.cs" />
     <Compile Include="Models\SelectPeriodViewModel.cs" />
     <Compile Include="Models\Setting.cs" />
+    <Compile Include="Models\SignUpEmployee.cs" />
     <Compile Include="Models\SignUpViewModel.cs" />
     <Compile Include="Models\TimesoffViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
@@ -356,6 +361,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Emails\InviteEmail.html" />
     <Content Include="Content\css\font-awesome.css" />
     <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\css\glyphicons-filetypes.css" />
@@ -374,6 +380,7 @@
     <Content Include="Content\img\avatars\default.jpg" />
     <Content Include="Content\img\favicon.png" />
     <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\preloader.gif" />
     <Content Include="Content\img\select.png" />
     <Content Include="Content\img\select2-spinner.gif" />
     <Content Include="Content\img\select2.png" />
@@ -402,6 +409,7 @@
     <Content Include="Content\timego\period.module.chunk.js" />
     <Content Include="Content\timego\polyfills.bundle.js" />
     <Content Include="Content\timego\profile.module.chunk.js" />
+    <Content Include="Content\timego\rates.module.chunk.js" />
     <Content Include="Content\timego\styles.bundle.js" />
     <Content Include="Content\timego\tasks.module.chunk.js" />
     <Content Include="Content\timego\timeoff.module.chunk.js" />
@@ -417,7 +425,8 @@
     <Content Include="TimeGo\src\app\layouts\full-layout.component.html" />
     <Content Include="TimeGo\src\app\periods\components\period-list\period-list.html" />
     <Content Include="TimeGo\src\app\profile\components\profile-edit\profile-edit.html" />
-    <Content Include="TimeGo\src\app\tasks\tasks.component.html" />
+    <Content Include="TimeGo\src\app\rates\components\rates\rates.html" />
+    <Content Include="TimeGo\src\app\tasks\components\tasks\tasks.html" />
     <Content Include="TimeGo\src\app\timeoff\components\timeoff-list\timeoff-list.html" />
     <Content Include="TimeGo\src\app\timesheets\components\timesheets\timesheets.html" />
     <Content Include="TimeGo\src\app\users\components\users-list\users-list.html" />
@@ -535,9 +544,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\AppApi\Views\Account\" />
+    <Folder Include="Areas\AppApi\Views\Localization\" />
     <Folder Include="Areas\AppApi\Views\Period\" />
+    <Folder Include="Areas\AppApi\Views\Task\" />
     <Folder Include="Areas\AppApi\Views\Timeoff\" />
     <Folder Include="Areas\AppApi\Views\Timesheets\" />
+    <Folder Include="Areas\AppApi\Views\UserRates\" />
     <Folder Include="TimeGo\src\app\state\models\" />
     <Folder Include="TimeGo\src\app\state\reducers\" />
   </ItemGroup>
@@ -555,7 +567,6 @@
     <Content Include="TimeGo\e2e\tsconfig.e2e.json" />
     <Content Include="TimeGo\e2e\tsconfig.json" />
     <Content Include="TimeGo\package.json" />
-    <Content Include="TimeGo\src\app\tasks\tasks.component.scss" />
     <Content Include="TimeGo\src\data.json" />
     <Content Include="TimeGo\src\img\Sorting icons.psd" />
     <Content Include="TimeGo\src\scss\bootstrap\bootstrap-grid.scss" />
@@ -769,11 +780,15 @@
     <Content Include="Content\timego\timesheets.module.chunk.js.map" />
     <Content Include="Content\timego\users.module.chunk.js.map" />
     <Content Include="Content\timego\period.module.chunk.js.map" />
+    <Content Include="Content\timego\rates.module.chunk.js.map" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <Content Include="TimeGo\src\app\users\components\users-list\users-list.scss" />
     <Content Include="TimeGo\src\app\timeoff\components\timeoff-list\timeoff-list.scss" />
     <Content Include="TimeGo\src\app\timesheets\components\timesheets\timesheets.scss" />
     <Content Include="TimeGo\src\app\periods\components\period-list\period.scss" />
+    <Content Include="TimeGo\src\app\tasks\components\tasks\tasks.scss" />
+    <Content Include="TimeGo\src\app\rates\components\rates\rates.scss" />
+    <Content Include="Views\Account\SignUpInvite.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="TimeGo\e2e\app.e2e-spec.ts" />
@@ -822,14 +837,41 @@
     <TypeScriptCompile Include="TimeGo\src\app\profile\profile.service.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\profile\reducers\index.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\profile\reducers\profile-edit.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\rates\actions\rates.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\rates\components\index.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\rates\components\rates\rates.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\rates\containers\rates-page.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\rates\effects\rates.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\rates\models\add-rates.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\rates\models\delete.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\rates\models\rates-list-item.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\rates\models\rates-list-paging.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\rates\models\rates-list.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\rates\reducers\index.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\rates\reducers\rates.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\rates\rates-routing.module.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\rates\rates.module.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\rates\rates.service.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\services\HttpLoaderFactory.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\services\RequestService.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\shared\nav-dropdown.directive.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\state\state.module.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\TaskManagerAuthGuard.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\tasks\actions\tasks.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\tasks\components\index.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\tasks\components\tasks\tasks.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\tasks\containers\tasks-page.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\tasks\effects\tasks.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\tasks\models\add-task.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\tasks\models\delete.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\tasks\models\tasks-list-item.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\tasks\models\tasks-list-paging.model.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\tasks\models\tasks-list.model.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\tasks\tasks-routing.module.ts" />
-    <TypeScriptCompile Include="TimeGo\src\app\tasks\tasks.component.spec.ts" />
-    <TypeScriptCompile Include="TimeGo\src\app\tasks\tasks.component.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\tasks\tasks.module.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\tasks\tasks.service.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\tasks\reducers\index.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\tasks\reducers\tasks.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timeoff\actions\timeoff.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timeoff\components\index.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\timeoff\components\timeoff-list\timeoff-list.ts" />
@@ -866,6 +908,7 @@
     <TypeScriptCompile Include="TimeGo\src\app\users\components\users-list\users-list.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\users\containers\users-page.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\users\effects\users.ts" />
+    <TypeScriptCompile Include="TimeGo\src\app\users\models\add-employee.model.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\users\models\user-list.model.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\users\models\users-list-item.model.ts" />
     <TypeScriptCompile Include="TimeGo\src\app\users\models\users-list-paging.model.ts" />

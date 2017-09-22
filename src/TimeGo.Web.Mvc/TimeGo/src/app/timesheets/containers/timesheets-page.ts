@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import * as fromTimesheets from '../reducers';
 import * as timesheetsActions from '../actions/timesheets';
 
+import { ToasterModule, ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
 
 import { UsersListItem } from '../../users/models/users-list-item.model'
 import { Timesheets } from '../models/timesheets.model'
@@ -33,7 +34,8 @@ export class TimesheetsPageComponent {
     tasks$: Observable<Task[]>;
     users$: Observable<UsersListItem[]>;
 
-    constructor(private store: Store<fromTimesheets.State>) {
+    constructor(private store: Store<fromTimesheets.State>,
+        private toasterService: ToasterService) {
         this.timesheets$ = store.select(fromTimesheets.getTimesheet);
         this.isLoaded$ = store.select(fromTimesheets.getIsLoadedStatus);
         this.loading$ = store.select(fromTimesheets.getLoadingStatus);
@@ -60,6 +62,12 @@ export class TimesheetsPageComponent {
 
     save(model: AddModel)
     {
+        for (let line of model.Timesheets.Lines) {
+            if (line.ValidationError != null) {
+                this.toasterService.pop('error', 'Error Save', 'Timesheet line has not valid time');
+                return;
+            }
+        }
         this.store.dispatch(new timesheetsActions.EditAction(model));
     }
 

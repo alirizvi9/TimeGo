@@ -242,12 +242,18 @@ var ToUnlockCompleteAction = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap_timepicker__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__timesheets_timesheets__ = __webpack_require__("../../../../../src/app/timesheets/components/timesheets/timesheets.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_HttpLoaderFactory__ = __webpack_require__("../../../../../src/app/services/HttpLoaderFactory.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
+
 
 
 
@@ -267,9 +273,17 @@ ComponentsModule = __decorate([
         imports: [
             __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap_timepicker__["a" /* TimepickerModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* ReactiveFormsModule */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
-            __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* RouterModule */]
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["e" /* ReactiveFormsModule */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* FormsModule */],
+            __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* RouterModule */],
+            __WEBPACK_IMPORTED_MODULE_6__angular_common_http__["b" /* HttpClientModule */],
+            __WEBPACK_IMPORTED_MODULE_7__ngx_translate_core__["b" /* TranslateModule */].forRoot({
+                loader: {
+                    provide: __WEBPACK_IMPORTED_MODULE_7__ngx_translate_core__["a" /* TranslateLoader */],
+                    useFactory: __WEBPACK_IMPORTED_MODULE_8__services_HttpLoaderFactory__["a" /* HttpLoaderFactory */],
+                    deps: [__WEBPACK_IMPORTED_MODULE_6__angular_common_http__["a" /* HttpClient */]]
+                }
+            })
         ],
         declarations: COMPONENTS,
         exports: COMPONENTS,
@@ -283,7 +297,7 @@ ComponentsModule = __decorate([
 /***/ "../../../../../src/app/timesheets/components/timesheets/timesheets.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-8 push-md-2\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        TIMESHEETS\r\n      </div>\r\n      <div class=\"card-block\">\r\n        <div class=\"form-group row\">\r\n            <h5 class=\"col-md-1 timego-center\">Period</h5>\r\n            <select (change)=\"selectPeriod.emit({periodId: $event.target.value, userId: userId})\" [(ngModel)]=\"periodId\" class=\"form-control col-md-3\">\r\n              <option [value]=\"0\">none</option>\r\n              <option [value]=\"period.Id\" *ngFor=\"let period of periods\">{{period.PeriodStart | date: 'EEE d-MMM'}} to {{period.PeriodEnd | date: 'EEE d-MMM'}}</option>\r\n            </select>\r\n          <h5 class=\"col-md-2 timego-center\" *ngIf=\"role == 'Task Manager'\">Employees</h5>\r\n          <select *ngIf=\"role == 'Task Manager'\" (change)=\"selectPeriod.emit({periodId: periodId, userId: $event.target.value})\" [(ngModel)]=\"userId\" class=\"form-control col-md-3\">\r\n            <option [value]=\"0\">none</option>\r\n            <option [value]=\"user.Id\" *ngFor=\"let user of users\">{{user.FirstName}} {{user.LastName}}</option>\r\n          </select>\r\n        </div>\r\n        <div *ngIf=\"isLoaded && timesheets != null\" class=\"form-group\">\r\n          <div *ngFor=\"let line of timesheets.Lines; let i = index\">\r\n            <div class=\"row form-group timego-line\">\r\n              <h5 class=\"col-md-2 timego-center\">{{line.Date | date: 'EEE d-MMM'}}</h5>\r\n              <div class=\"col-md-4\">\r\n                <select [(ngModel)]=\"line.TaskId\" class=\"form-control col-md-8\">\r\n                  <option [value]=\"0\">none</option>\r\n                  <option [value]=\"task.Id\" *ngFor=\"let task of tasks\">{{task.TaskName}}</option>\r\n                </select>\r\n              </div>\r\n              <div class=\"col-md-4 row\">\r\n                <timepicker [(ngModel)]=\"line.StartTime\" [arrowkeys]=\"true\" [showMeridian]=\"false\" [mousewheel]=\"false\" [showSpinners]=\"false\" class=\"timego-timepicker\"></timepicker>\r\n                <i class=\"fa fa-arrows-h fa-lg timego-rangetimepiker-icon\"></i>\r\n                <timepicker [(ngModel)]=\"line.EndTime\" [min]=\"line.StartTime\" [mousewheel]=\"false\" [showMeridian]=\"false\" [arrowkeys]=\"false\" [showSpinners]=\"false\" class=\"timego-timepicker\"></timepicker>\r\n              </div>\r\n              <div class=\"col-md-1 timego-center\">\r\n                <b>\r\n                  {{totalLineTimeHr(line)}} h {{totalLineTimeMin(line)}} m\r\n                </b>\r\n              </div>\r\n              <div class=\"col-md-1\">\r\n                <button type=\"button\" class=\"btn btn-danger\" \r\n                        *ngIf=\"!((i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date) && (i === 0 || timesheets.Lines[i].Date != timesheets.Lines[i-1].Date))\" \r\n                        (click)=\"delete.emit(line)\"><i class=\"fa fa-remove\"></i> Delete</button>\r\n                <button type=\"button\" class=\"btn btn-danger\" \r\n                        *ngIf=\"(i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date) && (i === 0 || timesheets.Lines[i].Date != timesheets.Lines[i-1].Date)\" \r\n                        (click)=\"delete.emit(line)\" disabled><i class=\"fa fa-remove\"></i> Delete</button>\r\n              </div>\r\n            </div>\r\n            <div class=\"row form-group border-bottom\" *ngIf=\"i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date\">\r\n              <div class=\"col-md-1\">\r\n                <button type=\"button\" class=\"btn btn-outline-primary\" (click)=\"addLine.emit(line.Date)\">+</button>\r\n              </div>\r\n              <div class=\"col-md-4 timego-center\">\r\n                add another line for {{line.Date | date: 'EEE d-MMM'}}\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"col-md-4 row form-group\" *ngIf=\"isLoaded\">\r\n            <h5>\r\n              Total time: {{totalTimeHr(timesheets.Lines)}} h {{totalTimeMin(timesheets.Lines)}} m\r\n            </h5>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Employee'\">\r\n            <label class=\"col-md-1\">Employee Notes: </label>\r\n            <textarea rows=\"4\" class=\"col-md-10\" cols=\"50\" [(ngModel)]=\"timesheets.EmployeeNotes\"></textarea>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Task Manager'\">\r\n            <label class=\"col-md-1\">Employee Notes: {{timesheets.EmployeeNotes}}</label>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Task Manager'\">\r\n            <label class=\"col-md-1\">Approver Notes: </label>\r\n            <textarea rows=\"4\" class=\"col-md-10\" cols=\"50\" [(ngModel)]=\"timesheets.ApproverNotes\"></textarea>\r\n          </div>\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Task Manager'\">\r\n            <div class=\"checkbox push-md-1 col-md-3\">\r\n              <label>\r\n                Locked for User: <input type=\"checkbox\" [(ngModel)]=\"timesheets.Lock\" >\r\n              </label>\r\n            </div>\r\n          </div>\r\n          <div class=\"form-group float-right\">\r\n            <button type=\"button\" class=\"btn btn-primary\" (click)=\"save.emit({Period: periodId, Timesheets: timesheets})\">Approve</button>\r\n            <button type=\"button\" class=\"btn btn-primary\" *ngIf=\"isLoaded && role == 'Task Manager'\" (click)=\"submit.emit(timesheets.Id)\">Request Resubmit</button>\n            <button type=\"button\" class=\"btn btn-primary\" *ngIf=\"isLoaded && role == 'Employee'\" [disabled]=\"timesheets.Lock\" (click)=\"submit.emit(timesheets.Id)\">Submit</button>\r\n            <button type=\"button\" class=\"btn btn-primary\" *ngIf=\"isLoaded && role == 'Employee'\" [disabled]=\"timesheets.Lock\" (click)=\"unlock.emit(timesheets.Id)\">Request to Unlock</button>\r\n            <button type=\"button\" class=\"btn btn-primary\" (click)=\"approve.emit(timesheets.Id)\">Save</button>\r\n          </div>\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Employee'\">\r\n            <label class=\"col-md-10\">Submited on: {{timesheets.SubmittedOn | date: 'd-MMM-yy'}}</label>\r\n          </div>\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Employee'\">\r\n            <label class=\"col-md-10\">Employee Notes: {{timesheets.ApproverNotes}}</label>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-8 push-md-2\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        {{ 'TimesheetHeader' | translate }}\r\n      </div>\r\n      <div class=\"card-block\">\r\n        <div class=\"form-group row\">\r\n            <h5 class=\"col-md-1 timego-center\">{{ 'Period' | translate }}</h5>\r\n            <select (change)=\"selectPeriod.emit({periodId: $event.target.value, userId: userId})\" [(ngModel)]=\"periodId\" class=\"form-control col-md-3\">\r\n              <option [value]=\"0\">{{ 'None' | translate }}</option>\r\n              <option [value]=\"period.Id\" *ngFor=\"let period of periods\">{{period.PeriodStart | date: 'EEE d-MMM'}} {{ 'To' | translate }} {{period.PeriodEnd | date: 'EEE d-MMM'}}</option>\r\n            </select>\r\n            <h5 class=\"col-md-2 timego-center\" *ngIf=\"role == 'Task Manager'\">{{ 'Employees' | translate }}</h5>\r\n            <select *ngIf=\"role == 'Task Manager'\" (change)=\"selectPeriod.emit({periodId: periodId, userId: $event.target.value})\" [(ngModel)]=\"userId\" class=\"form-control col-md-3\">\r\n              <option [value]=\"0\">{{ 'None' | translate }}</option>\r\n              <option [value]=\"user.Id\" *ngFor=\"let user of users\">{{user.FirstName}} {{user.LastName}}</option>\r\n            </select>\r\n        </div>\r\n        <div *ngIf=\"isLoaded && timesheets != null\" class=\"form-group\">\r\n          <div *ngFor=\"let line of timesheets.Lines; let i = index\">\r\n            <div class=\"row form-group timego-line\">\r\n              <h5 class=\"col-md-2 timego-center\">{{line.Date | date: 'EEE d-MMM'}}</h5>\r\n              <div class=\"col-md-4\">\r\n                <select [(ngModel)]=\"line.TaskId\" class=\"form-control col-md-8\">\r\n                  <option [value]=\"0\">{{ 'None' | translate }}</option>\r\n                  <option [value]=\"task.Id\" *ngFor=\"let task of tasks\">{{task.TaskName}}</option>\r\n                </select>\r\n              </div>\r\n              <div class=\"col-md-4 row\">\r\n                <timepicker [(ngModel)]=\"line.StartTime\" (ngModelChange)=\"checkChange(line, timesheets.Lines)\" [arrowkeys]=\"true\" [showMeridian]=\"false\" [mousewheel]=\"false\" [showSpinners]=\"false\" class=\"timego-timepicker\"></timepicker>\r\n                <i class=\"fa fa-arrows-h fa-lg timego-rangetimepiker-icon\"></i>\r\n                <timepicker [(ngModel)]=\"line.EndTime\" (ngModelChange)=\"checkChange(line, timesheets.Lines)\" [min]=\"line.StartTime\" [mousewheel]=\"false\" [showMeridian]=\"false\" [arrowkeys]=\"false\" [showSpinners]=\"false\" class=\"timego-timepicker\"></timepicker>\r\n              </div>\r\n              <div class=\"col-md-1 timego-center\">\r\n                <b>\r\n                  {{totalLineTimeHr(line)}} {{ 'Hours' | translate }} {{totalLineTimeMin(line)}} {{ 'Minutes' | translate }}\r\n                </b>\r\n              </div>\r\n              <div class=\"col-md-1\">\r\n                <button type=\"button\" class=\"btn btn-danger\" \r\n                        *ngIf=\"!((i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date) && (i === 0 || timesheets.Lines[i].Date != timesheets.Lines[i-1].Date))\" \r\n                        (click)=\"delete.emit(line)\"><i class=\"fa fa-remove\"></i> {{ 'Delete' | translate }}</button>\r\n                <button type=\"button\" class=\"btn btn-danger\" \r\n                        *ngIf=\"(i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date) && (i === 0 || timesheets.Lines[i].Date != timesheets.Lines[i-1].Date)\" \r\n                        (click)=\"delete.emit(line)\" disabled><i class=\"fa fa-remove\"></i> {{ 'Delete' | translate }}</button>\r\n              </div>\r\n            </div>\r\n            <div class=\"row form-group validation-error\">\r\n              <h6 class=\"col-md-10\">{{line.ValidationError}}</h6>\r\n            </div>\r\n            <div class=\"row form-group border-bottom\" *ngIf=\"i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date\">\r\n              <div class=\"col-md-1\">\r\n                <button type=\"button\" class=\"btn btn-outline-primary\" (click)=\"addLine.emit(line.Date)\">+</button>\r\n              </div>\r\n              <div class=\"col-md-4 timego-center\">\r\n                {{ 'AddLine' | translate }} {{line.Date | date: 'EEE d-MMM'}}\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"col-md-4 row form-group\" *ngIf=\"isLoaded\">\r\n            <h5>\r\n              {{ 'TotalTime' | translate }} {{totalTimeHr(timesheets.Lines)}} {{ 'Hours' | translate }} {{totalTimeMin(timesheets.Lines)}} {{ 'Minutes' | translate }}\r\n            </h5>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Employee'\">\r\n            <label class=\"col-md-1\">{{ 'EmployeeNotes' | translate }} </label>\r\n            <textarea rows=\"4\" class=\"col-md-10\" cols=\"50\" [(ngModel)]=\"timesheets.EmployeeNotes\"></textarea>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Task Manager'\">\r\n            <label class=\"col-md-1\">{{ 'EmployeeNotes' | translate }} {{timesheets.EmployeeNotes}}</label>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Task Manager'\">\r\n            <label class=\"col-md-1\">{{ 'ApproverNotes' | translate }} </label>\r\n            <textarea rows=\"4\" class=\"col-md-10\" cols=\"50\" [(ngModel)]=\"timesheets.ApproverNotes\"></textarea>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Task Manager'\">\r\n            <div class=\"checkbox push-md-1 col-md-3\">\r\n              <div class=\"cntr\">\r\n                <label for=\"lock\" class=\"label-cbx\">\r\n                  <input id=\"lock\" type=\"checkbox\" class=\"invisible\" [(ngModel)]=\"timesheets.Lock\">\r\n                  <div class=\"checkbox\">\r\n                    <svg width=\"20px\" height=\"20px\" viewBox=\"0 0 20 20\">\r\n                      <path d=\"M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z\"></path>\r\n                      <polyline points=\"4 11 8 15 16 6\"></polyline>\r\n                    </svg>\r\n                  </div>\r\n                  <span>{{ 'LockedForUser' | translate }}</span>\r\n                </label>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"form-group float-right\">\r\n            <button type=\"button\" class=\"btn btn-primary\" (click)=\"save.emit({Period: periodId, Timesheets: timesheets})\">{{ 'Approve' | translate }}</button>\r\n            <button type=\"button\" class=\"btn btn-primary\" *ngIf=\"isLoaded && role == 'Task Manager'\" (click)=\"submit.emit(timesheets.Id)\">{{ 'RequestResubmit' | translate }}</button>\r\n            <button type=\"button\" class=\"btn btn-primary\" *ngIf=\"isLoaded && role == 'Employee'\" [disabled]=\"timesheets.Lock\" (click)=\"submit.emit(timesheets.Id)\">{{ 'Submit' | translate }}</button>\r\n            <button type=\"button\" class=\"btn btn-primary\" *ngIf=\"isLoaded && role == 'Employee'\" [disabled]=\"timesheets.Lock\" (click)=\"unlock.emit(timesheets.Id)\">{{ 'RequestToUnlock' | translate }}</button>\r\n            <button type=\"button\" class=\"btn btn-primary\" (click)=\"save.emit({Timesheets: timesheets, Period: periodId, User: userId})\">{{ 'Save' | translate }}</button>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Employee'\">\r\n            <label class=\"col-md-10\">{{ 'SubmitedOn' | translate }} {{timesheets.SubmittedOn | date: 'd-MMM-yy'}}</label>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Employee'\">\r\n            <label class=\"col-md-10\">{{ 'EmployeeNotes' | translate }} {{timesheets.ApproverNotes}}</label>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>"
 
 /***/ }),
 
@@ -313,6 +327,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_timesheets_model__ = __webpack_require__("../../../../../src/app/timesheets/models/timesheets.model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_timesheets_model___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__models_timesheets_model__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -324,8 +339,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var TimesheetsComponent = (function () {
-    function TimesheetsComponent() {
+    function TimesheetsComponent(translate) {
+        this.translate = translate;
         this.isLoaded = false;
         this.loading = false;
         this.selectPeriod = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
@@ -336,6 +353,8 @@ var TimesheetsComponent = (function () {
         this.unlock = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.delete = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.mytime = new Date();
+        translate.addLangs(["en", "fr"]);
+        translate.setDefaultLang('en');
     }
     TimesheetsComponent.prototype.ngOnInit = function () {
         this.role = commonServerData.Role;
@@ -385,6 +404,38 @@ var TimesheetsComponent = (function () {
         }
         var diffMins = Math.round(((time % 86400000) % 3600000) / 60000); // minutes
         return diffMins;
+    };
+    TimesheetsComponent.prototype.checkChange = function (currentLine, lines) {
+        this.checkIntersection(currentLine, lines);
+        for (var _i = 0, lines_3 = lines; _i < lines_3.length; _i++) {
+            var line = lines_3[_i];
+            if (line.Date == currentLine.Date && line.ValidationError != null) {
+                this.checkIntersection(line, lines);
+            }
+        }
+        if (currentLine.StartTime > currentLine.EndTime)
+            currentLine.ValidationError = "Time range is not valid";
+        else if (currentLine.ValidationError == "Time range is not valid")
+            currentLine.ValidationError = null;
+    };
+    TimesheetsComponent.prototype.checkIntersection = function (currentLine, lines) {
+        var error = false;
+        for (var _i = 0, lines_4 = lines; _i < lines_4.length; _i++) {
+            var line = lines_4[_i];
+            if (line.Date == currentLine.Date && line != currentLine) {
+                if (line.EndTime > currentLine.StartTime && line.StartTime < currentLine.EndTime) {
+                    currentLine.ValidationError = "Time range has intersection";
+                    error = true;
+                }
+                if (line.StartTime < currentLine.EndTime && line.EndTime > currentLine.StartTime) {
+                    currentLine.ValidationError = "Time range has intersection";
+                    error = true;
+                }
+            }
+        }
+        if (!error) {
+            currentLine.ValidationError = null;
+        }
     };
     TimesheetsComponent.prototype.updateDoB = function (e) {
         var res = e;
@@ -448,10 +499,11 @@ TimesheetsComponent = __decorate([
         selector: 'up-timesheets',
         template: __webpack_require__("../../../../../src/app/timesheets/components/timesheets/timesheets.html"),
         styles: [__webpack_require__("../../../../../src/app/timesheets/components/timesheets/timesheets.scss")]
-    })
+    }),
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */]) === "function" && _b || Object])
 ], TimesheetsComponent);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=timesheets.js.map
 
 /***/ }),
@@ -467,6 +519,7 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ngrx_store__ = __webpack_require__("../../../../@ngrx/store/@ngrx/store.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__reducers__ = __webpack_require__("../../../../../src/app/timesheets/reducers/index.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__ = __webpack_require__("../../../../../src/app/timesheets/actions/timesheets.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_angular2_toaster_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -481,9 +534,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var TimesheetsPageComponent = (function () {
-    function TimesheetsPageComponent(store) {
+    function TimesheetsPageComponent(store, toasterService) {
         this.store = store;
+        this.toasterService = toasterService;
         this.timesheets$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["e" /* getTimesheet */]);
         this.isLoaded$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["a" /* getIsLoadedStatus */]);
         this.loading$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["b" /* getLoadingStatus */]);
@@ -503,6 +558,13 @@ var TimesheetsPageComponent = (function () {
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["d" /* AddAction */](date));
     };
     TimesheetsPageComponent.prototype.save = function (model) {
+        for (var _i = 0, _a = model.Timesheets.Lines; _i < _a.length; _i++) {
+            var line = _a[_i];
+            if (line.ValidationError != null) {
+                this.toasterService.pop('error', 'Error Save', 'Timesheet line has not valid time');
+                return;
+            }
+        }
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["j" /* EditAction */](model));
     };
     TimesheetsPageComponent.prototype.delete = function (model) {
@@ -525,10 +587,10 @@ TimesheetsPageComponent = __decorate([
         changeDetection: __WEBPACK_IMPORTED_MODULE_1__angular_core__["k" /* ChangeDetectionStrategy */].OnPush,
         template: "\n    <up-timesheets [timesheets]=\"timesheets$ | async\" [isLoaded]=\"isLoaded$ | async\" [periods]=\"periods$ | async\" \n    [users]=\"users$ | async\" [tasks]=\"tasks$ | async\" [loading]=\"loading$ | async\" \n    (selectPeriod)=\"selectPeriod($event)\" (addLine)=\"addLine($event)\" \n    (save)=\"save($event)\" (delete)=\"delete($event)\" (submit)=\"submit($event)\" (approve)=\"approve($event)\" (unlock)=\"unlock($event)\"></up-timesheets>\n  ",
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5_angular2_toaster_angular2_toaster__["c" /* ToasterService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5_angular2_toaster_angular2_toaster__["c" /* ToasterService */]) === "function" && _b || Object])
 ], TimesheetsPageComponent);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=timesheets-page.js.map
 
 /***/ }),
@@ -558,6 +620,7 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__timesheets_service__ = __webpack_require__("../../../../../src/app/timesheets/timesheets.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__ = __webpack_require__("../../../../../src/app/timesheets/actions/timesheets.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -579,11 +642,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var TimesheetsEffects = (function () {
-    function TimesheetsEffects(actions$, timesheetsService) {
+    function TimesheetsEffects(actions$, timesheetsService, toasterService) {
         var _this = this;
         this.actions$ = actions$;
         this.timesheetsService = timesheetsService;
+        this.toasterService = toasterService;
         this.get$ = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["l" /* GET */])
             .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
@@ -661,7 +726,10 @@ var TimesheetsEffects = (function () {
             var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["l" /* GET */]);
             return _this.timesheetsService.editTimesheet(query.Timesheets)
                 .takeUntil(nextGet$)
-                .map(function (result) { return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["t" /* GetAction */]({ PeriodId: query.Period, UserId: query.User }); })
+                .map(function (result) {
+                _this.toasterService.pop('success', 'Success Save', 'Timesheet saved');
+                return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["t" /* GetAction */]({ PeriodId: query.Period, UserId: query.User });
+            })
                 .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["k" /* EditCompleteAction */](null)); });
         });
     }
@@ -701,10 +769,10 @@ __decorate([
 ], TimesheetsEffects.prototype, "edit$", void 0);
 TimesheetsEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_10__timesheets_service__["a" /* TimesheetsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__timesheets_service__["a" /* TimesheetsService */]) === "function" && _k || Object])
+    __metadata("design:paramtypes", [typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_10__timesheets_service__["a" /* TimesheetsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__timesheets_service__["a" /* TimesheetsService */]) === "function" && _k || Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */]) === "function" && _l || Object])
 ], TimesheetsEffects);
 
-var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
 //# sourceMappingURL=timesheets.js.map
 
 /***/ }),
@@ -864,11 +932,12 @@ function reducer(state, action) {
             var lines = state.timesheet.Lines;
             var newLine = {
                 Date: date,
-                EndTime: new Date(),
+                EndTime: date,
                 Id: 0,
-                StartTime: new Date(),
+                StartTime: date,
                 Task: "",
-                TaskId: 0
+                TaskId: 0,
+                ValidationError: null
             };
             lines.push(newLine);
             lines = lines.sort(function (obj1, obj2) {
@@ -1019,12 +1088,12 @@ TimesheetsModule = __decorate([
         imports: [
             __WEBPACK_IMPORTED_MODULE_11_ngx_bootstrap_timepicker__["a" /* TimepickerModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* HttpModule */],
-            __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormsModule */],
+            __WEBPACK_IMPORTED_MODULE_3__angular_forms__["c" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_6__timesheets_routing_module__["a" /* TimesheetsRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_10__components_index__["a" /* ComponentsModule */],
             __WEBPACK_IMPORTED_MODULE_4__ngrx_store__["i" /* StoreModule */].forFeature('timesheetsPage', __WEBPACK_IMPORTED_MODULE_12__reducers__["g" /* reducers */]),
-            __WEBPACK_IMPORTED_MODULE_5__ngrx_effects__["c" /* EffectsModule */].forFeature([__WEBPACK_IMPORTED_MODULE_9__effects_timesheets__["a" /* TimesheetsEffects */]]),
+            __WEBPACK_IMPORTED_MODULE_5__ngrx_effects__["c" /* EffectsModule */].forFeature([__WEBPACK_IMPORTED_MODULE_9__effects_timesheets__["a" /* TimesheetsEffects */]])
         ],
         declarations: [
             __WEBPACK_IMPORTED_MODULE_8__containers_timesheets_page__["a" /* TimesheetsPageComponent */]

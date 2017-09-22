@@ -2,24 +2,24 @@
   <div class="col-md-8 push-md-2">
     <div class="card">
       <div class="card-header">
-        TIMESHEETS PERIODS
+        {{ 'PeriodHeader' | translate }}
       </div>
       <div class="card-block" *ngIf="isLoaded">
         <div class="form-group float-right">
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addmodal">
-            Add Period
+            {{ 'AddPeriod' | translate }}
           </button>
         </div>
         <div class="form-group">
           <table class="table table-hover table-outline mb-0 hidden-sm-down" *ngIf="isLoaded">
             <thead class="thead-default">
               <tr>
-                <td class="text-center">Period Start Date <a class="fa fa-sort" (click)="order.emit('PeriodStart')"></a></td>
-                <td class="text-center">Period End Date <a class="fa fa-sort" (click)="order.emit('PeriodEnd')"></a></td>
-                <td class="text-center">Reminder 1 Date <a class="fa fa-sort" (click)="order.emit('Reminder1Date')"></a></td>
-                <td class="text-center">Reminder 2 Date <a class="fa fa-sort" (click)="order.emit('Reminder2Date')"></a></td>
-                <td class="text-center">Period Status <a class="fa fa-sort" (click)="order.emit('LockStatusId')"></a></td>
-                <td class="text-center">Action </td>
+                <td class="text-center">{{ 'PeriodStartDate' | translate }} <a [ngClass]="getArrowClass('PeriodStart')" (click)="order.emit('PeriodStart')"></a></td>
+                <td class="text-center">{{ 'PeriodEndDate' | translate }} <a [ngClass]="getArrowClass('PeriodEnd')" (click)="order.emit('PeriodEnd')"></a></td>
+                <td class="text-center">{{ 'Reminder1Date' | translate }} <a [ngClass]="getArrowClass('Reminder1Date')" (click)="order.emit('Reminder1Date')"></a></td>
+                <td class="text-center">{{ 'Reminder2Date' | translate }} <a [ngClass]="getArrowClass('Reminder2Date')" (click)="order.emit('Reminder2Date')"></a></td>
+                <td class="text-center">{{ 'PeriodStatus' | translate }} <a [ngClass]="getArrowClass('LockStatusId')" (click)="order.emit('LockStatusId')"></a></td>
+                <td class="text-center">{{ 'Action' | translate }} </td>
               </tr>
             </thead>
             <tbody>
@@ -31,9 +31,9 @@
                 <td class="text-center" *ngIf="period.Status == 'Locked'"><span class="badge badge-danger timego-status">{{period.Status}}</span></td>
                 <td class="text-center" *ngIf="period.Status == 'Unlocked'"><span class="badge badge-success timego-status">{{period.Status}}</span></td>
                 <td class="text-center">
-                  <button type="button" *ngIf="period.Status == 'Unlocked'" class="btn btn-sm btn-danger" (click)="changeStatusAction({id: period.Id, status: 'Locked'})">Lock</button>
-                  <button type="button" *ngIf="period.Status == 'Locked'" class="btn btn-sm btn-success" (click)="changeStatusAction({id: period.Id, status: 'Unlocked'})">Unlock</button>
-                  <button type="button" class="btn btn-sm btn-danger" (click)="delete.emit({id: period.Id, paging: pagingModel})">Delete</button>
+                  <button type="button" *ngIf="period.Status == 'Unlocked'" class="btn btn-sm btn-danger" (click)="changeStatusAction({id: period.Id, status: 'Locked'})">{{ 'Lock' | translate }}</button>
+                  <button type="button" *ngIf="period.Status == 'Locked'" class="btn btn-sm btn-success" (click)="changeStatusAction({id: period.Id, status: 'Unlocked'})">{{ 'Unlock' | translate }}</button>
+                  <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal" (click)="deleteId = period.Id">{{ 'Delete' | translate }}</button>
                 </td>
               </tr>
             </tbody>
@@ -56,44 +56,62 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header timego-modal">
-        <h4 class="modal-title">Add period</h4>
+        <h4 class="modal-title">{{ 'AddPeriod' | translate }}</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
       </div>
       <div class="modal-body timego-modal">
         <div class="form-group">
-          <label for="company-name">Start date</label>
+          <label for="company-name">{{ 'Startdate' | translate }}</label>
           <div class="input-group mb-3 required">
             <span class="input-group-addon">
               <i class="icon-calendar"></i>
             </span>
-            <!--<ng2-datepicker [(ngModel)]="addTimeoff.StartDate" class="col-md-12"></ng2-datepicker>-->
-            <input required [(ngModel)]="addPeriod.StartDate" type="date" class="datepicker" />
+            <ngx-date-picker [(selectedDate)]="addPeriod.StartDate"></ngx-date-picker>
           </div>
         </div>
         <div class="form-group">
-          <label for="company-name">Reminder 1 Date</label>
+          <label for="company-name">{{ 'Reminder1Date' | translate }}</label>
           <div class="input-group mb-3 required">
             <span class="input-group-addon">
               <i class="icon-calendar"></i>
             </span>
-            <input required [(ngModel)]="addPeriod.Reminder1" type="date" class="datepicker" />
+            <ngx-date-picker [(selectedDate)]="addPeriod.Reminder1"></ngx-date-picker>
           </div>
         </div>
         <div class="form-group">
-          <label for="company-name">Reminder 2 Date</label>
+          <label for="company-name">{{ 'Reminder2Date' | translate }}</label>
           <div class="input-group mb-3 required">
             <span class="input-group-addon">
               <i class="icon-calendar"></i>
             </span>
-            <input required [(ngModel)]="addPeriod.Reminder2" type="date" class="datepicker" />
+            <ngx-date-picker [(selectedDate)]="addPeriod.Reminder2"></ngx-date-picker>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addPeriodAction(addPeriod)">Add</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close' | translate }}</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addPeriodAction(addPeriod)">{{ 'Add' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="Delete period" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header timego-modal">
+        <h4 class="modal-title">{{ 'Delete' | translate }} {{ 'Period' | translate }}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body timego-modal">
+        <h6>{{ 'DeleteMessage' | translate }} {{ 'Period' | translate }}?</h6>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'No' | translate }}</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="delete.emit({id: deleteId, paging: pagingModel})">{{ 'Yes' | translate }}</button>
       </div>
     </div>
   </div>

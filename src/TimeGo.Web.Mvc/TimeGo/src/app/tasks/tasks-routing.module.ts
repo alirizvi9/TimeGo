@@ -1,20 +1,22 @@
 ﻿import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { TasksComponent } from './tasks.component';
+import { TasksPageComponent } from './containers/tasks-page';
+import { AlwaysAuthGuard } from '../AlwaysAuthGuard' 
 
 const routes: Routes = [
-  {
-    path: '',
-    component: TasksComponent,
-    data: {
-      title: 'Tasks'
+    {
+        path: '',
+        component: TasksPageComponent,
+        canActivate: [AlwaysAuthGuard],
+        data: {
+            title: 'Tasks'
+        }
     }
-  }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
-export class TasksRoutingModule {}
+export class TasksRoutingModule { }

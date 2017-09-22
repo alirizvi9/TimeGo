@@ -9,7 +9,7 @@ import { AlwaysAuthGuard } from './AlwaysAuthGuard'
 import { AdminAuthGuard } from './AdminAuthGuard'
 import { TaskManagerAuthGuard } from './TaskManagerAuthGuard'
 import { RequestService } from './services/RequestService'
-
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -20,8 +20,13 @@ import { AppRoutingModule } from './app.routing';
 //Layouts
 import { FullLayoutComponent } from './layouts/full-layout.component';
 import { DialogsModule } from "./dialogs/dialogs.module";
-
+import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { HttpLoaderFactory } from './services/HttpLoaderFactory';
 import { environment } from '../environments/environment';
+import { ToasterService, ToasterModule } from 'angular2-toaster/angular2-toaster';
+import { SpinnerModule, SpinnerService  } from 'angular-spinners';
+
 
 @NgModule({
     imports: [
@@ -34,7 +39,16 @@ import { environment } from '../environments/environment';
         BsDropdownModule.forRoot(),
         TabsModule.forRoot(),
         DialogsModule,
-        HttpModule
+        SpinnerModule ,
+        HttpModule,
+        ToasterModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
     declarations: [
         AppComponent,
@@ -44,7 +58,7 @@ import { environment } from '../environments/environment';
     providers: [{
         provide: LocationStrategy,
         useClass: HashLocationStrategy
-    }, AlwaysAuthGuard, AdminAuthGuard, TaskManagerAuthGuard, RequestService],
+    }, AlwaysAuthGuard, AdminAuthGuard, TaskManagerAuthGuard, RequestService, ToasterService, SpinnerService ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

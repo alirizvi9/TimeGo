@@ -5,4 +5,5 @@
     Date: Date;
     TaskId: number;
     Task: string;
+    ValidationError: string;
 }

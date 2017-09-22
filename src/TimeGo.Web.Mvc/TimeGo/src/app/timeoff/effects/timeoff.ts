@@ -18,15 +18,20 @@ import { TimeoffList } from '../models/timeoff-list.model'
 import { TimeoffListPagingModel } from '../models/timeoff-list-paging.model'
 import { AddTimeoff } from '../models/add-timeoff.model';
 import { ChangeStatus } from '../models/chagne-status-timeoff.model'
+import { ToasterModule, ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
 
 @Injectable()
 export class TimeoffEffects {
+
+    pagingModel: TimeoffListPagingModel;
+
     @Effect()
     get$: Observable<Action> = this.actions$
         .ofType(timeoffActions.GET)
         .map(toPayload)
         .switchMap((query: TimeoffListPagingModel) => {
             const nextGet$ = this.actions$.ofType(timeoffActions.GET).skip(1);
+            this.pagingModel = query;
             return this.timeoffService
                 .getTimeoffList(query)
                 .takeUntil(nextGet$)
@@ -43,7 +48,10 @@ export class TimeoffEffects {
             return this.timeoffService
                 .addTimeoff(query)
                 .takeUntil(nextGet$)
-                .map((result: any) => new timeoffActions.SaveCompleteAction(result))
+                .map((result: any) => {
+                    this.toasterService.pop('success', 'Success', 'Success Add Timeoff');
+                    return new timeoffActions.SaveCompleteAction(result);
+                })
                 .catch(() => of(new timeoffActions.SaveCompleteAction(null)));
         });
 
@@ -56,12 +64,29 @@ export class TimeoffEffects {
             return this.timeoffService
                 .changeStatus(model)
                 .takeUntil(nextGet$)
-                .map((result: any) => new timeoffActions.ChangeStatusCompleteAction(result))
+                .map((result: any) => {
+                    this.toasterService.pop('success', 'Success Change status', 'Timeoff request: ' + model.status);
+                    return new timeoffActions.ChangeStatusCompleteAction(result);
+                })
                 .catch(() => of(new timeoffActions.ChangeStatusCompleteAction(null)));
+        });
+
+    @Effect()
+    update$: Observable<Action> = this.actions$
+        .ofType(timeoffActions.CHANGE_STATUS_COMPLETE, timeoffActions.ADD_COMPLETE)
+        .map(toPayload)
+        .switchMap((model: any) => {
+            const nextGet$ = this.actions$.ofType(timeoffActions.GET_COMPLETE);
+            return this.timeoffService
+                .getTimeoffList(this.pagingModel)
+                .takeUntil(nextGet$)
+                .map((users: TimeoffList) => new timeoffActions.GetCompleteAction(users))
+                .catch(() => of(new timeoffActions.GetCompleteAction(null)));
         });
 
     constructor(
         private actions$: Actions,
-        private timeoffService: TimeoffService
+        private timeoffService: TimeoffService,
+        private toasterService: ToasterService 
     ) { }
 }

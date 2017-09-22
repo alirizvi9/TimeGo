@@ -2,22 +2,30 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        EMPLOYEES
+        {{ 'EmployeeHeader' | translate }}
       </div>
       <div class="card-block" *ngIf="isLoaded">
+        <div class="form-group float-right">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
+            {{ 'AddEmployee' | translate }}
+          </button>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inviteModal">
+            {{ 'InviteEmployee' | translate }}
+          </button>
+        </div>
         <div class="form-group">
           <table class="table table-hover table-outline mb-0 hidden-sm-down" *ngIf="isLoaded">
             <thead class="thead-default">
               <tr>
-                <td class="text-center">Employee Id <a class="fa fa-sort" (click)="order.emit('id')"></a></td>
-                <td class="text-center">First Name <a class="fa fa-sort" (click)="order.emit('FirstName')"></a></td>
-                <td class="text-center">Last Name <a class="fa fa-sort" (click)="order.emit('LastName')"></a></td>
-                <td class="text-center">Email <a class="fa fa-sort" (click)="order.emit('EmailAddress')"></a></td>
-                <td class="text-center">Phone <a class="fa fa-sort" (click)="order.emit('PhoneNumber')"></a></td>
-                <td class="text-center">Last 4 SS <a class="fa fa-sort" (click)="order.emit('SocialSecurityNumber')"></a></td>
-                <td class="text-center">Is Admin? <a class="fa fa-sort" (click)="order.emit('IsAdmin')"></a></td>
-                <td class="text-center">Is Active? <a class="fa fa-sort" (click)="order.emit('IsActive')"></a></td>
-                <td class="text-center">Calculate Overtime? <a class="fa fa-sort" (click)="order.emit('IsOvertimeCalculated')"></a></td>
+                <td class="text-center">{{ 'EmployeeId' | translate }} <a [ngClass]="getArrowClass('id')" (click)="order.emit('id')"></a></td>
+                <td class="text-center">{{ 'FirstName' | translate }} <a [ngClass]="getArrowClass('FirstName')" (click)="order.emit('FirstName')"></a></td>
+                <td class="text-center">{{ 'LastName' | translate }} <a [ngClass]="getArrowClass('LastName')" (click)="order.emit('LastName')"></a></td>
+                <td class="text-center">{{ 'Email' | translate }} <a [ngClass]="getArrowClass('EmailAddress')" (click)="order.emit('EmailAddress')"></a></td>
+                <td class="text-center">{{ 'Phone' | translate }} <a [ngClass]="getArrowClass('PhoneNumber')" (click)="order.emit('PhoneNumber')"></a></td>
+                <td class="text-center">{{ 'Last4SS' | translate }} <a [ngClass]="getArrowClass('SocialSecurityNumber')" (click)="order.emit('SocialSecurityNumber')"></a></td>
+                <td class="text-center">{{ 'IsAdmin' | translate }} <a [ngClass]="getArrowClass('IsAdmin')" (click)="order.emit('IsAdmin')"></a></td>
+                <td class="text-center">{{ 'IsActive' | translate }} <a [ngClass]="getArrowClass('IsActive')" (click)="order.emit('IsActive')"></a></td>
+                <td class="text-center">{{ 'CalculateOvertime' | translate }} <a [ngClass]="getArrowClass('IsOvertimeCalculated')" (click)="order.emit('IsOvertimeCalculated')"></a></td>
               </tr>
             </thead>
             <tbody>
@@ -46,6 +54,129 @@
             IsAscending: pagingModel.IsAscending,
             count: pagingModel.count,
             IsOrder: false})"></pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="add employee" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header timego-modal">
+        <h4 class="modal-title">{{ 'Add' | translate }} {{ 'Employee' | translate }}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div [formGroup]="addform">
+        <div class="modal-body timego-modal">
+          <div class="form-group">
+            <label for="company-name">{{ 'FirstName' | translate }}</label>
+            <div class="input-group mb-3 required">
+              <span class="input-group-addon">
+                <i class="icon-user"></i>
+              </span>
+              <input type="text" formControlName="FirstName" class="form-control" id="company-name" placeholder="{{ 'FirstName' | translate }}" [(ngModel)]="addEmployee.FirstName" />
+            </div>
+            <div class="form-control-feedback validation-error"
+                 *ngIf="addform.controls.FirstName.errors && (addform.controls.FirstName.dirty || addform.controls.FirstName.touched)">
+              <p *ngIf="addform.controls.FirstName.errors.required">{{ 'FieldIsRequired' | translate }}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="company-name">{{ 'LastName' | translate }}</label>
+            <div class="input-group mb-3 required">
+              <span class="input-group-addon">
+                <i class="icon-user"></i>
+              </span>
+              <input type="text" formControlName="LastName" class="form-control" id="company-name" placeholder="{{ 'LastName' | translate }}" [(ngModel)]="addEmployee.LastName" />
+            </div>
+            <div class="form-control-feedback validation-error"
+                 *ngIf="addform.controls.LastName.errors && (addform.controls.LastName.dirty || addform.controls.LastName.touched)">
+              <p *ngIf="addform.controls.LastName.errors.required">{{ 'FieldIsRequired' | translate }}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="company-name">{{ 'Email' | translate }}</label>
+            <div class="input-group mb-3 required">
+              <span class="input-group-addon">
+                <i class="">@</i>
+              </span>
+              <input type="email" formControlName="Email" class="form-control" id="company-name" placeholder="{{ 'Email' | translate }}" [(ngModel)]="addEmployee.Email" />
+            </div>
+            <div class="form-control-feedback validation-error"
+                 *ngIf="addform.controls.Email.errors && (addform.controls.Email.dirty || addform.controls.Email.touched)">
+              <p *ngIf="addform.controls.Email.errors.required">{{ 'FieldIsRequired' | translate }}</p>
+              <p *ngIf="addform.controls.Email.errors.pattern">{{ 'EmailNotValid' | translate }}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="company-name">{{ 'Password' | translate }}</label>
+            <div class="input-group mb-3 required">
+              <span class="input-group-addon">
+                <i class="icon-lock"></i>
+              </span>
+              <input type="password" formControlName="Password" class="form-control" id="company-name" placeholder="{{ 'Password' | translate }}" [(ngModel)]="addEmployee.Password" />
+            </div>
+            <div class="form-control-feedback validation-error"
+                 *ngIf="addform.controls.Password.errors && (addform.controls.Password.dirty || addform.controls.Password.touched)">
+              <p *ngIf="addform.controls.Password.errors.required">{{ 'FieldIsRequired' | translate }}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="company-name">{{ 'PhoneNumber' | translate }}</label>
+            <div class="input-group mb-3 required">
+              <span class="input-group-addon">
+                <i class="icon-phone"></i>
+              </span>
+              <input type="text" formControlName="PhoneNumber" class="form-control" id="company-name" placeholder="{{ 'PhoneNumber' | translate }}" [(ngModel)]="addEmployee.PhoneNumber" />
+            </div>
+            <div class="form-control-feedback validation-error"
+                 *ngIf="addform.controls.PhoneNumber.errors && (addform.controls.PhoneNumber.dirty || addform.controls.PhoneNumber.touched)">
+              <p *ngIf="addform.controls.PhoneNumber.errors.required">{{ 'FieldIsRequired' | translate }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close' | translate }}</button>
+          <button *ngIf="!addform.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="add.emit(addEmployee)" disabled>{{ 'Add' | translate }}</button>
+          <button *ngIf="addform.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="add.emit(addEmployee)">{{ 'Add' | translate }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="invite employee" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header timego-modal">
+        <h4 class="modal-title">{{ 'Invite' | translate }} {{ 'Employee' | translate }}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div [formGroup]="inviteform">
+        <div class="modal-body timego-modal">
+          <h6>{{ 'InviteMessage' | translate }}</h6>
+          <div class="form-group">
+            <label for="company-name">{{ 'Email' | translate }}</label>
+            <div class="input-group mb-3 required">
+              <span class="input-group-addon">
+                <i class="">@</i>
+              </span>
+              <input type="text" class="form-control" id="company-name" placeholder="{{ 'Email' | translate }}" [(ngModel)]="inviteEmail" formControlName="Email" />
+            </div>
+            <div class="form-control-feedback validation-error"
+                 *ngIf="inviteform.controls.Email.errors && (inviteform.controls.Email.dirty || inviteform.controls.Email.touched)">
+              <p *ngIf="inviteform.controls.Email.errors.required">{{ 'FieldIsRequired' | translate }}</p>
+              <p *ngIf="inviteform.controls.Email.errors.pattern">{{ 'EmailNotValid' | translate }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close' | translate }}</button>
+          <button *ngIf="!inviteform.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="invite.emit(inviteEmail)" disabled>{{ 'Invite' | translate }}</button>
+          <button *ngIf="inviteform.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="invite.emit(inviteEmail)">{{ 'Invite' | translate }}</button>
         </div>
       </div>
     </div>

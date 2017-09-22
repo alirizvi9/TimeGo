@@ -31,7 +31,15 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
 
         public List<TaskViewModel> GetTasks(Employee user)
         {
-            return _repository.Find<Task>(x => x.CompanyId == user.CompanyId).Select(x => new TaskViewModel()
+            if (user.Role.RoleType != "Task Manager")
+            {
+                return _repository.Find<Task>(x => x.CompanyId == user.CompanyId).Select(x => new TaskViewModel()
+                {
+                    Id = x.Id,
+                    TaskName = x.TaskName
+                }).ToList();
+            }
+            return _repository.Find<Task>(x => x.CompanyId == user.CompanyId && x.TaskAllowed.Any(t=>t.EmployeeId == user.Id)).Select(x => new TaskViewModel()
             {
                 Id = x.Id,
                 TaskName = x.TaskName
@@ -175,7 +183,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                 Id = x.Id,
                 StartTime = DateTime.SpecifyKind(x.StartTime, DateTimeKind.Utc),
                 EndTime = DateTime.SpecifyKind(x.EndTime, DateTimeKind.Utc),
-                Task = x.Task.TaskName,
+                Task = x.Task?.TaskName,
                 TaskId = x.TaskId ?? 0,
                 Date = x.Date
             }).OrderBy(x => x.Date).ToList();
@@ -207,9 +215,8 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                     ApprovedById = user.Id,
                     ApprovalStatusId = approvalStatus.Id,
                     RevisedById = user.Id,
-                    StartTime = DateTime.Now,
-                    EndTime = DateTime.Now,
-                    TaskId = 1
+                    StartTime = date,
+                    EndTime = date
                 });
             }
             timesheet.TimesheetLines = timesheetLines;

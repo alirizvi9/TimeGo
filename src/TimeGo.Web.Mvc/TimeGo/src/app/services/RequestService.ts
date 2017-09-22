@@ -2,6 +2,7 @@
 import { Subscription, Observable } from "rxjs"
 import { Http, Headers, URLSearchParams, RequestOptions, Request, RequestMethod } from "@angular/http"
 import { Router } from "@angular/router"
+import { SpinnerService } from 'angular-spinners';
 declare var commonServerData: any;
 
 @Injectable()
@@ -12,17 +13,27 @@ export class RequestService {
         'Content-Type': 'application/json'
     });
     options: RequestOptions = new RequestOptions({ headers: this.headers });
+    
 
     constructor(public http: Http,
-        public router: Router) {
+        public router: Router,
+        private spinnerService: SpinnerService) {
     }
 
     get<T>(path: string): Observable<T> {
-        return this.intercept(this.http.get(path, this.options).map(res => res.json()));
+        this.spinnerService.show('mySpinner');
+        return this.intercept(this.http.get(path, this.options).map(res => {
+            this.spinnerService.hide('mySpinner');
+            return res.json();
+        }));
     }
 
     post<T>(path: string, body?: Object): Observable<T> {
-        return this.intercept(this.http.post(path, body, this.options).map(res => res.json()));
+        this.spinnerService.show('mySpinner');
+        return this.intercept(this.http.post(path, body, this.options).map(res => {
+            this.spinnerService.hide('mySpinner');
+            return res.json();
+        }));
     }
 
     intercept(observable: Observable<any>) {

@@ -21,6 +21,7 @@ import { AddModel } from '../models/add.model'
 import { Task } from '../models/task.model'
 import { UsersListItem } from '../../users/models/users-list-item.model'
 import { TimesheetsLine } from '../models/timesheets-line.model'
+import { ToasterModule, ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
 
 @Injectable()
 export class TimesheetsEffects {
@@ -116,12 +117,16 @@ export class TimesheetsEffects {
             const nextGet$ = this.actions$.ofType(timesheetsActions.GET);
             return this.timesheetsService.editTimesheet(query.Timesheets)
                 .takeUntil(nextGet$)
-                .map((result: any) => new timesheetsActions.GetAction({ PeriodId: query.Period, UserId: query.User }))
+                .map((result: any) => {
+                    this.toasterService.pop('success', 'Success Save', 'Timesheet saved');
+                    return new timesheetsActions.GetAction({ PeriodId: query.Period, UserId: query.User });
+                })
                 .catch(() => of(new timesheetsActions.EditCompleteAction(null)));
         });
 
     constructor(
         private actions$: Actions,
-        private timesheetsService: TimesheetsService
+        private timesheetsService: TimesheetsService,
+        private toasterService: ToasterService 
     ) { }
 }

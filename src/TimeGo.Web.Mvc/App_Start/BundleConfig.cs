@@ -47,6 +47,7 @@ namespace TimeGo.Web.Mvc
                     "~/Content/timego/timeoff.module.chunk.js",
                     "~/Content/timego/timesheets.module.chunk.js",
                     "~/Content/timego/users.module.chunk.js",
+                    "~/Content/timego/rates.module.chunk.js",
                     "~/Content/scripts/tether.min.js",
                     "~/Content/scripts/bootstrap.min.js",
                     "~/Content/scripts/app.js"));

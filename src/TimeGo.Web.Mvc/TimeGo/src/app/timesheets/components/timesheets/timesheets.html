@@ -2,18 +2,18 @@
   <div class="col-md-8 push-md-2">
     <div class="card">
       <div class="card-header">
-        TIMESHEETS
+        {{ 'TimesheetHeader' | translate }}
       </div>
       <div class="card-block">
         <div class="form-group row">
-            <h5 class="col-md-1 timego-center">Period</h5>
+            <h5 class="col-md-1 timego-center">{{ 'Period' | translate }}</h5>
             <select (change)="selectPeriod.emit({periodId: $event.target.value, userId: userId})" [(ngModel)]="periodId" class="form-control col-md-3">
-              <option [value]="0">none</option>
-              <option [value]="period.Id" *ngFor="let period of periods">{{period.PeriodStart | date: 'EEE d-MMM'}} to {{period.PeriodEnd | date: 'EEE d-MMM'}}</option>
+              <option [value]="0">{{ 'None' | translate }}</option>
+              <option [value]="period.Id" *ngFor="let period of periods">{{period.PeriodStart | date: 'EEE d-MMM'}} {{ 'To' | translate }} {{period.PeriodEnd | date: 'EEE d-MMM'}}</option>
             </select>
-            <h5 class="col-md-2 timego-center" *ngIf="role == 'Task Manager'">Employees</h5>
+            <h5 class="col-md-2 timego-center" *ngIf="role == 'Task Manager'">{{ 'Employees' | translate }}</h5>
             <select *ngIf="role == 'Task Manager'" (change)="selectPeriod.emit({periodId: periodId, userId: $event.target.value})" [(ngModel)]="userId" class="form-control col-md-3">
-              <option [value]="0">none</option>
+              <option [value]="0">{{ 'None' | translate }}</option>
               <option [value]="user.Id" *ngFor="let user of users">{{user.FirstName}} {{user.LastName}}</option>
             </select>
         </div>
@@ -23,73 +23,85 @@
               <h5 class="col-md-2 timego-center">{{line.Date | date: 'EEE d-MMM'}}</h5>
               <div class="col-md-4">
                 <select [(ngModel)]="line.TaskId" class="form-control col-md-8">
-                  <option [value]="0">none</option>
+                  <option [value]="0">{{ 'None' | translate }}</option>
                   <option [value]="task.Id" *ngFor="let task of tasks">{{task.TaskName}}</option>
                 </select>
               </div>
               <div class="col-md-4 row">
-                <timepicker [(ngModel)]="line.StartTime" [arrowkeys]="true" [showMeridian]="false" [mousewheel]="false" [showSpinners]="false" class="timego-timepicker"></timepicker>
+                <timepicker [(ngModel)]="line.StartTime" (ngModelChange)="checkChange(line, timesheets.Lines)" [arrowkeys]="true" [showMeridian]="false" [mousewheel]="false" [showSpinners]="false" class="timego-timepicker"></timepicker>
                 <i class="fa fa-arrows-h fa-lg timego-rangetimepiker-icon"></i>
-                <timepicker [(ngModel)]="line.EndTime" [min]="line.StartTime" [mousewheel]="false" [showMeridian]="false" [arrowkeys]="false" [showSpinners]="false" class="timego-timepicker"></timepicker>
+                <timepicker [(ngModel)]="line.EndTime" (ngModelChange)="checkChange(line, timesheets.Lines)" [min]="line.StartTime" [mousewheel]="false" [showMeridian]="false" [arrowkeys]="false" [showSpinners]="false" class="timego-timepicker"></timepicker>
               </div>
               <div class="col-md-1 timego-center">
                 <b>
-                  {{totalLineTimeHr(line)}} h {{totalLineTimeMin(line)}} m
+                  {{totalLineTimeHr(line)}} {{ 'Hours' | translate }} {{totalLineTimeMin(line)}} {{ 'Minutes' | translate }}
                 </b>
               </div>
               <div class="col-md-1">
                 <button type="button" class="btn btn-danger" 
                         *ngIf="!((i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date) && (i === 0 || timesheets.Lines[i].Date != timesheets.Lines[i-1].Date))" 
-                        (click)="delete.emit(line)"><i class="fa fa-remove"></i> Delete</button>
+                        (click)="delete.emit(line)"><i class="fa fa-remove"></i> {{ 'Delete' | translate }}</button>
                 <button type="button" class="btn btn-danger" 
                         *ngIf="(i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date) && (i === 0 || timesheets.Lines[i].Date != timesheets.Lines[i-1].Date)" 
-                        (click)="delete.emit(line)" disabled><i class="fa fa-remove"></i> Delete</button>
+                        (click)="delete.emit(line)" disabled><i class="fa fa-remove"></i> {{ 'Delete' | translate }}</button>
               </div>
+            </div>
+            <div class="row form-group validation-error">
+              <h6 class="col-md-10">{{line.ValidationError}}</h6>
             </div>
             <div class="row form-group border-bottom" *ngIf="i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date">
               <div class="col-md-1">
                 <button type="button" class="btn btn-outline-primary" (click)="addLine.emit(line.Date)">+</button>
               </div>
               <div class="col-md-4 timego-center">
-                add another line for {{line.Date | date: 'EEE d-MMM'}}
+                {{ 'AddLine' | translate }} {{line.Date | date: 'EEE d-MMM'}}
               </div>
             </div>
           </div>
           <div class="col-md-4 row form-group" *ngIf="isLoaded">
             <h5>
-              Total time: {{totalTimeHr(timesheets.Lines)}} h {{totalTimeMin(timesheets.Lines)}} m
+              {{ 'TotalTime' | translate }} {{totalTimeHr(timesheets.Lines)}} {{ 'Hours' | translate }} {{totalTimeMin(timesheets.Lines)}} {{ 'Minutes' | translate }}
             </h5>
           </div>
           <div class="row form-group" *ngIf="isLoaded && role == 'Employee'">
-            <label class="col-md-1">Employee Notes: </label>
+            <label class="col-md-1">{{ 'EmployeeNotes' | translate }} </label>
             <textarea rows="4" class="col-md-10" cols="50" [(ngModel)]="timesheets.EmployeeNotes"></textarea>
           </div>
           <div class="row form-group" *ngIf="isLoaded && role == 'Task Manager'">
-            <label class="col-md-1">Employee Notes: {{timesheets.EmployeeNotes}}</label>
+            <label class="col-md-1">{{ 'EmployeeNotes' | translate }} {{timesheets.EmployeeNotes}}</label>
           </div>
           <div class="row form-group" *ngIf="isLoaded && role == 'Task Manager'">
-            <label class="col-md-1">Approver Notes: </label>
+            <label class="col-md-1">{{ 'ApproverNotes' | translate }} </label>
             <textarea rows="4" class="col-md-10" cols="50" [(ngModel)]="timesheets.ApproverNotes"></textarea>
           </div>
           <div class="row form-group" *ngIf="isLoaded && role == 'Task Manager'">
             <div class="checkbox push-md-1 col-md-3">
-              <label>
-                Locked for User: <input type="checkbox" [(ngModel)]="timesheets.Lock" >
-              </label>
+              <div class="cntr">
+                <label for="lock" class="label-cbx">
+                  <input id="lock" type="checkbox" class="invisible" [(ngModel)]="timesheets.Lock">
+                  <div class="checkbox">
+                    <svg width="20px" height="20px" viewBox="0 0 20 20">
+                      <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                      <polyline points="4 11 8 15 16 6"></polyline>
+                    </svg>
+                  </div>
+                  <span>{{ 'LockedForUser' | translate }}</span>
+                </label>
+              </div>
             </div>
           </div>
           <div class="form-group float-right">
-            <button type="button" class="btn btn-primary" (click)="save.emit({Period: periodId, Timesheets: timesheets})">Approve</button>
-            <button type="button" class="btn btn-primary" *ngIf="isLoaded && role == 'Task Manager'" (click)="submit.emit(timesheets.Id)">Request Resubmit</button>
-            <button type="button" class="btn btn-primary" *ngIf="isLoaded && role == 'Employee'" [disabled]="timesheets.Lock" (click)="submit.emit(timesheets.Id)">Submit</button>
-            <button type="button" class="btn btn-primary" *ngIf="isLoaded && role == 'Employee'" [disabled]="timesheets.Lock" (click)="unlock.emit(timesheets.Id)">Request to Unlock</button>
-            <button type="button" class="btn btn-primary" (click)="approve.emit(timesheets.Id)">Save</button>
+            <button type="button" class="btn btn-primary" (click)="save.emit({Period: periodId, Timesheets: timesheets})">{{ 'Approve' | translate }}</button>
+            <button type="button" class="btn btn-primary" *ngIf="isLoaded && role == 'Task Manager'" (click)="submit.emit(timesheets.Id)">{{ 'RequestResubmit' | translate }}</button>
+            <button type="button" class="btn btn-primary" *ngIf="isLoaded && role == 'Employee'" [disabled]="timesheets.Lock" (click)="submit.emit(timesheets.Id)">{{ 'Submit' | translate }}</button>
+            <button type="button" class="btn btn-primary" *ngIf="isLoaded && role == 'Employee'" [disabled]="timesheets.Lock" (click)="unlock.emit(timesheets.Id)">{{ 'RequestToUnlock' | translate }}</button>
+            <button type="button" class="btn btn-primary" (click)="save.emit({Timesheets: timesheets, Period: periodId, User: userId})">{{ 'Save' | translate }}</button>
           </div>
           <div class="row form-group" *ngIf="isLoaded && role == 'Employee'">
-            <label class="col-md-10">Submited on: {{timesheets.SubmittedOn | date: 'd-MMM-yy'}}</label>
+            <label class="col-md-10">{{ 'SubmitedOn' | translate }} {{timesheets.SubmittedOn | date: 'd-MMM-yy'}}</label>
           </div>
           <div class="row form-group" *ngIf="isLoaded && role == 'Employee'">
-            <label class="col-md-10">Employee Notes: {{timesheets.ApproverNotes}}</label>
+            <label class="col-md-10">{{ 'EmployeeNotes' | translate }} {{timesheets.ApproverNotes}}</label>
           </div>
         </div>
       </div>

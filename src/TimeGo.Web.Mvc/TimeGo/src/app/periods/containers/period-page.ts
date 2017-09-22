@@ -59,13 +59,11 @@ export class PeriodPageComponent {
 
     addPeriod(model: AddPeriod) {
         this.store.dispatch(new periodActions.SaveAction(model));
-        this.orderPeriods("id")
     }
 
     changeStatus(model: ChangeStatus)
     {
         this.store.dispatch(new periodActions.ChangeStatusAction(model));
-        this.orderPeriods("id")
     }
 
     changePage(model: PeriodListPagingModel)

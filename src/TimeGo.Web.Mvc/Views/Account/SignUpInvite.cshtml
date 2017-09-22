@@ -1,0 +1,69 @@
+﻿@model TimeGo.Web.Mvc.Models.SignUpEmployee
+@using TimeGo;
+@{
+    ViewBag.Title = Resource.SignUp;
+    Layout = "~/Views/Shared/_SignUpLayout.cshtml";
+}
+<form action="/SignUpInvite" method="post" role="form">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card-group mb-0">
+                <div class="card p-6">
+                    <div class="card-block">
+                        <h1>@Resource.SignUp to @ViewBag.CompanyName</h1>
+                        <div class="input-group mb-3">
+                            <span class="input-group-addon">
+                                <i class="">@@</i>
+                            </span>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = Resource.Email, @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "tooltiptext tooltiptext-left" })
+                        </div>
+                        <div class="input-group mb-4">
+                            <span class="input-group-addon">
+                                <i class="icon-lock"></i>
+                            </span>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = Resource.Password })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "tooltiptext tooltiptext-left" })
+                        </div>
+                        <div class="input-group mb-4">
+                            <span class="input-group-addon">
+                                <i class="icon-lock"></i>
+                            </span>
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = Resource.ConfirmPassword })
+                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "tooltiptext tooltiptext-left" })
+                        </div>
+                        <div class="input-group mb-4">
+                            <span class="input-group-addon">
+                                <i class="icon-user"></i>
+                            </span>
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = Resource.FirstName })
+                            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "tooltiptext tooltiptext-left" })
+                        </div>
+                        <div class="input-group mb-4">
+                            <span class="input-group-addon">
+                                <i class="icon-user"></i>
+                            </span>
+                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = Resource.LastName })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "tooltiptext tooltiptext-left" })
+                        </div>
+                        <div class="input-group mb-4">
+                            <span class="input-group-addon">
+                                <i class="icon-phone"></i>
+                            </span>
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = Resource.PhoneNumber })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "tooltiptext tooltiptext-left" })
+                        </div>
+                        <div class="row">
+                            @Html.ValidationSummary(true, "", new { @class = "validation-error" })
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="submit" value="@Resource.SignUp" class="btn btn-primary px-4" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

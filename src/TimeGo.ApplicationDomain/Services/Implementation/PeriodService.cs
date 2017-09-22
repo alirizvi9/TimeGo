@@ -86,11 +86,11 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                 return ErrorCodes.UnknownError;
 
             var period = _repository.Find<Period>(x => x.Id == id).SingleOrDefault();
-            var timesheets = _repository.Find<Timesheet>(x => x.PeriodId == id);
+            var timesheets = _repository.Find<Timesheet>(x => x.PeriodId == id).ToList();
 
             foreach (var timesheet in timesheets)
             {
-                var lines = _repository.Find<TimesheetLine>(x => x.TimesheetId == timesheet.Id);
+                var lines = _repository.Find<TimesheetLine>(x => x.TimesheetId == timesheet.Id).ToList();
                 foreach(var line in lines)
                 {
                     _repository.Delete(line);

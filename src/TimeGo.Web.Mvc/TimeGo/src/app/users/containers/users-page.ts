@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import * as fromUsers from '../reducers';
 import * as usersActions from '../actions/users';
 
+import { AddEmployee } from '../models/add-employee.model';
 import {UsersListPagingModel} from '../models/users-list-paging.model';
 import {UsersListItem} from '../models/users-list-item.model';
 
@@ -13,7 +14,7 @@ import {UsersListItem} from '../models/users-list-item.model';
     selector: 'users-page',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <up-users-list [users]="users$ | async" [pagingModel]="pagingModel$ | async" [isLoaded]="isLoaded$ | async" [loading]="loading$ | async" (order)="orderUser($event)" (changePage)="changePage($event)"></up-users-list>
+    <up-users-list [users]="users$ | async" [pagingModel]="pagingModel$ | async" [isLoaded]="isLoaded$ | async" [loading]="loading$ | async" (order)="orderUser($event)" (changePage)="changePage($event)" (invite)="invite($event)" (add)="add($event)"></up-users-list>
   `,
 })
 export class UsersPageComponent {
@@ -56,5 +57,15 @@ export class UsersPageComponent {
     changePage(model: UsersListPagingModel)
     {
         this.store.dispatch(new usersActions.GetAction(model));
+    }
+
+    add(model: AddEmployee)
+    {
+        this.store.dispatch(new usersActions.SaveAction(model));
+    }
+
+    invite(email: string)
+    {
+        this.store.dispatch(new usersActions.InviteAction(email));
     }
 }

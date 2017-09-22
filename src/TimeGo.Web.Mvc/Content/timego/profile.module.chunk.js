@@ -95,12 +95,18 @@ var SaveCompleteAction = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__profile_edit_profile_edit__ = __webpack_require__("../../../../../src/app/profile/components/profile-edit/profile-edit.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_HttpLoaderFactory__ = __webpack_require__("../../../../../src/app/services/HttpLoaderFactory.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
+
 
 
 
@@ -118,9 +124,17 @@ ComponentsModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
         imports: [
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* ReactiveFormsModule */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
-            __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* RouterModule */]
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["e" /* ReactiveFormsModule */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* FormsModule */],
+            __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* RouterModule */],
+            __WEBPACK_IMPORTED_MODULE_5__angular_common_http__["b" /* HttpClientModule */],
+            __WEBPACK_IMPORTED_MODULE_6__ngx_translate_core__["b" /* TranslateModule */].forRoot({
+                loader: {
+                    provide: __WEBPACK_IMPORTED_MODULE_6__ngx_translate_core__["a" /* TranslateLoader */],
+                    useFactory: __WEBPACK_IMPORTED_MODULE_7__services_HttpLoaderFactory__["a" /* HttpLoaderFactory */],
+                    deps: [__WEBPACK_IMPORTED_MODULE_5__angular_common_http__["a" /* HttpClient */]]
+                }
+            })
         ],
         declarations: COMPONENTS,
         exports: COMPONENTS,
@@ -134,7 +148,7 @@ ComponentsModule = __decorate([
 /***/ "../../../../../src/app/profile/components/profile-edit/profile-edit.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-8 push-md-2\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        MY PROFILE\r\n      </div>\r\n      <div class=\"card-block\" *ngIf=\"isLoaded\">\r\n        <div class=\"row\">\r\n          <div class=\"col-md-6\">\r\n            <div class=\"form-group\">\r\n              <label for=\"company-name\">Company Name</label>\r\n              <div class=\"input-group mb-3 required\">\r\n                <span class=\"input-group-addon\">\r\n                  <i class=\"icon-organization\"></i>\r\n                </span>\r\n                <input type=\"text\" class=\"form-control\" id=\"company-name\" placeholder=\"Company name\" [(ngModel)]=\"company.CompanyName\">\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"col-md-6\">\r\n            <div class=\"form-group\">\r\n              <label for=\"contact-name\">Contact Name</label>\r\n              <div class=\"input-group mb-3 required\">\r\n                <span class=\"input-group-addon\">\r\n                  <i class=\"icon-user\"></i>\r\n                </span>\r\n                <input type=\"text\" class=\"form-control\" id=\"contact-name\" placeholder=\"Contact name\" [(ngModel)]=\"company.ContactName\">\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"row\">\r\n          <div class=\"col-md-6\">\r\n            <div class=\"form-group\">\r\n              <label for=\"phone-number\">Phone Number</label>\r\n              <div class=\"input-group mb-3 required\">\r\n                <span class=\"input-group-addon\">\r\n                  <i class=\"icon-phone\"></i>\r\n                </span>\r\n                <input type=\"text\" class=\"form-control\" id=\"phone-number\" placeholder=\"Phone number\" [(ngModel)]=\"company.PhoneNumber\">\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"col-md-6\">\r\n            <div class=\"form-group\">\r\n              <label for=\"email\">Email</label>\r\n              <div class=\"input-group mb-3 required\">\r\n                <span class=\"input-group-addon\">\r\n                  <i class=\"\">@</i>\r\n                </span>\r\n                <input type=\"email\" class=\"form-control\" id=\"email\" placeholder=\"Email\" [(ngModel)]=\"company.EmailAddress\">\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"row\">\r\n          <div class=\"col-md-6\">\r\n            <div class=\"form-group\">\r\n              <label for=\"vacation-approver-email\">Vacation Approver Email</label>\r\n              <div class=\"input-group mb-3 required\">\r\n                <span class=\"input-group-addon\">\r\n                  <i class=\"\">@</i>\r\n                </span>\r\n                <input type=\"email\" class=\"form-control\" id=\"vacation-approver-email\" placeholder=\"Vacation Approver Email\" [(ngModel)]=\"company.VacationApproverEmail\">\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"col-md-6\">\r\n            <div class=\"form-group\">\r\n              <label for=\"week-day\">Work Week Start Day</label>\r\n              <div class=\"input-group mb-3 required\">\r\n                <span class=\"input-group-addon\">\r\n                  <i class=\"icon-calendar\"></i>\r\n                </span>\r\n                <select id=\"week-day\" class=\"form-control\" [(ngModel)]=\"company.WorkWeekStartDay\">\r\n                  <option *ngFor=\"let c of weekDays\" [ngValue]=\"c.id\">{{c.text}}</option>\r\n                </select>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"row\">\r\n          <div class=\"col-md-6\">\r\n            <div class=\"form-group\">\r\n              <label for=\"timesheets\">Timesheets Weeks in advance</label>\r\n              <div class=\"input-group mb-3 required\">\r\n                <span class=\"input-group-addon\">\r\n                  <i class=\"icon-globe\"></i>\r\n                </span>\r\n                <select id=\"timesheets\" class=\"form-control\" [(ngModel)]=\"company.TimesheetsWeeks\">\r\n                  <option *ngFor=\"let c of timesheets\" [ngValue]=\"c.id\">{{c.text}}</option>\r\n                </select>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"col-md-6\">\r\n            <div class=\"form-group\">\r\n              <label for=\"companyUrl\">Company Url</label>\r\n              <div class=\"input-group\">\r\n                <input type=\"text\" class=\"form-control\" id=\"companyUrl\" [(ngModel)]=\"company.TimeGoUrl\">\r\n                <span class=\"input-group-addon\">\r\n                  <i class=\"\">.timego.com/</i>\r\n                </span>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group float-right\">\r\n          <input type=\"button\" class=\"btn btn-primary\" value=\"Save\" (click)=\"save.emit(company)\" />\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-8 push-md-2\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        {{ 'ProfileHeader' | translate }}\r\n      </div>\r\n      <div class=\"card-block\" *ngIf=\"isLoaded\">\r\n        <div class=\"row\">\r\n          <div class=\"col-md-6\">\r\n            <div class=\"form-group\">\r\n              <label for=\"company-name\">{{ 'CompanyName' | translate }}</label>\r\n              <div class=\"input-group mb-3 required\">\r\n                <span class=\"input-group-addon\">\r\n                  <i class=\"icon-organization\"></i>\r\n                </span>\r\n                <input type=\"text\" class=\"form-control\" id=\"company-name\" placeholder=\"Company name\" [(ngModel)]=\"company.CompanyName\">\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"col-md-6\">\r\n            <div class=\"form-group\">\r\n              <label for=\"contact-name\">{{ 'ContactName' | translate }}</label>\r\n              <div class=\"input-group mb-3 required\">\r\n                <span class=\"input-group-addon\">\r\n                  <i class=\"icon-user\"></i>\r\n                </span>\r\n                <input type=\"text\" class=\"form-control\" id=\"contact-name\" placeholder=\"Contact name\" [(ngModel)]=\"company.ContactName\">\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"row\">\r\n          <div class=\"col-md-6\">\r\n            <div class=\"form-group\">\r\n              <label for=\"phone-number\">{{ 'PhoneNumber' | translate }}</label>\r\n              <div class=\"input-group mb-3 required\">\r\n                <span class=\"input-group-addon\">\r\n                  <i class=\"icon-phone\"></i>\r\n                </span>\r\n                <input type=\"text\" class=\"form-control\" id=\"phone-number\" placeholder=\"Phone number\" [(ngModel)]=\"company.PhoneNumber\">\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"col-md-6\">\r\n            <div class=\"form-group\">\r\n              <label for=\"email\">{{ 'Email' | translate }}</label>\r\n              <div class=\"input-group mb-3 required\">\r\n                <span class=\"input-group-addon\">\r\n                  <i class=\"\">@</i>\r\n                </span>\r\n                <input type=\"email\" class=\"form-control\" id=\"email\" placeholder=\"Email\" [(ngModel)]=\"company.EmailAddress\">\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"row\">\r\n          <div class=\"col-md-6\">\r\n            <div class=\"form-group\">\r\n              <label for=\"vacation-approver-email\">{{ 'VacationApproverEmail' | translate }}</label>\r\n              <div class=\"input-group mb-3 required\">\r\n                <span class=\"input-group-addon\">\r\n                  <i class=\"\">@</i>\r\n                </span>\r\n                <input type=\"email\" class=\"form-control\" id=\"vacation-approver-email\" placeholder=\"Vacation Approver Email\" [(ngModel)]=\"company.VacationApproverEmail\">\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"col-md-6\">\r\n            <div class=\"form-group\">\r\n              <label for=\"week-day\">{{ 'WorkWeekStartDay' | translate }}</label>\r\n              <div class=\"input-group mb-3 required\">\r\n                <span class=\"input-group-addon\">\r\n                  <i class=\"icon-calendar\"></i>\r\n                </span>\r\n                <select id=\"week-day\" class=\"form-control\" [(ngModel)]=\"company.WorkWeekStartDay\">\r\n                  <option *ngFor=\"let c of weekDays\" [ngValue]=\"c.id\">{{c.text}}</option>\r\n                </select>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"row\">\r\n          <div class=\"col-md-6\">\r\n            <div class=\"form-group\">\r\n              <label for=\"timesheets\">{{ 'Timesheets WeeksInAdvance' | translate }}</label>\r\n              <div class=\"input-group mb-3 required\">\r\n                <span class=\"input-group-addon\">\r\n                  <i class=\"icon-globe\"></i>\r\n                </span>\r\n                <select id=\"timesheets\" class=\"form-control\" [(ngModel)]=\"company.TimesheetsWeeks\">\r\n                  <option *ngFor=\"let c of timesheets\" [ngValue]=\"c.id\">{{c.text}}</option>\r\n                </select>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"col-md-6\">\r\n            <div class=\"form-group\">\r\n              <label for=\"companyUrl\">{{ 'CompanyUrl' | translate }}</label>\r\n              <div class=\"input-group\">\r\n                <input type=\"text\" class=\"form-control\" id=\"companyUrl\" [(ngModel)]=\"company.TimeGoUrl\">\r\n                <span class=\"input-group-addon\">\r\n                  <i class=\"\">.timego.com/</i>\r\n                </span>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group float-right\">\r\n          <input type=\"button\" class=\"btn btn-primary\" value=\"{{ 'Save' | translate }}\" (click)=\"save.emit(company)\" />\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -165,6 +179,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_company_profile_model__ = __webpack_require__("../../../../../src/app/profile/models/company-profile.model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_company_profile_model___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__models_company_profile_model__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_constants__ = __webpack_require__("../../../../../src/app/common/constants.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -177,12 +192,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ProfileEditComponent = (function () {
-    function ProfileEditComponent() {
+    function ProfileEditComponent(translate) {
+        this.translate = translate;
         this.isLoaded = false;
         this.save = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.weekDays = __WEBPACK_IMPORTED_MODULE_2__common_constants__["a" /* AppConstants */].weekDays;
         this.timesheets = __WEBPACK_IMPORTED_MODULE_2__common_constants__["a" /* AppConstants */].timesheets;
+        translate.addLangs(["en", "fr"]);
+        translate.setDefaultLang('en');
     }
     return ProfileEditComponent;
 }());
@@ -203,10 +222,11 @@ ProfileEditComponent = __decorate([
         selector: 'pc-profile-edit',
         template: __webpack_require__("../../../../../src/app/profile/components/profile-edit/profile-edit.html"),
         styles: [__webpack_require__("../../../../../src/app/profile/components/profile-edit/profile-edit.scss")]
-    })
+    }),
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ngx_translate_core__["c" /* TranslateService */]) === "function" && _b || Object])
 ], ProfileEditComponent);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=profile-edit.js.map
 
 /***/ }),
@@ -291,6 +311,7 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rxjs_observable_of___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_rxjs_observable_of__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__profile_service__ = __webpack_require__("../../../../../src/app/profile/profile.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__actions_profile_edit__ = __webpack_require__("../../../../../src/app/profile/actions/profile-edit.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_angular2_toaster_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -313,11 +334,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ProfileEditEffects = (function () {
-    function ProfileEditEffects(actions$, profileService) {
+    function ProfileEditEffects(actions$, profileService, toasterService) {
         var _this = this;
         this.actions$ = actions$;
         this.profileService = profileService;
+        this.toasterService = toasterService;
         this.get$ = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_12__actions_profile_edit__["a" /* GET */])
             .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
@@ -337,7 +360,10 @@ var ProfileEditEffects = (function () {
                 return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_empty__["empty"])();
             return _this.profileService
                 .editCurrentProfile(company)
-                .map(function (result) { return new __WEBPACK_IMPORTED_MODULE_12__actions_profile_edit__["g" /* SaveCompleteAction */](result); })
+                .map(function (result) {
+                _this.toasterService.pop('success', 'Success Save', 'Success Save Profile');
+                return new __WEBPACK_IMPORTED_MODULE_12__actions_profile_edit__["g" /* SaveCompleteAction */](result);
+            })
                 .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_10_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_12__actions_profile_edit__["g" /* SaveCompleteAction */](null)); });
         });
     }
@@ -353,10 +379,10 @@ __decorate([
 ], ProfileEditEffects.prototype, "save$", void 0);
 ProfileEditEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_11__profile_service__["a" /* ProfileService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_11__profile_service__["a" /* ProfileService */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_11__profile_service__["a" /* ProfileService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_11__profile_service__["a" /* ProfileService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_13_angular2_toaster_angular2_toaster__["c" /* ToasterService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_13_angular2_toaster_angular2_toaster__["c" /* ToasterService */]) === "function" && _e || Object])
 ], ProfileEditEffects);
 
-var _a, _b, _c, _d;
+var _a, _b, _c, _d, _e;
 //# sourceMappingURL=profile-edit.js.map
 
 /***/ }),
@@ -455,7 +481,7 @@ ProfileModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
         imports: [
             __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* HttpModule */],
-            __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormsModule */],
+            __WEBPACK_IMPORTED_MODULE_3__angular_forms__["c" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_6__profile_routing_module__["a" /* ProfileRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_10__components_index__["a" /* ComponentsModule */],

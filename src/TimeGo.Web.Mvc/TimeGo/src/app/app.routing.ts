@@ -32,8 +32,7 @@ export const routes: Routes = [
       {
         path: 'timeoff',
         loadChildren: './timeoff/timeoff.module#TimeoffModule'
-      }
-      ,
+      },
       {
         path: 'periods',
         loadChildren: './periods/period.module#PeriodModule'
@@ -45,6 +44,10 @@ export const routes: Routes = [
       {
           path: 'users',
           loadChildren: './users/users.module#UsersModule'
+      },
+      {
+          path: 'rates',
+          loadChildren: './rates/rates.module#RatesModule'
       }
     ]
   }

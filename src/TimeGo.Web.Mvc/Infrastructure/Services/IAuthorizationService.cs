@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Security.Claims;
-using TimeGo.ApplicationDomain.Entities;
+﻿using TimeGo.ApplicationDomain.Entities;
 using TimeGo.Web.Mvc.Models;
 
 namespace TimeGo.Web.Mvc.Infrastructure.Services
@@ -9,5 +7,7 @@ namespace TimeGo.Web.Mvc.Infrastructure.Services
     {
         Employee GetUser();
         AuthorizationResponse Authorization(string login, string password, long companyId);
+        string GetInviteToken(string email);
+        string GetInviteEmail(string token);
     }
 }
