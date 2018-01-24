@@ -53,60 +53,117 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 IsActive = true,
-                RoleId = 1,
+                RoleId = model.IsAdmin ? 2 : 1,
                 Company = company,
-                IsAdmin = false,
+                IsAdmin = model.IsAdmin,
                 IsOvertimeCalculated = true,
+                IsRegistrate = true
             };
             _repository.Add(newEmployee);
             _repository.Save();
             return ErrorCodes.Success;
+        }
+
+        public AddEmployeeViewModel GetEmployee(string email)
+        {
+            var employee = _repository.Find<Employee>().SingleOrDefault(x => x.EmailAddress == email);
+            if (employee == null)
+                return null;
+
+            return new AddEmployeeViewModel()
+            {
+                PhoneNumber = employee.PhoneNumber,
+                Email = employee.EmailAddress,
+                IsAdmin = employee.IsAdmin,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                Password = employee.Password
+            };
         }
 
         public ErrorCodes AddEmployee(AddEmployeeViewModel model, Company company)
         {
             var employee = _repository.Find<Employee>().SingleOrDefault(x => x.EmailAddress == model.Email);
-            if (employee != null)
-                return ErrorCodes.EmailAlreadyExists;
-            var newEmployee = new Employee
-            {
-                CompanyId = company.Id,
-                EmailAddress = model.Email,
-                PhoneNumber = model.PhoneNumber,
-                Password = model.Password,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                IsActive = true,
-                RoleId = 1,
-                Company = company,
-                IsAdmin = false,
-                IsOvertimeCalculated = true,
-            };
-            _repository.Add(newEmployee);
+            employee.FirstName = model.FirstName;
+            employee.LastName = model.LastName;
+            employee.Password = model.Password;
+            employee.PhoneNumber = model.PhoneNumber;
+            employee.IsRegistrate = true;
             _repository.Save();
             return ErrorCodes.Success;
         }
 
-        public ErrorCodes InviteEmployee(string token, Employee user, string email)
+        public ErrorCodes InviteEmployee(InviteEmployeeViewModel model, Employee user)
         {
             if (user.Role.RoleType != "Task Manager")
                 return ErrorCodes.NoAccess;
-            _emailService.SendInviteEmail(token, user.Company.TimeGoUrl, email);
+            var employee = _repository.Find<Employee>().SingleOrDefault(x => x.EmailAddress == model.Email);
+            if (employee != null)
+                return ErrorCodes.EmailAlreadyExists;
+            var newEmployee = new Employee
+            {
+                CompanyId = user.CompanyId,
+                EmailAddress = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                IsActive = true,
+                RoleId = model.IsAdmin ? 2 : 1,
+                Company = user.Company,
+                IsAdmin = model.IsAdmin,
+                IsOvertimeCalculated = true,
+                InviteOn = DateTime.Now,
+                IsRegistrate = false
+            };
+            _repository.Add(newEmployee);
+            _repository.Save();
+            _emailService.SendInviteEmail(user.Company.TimeGoUrl, model.Email);
+
+            return ErrorCodes.Success;
+        }
+
+        public ErrorCodes ReInviteEmployee(long id, Employee user)
+        {
+            var employee = _repository.Find<Employee>(x => x.Id == id).SingleOrDefault();
+            employee.InviteOn = DateTime.Now;
+            _repository.Save();
+            if (employee == null)
+                return ErrorCodes.NotFoundEmail;
+            _emailService.SendInviteEmail(user.Company.TimeGoUrl, employee.EmailAddress);
+            return ErrorCodes.Success;
+        }
+
+        public ErrorCodes EditEmployee(UsersListItemViewModel employee, Employee user)
+        {
+            if (user.Role.RoleType != "Task Manager")
+                return ErrorCodes.NoAccess;
+            var employeeDb = _repository.Find<Employee>(x => x.Id == employee.Id).SingleOrDefault();
+            if (employeeDb == null)
+                return ErrorCodes.NotFoundEmail;
+
+            employeeDb.EmailAddress = employee.Email;
+            employeeDb.FirstName = employee.FirstName;
+            employeeDb.SocialSecurityNumber = employee.Last4Ss;
+            employeeDb.LastName = employee.LastName;
+            employeeDb.PhoneNumber = employee.Phone;
+            employeeDb.RoleId = employee.IsAdmin ? 2 : 1;
+            employeeDb.IsAdmin = employee.IsAdmin;
+            employeeDb.IsActive = employee.IsActive;
+            _repository.Save();
             return ErrorCodes.Success;
         }
 
         public ErrorCodes SignUp(SignUpRequest model)
         {
-            var company = _repository.Find<Company>().SingleOrDefault(x=>x.TimeGoUrl == model.CompanyUrl);
+            var company = _repository.Find<Company>().SingleOrDefault(x => x.TimeGoUrl == model.CompanyUrl);
             if (company != null)
                 return ErrorCodes.CompanyAlreadyExists;
             var user = _repository.Find<Employee>().SingleOrDefault(x => x.EmailAddress == model.Email);
-            if(user != null)
+            if (user != null)
                 return ErrorCodes.EmailAlreadyExists;
 
-            var companyApproved = _repository.Find<CompanyApproved>().First(x=>x.Id == 1);
-            var subscriptionPlan = _repository.Find<SubscriptionPlan>().First(x=>x.Id == 2);
-            var timeZone = _repository.Find<Timezone>().FirstOrDefault(x=>x.Id == model.TimezoneId);
+            var companyApproved = _repository.Find<CompanyApproved>().First(x => x.Id == 1);
+            var subscriptionPlan = _repository.Find<SubscriptionPlan>().First(x => x.Id == 2);
+            var timeZone = _repository.Find<Timezone>().FirstOrDefault(x => x.Id == model.TimezoneId);
 
             var сompany = new Company
             {
@@ -145,6 +202,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                 Role = managerRole,
                 IsAdmin = true,
                 IsOvertimeCalculated = true,
+                IsRegistrate = true
             };
 
             _repository.Add(employee);
@@ -172,7 +230,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
         public void ConfirmEmail(int userId, string code)
         {
             var user = _repository.FindForUpdate<Employee>(userId);
-            if(user != null && user.Code == code)
+            if (user != null && user.Code == code)
             {
                 user.ConfirmEmail = true;
                 _repository.Save();

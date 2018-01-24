@@ -169,6 +169,15 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allows.
+        /// </summary>
+        public static string Allows {
+            get {
+                return ResourceManager.GetString("Allows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check allowed task below.
         /// </summary>
         public static string AllowTaskMessage {
@@ -399,6 +408,24 @@ namespace TimeGo {
         public static string CreateYourAccount {
             get {
                 return ResourceManager.GetString("CreateYourAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to dd-MMM-yyyy.
+        /// </summary>
+        public static string DateFormat {
+            get {
+                return ResourceManager.GetString("DateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EEE d-MMM.
+        /// </summary>
+        public static string DateWeekFormat {
+            get {
+                return ResourceManager.GetString("DateWeekFormat", resourceCulture);
             }
         }
         
@@ -682,6 +709,15 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is Registrated.
+        /// </summary>
+        public static string IsRegistrated {
+            get {
+                return ResourceManager.GetString("IsRegistrated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last 4 SS.
         /// </summary>
         public static string Last4SS {
@@ -741,6 +777,15 @@ namespace TimeGo {
         public static string LogIn {
             get {
                 return ResourceManager.GetString("LogIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your account is not active.
+        /// </summary>
+        public static string LoginActiveError {
+            get {
+                return ResourceManager.GetString("LoginActiveError", resourceCulture);
             }
         }
         
@@ -961,6 +1006,15 @@ namespace TimeGo {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reinvite.
+        /// </summary>
+        public static string ReInvite {
+            get {
+                return ResourceManager.GetString("ReInvite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reminder 1 Date.
         /// </summary>
         public static string Reminder1Date {
@@ -1101,6 +1155,15 @@ namespace TimeGo {
         public static string Status {
             get {
                 return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
         

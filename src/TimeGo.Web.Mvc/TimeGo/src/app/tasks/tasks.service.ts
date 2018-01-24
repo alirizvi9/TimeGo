@@ -18,6 +18,10 @@ export class TasksService {
         return this.requestService.post<any>("/api/AddTask/", addModel);
     }
 
+    editTask(model: TasksListItem): Observable<any> {
+        return this.requestService.post<any>("/api/EditTask/", model);
+    }
+
     allowTask(allowModel: TasksListItem): Observable<any> {
         return this.requestService.post<any>("/api/AllowTask/", allowModel);
     }

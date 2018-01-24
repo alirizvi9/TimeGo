@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TimeGo.ApplicationDomain.Models.Users
 {
@@ -17,5 +13,7 @@ namespace TimeGo.ApplicationDomain.Models.Users
         public bool IsAdmin { get; set; }
         public bool IsActive { get; set; }
         public bool IsOvertimeCalculated { get; set; }
+        public bool IsRegistrate { get; set; }
+        public DateTime? InviteOn { get; set; }
     }
 }

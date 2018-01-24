@@ -11,7 +11,7 @@ namespace TimeGo.ApplicationDomain.Services
         IEnumerable<Company> GetAll();
         int Count();
         ErrorCodes EditCompany(Company model);
-        ErrorCodes EditCompany(CompanyProfileViewModel model);
+        ErrorCodes EditCompany(CompanyProfileViewModel model, Employee user);
         ErrorCodes EditBillingAddress(Company model);
         IEnumerable<Company> GetPage(string sortExpression, int page, int pageSize);
         Company GetCompany(long id);

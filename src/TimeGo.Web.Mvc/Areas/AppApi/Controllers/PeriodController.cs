@@ -35,7 +35,7 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
 
         [HttpPost]
         [Route("api/AddPeriod")]
-        public IHttpActionResult AddTimeoff(AddPeriodViewModel model)
+        public IHttpActionResult AddPeriod(AddPeriodViewModel model)
         {
             var user = _authorizationService.GetUser();
             if (user.CompanyId == null)
@@ -45,8 +45,19 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
         }
 
         [HttpPost]
+        [Route("api/EditPeriod")]
+        public IHttpActionResult EditPeriod(PeriodViewModel model)
+        {
+            var user = _authorizationService.GetUser();
+            if (user.CompanyId == null)
+                return Success();
+            var result = _periodService.EditPeriod(model, user);
+            return result == ErrorCodes.Success ? Success() : Error(result);
+        }
+
+        [HttpPost]
         [Route("api/ChangePeriodStatus")]
-        public IHttpActionResult ChangeTimeoffStatus(ChangeStatusViewModel model)
+        public IHttpActionResult ChangePeriodStatus(ChangeStatusViewModel model)
         {
             var user = _authorizationService.GetUser();
             if (user.CompanyId == null)

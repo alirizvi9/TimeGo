@@ -76,15 +76,17 @@ namespace TimeGo.Web.Mvc.Areas.Admin.Controllers
             if(company == null || emploee == null)
                 return RedirectToAction("Index");
             var tokenModel = _authorizationService.Authorization(emploee.EmailAddress, emploee.Password, company.Id);
-            return RedirectToSubDomain(company.TimeGoUrl, string.Format("set?token={0}&role={1}", tokenModel.Token, tokenModel.Employee.Role.RoleType));
+            var login = tokenModel.Employee.FirstName + " " + tokenModel.Employee.LastName;
+            return RedirectToSubDomain(company.TimeGoUrl, string.Format("set?token={0}&role={1}&login={2}", tokenModel.Token, tokenModel.Employee.Role.RoleType, login));
         }
 
         [AllowAnonymous]
         [Route("set")]
-        public ActionResult SetSession(string token, string role)
+        public ActionResult SetSession(string token, string role, string login)
         {
             Session["token"] = token;
             Session["role"] = role;
+            Session["login"] = login;
             return RedirectToAction("Run", "App");
         }
 

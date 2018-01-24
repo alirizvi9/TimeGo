@@ -4,4 +4,5 @@
     Email: string;
     PhoneNumber: string;
     Password: string;
+    IsAdmin: boolean;
 }

@@ -25,21 +25,21 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
 
         public void SendConfirmEmail(Employee user, string code)
         {
-            var url = _settings.SiteUrl + $"Account/Confirm?userId={user.Id}&code={code}";
+            var url = string.Format(_settings.SieUrlForSubdomen, user.Company.TimeGoUrl) + $"Account/Confirm?userId={user.Id}&code={code}";
             var emailModel = new ConfirmEmailModel(user, _settings, url) {Subject = Resource.ConfirmEmailTitle};
             SendEmail(emailModel, "ConfirmEmail");
         }
 
-        public void SendInviteEmail(string token, string subdomen, string email)
+        public void SendInviteEmail(string subdomen, string email)
         {
-            var url = string.Format(_settings.SieUrlForSubdomen, subdomen) + $"SignUpInvite?token={token}";
+            var url = string.Format(_settings.SieUrlForSubdomen, subdomen) + $"SignUpInvite?email={email}";
             var emailModel = new InviteEmailModel(url, email, _settings) { Subject = Resource.WelcomeEmail };
             SendEmail(emailModel, "InviteEmail");
         }
 
         public void SendForgotPasswordEmail(Employee user, string code)
         {
-            var url = _settings.SiteUrl + $"Account/reset?userId={user.Id}&code={code}";
+            var url = string.Format(_settings.SieUrlForSubdomen, user.Company.TimeGoUrl) + $"Account/reset?userId={user.Id}&code={code}";
             var emailModel =new ForgotPasswordEmailModel(user, _settings, url)
             {
                 Subject = Resource.ForgotPasswordEmail

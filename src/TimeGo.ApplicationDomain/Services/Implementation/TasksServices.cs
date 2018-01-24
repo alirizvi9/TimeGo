@@ -64,6 +64,20 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             return ErrorCodes.Success;
         }
 
+        public ErrorCodes EditTask(TaskViewModel model, Employee user)
+        {
+            if (user.Role.RoleType != "Task Manager")
+                return ErrorCodes.NoAccess;
+
+            var task = _repository.Find<Task>(x => x.Id == model.Id).SingleOrDefault();
+            if (task == null)
+                return ErrorCodes.NotFound;
+
+            task.TaskName = model.TaskName;
+            _repository.Save();
+            return ErrorCodes.Success;
+        }
+
         public ErrorCodes DeleteTask(long id, Employee user)
         {
             if (user.Role.RoleType != "Task Manager")

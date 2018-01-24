@@ -18,6 +18,7 @@
                 <td class="text-center">{{ 'Approver1Email' | translate }} <a [ngClass]="getArrowClass('ApproverPrimaryId')" (click)="order.emit('ApproverPrimaryId')"></a></td>
                 <td class="text-center">{{ 'Approver2Email' | translate }} <a [ngClass]="getArrowClass('ApproverSecondaryId')" (click)="order.emit('ApproverSecondaryId')"></a></td>
                 <td class="text-center">{{ 'IsActive' | translate }} <a [ngClass]="getArrowClass('IsActive')" (click)="order.emit('IsActive')"></a></td>
+                <td class="text-center">{{ 'Allows' | translate }} </td>
                 <td class="text-center">{{ 'Action' | translate }} </td>
               </tr>
             </thead>
@@ -26,10 +27,13 @@
                 <td class="text-center">{{task.TaskName}}</td>
                 <td class="text-center">{{task.ApproverPrimary}}</td>
                 <td class="text-center">{{task.ApproverSecondary}}</td>
-                <td class="text-center">{{task.IsActive}}</td>
+                <td class="text-center" *ngIf="task.IsActive"><span class="badge badge-success timego-status">{{task.IsActive ? 'Yes' : 'No'}}</span></td>
+                <td class="text-center" *ngIf="!task.IsActive"><span class="badge badge-danger timego-status">{{task.IsActive ? 'Yes' : 'No'}}</span></td>
+                <td class="text-center"><div class="allow-name" *ngFor="let allow of task.Allows; let i = index"><div *ngIf="allow.Allow">{{allow.FirstName}} {{allow.LastName}}&nbsp;</div></div></td>
                 <td class="text-center">
                   <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal" (click)="deleteId = task.Id">{{ 'Delete' | translate }}</button>
-                  <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#allowModal" (click)="selectTask = task; select = true;">{{ 'Allow' | translate }}</button>
+                  <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#allowModal" (click)="selectTask = task; select = true;">{{ 'Allow' | translate }}</button>
+                  <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editModal" (click)="cloneEditTask(task);">{{ 'Edit' | translate }}</button>
                 </td>
               </tr>
             </tbody>
@@ -75,6 +79,35 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="Edit period" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header timego-modal">
+        <h4 class="modal-title">{{ 'Edit' | translate }} {{ 'Task' | translate }}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body timego-modal">
+        <div class="form-group">
+          <label for="company-name">{{ 'TaskName' | translate }}</label>
+          <div class="input-group mb-3 required">
+            <span class="input-group-addon">
+              <i class="icon-note"></i>
+            </span>
+            <input type="text" class="form-control" id="company-name" placeholder="Task Name" [(ngModel)]="editTask.TaskName" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close' | translate }}</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="edit.emit(editTask)">{{ 'Save' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="Delete task" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

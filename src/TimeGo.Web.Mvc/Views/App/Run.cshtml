@@ -2,13 +2,3 @@
     ViewBag.Title = "TimeGo";
     Layout = "~/Views/Shared/_AppLayout.cshtml";
 }
-@section Scripts
-{
-    <script>
-        console.log('commonServerData');
-        var commonServerData = {
-            Token: "@ViewBag.Token",
-            Role: "@ViewBag.Role"
-        };
-    </script>
-}

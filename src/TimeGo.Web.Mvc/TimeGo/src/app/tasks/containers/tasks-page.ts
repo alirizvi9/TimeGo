@@ -15,7 +15,8 @@ import { DeleteTaskModel } from '../models/delete.model'
     selector: 'tasks-page',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <up-tasks-list [tasks]="tasks$ | async" [isLoaded]="isLoaded$ | async" [pagingModel]="pagingModel$ | async" [loading]="loading$ | async" (order)="orderTasks($event)" (add)="addTask($event)" (delete)="delete($event)" (changePage)="changePage($event)" (allow)="allow($event)"></up-tasks-list>
+    <up-tasks-list [tasks]="tasks$ | async" [isLoaded]="isLoaded$ | async" [pagingModel]="pagingModel$ | async" [loading]="loading$ | async" 
+    (order)="orderTasks($event)" (add)="addTask($event)" (edit)="edit($event)" (delete)="delete($event)" (changePage)="changePage($event)" (allow)="allow($event)"></up-tasks-list>
   `,
 })
 export class TasksPageComponent {
@@ -58,6 +59,10 @@ export class TasksPageComponent {
 
     addTask(model: AddTask) {
         this.store.dispatch(new tasksActions.SaveAction(model));
+    }
+
+    edit(model: TasksListItem) {
+        this.store.dispatch(new tasksActions.EditAction(model));
     }
 
     changePage(model: TasksListPagingModel)

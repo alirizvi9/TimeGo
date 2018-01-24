@@ -1,4 +1,4 @@
-﻿<header class="app-header navbar">
+<header class="app-header navbar">
   <button class="navbar-toggler d-lg-none" type="button" appMobileSidebarToggler>&#9776;</button>
   <ul class="nav navbar-nav d-md-down-none">
     <li class="nav-item">
@@ -10,10 +10,10 @@
     <li class="nav-item px-3">
       <a class="nav-link" routerLink="/timesheets">Timesheets</a>
     </li>
-    <li class="nav-item px-3">
+    <li *ngIf="role == 'Task Manager'" class="nav-item px-3">
       <a class="nav-link" routerLink="/periods">Timesheets Periods</a>
     </li>
-    <li class="nav-item px-3">
+    <li *ngIf="role == 'Task Manager'" class="nav-item px-3">
       <a class="nav-link" routerLink="/tasks">Tasks</a>
     </li>
     <li class="nav-item px-3">
@@ -26,12 +26,12 @@
     </li>
     <li class="nav-item dropdown" dropdown placement="bottom right">
       <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
-        <img src="assets/img/avatars/default.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
+        <img src="Content/img/avatars/default.jpg" class="img-avatar" alt="{{login}}">
       </a>
       <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
-        <div class="dropdown-header text-center"><strong>Manage</strong></div>
-        <a class="dropdown-item" routerLink="/users"><i class="fa fa-user"></i>Users</a>
-        <a class="dropdown-item" routerLink="/rates"><i class="fa fa-file"></i>Users Rates</a>
+        <div class="dropdown-header text-center" *ngIf="role == 'Task Manager'"><strong>Manage</strong></div>
+        <a class="dropdown-item" routerLink="/users" *ngIf="role == 'Task Manager'"><i class="fa fa-user"></i>Users</a>
+        <a class="dropdown-item" routerLink="/rates" *ngIf="role == 'Task Manager'"><i class="fa fa-file"></i>Users Rates</a>
         <div class="dropdown-header text-center"><strong>Settings</strong></div>
         <a class="dropdown-item" routerLink="/profile"><i class="fa fa-user"></i>Profile</a>
         <a class="dropdown-item" (click)="subscriptionModal.showModal()"><i class="fa fa-wrench"></i>Subcription</a>

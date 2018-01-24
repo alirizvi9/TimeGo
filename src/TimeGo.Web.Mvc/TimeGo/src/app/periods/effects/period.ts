@@ -15,6 +15,7 @@ import { of } from 'rxjs/observable/of';
 import { PeriodService } from '../period.service';
 import * as periodActions from '../actions/period';
 import { PeriodList } from '../models/period-list.model'
+import { PeriodListItem } from '../models/period-list-item.model'
 import { PeriodListPagingModel } from '../models/period-list-paging.model'
 import { AddPeriod } from '../models/add-period.model';
 import { ChangeStatus } from '../models/chagne-status-period.model'
@@ -57,6 +58,22 @@ export class PeriodEffects {
         });
 
     @Effect()
+    edit$: Observable<Action> = this.actions$
+        .ofType(periodActions.EDIT)
+        .map(toPayload)
+        .switchMap((query: PeriodListItem) => {
+            const nextGet$ = this.actions$.ofType(periodActions.EDIT).skip(1);
+            return this.periodService
+                .edit(query)
+                .takeUntil(nextGet$)
+                .map((result: any) => {
+                    this.toasterService.pop('success', 'Success', 'Success Edit Period');
+                    return new periodActions.EditCompleteAction(result);
+                })
+                .catch(() => of(new periodActions.EditCompleteAction(null)));
+        });
+
+    @Effect()
     change$: Observable<Action> = this.actions$
         .ofType(periodActions.CHANGE_STATUS)
         .map(toPayload)
@@ -90,7 +107,7 @@ export class PeriodEffects {
 
     @Effect()
     update$: Observable<Action> = this.actions$
-        .ofType(periodActions.CHANGE_STATUS_COMPLETE, periodActions.ADD_COMPLETE)
+        .ofType(periodActions.CHANGE_STATUS_COMPLETE, periodActions.ADD_COMPLETE, periodActions.EDIT_COMPLETE)
         .map(toPayload)
         .switchMap((model: any) => {
             const nextGet$ = this.actions$.ofType(periodActions.GET_COMPLETE);

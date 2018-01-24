@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TimeGo.ApplicationDomain.Domain;
 
@@ -24,8 +25,10 @@ namespace TimeGo.ApplicationDomain.Entities
         public string SocialSecurityNumber { get; set; }
         public string Code { get; set; }
         public bool IsAdmin { get; set; }
+        public bool IsRegistrate { get; set; }
         public bool IsActive { get; set; }
         public bool IsOvertimeCalculated { get; set; }
+        public DateTime? InviteOn { get; set; }
         public long? CompanyId { get; set; }
         public long? LoginMethodId { get; set; }
         public long? RoleId { get; set; }

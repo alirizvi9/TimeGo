@@ -9,6 +9,7 @@
         NotFoundEmail = 4,
         NotFoundTimeoffRequest = 5,
         NotFoundStatus = 6,
-        NoAccess = 7
+        NoAccess = 7,
+        NotFound =8
     }
 }

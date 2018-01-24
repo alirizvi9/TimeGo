@@ -263,3 +263,9 @@ ngx-date-picker {
 .form-control[readonly] {
   background-color: white; }
 
+td {
+  max-width: 200px; }
+
+.allow-name {
+  float: left; }
+

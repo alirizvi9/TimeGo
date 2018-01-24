@@ -8,4 +8,6 @@
     isAdmin: boolean;
     isActive: boolean;
     isOvertimeCalculated: boolean;
+    IsRegistrate: boolean;
+    InviteOn: Date;
 }

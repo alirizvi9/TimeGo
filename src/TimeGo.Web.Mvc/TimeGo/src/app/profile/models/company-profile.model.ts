@@ -8,4 +8,6 @@
     workWeekStartDay?: number;
     timesheetsWeeks?: number;
     timeGoUrl: string;
+    firstName: string;
+    lastName: string;
 }

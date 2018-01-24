@@ -26,9 +26,9 @@
             <tbody>
               <tr *ngFor="let timeoff of timeoffrequests">
                 <td class="text-center">{{timeoff.UserName}}</td>
-                <td class="text-center">{{timeoff.StartDate | date: 'dd/MM/yyyy'}}</td>
-                <td class="text-center">{{timeoff.EndDate | date: 'dd/MM/yyyy'}}</td>
-                <td class="text-center">{{timeoff.ReturningToWork | date: 'dd/MM/yyyy'}}</td>
+                <td class="text-center">{{timeoff.StartDate | date: ('DateFormat' | translate)}}</td>
+                <td class="text-center">{{timeoff.EndDate | date: ('DateFormat' | translate)}}</td>
+                <td class="text-center">{{timeoff.ReturningToWork | date: ('DateFormat' | translate)}}</td>
                 <td class="text-center">{{timeoff.Reasone}}</td>
                 <td class="text-center" *ngIf="timeoff.Status == 'Canceled'"><span class="badge badge-default timego-status">{{timeoff.Status}}</span></td>
                 <td class="text-center" *ngIf="timeoff.Status == 'Waiting for Approval'"><span class="badge badge-warning timego-status">{{timeoff.Status}}</span></td>

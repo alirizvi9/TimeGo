@@ -21,7 +21,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
 
         public List<PeriodViewModel> GetPeriods(Employee user)
         {
-            return _repository.Find<Period>(x => x.CompanyId == user.CompanyId && x.EmployeeId == user.Id).Select(x => new PeriodViewModel()
+            return _repository.Find<Period>(x => x.CompanyId == user.CompanyId).Select(x => new PeriodViewModel()
             {
                 Id = x.Id,
                 PeriodEnd = x.PeriodEnd,
@@ -31,7 +31,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
 
         public List<TaskViewModel> GetTasks(Employee user)
         {
-            if (user.Role.RoleType != "Task Manager")
+            if (user.Role.RoleType == "Task Manager")
             {
                 return _repository.Find<Task>(x => x.CompanyId == user.CompanyId).Select(x => new TaskViewModel()
                 {
@@ -117,7 +117,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                     {
                         lineDb.StartTime = line.StartTime.ToUniversalTime();
                         lineDb.EndTime = line.EndTime.ToUniversalTime();
-                        lineDb.TaskId = line.TaskId;
+                        lineDb.TaskId = line.TaskId != 0 ? line.TaskId : 1;
                     }
                 }
                 else
@@ -216,7 +216,8 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                     ApprovalStatusId = approvalStatus.Id,
                     RevisedById = user.Id,
                     StartTime = date,
-                    EndTime = date
+                    EndTime = date,
+                    TaskId = 1
                 });
             }
             timesheet.TimesheetLines = timesheetLines;

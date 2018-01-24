@@ -203,26 +203,30 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__AdminAuthGuard__ = __webpack_require__("../../../../../src/app/AdminAuthGuard.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__TaskManagerAuthGuard__ = __webpack_require__("../../../../../src/app/TaskManagerAuthGuard.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services_RequestService__ = __webpack_require__("../../../../../src/app/services/RequestService.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_ngx_bootstrap_dropdown__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_ngx_bootstrap_tabs__ = __webpack_require__("../../../../ngx-bootstrap/tabs/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__shared_nav_dropdown_directive__ = __webpack_require__("../../../../../src/app/shared/nav-dropdown.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__app_routing__ = __webpack_require__("../../../../../src/app/app.routing.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__layouts_full_layout_component__ = __webpack_require__("../../../../../src/app/layouts/full-layout.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__dialogs_dialogs_module__ = __webpack_require__("../../../../../src/app/dialogs/dialogs.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__services_HttpLoaderFactory__ = __webpack_require__("../../../../../src/app/services/HttpLoaderFactory.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_angular2_toaster_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_angular_spinners__ = __webpack_require__("../../../../angular-spinners/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__services_AccountService__ = __webpack_require__("../../../../../src/app/services/AccountService.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__services_GlobalAccountService__ = __webpack_require__("../../../../../src/app/services/GlobalAccountService.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_ngx_bootstrap_dropdown__ = __webpack_require__("../../../../ngx-bootstrap/dropdown/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_ngx_bootstrap_tabs__ = __webpack_require__("../../../../ngx-bootstrap/tabs/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__shared_nav_dropdown_directive__ = __webpack_require__("../../../../../src/app/shared/nav-dropdown.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__app_routing__ = __webpack_require__("../../../../../src/app/app.routing.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__layouts_full_layout_component__ = __webpack_require__("../../../../../src/app/layouts/full-layout.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__dialogs_dialogs_module__ = __webpack_require__("../../../../../src/app/dialogs/dialogs.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__services_HttpLoaderFactory__ = __webpack_require__("../../../../../src/app/services/HttpLoaderFactory.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25_angular2_toaster_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26_angular_spinners__ = __webpack_require__("../../../../angular-spinners/index.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -260,34 +264,37 @@ AppModule = __decorate([
         imports: [
             __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["a" /* BrowserModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
-            __WEBPACK_IMPORTED_MODULE_17__app_routing__["a" /* AppRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_19__app_routing__["a" /* AppRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_4__ngrx_store__["i" /* StoreModule */].forRoot({}),
-            !__WEBPACK_IMPORTED_MODULE_22__environments_environment__["a" /* environment */].production ? __WEBPACK_IMPORTED_MODULE_6__ngrx_store_devtools__["a" /* StoreDevtoolsModule */].instrument() : [],
+            !__WEBPACK_IMPORTED_MODULE_24__environments_environment__["a" /* environment */].production ? __WEBPACK_IMPORTED_MODULE_6__ngrx_store_devtools__["a" /* StoreDevtoolsModule */].instrument() : [],
             __WEBPACK_IMPORTED_MODULE_5__ngrx_effects__["c" /* EffectsModule */].forRoot([]),
-            __WEBPACK_IMPORTED_MODULE_13_ngx_bootstrap_dropdown__["a" /* BsDropdownModule */].forRoot(),
-            __WEBPACK_IMPORTED_MODULE_14_ngx_bootstrap_tabs__["a" /* TabsModule */].forRoot(),
-            __WEBPACK_IMPORTED_MODULE_19__dialogs_dialogs_module__["a" /* DialogsModule */],
-            __WEBPACK_IMPORTED_MODULE_24_angular_spinners__["a" /* SpinnerModule */],
-            __WEBPACK_IMPORTED_MODULE_16__angular_http__["c" /* HttpModule */],
-            __WEBPACK_IMPORTED_MODULE_23_angular2_toaster_angular2_toaster__["b" /* ToasterModule */],
-            __WEBPACK_IMPORTED_MODULE_20__ngx_translate_core__["b" /* TranslateModule */].forRoot({
+            __WEBPACK_IMPORTED_MODULE_15_ngx_bootstrap_dropdown__["a" /* BsDropdownModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_16_ngx_bootstrap_tabs__["a" /* TabsModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_21__dialogs_dialogs_module__["a" /* DialogsModule */],
+            __WEBPACK_IMPORTED_MODULE_26_angular_spinners__["a" /* SpinnerModule */],
+            __WEBPACK_IMPORTED_MODULE_18__angular_http__["c" /* HttpModule */],
+            __WEBPACK_IMPORTED_MODULE_25_angular2_toaster_angular2_toaster__["b" /* ToasterModule */],
+            __WEBPACK_IMPORTED_MODULE_22__ngx_translate_core__["b" /* TranslateModule */].forRoot({
                 loader: {
-                    provide: __WEBPACK_IMPORTED_MODULE_20__ngx_translate_core__["a" /* TranslateLoader */],
-                    useFactory: __WEBPACK_IMPORTED_MODULE_21__services_HttpLoaderFactory__["a" /* HttpLoaderFactory */],
-                    deps: [__WEBPACK_IMPORTED_MODULE_11__angular_common_http__["a" /* HttpClient */]]
+                    provide: __WEBPACK_IMPORTED_MODULE_22__ngx_translate_core__["a" /* TranslateLoader */],
+                    useFactory: __WEBPACK_IMPORTED_MODULE_23__services_HttpLoaderFactory__["a" /* HttpLoaderFactory */],
+                    deps: [__WEBPACK_IMPORTED_MODULE_13__angular_common_http__["a" /* HttpClient */]]
                 }
             })
         ],
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_12__app_component__["a" /* AppComponent */],
-            __WEBPACK_IMPORTED_MODULE_18__layouts_full_layout_component__["a" /* FullLayoutComponent */],
-            __WEBPACK_IMPORTED_MODULE_15__shared_nav_dropdown_directive__["a" /* NAV_DROPDOWN_DIRECTIVES */]
+            __WEBPACK_IMPORTED_MODULE_14__app_component__["a" /* AppComponent */],
+            __WEBPACK_IMPORTED_MODULE_20__layouts_full_layout_component__["a" /* FullLayoutComponent */],
+            __WEBPACK_IMPORTED_MODULE_17__shared_nav_dropdown_directive__["a" /* NAV_DROPDOWN_DIRECTIVES */]
         ],
         providers: [{
                 provide: __WEBPACK_IMPORTED_MODULE_3__angular_common__["g" /* LocationStrategy */],
                 useClass: __WEBPACK_IMPORTED_MODULE_3__angular_common__["d" /* HashLocationStrategy */]
-            }, __WEBPACK_IMPORTED_MODULE_7__AlwaysAuthGuard__["a" /* AlwaysAuthGuard */], __WEBPACK_IMPORTED_MODULE_8__AdminAuthGuard__["a" /* AdminAuthGuard */], __WEBPACK_IMPORTED_MODULE_9__TaskManagerAuthGuard__["a" /* TaskManagerAuthGuard */], __WEBPACK_IMPORTED_MODULE_10__services_RequestService__["a" /* RequestService */], __WEBPACK_IMPORTED_MODULE_23_angular2_toaster_angular2_toaster__["c" /* ToasterService */], __WEBPACK_IMPORTED_MODULE_24_angular_spinners__["b" /* SpinnerService */]],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_12__app_component__["a" /* AppComponent */]]
+            }, __WEBPACK_IMPORTED_MODULE_7__AlwaysAuthGuard__["a" /* AlwaysAuthGuard */], __WEBPACK_IMPORTED_MODULE_8__AdminAuthGuard__["a" /* AdminAuthGuard */], __WEBPACK_IMPORTED_MODULE_9__TaskManagerAuthGuard__["a" /* TaskManagerAuthGuard */], __WEBPACK_IMPORTED_MODULE_10__services_RequestService__["a" /* RequestService */], __WEBPACK_IMPORTED_MODULE_25_angular2_toaster_angular2_toaster__["c" /* ToasterService */], __WEBPACK_IMPORTED_MODULE_26_angular_spinners__["b" /* SpinnerService */], {
+                provide: __WEBPACK_IMPORTED_MODULE_11__services_AccountService__["a" /* AccountService */],
+                useClass: __WEBPACK_IMPORTED_MODULE_12__services_GlobalAccountService__["a" /* GlobalAccountService */]
+            }],
+        bootstrap: [__WEBPACK_IMPORTED_MODULE_14__app_component__["a" /* AppComponent */]]
     })
 ], AppModule);
 
@@ -499,7 +506,7 @@ var _a;
 /***/ "../../../../../src/app/layouts/full-layout.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header class=\"app-header navbar\">\r\n  <button class=\"navbar-toggler d-lg-none\" type=\"button\" appMobileSidebarToggler>&#9776;</button>\r\n  <ul class=\"nav navbar-nav d-md-down-none\">\r\n    <li class=\"nav-item\">\r\n      <a class=\"nav-link navbar-toggler\" href=\"#\" appSidebarToggler>&#9776;</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/dashboard\">Dashboard</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/timesheets\">Timesheets</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/periods\">Timesheets Periods</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/tasks\">Tasks</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/timeoff\">Timeoff Requests</a>\r\n    </li>\r\n  </ul>\r\n  <ul class=\"nav navbar-nav ml-auto\">\r\n    <li class=\"nav-item d-md-down-none\">\r\n      <a class=\"nav-link\" href=\"#\"><i class=\"icon-location-pin\"></i></a>\r\n    </li>\r\n    <li class=\"nav-item dropdown\" dropdown placement=\"bottom right\">\r\n      <a class=\"nav-link dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\" dropdownToggle (click)=\"false\">\r\n        <img src=\"assets/img/avatars/default.jpg\" class=\"img-avatar\" alt=\"admin@bootstrapmaster.com\">\r\n      </a>\r\n      <div class=\"dropdown-menu dropdown-menu-right\" *dropdownMenu aria-labelledby=\"simple-dropdown\">\r\n        <div class=\"dropdown-header text-center\"><strong>Manage</strong></div>\r\n        <a class=\"dropdown-item\" routerLink=\"/users\"><i class=\"fa fa-user\"></i>Users</a>\r\n        <a class=\"dropdown-item\" routerLink=\"/rates\"><i class=\"fa fa-file\"></i>Users Rates</a>\r\n        <div class=\"dropdown-header text-center\"><strong>Settings</strong></div>\r\n        <a class=\"dropdown-item\" routerLink=\"/profile\"><i class=\"fa fa-user\"></i>Profile</a>\r\n        <a class=\"dropdown-item\" (click)=\"subscriptionModal.showModal()\"><i class=\"fa fa-wrench\"></i>Subcription</a>\r\n        <div class=\"divider\"></div>\r\n        <a class=\"dropdown-item\" (click)=\"logout()\"><i class=\"fa fa-lock\"></i> Logout</a>\r\n      </div>\r\n    </li>\r\n  </ul>\r\n  \r\n</header>\r\n<toaster-container [toasterconfig]=\"toasterconfig\"></toaster-container>\r\n<spinner name=\"mySpinner\" loadingImage=\"../../../../Content/img/preloader.gif\" class=\"timego-spinner\"></spinner>\r\n<div class=\"app-body\">\r\n  <main class=\"main\">\r\n    <div class=\"container-fluid\">\r\n      <router-outlet></router-outlet>\r\n    </div>\r\n  </main>\r\n</div>\r\n\r\n<footer class=\"app-footer\">\r\n  <a href=\"https://timego.com\">TimeGo</a> &copy; 2017 TimeGo Inc.\r\n</footer>\r\n\r\n<subscription-modal #subscriptionModal></subscription-modal>"
+module.exports = "<header class=\"app-header navbar\">\r\n  <button class=\"navbar-toggler d-lg-none\" type=\"button\" appMobileSidebarToggler>&#9776;</button>\r\n  <ul class=\"nav navbar-nav d-md-down-none\">\r\n    <li class=\"nav-item\">\r\n      <a class=\"nav-link navbar-toggler\" href=\"#\" appSidebarToggler>&#9776;</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/dashboard\">Dashboard</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/timesheets\">Timesheets</a>\r\n    </li>\r\n    <li *ngIf=\"role == 'Task Manager'\" class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/periods\">Timesheets Periods</a>\r\n    </li>\r\n    <li *ngIf=\"role == 'Task Manager'\" class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/tasks\">Tasks</a>\r\n    </li>\r\n    <li class=\"nav-item px-3\">\r\n      <a class=\"nav-link\" routerLink=\"/timeoff\">Timeoff Requests</a>\r\n    </li>\r\n  </ul>\r\n  <ul class=\"nav navbar-nav ml-auto\">\r\n    <li class=\"nav-item d-md-down-none\">\r\n      <a class=\"nav-link\" href=\"#\"><i class=\"icon-location-pin\"></i></a>\r\n    </li>\r\n    <li class=\"nav-item dropdown\" dropdown placement=\"bottom right\">\r\n      <a class=\"nav-link dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\" dropdownToggle (click)=\"false\">\r\n        <img src=\"Content/img/avatars/default.jpg\" class=\"img-avatar\" alt=\"{{login}}\">\r\n      </a>\r\n      <div class=\"dropdown-menu dropdown-menu-right\" *dropdownMenu aria-labelledby=\"simple-dropdown\">\r\n        <div class=\"dropdown-header text-center\" *ngIf=\"role == 'Task Manager'\"><strong>Manage</strong></div>\r\n        <a class=\"dropdown-item\" routerLink=\"/users\" *ngIf=\"role == 'Task Manager'\"><i class=\"fa fa-user\"></i>Users</a>\r\n        <a class=\"dropdown-item\" routerLink=\"/rates\" *ngIf=\"role == 'Task Manager'\"><i class=\"fa fa-file\"></i>Users Rates</a>\r\n        <div class=\"dropdown-header text-center\"><strong>Settings</strong></div>\r\n        <a class=\"dropdown-item\" routerLink=\"/profile\"><i class=\"fa fa-user\"></i>Profile</a>\r\n        <a class=\"dropdown-item\" (click)=\"subscriptionModal.showModal()\"><i class=\"fa fa-wrench\"></i>Subcription</a>\r\n        <div class=\"divider\"></div>\r\n        <a class=\"dropdown-item\" (click)=\"logout()\"><i class=\"fa fa-lock\"></i> Logout</a>\r\n      </div>\r\n    </li>\r\n  </ul>\r\n  \r\n</header>\r\n<toaster-container [toasterconfig]=\"toasterconfig\"></toaster-container>\r\n<spinner name=\"mySpinner\" loadingImage=\"../../../../Content/img/preloader.gif\" class=\"timego-spinner\"></spinner>\r\n<div class=\"app-body\">\r\n  <main class=\"main\">\r\n    <div class=\"container-fluid\">\r\n      <router-outlet></router-outlet>\r\n    </div>\r\n  </main>\r\n</div>\r\n\r\n<footer class=\"app-footer\">\r\n  <a href=\"https://timego.com\">TimeGo</a> &copy; 2017 TimeGo Inc.\r\n</footer>\r\n\r\n<subscription-modal #subscriptionModal></subscription-modal>\n"
 
 /***/ }),
 
@@ -516,15 +523,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 
 
 var FullLayoutComponent = (function () {
     function FullLayoutComponent() {
         this.disabled = false;
         this.status = { isopen: false };
+        this.role = "";
+        this.login = "";
         this.toasterconfig = new __WEBPACK_IMPORTED_MODULE_1_angular2_toaster_angular2_toaster__["a" /* ToasterConfig */]({
             tapToDismiss: true,
             timeout: 5000
@@ -541,18 +547,84 @@ var FullLayoutComponent = (function () {
     FullLayoutComponent.prototype.logout = function () {
         window.location.href = '/account/logout';
     };
-    FullLayoutComponent.prototype.ngOnInit = function () { };
+    FullLayoutComponent.prototype.ngOnInit = function () {
+        this.role = commonServerData.Role;
+        this.login = commonServerData.Login;
+    };
     return FullLayoutComponent;
 }());
 FullLayoutComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
         selector: 'app-dashboard',
         template: __webpack_require__("../../../../../src/app/layouts/full-layout.component.html")
-    }),
-    __metadata("design:paramtypes", [])
+    })
 ], FullLayoutComponent);
 
 //# sourceMappingURL=full-layout.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/services/AccountService.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AccountService; });
+var AccountService = (function () {
+    function AccountService() {
+    }
+    return AccountService;
+}());
+
+//# sourceMappingURL=AccountService.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/services/GlobalAccountService.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GlobalAccountService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AccountService__ = __webpack_require__("../../../../../src/app/services/AccountService.ts");
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var GlobalAccountService = (function (_super) {
+    __extends(GlobalAccountService, _super);
+    function GlobalAccountService() {
+        var _this = _super.call(this) || this;
+        _this.role = commonServerData.Role;
+        _this.login = commonServerData.Login;
+        _this.token = commonServerData.Token;
+        return _this;
+    }
+    ;
+    return GlobalAccountService;
+}(__WEBPACK_IMPORTED_MODULE_1__AccountService__["a" /* AccountService */]));
+GlobalAccountService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    __metadata("design:paramtypes", [])
+], GlobalAccountService);
+
+//# sourceMappingURL=GlobalAccountService.js.map
 
 /***/ }),
 
@@ -590,6 +662,41 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 
 
 
@@ -605,20 +712,36 @@ var RequestService = (function () {
             'Content-Type': 'application/json'
         });
         this.options = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["d" /* RequestOptions */]({ headers: this.headers });
+        this.spinner = false;
     }
+    RequestService.prototype.show = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                this.spinner = true;
+                setTimeout(3000);
+                if (this.spinner)
+                    this.spinnerService.show('mySpinner');
+                return [2 /*return*/];
+            });
+        });
+    };
+    RequestService.prototype.hide = function () {
+        this.spinner = false;
+        this.spinnerService.hide('mySpinner');
+    };
     RequestService.prototype.get = function (path) {
         var _this = this;
-        this.spinnerService.show('mySpinner');
+        this.show();
         return this.intercept(this.http.get(path, this.options).map(function (res) {
-            _this.spinnerService.hide('mySpinner');
+            _this.hide();
             return res.json();
         }));
     };
     RequestService.prototype.post = function (path, body) {
         var _this = this;
-        this.spinnerService.show('mySpinner');
+        this.show();
         return this.intercept(this.http.post(path, body, this.options).map(function (res) {
-            _this.spinnerService.hide('mySpinner');
+            _this.hide();
             return res.json();
         }));
     };

@@ -40,15 +40,36 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
             return result == ErrorCodes.Success ? Success() : Error(result);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("api/InviteEmployee")]
-        public IHttpActionResult InviteEmployee(string email)
+        public IHttpActionResult InviteEmployee(InviteEmployeeViewModel model)
         {
             var user = _authorizationService.GetUser();
             if (user.CompanyId == null)
                 return Success();
-            var token = _authorizationService.GetInviteToken(email);
-            var result = _accountService.InviteEmployee(token, user, email);
+            var result = _accountService.InviteEmployee(model, user);
+            return result == ErrorCodes.Success ? Success() : Error(result);
+        }
+
+        [HttpGet]
+        [Route("api/ReInviteEmployee")]
+        public IHttpActionResult ReInviteEmployee(long id)
+        {
+            var user = _authorizationService.GetUser();
+            if (user.CompanyId == null)
+                return Success();
+            var result = _accountService.ReInviteEmployee(id, user);
+            return result == ErrorCodes.Success ? Success() : Error(result);
+        }
+
+        [HttpPost]
+        [Route("api/EditEmployee")]
+        public IHttpActionResult EditEmployee(UsersListItemViewModel model)
+        {
+            var user = _authorizationService.GetUser();
+            if (user.CompanyId == null)
+                return Success();
+            var result = _accountService.EditEmployee(model, user);
             return result == ErrorCodes.Success ? Success() : Error(result);
         }
     }

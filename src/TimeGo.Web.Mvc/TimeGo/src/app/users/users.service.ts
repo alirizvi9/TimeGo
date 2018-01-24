@@ -5,6 +5,8 @@ import { UsersListItem } from './models/users-list-item.model'
 import { UsersList } from './models/user-list.model'
 import { RequestService } from '../services/RequestService'
 import { AddEmployee } from './models/add-employee.model';
+import { InviteEmployee } from './models/invite-employee.model';
+
 
 @Injectable()
 export class UsersService {
@@ -18,7 +20,15 @@ export class UsersService {
         return this.requestService.post<any>("/api/AddEmployee/", model);
     }
 
-    inviteEmployee(email: string): Observable<any> {
-        return this.requestService.get<any>("/api/InviteEmployee?email=" + email);
+    inviteEmployee(model: InviteEmployee): Observable<any> {
+        return this.requestService.post<any>("/api/InviteEmployee",model);
+    }
+
+    editEmployee(model: UsersListItem): Observable<any> {
+        return this.requestService.post<any>("/api/EditEmployee", model);
+    }
+
+    reinviteEmployee(id: number): Observable<any> {
+        return this.requestService.get<any>("/api/ReInviteEmployee?id=" + id);
     }
 }

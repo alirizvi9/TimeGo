@@ -4,17 +4,21 @@ webpackJsonp(["period.module"],{
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_COMPLETE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GET_COMPLETE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ADD; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ADD_COMPLETE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return EDIT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return EDIT_COMPLETE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return CHANGE_STATUS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return CHANGE_STATUS_COMPLETE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return DELETE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GetAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GetCompleteAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return SaveAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return SaveCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GetAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GetCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return SaveAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return SaveCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return EditAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return EditCompleteAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return ChangeStatusAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return ChangeStatusCompleteAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return DeleteAction; });
@@ -22,6 +26,8 @@ var GET = '[Period] Get periods';
 var GET_COMPLETE = '[Period] Get Complete';
 var ADD = '[Period] Add period';
 var ADD_COMPLETE = '[Period] Add period Complete';
+var EDIT = '[Period] Edit period';
+var EDIT_COMPLETE = '[Period] Edit period Complete';
 var CHANGE_STATUS = '[Period] Change status';
 var CHANGE_STATUS_COMPLETE = '[Period] Change status Complete';
 var DELETE = '[Period] Delete period';
@@ -55,6 +61,22 @@ var SaveCompleteAction = (function () {
         this.type = ADD_COMPLETE;
     }
     return SaveCompleteAction;
+}());
+
+var EditAction = (function () {
+    function EditAction(payload) {
+        this.payload = payload;
+        this.type = EDIT;
+    }
+    return EditAction;
+}());
+
+var EditCompleteAction = (function () {
+    function EditCompleteAction(payload) {
+        this.payload = payload;
+        this.type = EDIT_COMPLETE;
+    }
+    return EditCompleteAction;
 }());
 
 var ChangeStatusAction = (function () {
@@ -155,7 +177,7 @@ ComponentsModule = __decorate([
 /***/ "../../../../../src/app/periods/components/period-list/period-list.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-8 push-md-2\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        {{ 'PeriodHeader' | translate }}\r\n      </div>\r\n      <div class=\"card-block\" *ngIf=\"isLoaded\">\r\n        <div class=\"form-group float-right\">\r\n          <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#addmodal\">\r\n            {{ 'AddPeriod' | translate }}\r\n          </button>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <table class=\"table table-hover table-outline mb-0 hidden-sm-down\" *ngIf=\"isLoaded\">\r\n            <thead class=\"thead-default\">\r\n              <tr>\r\n                <td class=\"text-center\">{{ 'PeriodStartDate' | translate }} <a [ngClass]=\"getArrowClass('PeriodStart')\" (click)=\"order.emit('PeriodStart')\"></a></td>\r\n                <td class=\"text-center\">{{ 'PeriodEndDate' | translate }} <a [ngClass]=\"getArrowClass('PeriodEnd')\" (click)=\"order.emit('PeriodEnd')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Reminder1Date' | translate }} <a [ngClass]=\"getArrowClass('Reminder1Date')\" (click)=\"order.emit('Reminder1Date')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Reminder2Date' | translate }} <a [ngClass]=\"getArrowClass('Reminder2Date')\" (click)=\"order.emit('Reminder2Date')\"></a></td>\r\n                <td class=\"text-center\">{{ 'PeriodStatus' | translate }} <a [ngClass]=\"getArrowClass('LockStatusId')\" (click)=\"order.emit('LockStatusId')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Action' | translate }} </td>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr *ngFor=\"let period of periods\">\r\n                <td class=\"text-center\">{{period.PeriodStart | date: 'dd-MMM-yy'}}</td>\r\n                <td class=\"text-center\">{{period.PeriodEnd | date: 'dd-MMM-yy'}}</td>\r\n                <td class=\"text-center\">{{period.Reminder1 | date: 'dd-MMM-yy'}}</td>\r\n                <td class=\"text-center\">{{period.Reminder2 | date: 'dd-MMM-yy'}}</td>\r\n                <td class=\"text-center\" *ngIf=\"period.Status == 'Locked'\"><span class=\"badge badge-danger timego-status\">{{period.Status}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"period.Status == 'Unlocked'\"><span class=\"badge badge-success timego-status\">{{period.Status}}</span></td>\r\n                <td class=\"text-center\">\r\n                  <button type=\"button\" *ngIf=\"period.Status == 'Unlocked'\" class=\"btn btn-sm btn-danger\" (click)=\"changeStatusAction({id: period.Id, status: 'Locked'})\">{{ 'Lock' | translate }}</button>\r\n                  <button type=\"button\" *ngIf=\"period.Status == 'Locked'\" class=\"btn btn-sm btn-success\" (click)=\"changeStatusAction({id: period.Id, status: 'Unlocked'})\">{{ 'Unlock' | translate }}</button>\r\n                  <button type=\"button\" class=\"btn btn-sm btn-danger\" data-toggle=\"modal\" data-target=\"#deleteModal\" (click)=\"deleteId = period.Id\">{{ 'Delete' | translate }}</button>\r\n                </td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <pagination [totalItems]=\"pagingModel.count\" [(ngModel)]=\"pagingModel.page\" (pageChanged)=\"changePage.emit({\r\n            orderBy: pagingModel.orderBy,\r\n            page: $event.page,\r\n            pageSize: pagingModel.pageSize,\r\n            IsAscending: !pagingModel.IsAscending,\r\n            count: pagingModel.count,\r\n            IsOrder: false})\"></pagination>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal fade\" id=\"addmodal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Add period\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">{{ 'AddPeriod' | translate }}</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\">\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'Startdate' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <ngx-date-picker [(selectedDate)]=\"addPeriod.StartDate\"></ngx-date-picker>\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'Reminder1Date' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <ngx-date-picker [(selectedDate)]=\"addPeriod.Reminder1\"></ngx-date-picker>\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'Reminder2Date' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <ngx-date-picker [(selectedDate)]=\"addPeriod.Reminder2\"></ngx-date-picker>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">{{ 'Close' | translate }}</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"addPeriodAction(addPeriod)\">{{ 'Add' | translate }}</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal fade\" id=\"deleteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Delete period\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">{{ 'Delete' | translate }} {{ 'Period' | translate }}</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\">\r\n        <h6>{{ 'DeleteMessage' | translate }} {{ 'Period' | translate }}?</h6>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">{{ 'No' | translate }}</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"delete.emit({id: deleteId, paging: pagingModel})\">{{ 'Yes' | translate }}</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-8 push-md-2\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        {{ 'PeriodHeader' | translate }}\r\n      </div>\r\n      <div class=\"card-block\" *ngIf=\"isLoaded\">\r\n        <div class=\"form-group float-right\">\r\n          <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#addmodal\">\r\n            {{ 'AddPeriod' | translate }}\r\n          </button>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <table class=\"table table-hover table-outline mb-0 hidden-sm-down\" *ngIf=\"isLoaded\">\r\n            <thead class=\"thead-default\">\r\n              <tr>\r\n                <td class=\"text-center\">{{ 'PeriodStartDate' | translate }} <a [ngClass]=\"getArrowClass('PeriodStart')\" (click)=\"order.emit('PeriodStart')\"></a></td>\r\n                <td class=\"text-center\">{{ 'PeriodEndDate' | translate }} <a [ngClass]=\"getArrowClass('PeriodEnd')\" (click)=\"order.emit('PeriodEnd')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Reminder1Date' | translate }} <a [ngClass]=\"getArrowClass('Reminder1Date')\" (click)=\"order.emit('Reminder1Date')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Reminder2Date' | translate }} <a [ngClass]=\"getArrowClass('Reminder2Date')\" (click)=\"order.emit('Reminder2Date')\"></a></td>\r\n                <td class=\"text-center\">{{ 'PeriodStatus' | translate }} <a [ngClass]=\"getArrowClass('LockStatusId')\" (click)=\"order.emit('LockStatusId')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Action' | translate }} </td>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr *ngFor=\"let period of periods\">\r\n                <td class=\"text-center\">{{period.PeriodStart | date: ('DateFormat' | translate)}}</td>\r\n                <td class=\"text-center\">{{period.PeriodEnd | date: ('DateFormat' | translate)}}</td>\r\n                <td class=\"text-center\">{{period.Reminder1 | date: ('DateFormat' | translate)}}</td>\r\n                <td class=\"text-center\">{{period.Reminder2 | date: ('DateFormat' | translate)}}</td>\r\n                <td class=\"text-center\" *ngIf=\"period.Status == 'Locked'\"><span class=\"badge badge-danger timego-status\">{{period.Status}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"period.Status == 'Unlocked'\"><span class=\"badge badge-success timego-status\">{{period.Status}}</span></td>\r\n                <td class=\"text-center\">\r\n                  <button type=\"button\" [disabled]=\"period.Status == 'Locked'\" class=\"btn btn-sm btn-danger\" (click)=\"changeStatusAction({id: period.Id, status: 'Locked'})\">{{ 'Lock' | translate }}</button>\r\n                  <button type=\"button\" [disabled]=\"period.Status == 'Unlocked'\" class=\"btn btn-sm btn-success\" (click)=\"changeStatusAction({id: period.Id, status: 'Unlocked'})\">{{ 'Unlock' | translate }}</button>\r\n                  <button type=\"button\" class=\"btn btn-sm btn-danger\" data-toggle=\"modal\" data-target=\"#deleteModal\" (click)=\"deleteId = period.Id\">{{ 'Delete' | translate }}</button>\r\n                  <button type=\"button\" class=\"btn btn-sm btn-primary\" data-toggle=\"modal\" data-target=\"#editModal\" (click)=\"cloneEditPeriod(period); selected=true;\">{{ 'Edit' | translate }}</button>\r\n                </td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <pagination [totalItems]=\"pagingModel.count\" [(ngModel)]=\"pagingModel.page\" (pageChanged)=\"changePage.emit({\r\n            orderBy: pagingModel.orderBy,\r\n            page: $event.page,\r\n            pageSize: pagingModel.pageSize,\r\n            IsAscending: !pagingModel.IsAscending,\r\n            count: pagingModel.count,\r\n            IsOrder: false})\"></pagination>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal fade\" id=\"addmodal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Add period\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">{{ 'AddPeriod' | translate }}</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\">\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'Startdate' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <ngx-date-picker [(selectedDate)]=\"addPeriod.StartDate\"></ngx-date-picker>\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'Reminder1Date' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <ngx-date-picker [(selectedDate)]=\"addPeriod.Reminder1\"></ngx-date-picker>\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'Reminder2Date' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <ngx-date-picker [(selectedDate)]=\"addPeriod.Reminder2\"></ngx-date-picker>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">{{ 'Close' | translate }}</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"addPeriodAction(addPeriod)\">{{ 'Add' | translate }}</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"modal fade\" id=\"editModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Edit period\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">{{ 'Edit' | translate }} {{ 'Period' | translate }}</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\" (click)=\"closeModal()\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\" *ngIf=\"selected\">\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'Startdate' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <ngx-date-picker [(selectedDate)]=\"editPeriod.PeriodStart\"></ngx-date-picker>\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'Reminder1Date' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <ngx-date-picker [(selectedDate)]=\"editPeriod.Reminder1\"></ngx-date-picker>\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'Reminder2Date' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-calendar\"></i>\r\n            </span>\r\n            <ngx-date-picker [(selectedDate)]=\"editPeriod.Reminder2\"></ngx-date-picker>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\" (click)=\"closeModal()\">{{ 'Close' | translate }}</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"editEvent(editPeriod)\">{{ 'Save' | translate }}</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"modal fade\" id=\"deleteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Delete period\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">{{ 'Delete' | translate }} {{ 'Period' | translate }}</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\">\r\n        <h6>{{ 'DeleteMessage' | translate }} {{ 'Period' | translate }}?</h6>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">{{ 'No' | translate }}</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"delete.emit({id: deleteId, paging: pagingModel})\">{{ 'Yes' | translate }}</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -187,6 +209,7 @@ var PeriodListComponent = (function () {
         this.loading = false;
         this.order = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.add = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.edit = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.changeStatus = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.changePage = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.delete = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
@@ -195,9 +218,21 @@ var PeriodListComponent = (function () {
             Reminder2: new Date(),
             StartDate: new Date()
         };
+        this.selected = false;
+        this.editPeriod = {
+            id: 0,
+            PeriodEnd: new Date(),
+            PeriodStart: new Date(),
+            Reminder1: new Date(),
+            Reminder2: new Date(),
+            Status: ""
+        };
         translate.addLangs(["en", "fr"]);
         translate.setDefaultLang('en');
     }
+    PeriodListComponent.prototype.cloneEditPeriod = function (period) {
+        this.editPeriod = Object.assign({}, period);
+    };
     PeriodListComponent.prototype.getArrowClass = function (field) {
         if (field != this.pagingModel.orderBy)
             return "fa fa-sort";
@@ -215,6 +250,13 @@ var PeriodListComponent = (function () {
     PeriodListComponent.prototype.changeStatusAction = function (model) {
         this.changeStatus.emit(model);
         this.changePage.emit(this.pagingModel);
+    };
+    PeriodListComponent.prototype.editEvent = function (model) {
+        this.selected = false;
+        this.edit.emit(model);
+    };
+    PeriodListComponent.prototype.closeModal = function () {
+        this.selected = false;
     };
     return PeriodListComponent;
 }());
@@ -242,6 +284,10 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
     __metadata("design:type", Object)
 ], PeriodListComponent.prototype, "add", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+    __metadata("design:type", Object)
+], PeriodListComponent.prototype, "edit", void 0);
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
     __metadata("design:type", Object)
@@ -328,7 +374,7 @@ var PeriodPageComponent = (function () {
             count: 10,
             IsOrder: true
         };
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["k" /* GetAction */](pagingModelView));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["o" /* GetAction */](pagingModelView));
     };
     PeriodPageComponent.prototype.orderPeriods = function (orderBy) {
         var pagingModelView = {
@@ -339,16 +385,19 @@ var PeriodPageComponent = (function () {
             count: 10,
             IsOrder: true
         };
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["k" /* GetAction */](pagingModelView));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["o" /* GetAction */](pagingModelView));
     };
     PeriodPageComponent.prototype.addPeriod = function (model) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["m" /* SaveAction */](model));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["q" /* SaveAction */](model));
+    };
+    PeriodPageComponent.prototype.edit = function (model) {
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["k" /* EditAction */](model));
     };
     PeriodPageComponent.prototype.changeStatus = function (model) {
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["e" /* ChangeStatusAction */](model));
     };
     PeriodPageComponent.prototype.changePage = function (model) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["k" /* GetAction */](model));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["o" /* GetAction */](model));
     };
     PeriodPageComponent.prototype.delete = function (model) {
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_period__["h" /* DeleteAction */](model));
@@ -359,7 +408,7 @@ PeriodPageComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["o" /* Component */])({
         selector: 'period-page',
         changeDetection: __WEBPACK_IMPORTED_MODULE_1__angular_core__["k" /* ChangeDetectionStrategy */].OnPush,
-        template: "\n    <up-period-list [periods]=\"periods$ | async\" [isLoaded]=\"isLoaded$ | async\" [pagingModel]=\"pagingModel$ | async\" [loading]=\"loading$ | async\" (order)=\"orderPeriods($event)\" (add)=\"addPeriod($event)\" (delete)=\"delete($event)\" (changeStatus)=\"changeStatus($event)\" (changePage)=\"changePage($event)\"></up-period-list>\n  ",
+        template: "\n    <up-period-list [periods]=\"periods$ | async\" [isLoaded]=\"isLoaded$ | async\" [pagingModel]=\"pagingModel$ | async\" \n    [loading]=\"loading$ | async\" (order)=\"orderPeriods($event)\" (add)=\"addPeriod($event)\" (edit)=\"edit($event)\" (delete)=\"delete($event)\" \n    (changeStatus)=\"changeStatus($event)\" (changePage)=\"changePage($event)\"></up-period-list>\n  ",
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object])
 ], PeriodPageComponent);
@@ -424,16 +473,16 @@ var PeriodEffects = (function () {
         this.periodService = periodService;
         this.toasterService = toasterService;
         this.get$ = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["i" /* GET */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["m" /* GET */])
             .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
             .switchMap(function (query) {
-            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["i" /* GET */]).skip(1);
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["m" /* GET */]).skip(1);
             _this.pagingModel = query;
             return _this.periodService
                 .getPeriodList(query)
                 .takeUntil(nextGet$)
-                .map(function (users) { return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["l" /* GetCompleteAction */](users); })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["l" /* GetCompleteAction */](null)); });
+                .map(function (users) { return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["p" /* GetCompleteAction */](users); })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["p" /* GetCompleteAction */](null)); });
         });
         this.save$ = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["a" /* ADD */])
@@ -445,9 +494,23 @@ var PeriodEffects = (function () {
                 .takeUntil(nextGet$)
                 .map(function (result) {
                 _this.toasterService.pop('success', 'Success', 'Success Add Period');
-                return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["n" /* SaveCompleteAction */](result);
+                return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["r" /* SaveCompleteAction */](result);
             })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["n" /* SaveCompleteAction */](null)); });
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["r" /* SaveCompleteAction */](null)); });
+        });
+        this.edit$ = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["i" /* EDIT */])
+            .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
+            .switchMap(function (query) {
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["i" /* EDIT */]).skip(1);
+            return _this.periodService
+                .edit(query)
+                .takeUntil(nextGet$)
+                .map(function (result) {
+                _this.toasterService.pop('success', 'Success', 'Success Edit Period');
+                return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["l" /* EditCompleteAction */](result);
+            })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["l" /* EditCompleteAction */](null)); });
         });
         this.change$ = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["c" /* CHANGE_STATUS */])
@@ -467,26 +530,26 @@ var PeriodEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["g" /* DELETE */])
             .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
             .switchMap(function (model) {
-            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["i" /* GET */]);
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["m" /* GET */]);
             return _this.periodService
                 .delete(model.id)
                 .takeUntil(nextGet$)
                 .map(function (result) {
                 _this.toasterService.pop('success', 'Success', 'Success Delete Period');
-                return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["k" /* GetAction */](model.paging);
+                return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["o" /* GetAction */](model.paging);
             })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["n" /* SaveCompleteAction */](null)); });
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["r" /* SaveCompleteAction */](null)); });
         });
         this.update$ = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["d" /* CHANGE_STATUS_COMPLETE */], __WEBPACK_IMPORTED_MODULE_11__actions_period__["b" /* ADD_COMPLETE */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["d" /* CHANGE_STATUS_COMPLETE */], __WEBPACK_IMPORTED_MODULE_11__actions_period__["b" /* ADD_COMPLETE */], __WEBPACK_IMPORTED_MODULE_11__actions_period__["j" /* EDIT_COMPLETE */])
             .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
             .switchMap(function (model) {
-            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["j" /* GET_COMPLETE */]);
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_period__["n" /* GET_COMPLETE */]);
             return _this.periodService
                 .getPeriodList(_this.pagingModel)
                 .takeUntil(nextGet$)
-                .map(function (users) { return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["l" /* GetCompleteAction */](users); })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["l" /* GetCompleteAction */](null)); });
+                .map(function (users) { return new __WEBPACK_IMPORTED_MODULE_11__actions_period__["p" /* GetCompleteAction */](users); })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_period__["p" /* GetCompleteAction */](null)); });
         });
     }
     return PeriodEffects;
@@ -502,21 +565,25 @@ __decorate([
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"]) === "function" && _c || Object)
-], PeriodEffects.prototype, "change$", void 0);
+], PeriodEffects.prototype, "edit$", void 0);
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"]) === "function" && _d || Object)
-], PeriodEffects.prototype, "delete$", void 0);
+], PeriodEffects.prototype, "change$", void 0);
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"]) === "function" && _e || Object)
+], PeriodEffects.prototype, "delete$", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"]) === "function" && _f || Object)
 ], PeriodEffects.prototype, "update$", void 0);
 PeriodEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_10__period_service__["a" /* PeriodService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__period_service__["a" /* PeriodService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */]) === "function" && _h || Object])
+    __metadata("design:paramtypes", [typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_10__period_service__["a" /* PeriodService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__period_service__["a" /* PeriodService */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */]) === "function" && _j || Object])
 ], PeriodEffects);
 
-var _a, _b, _c, _d, _e, _f, _g, _h;
+var _a, _b, _c, _d, _e, _f, _g, _h, _j;
 //# sourceMappingURL=period.js.map
 
 /***/ }),
@@ -670,6 +737,9 @@ var PeriodService = (function () {
     PeriodService.prototype.delete = function (id) {
         return this.requestService.get("/api/deleteperiod?id=" + id);
     };
+    PeriodService.prototype.edit = function (model) {
+        return this.requestService.post("/api/EditPeriod/", model);
+    };
     return PeriodService;
 }());
 PeriodService = __decorate([
@@ -738,7 +808,7 @@ var initialState = {
 function reducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
-        case __WEBPACK_IMPORTED_MODULE_0__actions_period__["i" /* GET */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_period__["m" /* GET */]:
             var pagingModel = action.payload;
             pagingModel.IsAscending = !pagingModel.IsOrder ? state.pagingModel.IsAscending : pagingModel != null && pagingModel.orderBy != "id" ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
             {
@@ -749,7 +819,7 @@ function reducer(state, action) {
                     pagingModel: pagingModel,
                 };
             }
-        case __WEBPACK_IMPORTED_MODULE_0__actions_period__["j" /* GET_COMPLETE */]: {
+        case __WEBPACK_IMPORTED_MODULE_0__actions_period__["n" /* GET_COMPLETE */]: {
             var loadedPeriods = action.payload;
             return {
                 periods: loadedPeriods.Results,

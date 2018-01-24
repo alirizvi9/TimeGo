@@ -66,13 +66,15 @@ namespace TimeGo.Web.Mvc.Controllers
 
         [AllowAnonymous]
         [Route("SignUpInvite")]
-        public ActionResult SignUpInvite(string token)
+        public ActionResult SignUpInvite(string email)
         {
-            if (Company == null || string.IsNullOrEmpty(token))
+            if (Company == null || string.IsNullOrEmpty(email))
                 return RedirectToAction("SignUp");
             ViewBag.CompanyName = Company.CompanyName;
-            var email = _authorizationService.GetInviteEmail(token);
-            var model = new SignUpEmployee() { Email = email };
+            var employee = _accountService.GetEmployee(email);
+            if (employee == null)
+                return RedirectToAction("SignUp");
+            var model = Mapper.Map<SignUpEmployee>(employee);
             return View(model);
         }
 
@@ -146,8 +148,14 @@ namespace TimeGo.Web.Mvc.Controllers
                 ModelState.AddModelError("", Resource.LoginError);
                 return View(model);
             }
+            if(!tokenModel.Employee.IsActive)
+            {
+                ModelState.AddModelError("", Resource.LoginActiveError);
+                return View(model);
+            }
             Session["token"] = tokenModel.Token;
             Session["role"] = tokenModel.Employee.Role.RoleType;
+            Session["login"] = tokenModel.Employee.FirstName + " " + tokenModel.Employee.LastName;
             return RedirectToAction("Run", "App");
         }
 
@@ -212,6 +220,7 @@ namespace TimeGo.Web.Mvc.Controllers
         {
             Session["token"] = null;
             Session["role"] = null;
+            Session["login"] = null;
             return RedirectToAction("CompanyLogin");
         }
 

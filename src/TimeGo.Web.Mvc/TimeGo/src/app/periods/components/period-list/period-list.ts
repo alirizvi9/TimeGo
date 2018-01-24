@@ -21,6 +21,7 @@ export class PeriodListComponent {
     @Input() pagingModel: PeriodListPagingModel;
     @Output() order = new EventEmitter<string>();
     @Output() add = new EventEmitter<AddPeriod>();
+    @Output() edit = new EventEmitter<PeriodListItem>();
     @Output() changeStatus = new EventEmitter<ChangeStatus>();
     @Output() changePage = new EventEmitter<PeriodListPagingModel>();
     @Output() delete = new EventEmitter<DeletePeriodModel>();
@@ -34,7 +35,21 @@ export class PeriodListComponent {
         StartDate: new Date()
     };
 
+    selected: boolean = false;
 
+    editPeriod: PeriodListItem = {
+        id: 0,
+        PeriodEnd: new Date(),
+        PeriodStart: new Date(),
+        Reminder1: new Date(),
+        Reminder2: new Date(),
+        Status: ""
+    };
+
+
+    cloneEditPeriod(period: PeriodListItem) {
+        this.editPeriod = Object.assign({}, period);
+    }
 
     constructor(private translate: TranslateService) {
         translate.addLangs(["en", "fr"]);
@@ -61,6 +76,17 @@ export class PeriodListComponent {
     changeStatusAction(model: ChangeStatus) {
         this.changeStatus.emit(model);
         this.changePage.emit(this.pagingModel);
+    }
+
+    editEvent(model: PeriodListItem)
+    {
+        this.selected = false;
+        this.edit.emit(model);
+    }
+
+    closeModal()
+    {
+        this.selected = false;
     }
 }
 

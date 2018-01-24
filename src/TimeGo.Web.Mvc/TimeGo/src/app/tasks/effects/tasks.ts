@@ -57,6 +57,22 @@ export class TasksEffects {
         });
 
     @Effect()
+    edit$: Observable<Action> = this.actions$
+        .ofType(tasksActions.EDIT)
+        .map(toPayload)
+        .switchMap((query: TasksListItem) => {
+            const nextGet$ = this.actions$.ofType(tasksActions.EDIT).skip(1);
+            return this.tasksService
+                .editTask(query)
+                .takeUntil(nextGet$)
+                .map((result: any) => {
+                    this.toasterService.pop('success', 'Success', 'Success Save Task');
+                    return new tasksActions.EditCompleteAction(result);
+                })
+                .catch(() => of(new tasksActions.EditCompleteAction(null)));
+        });
+
+    @Effect()
     allow$: Observable<Action> = this.actions$
         .ofType(tasksActions.ALLOW)
         .map(toPayload)
@@ -90,7 +106,7 @@ export class TasksEffects {
 
     @Effect()
     update$: Observable<Action> = this.actions$
-        .ofType(tasksActions.ADD_COMPLETE, tasksActions.ALLOW_COMPLETE)
+        .ofType(tasksActions.ADD_COMPLETE, tasksActions.ALLOW_COMPLETE, tasksActions.EDIT_COMPLETE)
         .map(toPayload)
         .switchMap((model: any) => {
             const nextGet$ = this.actions$.ofType(tasksActions.GET_COMPLETE);

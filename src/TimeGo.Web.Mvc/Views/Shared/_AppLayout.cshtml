@@ -7,6 +7,14 @@
     <title>@ViewBag.Title - TimeGo</title>
     @Styles.Render("~/bundles/timegoCss")
     @RenderSection("head", required: false)
+    <script>
+        console.log('commonServerData');
+        var commonServerData = {
+            Token: "@ViewBag.Token",
+            Role: "@ViewBag.Role",
+            Login: "@ViewBag.Login"
+        };
+    </script>
 </head>
 <body class="app header-fixed aside-menu-fixed aside-menu-hidden">
     <script language="javascript">window.__theme = 'bs4';</script>

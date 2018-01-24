@@ -5,6 +5,7 @@ using TimeGo.ApplicationDomain.Models;
 using TimeGo.ApplicationDomain.Models.Period;
 using TimeGo.ApplicationDomain.Persistance;
 using TimeGo.ApplicationDomain.Enums;
+using System;
 
 namespace TimeGo.ApplicationDomain.Services.Implementation
 {
@@ -24,7 +25,8 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             var periods = _repository.Find<Period>(x => x.CompanyId == user.CompanyId);
             var result = new ResultsModel<PeriodViewModel>()
             {
-                Results = periods.OrderBy(model.SortExpression).Skip(model.PageSize * (model.Page - 1)).Take(model.PageSize).Select(x=>new PeriodViewModel() {
+                Results = periods.OrderBy(model.SortExpression).Skip(model.PageSize * (model.Page - 1)).Take(model.PageSize).Select(x => new PeriodViewModel()
+                {
                     Id = x.Id,
                     PeriodEnd = x.PeriodEnd,
                     PeriodStart = x.PeriodStart,
@@ -50,7 +52,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
 
             period.LockStatus = lockStatus;
             period.LockStatusId = lockStatus.Id;
-            foreach(var timesheet in timesheets)
+            foreach (var timesheet in timesheets)
             {
                 timesheet.LockStatusId = lockStatus.Id;
                 timesheet.LockStatus = lockStatus;
@@ -80,10 +82,27 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             return ErrorCodes.Success;
         }
 
+        public ErrorCodes EditPeriod(PeriodViewModel model, Employee user)
+        {
+            if (user.Role.RoleType != "Task Manager")
+                return ErrorCodes.NoAccess;
+
+            var period = _repository.Find<Period>(x => x.Id == model.Id).SingleOrDefault();
+            if (period == null)
+                return ErrorCodes.NotFound;
+            var endDate = model.PeriodStart != null ? ((DateTime)model.PeriodStart).AddDays(7) : period.PeriodEnd;
+            period.PeriodStart = model.PeriodStart;
+            period.PeriodEnd = endDate;
+            period.Reminder1Date = model.Reminder1;
+            period.Reminder2Date = model.Reminder2;
+            _repository.Save();
+            return ErrorCodes.Success;
+        }
+
         public ErrorCodes Delete(Employee user, long id)
         {
             if (user.Role.RoleType != "Task Manager")
-                return ErrorCodes.UnknownError;
+                return ErrorCodes.NoAccess;
 
             var period = _repository.Find<Period>(x => x.Id == id).SingleOrDefault();
             var timesheets = _repository.Find<Timesheet>(x => x.PeriodId == id).ToList();
@@ -91,7 +110,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             foreach (var timesheet in timesheets)
             {
                 var lines = _repository.Find<TimesheetLine>(x => x.TimesheetId == timesheet.Id).ToList();
-                foreach(var line in lines)
+                foreach (var line in lines)
                 {
                     _repository.Delete(line);
                 }

@@ -12,5 +12,7 @@ namespace TimeGo.ApplicationDomain.Models.CompanyProfile
         public int? WorkWeekStartDay { get; set; }
         public long? TimesheetsWeeks { get; set; }
         public string TimeGoUrl { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

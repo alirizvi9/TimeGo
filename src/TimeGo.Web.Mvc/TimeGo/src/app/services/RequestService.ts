@@ -13,25 +13,39 @@ export class RequestService {
         'Content-Type': 'application/json'
     });
     options: RequestOptions = new RequestOptions({ headers: this.headers });
-    
+    spinner: boolean = false;
 
     constructor(public http: Http,
         public router: Router,
         private spinnerService: SpinnerService) {
     }
 
+    async show()
+    {
+        this.spinner = true;
+        setTimeout(3000);
+        if (this.spinner)
+          this.spinnerService.show('mySpinner');
+    }
+
+    hide()
+    {
+        this.spinner = false;
+        this.spinnerService.hide('mySpinner');
+    }
+
     get<T>(path: string): Observable<T> {
-        this.spinnerService.show('mySpinner');
+        this.show();
         return this.intercept(this.http.get(path, this.options).map(res => {
-            this.spinnerService.hide('mySpinner');
+            this.hide();
             return res.json();
         }));
     }
 
     post<T>(path: string, body?: Object): Observable<T> {
-        this.spinnerService.show('mySpinner');
+        this.show();
         return this.intercept(this.http.post(path, body, this.options).map(res => {
-            this.spinnerService.hide('mySpinner');
+            this.hide();
             return res.json();
         }));
     }

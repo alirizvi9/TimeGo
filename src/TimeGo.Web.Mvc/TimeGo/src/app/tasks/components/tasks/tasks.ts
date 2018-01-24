@@ -5,7 +5,6 @@ import { TasksListPagingModel } from '../../models/tasks-list-paging.model';
 import { DeleteTaskModel } from '../../models/delete.model'
 import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-declare var commonServerData: any;
 
 @Component({
     selector: 'up-tasks-list',
@@ -19,6 +18,7 @@ export class TasksComponent {
     @Input() pagingModel: TasksListPagingModel;
     @Output() order = new EventEmitter<string>();
     @Output() add = new EventEmitter<AddTask>();
+    @Output() edit = new EventEmitter<TasksListItem>();
     @Output() changePage = new EventEmitter<TasksListPagingModel>();
     @Output() delete = new EventEmitter<DeleteTaskModel>();
     @Output() allow = new EventEmitter<TasksListItem>();
@@ -27,6 +27,20 @@ export class TasksComponent {
     deleteId: number;
 
     addTask: AddTask = {
+        TaskName: ""
+    };
+
+    cloneEditTask(task: TasksListItem) {
+        this.editTask = Object.assign({}, task);
+    }
+
+
+    editTask: TasksListItem = {
+        Allows: null,
+        ApproverPrimary: null,
+        ApproverSecondary: null,
+        id: 0,
+        IsActive: false,
         TaskName: ""
     };
 
@@ -39,7 +53,6 @@ export class TasksComponent {
     }
 
     ngOnInit() {
-        this.role = commonServerData.Role;
     }
 
     getArrowClass(field: string): string {

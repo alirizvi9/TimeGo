@@ -11,5 +11,6 @@ namespace TimeGo.ApplicationDomain.Services
         ErrorCodes AddTask(AddTaskViewModel model, Employee user);
         ErrorCodes DeleteTask(long id, Employee user);
         ErrorCodes AllowTask(TaskViewModel model, Employee user);
+        ErrorCodes EditTask(TaskViewModel model, Employee user);
     }
 }

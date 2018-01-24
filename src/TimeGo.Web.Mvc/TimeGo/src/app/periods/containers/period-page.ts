@@ -16,7 +16,9 @@ import { DeletePeriodModel } from '../models/delete.model'
     selector: 'period-page',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <up-period-list [periods]="periods$ | async" [isLoaded]="isLoaded$ | async" [pagingModel]="pagingModel$ | async" [loading]="loading$ | async" (order)="orderPeriods($event)" (add)="addPeriod($event)" (delete)="delete($event)" (changeStatus)="changeStatus($event)" (changePage)="changePage($event)"></up-period-list>
+    <up-period-list [periods]="periods$ | async" [isLoaded]="isLoaded$ | async" [pagingModel]="pagingModel$ | async" 
+    [loading]="loading$ | async" (order)="orderPeriods($event)" (add)="addPeriod($event)" (edit)="edit($event)" (delete)="delete($event)" 
+    (changeStatus)="changeStatus($event)" (changePage)="changePage($event)"></up-period-list>
   `,
 })
 export class PeriodPageComponent {
@@ -59,6 +61,10 @@ export class PeriodPageComponent {
 
     addPeriod(model: AddPeriod) {
         this.store.dispatch(new periodActions.SaveAction(model));
+    }
+
+    edit(model: PeriodListItem) {
+        this.store.dispatch(new periodActions.EditAction(model));
     }
 
     changeStatus(model: ChangeStatus)

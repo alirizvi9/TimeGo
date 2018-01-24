@@ -10,6 +10,7 @@ namespace TimeGo.Web.Mvc.Controllers
         {
             ViewBag.Token = Session["token"];
             ViewBag.Role = Session["role"];
+            ViewBag.Login = Session["login"];
             return View();
         }
     }

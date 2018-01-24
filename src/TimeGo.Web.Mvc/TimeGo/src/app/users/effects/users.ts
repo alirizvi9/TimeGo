@@ -18,6 +18,7 @@ import { UsersListItem } from '../models/users-list-item.model';
 import { UsersList } from '../models/user-list.model';
 import { UsersListPagingModel } from '../models/users-list-paging.model';
 import { AddEmployee } from '../models/add-employee.model';
+import { InviteEmployee } from '../models/invite-employee.model';
 
 @Injectable()
 export class UsersEffects {
@@ -55,7 +56,7 @@ export class UsersEffects {
     invite$: Observable<Action> = this.actions$
         .ofType(usersActions.INVITE)
         .map(toPayload)
-        .switchMap((query: string) => {
+        .switchMap((query: InviteEmployee) => {
             const nextGet$ = this.actions$.ofType(usersActions.INVITE).skip(1);
             return this.usersService
                 .inviteEmployee(query)
@@ -65,8 +66,36 @@ export class UsersEffects {
         });
 
     @Effect()
+    reinvite$: Observable<Action> = this.actions$
+        .ofType(usersActions.REINVITE)
+        .map(toPayload)
+        .switchMap((query: number) => {
+            const nextGet$ = this.actions$.ofType(usersActions.REINVITE).skip(1);
+            return this.usersService
+                .reinviteEmployee(query)
+                .takeUntil(nextGet$)
+                .map((result: any) => new usersActions.ReInviteCompleteAction(result))
+                .catch(() => of(new usersActions.ReInviteCompleteAction(null)));
+        });
+
+
+
+    @Effect()
+    edit$: Observable<Action> = this.actions$
+        .ofType(usersActions.EDIT)
+        .map(toPayload)
+        .switchMap((query: UsersListItem) => {
+            const nextGet$ = this.actions$.ofType(usersActions.EDIT).skip(1);
+            return this.usersService
+                .editEmployee(query)
+                .takeUntil(nextGet$)
+                .map((result: any) => new usersActions.EditCompleteAction(result))
+                .catch(() => of(new usersActions.EditCompleteAction(null)));
+        });
+
+    @Effect()
     update$: Observable<Action> = this.actions$
-        .ofType(usersActions.ADD_COMPLETE)
+        .ofType(usersActions.ADD_COMPLETE, usersActions.EDIT_COMPLETE, usersActions.INVITE_COMPLETE, usersActions.REINVITE_COMPLETE)
         .map(toPayload)
         .switchMap((query: any) => {
             const nextGet$ = this.actions$.ofType(usersActions.GET_COMPLETE);

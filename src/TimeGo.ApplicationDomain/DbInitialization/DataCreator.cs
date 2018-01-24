@@ -264,6 +264,7 @@ namespace TimeGo.ApplicationDomain.DbInitialization
                 Code = "XXX1",
                 IsAdmin = true,
                 IsActive = true,
+                IsRegistrate = true,
                 IsOvertimeCalculated = false,
                 Company = _testCompany,
                 Role = managerRole
@@ -282,6 +283,7 @@ namespace TimeGo.ApplicationDomain.DbInitialization
                 Code = "XXX1",
                 IsAdmin = false,
                 IsActive = true,
+                IsRegistrate = true,
                 IsOvertimeCalculated = false,
                 Company = _testCompany,
                 Role = employeeRole
@@ -301,6 +303,7 @@ namespace TimeGo.ApplicationDomain.DbInitialization
                 Code = "XXX1",
                 IsAdmin = false,
                 IsActive = false,
+                IsRegistrate = true,
                 IsOvertimeCalculated = true,
                 Company = _testCompany,
                 Role = employeeRole
@@ -366,7 +369,9 @@ namespace TimeGo.ApplicationDomain.DbInitialization
                     Employee = _taskManagerTestcompany,
                     PeriodStart = startDate,
                     PeriodEnd = endDate,
-                    LockStatusId = lockStatus.Id
+                    LockStatusId = lockStatus.Id,
+                    Reminder1Date = endDate.AddDays(2),
+                    Reminder2Date = endDate.AddDays(5)
                 };
                 _repository.Add(period);
                 startDate = startDate.AddDays(7);

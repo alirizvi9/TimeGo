@@ -12,4 +12,12 @@ namespace TimeGo.Web.Mvc.Infrastructure.Mapping
             cfg.ForMember(x => x.FirstName, m => m.MapFrom(x => x.FirstName));
         }
     }
+
+    public class SignUpEmployeeModelMapper : AutoMapperBaseMapper<AddEmployeeViewModel, SignUpEmployee>
+    {
+        protected override void Configure(IMappingExpression<AddEmployeeViewModel, SignUpEmployee> cfg)
+        {
+            cfg.ForMember(x => x.FirstName, m => m.MapFrom(x => x.FirstName));
+        }
+    }
 }

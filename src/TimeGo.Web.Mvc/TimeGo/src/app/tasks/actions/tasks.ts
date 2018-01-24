@@ -9,6 +9,8 @@ export const GET = '[Task] Get tasks';
 export const GET_COMPLETE = '[Task] Get tasks Complete';
 export const ADD = '[Task] Add task';
 export const ADD_COMPLETE = '[Task] Add task Complete';
+export const EDIT = '[Task] Edit task';
+export const EDIT_COMPLETE = '[Task] Edit task Complete';
 export const DELETE = '[Task] Delete task';
 export const ALLOW = '[Task] Allow task';
 export const ALLOW_COMPLETE = '[Task] Allow task Complete';
@@ -47,6 +49,18 @@ export class SaveCompleteAction implements Action {
     constructor(public payload: any[]) { }
 }
 
+export class EditAction implements Action {
+    type = EDIT;
+
+    constructor(public payload: TasksListItem) { }
+}
+
+export class EditCompleteAction implements Action {
+    type = EDIT_COMPLETE;
+
+    constructor(public payload: any[]) { }
+}
+
 export class DeleteAction implements Action {
     type = DELETE;
     constructor(public payload: DeleteTaskModel) { }
@@ -56,4 +70,6 @@ export type Actions = GetAction
     | GetCompleteAction
     | SaveAction
     | SaveCompleteAction
-    | DeleteAction;
+    | DeleteAction
+    | EditAction
+    | EditCompleteAction;

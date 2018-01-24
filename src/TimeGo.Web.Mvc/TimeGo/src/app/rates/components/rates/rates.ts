@@ -27,6 +27,7 @@ export class RatesComponent {
 
     role: string;
     deleteId: number;
+    dateNow: Date = new Date();
 
     constructor(private translate: TranslateService) {
         translate.addLangs(["en", "fr"]);

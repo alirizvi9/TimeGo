@@ -17,6 +17,9 @@ namespace TimeGo.ApplicationDomain.Services
         void ConfirmEmail(int userId, string code);
         ErrorCodes AddEmployee(AddEmployeeViewModel model, Employee user);
         ErrorCodes AddEmployee(AddEmployeeViewModel model, Company company);
-        ErrorCodes InviteEmployee(string token, Employee user, string email);
+        ErrorCodes InviteEmployee(InviteEmployeeViewModel model, Employee user);
+        ErrorCodes ReInviteEmployee(long id, Employee user);
+        ErrorCodes EditEmployee(UsersListItemViewModel employee, Employee user);
+        AddEmployeeViewModel GetEmployee(string email);
     }
 }

@@ -4,24 +4,30 @@ webpackJsonp(["tasks.module"],{
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_COMPLETE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return GET_COMPLETE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ADD; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ADD_COMPLETE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return EDIT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return EDIT_COMPLETE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return DELETE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return ALLOW; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return ALLOW_COMPLETE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return AllowAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return AllowCompleteAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GetAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GetCompleteAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return SaveAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return SaveCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return GetAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return GetCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return SaveAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return SaveCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return EditAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return EditCompleteAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return DeleteAction; });
 var GET = '[Task] Get tasks';
 var GET_COMPLETE = '[Task] Get tasks Complete';
 var ADD = '[Task] Add task';
 var ADD_COMPLETE = '[Task] Add task Complete';
+var EDIT = '[Task] Edit task';
+var EDIT_COMPLETE = '[Task] Edit task Complete';
 var DELETE = '[Task] Delete task';
 var ALLOW = '[Task] Allow task';
 var ALLOW_COMPLETE = '[Task] Allow task Complete';
@@ -71,6 +77,22 @@ var SaveCompleteAction = (function () {
         this.type = ADD_COMPLETE;
     }
     return SaveCompleteAction;
+}());
+
+var EditAction = (function () {
+    function EditAction(payload) {
+        this.payload = payload;
+        this.type = EDIT;
+    }
+    return EditAction;
+}());
+
+var EditCompleteAction = (function () {
+    function EditCompleteAction(payload) {
+        this.payload = payload;
+        this.type = EDIT_COMPLETE;
+    }
+    return EditCompleteAction;
 }());
 
 var DeleteAction = (function () {
@@ -155,7 +177,7 @@ ComponentsModule = __decorate([
 /***/ "../../../../../src/app/tasks/components/tasks/tasks.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-8 push-md-2\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        {{ 'TaskHeader' | translate }}\r\n      </div>\r\n      <div class=\"card-block\" *ngIf=\"isLoaded\">\r\n        <div class=\"form-group float-right\">\r\n          <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#addmodal\">\r\n            {{ 'AddTask' | translate }}\r\n          </button>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <table class=\"table table-hover table-outline mb-0 hidden-sm-down\" *ngIf=\"isLoaded\">\r\n            <thead class=\"thead-default\">\r\n              <tr>\r\n                <td class=\"text-center\">{{ 'Task' | translate }} <a [ngClass]=\"getArrowClass('TaskName')\" (click)=\"order.emit('TaskName')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Approver1Email' | translate }} <a [ngClass]=\"getArrowClass('ApproverPrimaryId')\" (click)=\"order.emit('ApproverPrimaryId')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Approver2Email' | translate }} <a [ngClass]=\"getArrowClass('ApproverSecondaryId')\" (click)=\"order.emit('ApproverSecondaryId')\"></a></td>\r\n                <td class=\"text-center\">{{ 'IsActive' | translate }} <a [ngClass]=\"getArrowClass('IsActive')\" (click)=\"order.emit('IsActive')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Action' | translate }} </td>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr *ngFor=\"let task of tasks\">\r\n                <td class=\"text-center\">{{task.TaskName}}</td>\r\n                <td class=\"text-center\">{{task.ApproverPrimary}}</td>\r\n                <td class=\"text-center\">{{task.ApproverSecondary}}</td>\r\n                <td class=\"text-center\">{{task.IsActive}}</td>\r\n                <td class=\"text-center\">\r\n                  <button type=\"button\" class=\"btn btn-sm btn-danger\" data-toggle=\"modal\" data-target=\"#deleteModal\" (click)=\"deleteId = task.Id\">{{ 'Delete' | translate }}</button>\n                  <button type=\"button\" class=\"btn btn-sm btn-primary\" data-toggle=\"modal\" data-target=\"#allowModal\" (click)=\"selectTask = task; select = true;\">{{ 'Allow' | translate }}</button>\r\n                </td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <pagination [totalItems]=\"pagingModel.count\" [(ngModel)]=\"pagingModel.page\" (pageChanged)=\"changePage.emit({\r\n            orderBy: pagingModel.orderBy,\r\n            page: $event.page,\r\n            pageSize: pagingModel.pageSize,\r\n            IsAscending: !pagingModel.IsAscending,\r\n            count: pagingModel.count,\r\n            IsOrder: false})\"></pagination>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal fade\" id=\"addmodal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Add period\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">{{ 'AddTask' | translate }}</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\">\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'TaskName' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-note\"></i>\r\n            </span>\r\n            <input type=\"text\" class=\"form-control\" id=\"company-name\" placeholder=\"Task Name\" [(ngModel)]=\"addTask.TaskName\" />\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">{{ 'Close' | translate }}</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"addTaskAction(addTask)\">{{ 'Add' | translate }}</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal fade\" id=\"deleteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Delete task\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">{{ 'Delete' | translate }} {{ 'Task' | translate }}</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\">\r\n        <h6>{{ 'DeleteMessage' | translate }} {{ 'Task' | translate }}?</h6>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">{{ 'No' | translate }}</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"delete.emit({id: deleteId, paging: pagingModel})\">{{ 'Yes' | translate }}</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\n\n<div class=\"modal fade\" id=\"allowModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"allow task\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">{{ 'Allow' | translate }} {{ 'Task' | translate }}</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\" *ngIf=\"select\">\r\n        <h6>{{ 'AllowTaskMessage' | translate }}</h6>\n        <div *ngFor=\"let user of selectTask.Allows\">\n          <div class=\"cntr\">\r\n            <label for=\"{{user.UserId}}\" class=\"label-cbx\">\r\n              <input id=\"{{user.UserId}}\" type=\"checkbox\" class=\"invisible\" [(ngModel)]=\"user.Allow\">\r\n              <div class=\"checkbox\">\r\n                <svg width=\"20px\" height=\"20px\" viewBox=\"0 0 20 20\">\r\n                  <path d=\"M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z\"></path>\r\n                  <polyline points=\"4 11 8 15 16 6\"></polyline>\r\n                </svg>\r\n              </div>\r\n              <span>{{user.FirstName}} {{user.LastName}}</span>\r\n            </label>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">{{ 'Close' | translate }}</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"allow.emit(selectTask)\">{{ 'Save' | translate }}</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-8 push-md-2\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        {{ 'TaskHeader' | translate }}\r\n      </div>\r\n      <div class=\"card-block\" *ngIf=\"isLoaded\">\r\n        <div class=\"form-group float-right\">\r\n          <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#addmodal\">\r\n            {{ 'AddTask' | translate }}\r\n          </button>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <table class=\"table table-hover table-outline mb-0 hidden-sm-down\" *ngIf=\"isLoaded\">\r\n            <thead class=\"thead-default\">\r\n              <tr>\r\n                <td class=\"text-center\">{{ 'Task' | translate }} <a [ngClass]=\"getArrowClass('TaskName')\" (click)=\"order.emit('TaskName')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Approver1Email' | translate }} <a [ngClass]=\"getArrowClass('ApproverPrimaryId')\" (click)=\"order.emit('ApproverPrimaryId')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Approver2Email' | translate }} <a [ngClass]=\"getArrowClass('ApproverSecondaryId')\" (click)=\"order.emit('ApproverSecondaryId')\"></a></td>\r\n                <td class=\"text-center\">{{ 'IsActive' | translate }} <a [ngClass]=\"getArrowClass('IsActive')\" (click)=\"order.emit('IsActive')\"></a></td>\r\n                <td class=\"text-center\">{{ 'Allows' | translate }} </td>\r\n                <td class=\"text-center\">{{ 'Action' | translate }} </td>\r\n              </tr>\r\n            </thead>\r\n            <tbody>\r\n              <tr *ngFor=\"let task of tasks\">\r\n                <td class=\"text-center\">{{task.TaskName}}</td>\r\n                <td class=\"text-center\">{{task.ApproverPrimary}}</td>\r\n                <td class=\"text-center\">{{task.ApproverSecondary}}</td>\r\n                <td class=\"text-center\" *ngIf=\"task.IsActive\"><span class=\"badge badge-success timego-status\">{{task.IsActive ? 'Yes' : 'No'}}</span></td>\r\n                <td class=\"text-center\" *ngIf=\"!task.IsActive\"><span class=\"badge badge-danger timego-status\">{{task.IsActive ? 'Yes' : 'No'}}</span></td>\r\n                <td class=\"text-center\"><div class=\"allow-name\" *ngFor=\"let allow of task.Allows; let i = index\"><div *ngIf=\"allow.Allow\">{{allow.FirstName}} {{allow.LastName}}&nbsp;</div></div></td>\r\n                <td class=\"text-center\">\r\n                  <button type=\"button\" class=\"btn btn-sm btn-danger\" data-toggle=\"modal\" data-target=\"#deleteModal\" (click)=\"deleteId = task.Id\">{{ 'Delete' | translate }}</button>\r\n                  <button type=\"button\" class=\"btn btn-sm btn-success\" data-toggle=\"modal\" data-target=\"#allowModal\" (click)=\"selectTask = task; select = true;\">{{ 'Allow' | translate }}</button>\r\n                  <button type=\"button\" class=\"btn btn-sm btn-primary\" data-toggle=\"modal\" data-target=\"#editModal\" (click)=\"cloneEditTask(task);\">{{ 'Edit' | translate }}</button>\r\n                </td>\r\n              </tr>\r\n            </tbody>\r\n          </table>\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <pagination [totalItems]=\"pagingModel.count\" [(ngModel)]=\"pagingModel.page\" (pageChanged)=\"changePage.emit({\r\n            orderBy: pagingModel.orderBy,\r\n            page: $event.page,\r\n            pageSize: pagingModel.pageSize,\r\n            IsAscending: !pagingModel.IsAscending,\r\n            count: pagingModel.count,\r\n            IsOrder: false})\"></pagination>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal fade\" id=\"addmodal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Add period\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">{{ 'AddTask' | translate }}</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\">\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'TaskName' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-note\"></i>\r\n            </span>\r\n            <input type=\"text\" class=\"form-control\" id=\"company-name\" placeholder=\"Task Name\" [(ngModel)]=\"addTask.TaskName\" />\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">{{ 'Close' | translate }}</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"addTaskAction(addTask)\">{{ 'Add' | translate }}</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"modal fade\" id=\"editModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Edit period\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">{{ 'Edit' | translate }} {{ 'Task' | translate }}</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\">\r\n        <div class=\"form-group\">\r\n          <label for=\"company-name\">{{ 'TaskName' | translate }}</label>\r\n          <div class=\"input-group mb-3 required\">\r\n            <span class=\"input-group-addon\">\r\n              <i class=\"icon-note\"></i>\r\n            </span>\r\n            <input type=\"text\" class=\"form-control\" id=\"company-name\" placeholder=\"Task Name\" [(ngModel)]=\"editTask.TaskName\" />\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">{{ 'Close' | translate }}</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"edit.emit(editTask)\">{{ 'Save' | translate }}</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"modal fade\" id=\"deleteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Delete task\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">{{ 'Delete' | translate }} {{ 'Task' | translate }}</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\">\r\n        <h6>{{ 'DeleteMessage' | translate }} {{ 'Task' | translate }}?</h6>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">{{ 'No' | translate }}</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"delete.emit({id: deleteId, paging: pagingModel})\">{{ 'Yes' | translate }}</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"modal fade\" id=\"allowModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"allow task\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header timego-modal\">\r\n        <h4 class=\"modal-title\">{{ 'Allow' | translate }} {{ 'Task' | translate }}</h4>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">×</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body timego-modal\" *ngIf=\"select\">\r\n        <h6>{{ 'AllowTaskMessage' | translate }}</h6>\r\n        <div *ngFor=\"let user of selectTask.Allows\">\r\n          <div class=\"cntr\">\r\n            <label for=\"{{user.UserId}}\" class=\"label-cbx\">\r\n              <input id=\"{{user.UserId}}\" type=\"checkbox\" class=\"invisible\" [(ngModel)]=\"user.Allow\">\r\n              <div class=\"checkbox\">\r\n                <svg width=\"20px\" height=\"20px\" viewBox=\"0 0 20 20\">\r\n                  <path d=\"M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z\"></path>\r\n                  <polyline points=\"4 11 8 15 16 6\"></polyline>\r\n                </svg>\r\n              </div>\r\n              <span>{{user.FirstName}} {{user.LastName}}</span>\r\n            </label>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">{{ 'Close' | translate }}</button>\r\n        <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" (click)=\"allow.emit(selectTask)\">{{ 'Save' | translate }}</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -205,17 +227,28 @@ var TasksComponent = (function () {
         this.loading = false;
         this.order = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.add = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.edit = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.changePage = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.delete = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.allow = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.addTask = {
             TaskName: ""
         };
+        this.editTask = {
+            Allows: null,
+            ApproverPrimary: null,
+            ApproverSecondary: null,
+            id: 0,
+            IsActive: false,
+            TaskName: ""
+        };
         translate.addLangs(["en", "fr"]);
         translate.setDefaultLang('en');
     }
+    TasksComponent.prototype.cloneEditTask = function (task) {
+        this.editTask = Object.assign({}, task);
+    };
     TasksComponent.prototype.ngOnInit = function () {
-        this.role = commonServerData.Role;
     };
     TasksComponent.prototype.getArrowClass = function (field) {
         if (field != this.pagingModel.orderBy)
@@ -254,6 +287,10 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
     __metadata("design:type", Object)
 ], TasksComponent.prototype, "add", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+    __metadata("design:type", Object)
+], TasksComponent.prototype, "edit", void 0);
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
     __metadata("design:type", Object)
@@ -322,7 +359,7 @@ var TasksPageComponent = (function () {
             count: 10,
             IsOrder: true
         };
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_tasks__["k" /* GetAction */](pagingModelView));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_tasks__["o" /* GetAction */](pagingModelView));
     };
     TasksPageComponent.prototype.orderTasks = function (orderBy) {
         var pagingModelView = {
@@ -333,13 +370,16 @@ var TasksPageComponent = (function () {
             count: 10,
             IsOrder: true
         };
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_tasks__["k" /* GetAction */](pagingModelView));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_tasks__["o" /* GetAction */](pagingModelView));
     };
     TasksPageComponent.prototype.addTask = function (model) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_tasks__["m" /* SaveAction */](model));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_tasks__["q" /* SaveAction */](model));
+    };
+    TasksPageComponent.prototype.edit = function (model) {
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_tasks__["k" /* EditAction */](model));
     };
     TasksPageComponent.prototype.changePage = function (model) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_tasks__["k" /* GetAction */](model));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_tasks__["o" /* GetAction */](model));
     };
     TasksPageComponent.prototype.delete = function (model) {
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_tasks__["h" /* DeleteAction */](model));
@@ -353,7 +393,7 @@ TasksPageComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["o" /* Component */])({
         selector: 'tasks-page',
         changeDetection: __WEBPACK_IMPORTED_MODULE_1__angular_core__["k" /* ChangeDetectionStrategy */].OnPush,
-        template: "\n    <up-tasks-list [tasks]=\"tasks$ | async\" [isLoaded]=\"isLoaded$ | async\" [pagingModel]=\"pagingModel$ | async\" [loading]=\"loading$ | async\" (order)=\"orderTasks($event)\" (add)=\"addTask($event)\" (delete)=\"delete($event)\" (changePage)=\"changePage($event)\" (allow)=\"allow($event)\"></up-tasks-list>\n  ",
+        template: "\n    <up-tasks-list [tasks]=\"tasks$ | async\" [isLoaded]=\"isLoaded$ | async\" [pagingModel]=\"pagingModel$ | async\" [loading]=\"loading$ | async\" \n    (order)=\"orderTasks($event)\" (add)=\"addTask($event)\" (edit)=\"edit($event)\" (delete)=\"delete($event)\" (changePage)=\"changePage($event)\" (allow)=\"allow($event)\"></up-tasks-list>\n  ",
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object])
 ], TasksPageComponent);
@@ -418,16 +458,16 @@ var TasksEffects = (function () {
         this.tasksService = tasksService;
         this.toasterService = toasterService;
         this.get$ = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_tasks__["i" /* GET */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_tasks__["m" /* GET */])
             .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
             .switchMap(function (query) {
-            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_tasks__["i" /* GET */]).skip(1);
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_tasks__["m" /* GET */]).skip(1);
             _this.pagingModel = query;
             return _this.tasksService
                 .getTasks(query)
                 .takeUntil(nextGet$)
-                .map(function (tasks) { return new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["l" /* GetCompleteAction */](tasks); })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["l" /* GetCompleteAction */](null)); });
+                .map(function (tasks) { return new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["p" /* GetCompleteAction */](tasks); })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["p" /* GetCompleteAction */](null)); });
         });
         this.save$ = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_tasks__["a" /* ADD */])
@@ -439,9 +479,23 @@ var TasksEffects = (function () {
                 .takeUntil(nextGet$)
                 .map(function (result) {
                 _this.toasterService.pop('success', 'Success', 'Success Add Task');
-                return new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["n" /* SaveCompleteAction */](result);
+                return new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["r" /* SaveCompleteAction */](result);
             })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["n" /* SaveCompleteAction */](null)); });
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["r" /* SaveCompleteAction */](null)); });
+        });
+        this.edit$ = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_tasks__["i" /* EDIT */])
+            .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
+            .switchMap(function (query) {
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_tasks__["i" /* EDIT */]).skip(1);
+            return _this.tasksService
+                .editTask(query)
+                .takeUntil(nextGet$)
+                .map(function (result) {
+                _this.toasterService.pop('success', 'Success', 'Success Save Task');
+                return new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["l" /* EditCompleteAction */](result);
+            })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["l" /* EditCompleteAction */](null)); });
         });
         this.allow$ = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_tasks__["c" /* ALLOW */])
@@ -461,26 +515,26 @@ var TasksEffects = (function () {
             .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_tasks__["g" /* DELETE */])
             .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
             .switchMap(function (model) {
-            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_tasks__["i" /* GET */]);
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_tasks__["m" /* GET */]);
             return _this.tasksService
                 .delete(model.id)
                 .takeUntil(nextGet$)
                 .map(function (result) {
                 _this.toasterService.pop('success', 'Success', 'Success Delete Task');
-                return new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["k" /* GetAction */](model.paging);
+                return new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["o" /* GetAction */](model.paging);
             })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["n" /* SaveCompleteAction */](null)); });
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["r" /* SaveCompleteAction */](null)); });
         });
         this.update$ = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_tasks__["b" /* ADD_COMPLETE */], __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["d" /* ALLOW_COMPLETE */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_tasks__["b" /* ADD_COMPLETE */], __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["d" /* ALLOW_COMPLETE */], __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["j" /* EDIT_COMPLETE */])
             .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
             .switchMap(function (model) {
-            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_tasks__["j" /* GET_COMPLETE */]);
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_tasks__["n" /* GET_COMPLETE */]);
             return _this.tasksService
                 .getTasks(_this.pagingModel)
                 .takeUntil(nextGet$)
-                .map(function (tasks) { return new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["l" /* GetCompleteAction */](tasks); })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["l" /* GetCompleteAction */](null)); });
+                .map(function (tasks) { return new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["p" /* GetCompleteAction */](tasks); })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_tasks__["p" /* GetCompleteAction */](null)); });
         });
     }
     return TasksEffects;
@@ -496,21 +550,25 @@ __decorate([
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"]) === "function" && _c || Object)
-], TasksEffects.prototype, "allow$", void 0);
+], TasksEffects.prototype, "edit$", void 0);
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"]) === "function" && _d || Object)
-], TasksEffects.prototype, "delete$", void 0);
+], TasksEffects.prototype, "allow$", void 0);
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"]) === "function" && _e || Object)
+], TasksEffects.prototype, "delete$", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"]) === "function" && _f || Object)
 ], TasksEffects.prototype, "update$", void 0);
 TasksEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_10__tasks_service__["a" /* TasksService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__tasks_service__["a" /* TasksService */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */]) === "function" && _h || Object])
+    __metadata("design:paramtypes", [typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_10__tasks_service__["a" /* TasksService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__tasks_service__["a" /* TasksService */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */]) === "function" && _j || Object])
 ], TasksEffects);
 
-var _a, _b, _c, _d, _e, _f, _g, _h;
+var _a, _b, _c, _d, _e, _f, _g, _h, _j;
 //# sourceMappingURL=tasks.js.map
 
 /***/ }),
@@ -578,7 +636,7 @@ var initialState = {
 function reducer(state, action) {
     if (state === void 0) { state = initialState; }
     switch (action.type) {
-        case __WEBPACK_IMPORTED_MODULE_0__actions_tasks__["i" /* GET */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_tasks__["m" /* GET */]:
             var pagingModel = action.payload;
             pagingModel.IsAscending = !pagingModel.IsOrder ? state.pagingModel.IsAscending : pagingModel != null && pagingModel.orderBy != "id" ? pagingModel.orderBy != state.pagingModel.orderBy || !state.pagingModel.IsAscending : true;
             {
@@ -589,7 +647,7 @@ function reducer(state, action) {
                     pagingModel: pagingModel,
                 };
             }
-        case __WEBPACK_IMPORTED_MODULE_0__actions_tasks__["j" /* GET_COMPLETE */]: {
+        case __WEBPACK_IMPORTED_MODULE_0__actions_tasks__["n" /* GET_COMPLETE */]: {
             var loadedPeriods = action.payload;
             return {
                 tasks: loadedPeriods.Results,
@@ -770,6 +828,9 @@ var TasksService = (function () {
     };
     TasksService.prototype.addTask = function (addModel) {
         return this.requestService.post("/api/AddTask/", addModel);
+    };
+    TasksService.prototype.editTask = function (model) {
+        return this.requestService.post("/api/EditTask/", model);
     };
     TasksService.prototype.allowTask = function (allowModel) {
         return this.requestService.post("/api/AllowTask/", allowModel);

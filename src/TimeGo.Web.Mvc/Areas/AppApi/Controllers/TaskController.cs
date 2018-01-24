@@ -64,5 +64,15 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
             var result = _taskService.AllowTask(model, user);
             return result == ErrorCodes.Success ? Success() : Error(result);
         }
+        [HttpPost]
+        [Route("api/EditTask")]
+        public IHttpActionResult EditTask(TaskViewModel model)
+        {
+            var user = _authorizationService.GetUser();
+            if (user.CompanyId == null)
+                return Success();
+            var result = _taskService.EditTask(model, user);
+            return result == ErrorCodes.Success ? Success() : Error(result);
+        }
     }
 }

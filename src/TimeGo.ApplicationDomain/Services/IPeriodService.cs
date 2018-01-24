@@ -11,5 +11,6 @@ namespace TimeGo.ApplicationDomain.Services
         ResultsModel<PeriodViewModel> GetPeriods(Employee user, PagingModel model);
         ErrorCodes ChangeStatus(Employee user, long id, string newStatus);
         ErrorCodes Delete(Employee user, long id);
+        ErrorCodes EditPeriod(PeriodViewModel model, Employee user);
     }
 }

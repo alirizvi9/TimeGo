@@ -9,6 +9,8 @@ import { AlwaysAuthGuard } from './AlwaysAuthGuard'
 import { AdminAuthGuard } from './AdminAuthGuard'
 import { TaskManagerAuthGuard } from './TaskManagerAuthGuard'
 import { RequestService } from './services/RequestService'
+import { AccountService } from './services/AccountService'
+import { GlobalAccountService } from './services/GlobalAccountService'
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -58,7 +60,10 @@ import { SpinnerModule, SpinnerService  } from 'angular-spinners';
     providers: [{
         provide: LocationStrategy,
         useClass: HashLocationStrategy
-    }, AlwaysAuthGuard, AdminAuthGuard, TaskManagerAuthGuard, RequestService, ToasterService, SpinnerService ],
+    }, AlwaysAuthGuard, AdminAuthGuard, TaskManagerAuthGuard, RequestService, ToasterService, SpinnerService, {
+            provide: AccountService,
+            useClass: GlobalAccountService
+    }],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

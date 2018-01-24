@@ -1,5 +1,6 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ToasterModule, ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
+declare var commonServerData: any;
 
 @Component({
   selector: 'app-dashboard',
@@ -7,11 +8,10 @@ import { ToasterModule, ToasterService, ToasterConfig } from 'angular2-toaster/a
 })
 export class FullLayoutComponent implements OnInit {
 
-  constructor() { }
-
   public disabled:boolean = false;
   public status:{isopen:boolean} = {isopen: false};
-
+  role: string = "";
+  login: string = "";
   public toggled(open:boolean):void {
     console.log('Dropdown is now: ', open);
   }
@@ -35,5 +35,8 @@ export class FullLayoutComponent implements OnInit {
       window.location.href = '/account/logout';
   }
 
-  ngOnInit(): void {}
+  ngOnInit() {
+      this.role = commonServerData.Role;
+      this.login = commonServerData.Login;
+  }
 }

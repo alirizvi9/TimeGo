@@ -32,8 +32,12 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
             if (user.CompanyId == null)
                 return Success();
             var company = _companyService.GetCompany(user.CompanyId.Value);
-            var commentModel = Mapper.Map<CompanyProfileViewModel>(company);
-            return Success(commentModel);
+            var companyModel = Mapper.Map<CompanyProfileViewModel>(company);
+            companyModel.FirstName = user.FirstName;
+            companyModel.LastName = user.LastName;
+            companyModel.PhoneNumber = user.PhoneNumber;
+            companyModel.EmailAddress = user.EmailAddress;
+            return Success(companyModel);
         }
         
         [HttpGet]
@@ -49,7 +53,10 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
         [Route("api/Profile")]
         public IHttpActionResult Edit(CompanyProfileViewModel model)
         {
-            var result = _companyService.EditCompany(model);
+            var user = _authorizationService.GetUser();
+            if (user.CompanyId == null)
+                return Success();
+            var result = _companyService.EditCompany(model, user);
             return result == ErrorCodes.Success ? Success() : Error(result);
         }
     }

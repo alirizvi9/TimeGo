@@ -7,6 +7,7 @@ import * as fromUsers from '../reducers';
 import * as usersActions from '../actions/users';
 
 import { AddEmployee } from '../models/add-employee.model';
+import { InviteEmployee } from '../models/invite-employee.model';
 import {UsersListPagingModel} from '../models/users-list-paging.model';
 import {UsersListItem} from '../models/users-list-item.model';
 
@@ -14,7 +15,8 @@ import {UsersListItem} from '../models/users-list-item.model';
     selector: 'users-page',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <up-users-list [users]="users$ | async" [pagingModel]="pagingModel$ | async" [isLoaded]="isLoaded$ | async" [loading]="loading$ | async" (order)="orderUser($event)" (changePage)="changePage($event)" (invite)="invite($event)" (add)="add($event)"></up-users-list>
+    <up-users-list [users]="users$ | async" [pagingModel]="pagingModel$ | async" [isLoaded]="isLoaded$ | async" [loading]="loading$ | async" 
+    (order)="orderUser($event)" (changePage)="changePage($event)" (invite)="invite($event)" (add)="add($event)" (edit)="edit($event)" (reinvite)="reinvite($event)"></up-users-list>
   `,
 })
 export class UsersPageComponent {
@@ -64,8 +66,18 @@ export class UsersPageComponent {
         this.store.dispatch(new usersActions.SaveAction(model));
     }
 
-    invite(email: string)
+    invite(model: InviteEmployee)
     {
-        this.store.dispatch(new usersActions.InviteAction(email));
+        this.store.dispatch(new usersActions.InviteAction(model));
+    }
+
+    reinvite(id: number)
+    {
+        this.store.dispatch(new usersActions.ReInviteAction(id));
+    }
+
+    edit(model: UsersListItem)
+    {
+        this.store.dispatch(new usersActions.EditAction(model));
     }
 }

@@ -55,18 +55,28 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             return ErrorCodes.Success;
         }
 
-        public ErrorCodes EditCompany(CompanyProfileViewModel model)
+        public ErrorCodes EditCompany(CompanyProfileViewModel model, Employee user)
         {
             var company = _repository.FindForUpdate<Company>(model.Id);
-            company.CompanyName = model.CompanyName;
-            company.ContactName = model.ContactName;
-            company.PhoneNumber = model.PhoneNumber;
-            company.EmailAddress = model.EmailAddress;
-            company.VacationApproverEmail = model.VacationApproverEmail;
-            if (model.WorkWeekStartDay != null)
-                company.WorkweekStaryDay = (Weekdays)model.WorkWeekStartDay;
-            company.TimePeriodsInFuture = model.TimesheetsWeeks;
-            company.TimeGoUrl = model.TimeGoUrl;
+            var profile = _repository.FindForUpdate<Employee>(user.Id);
+            if (company == null || profile == null)
+                return ErrorCodes.NotFound;
+            if (user.Role.RoleType == "Task Manager")
+            {
+                company.CompanyName = model.CompanyName;
+                company.ContactName = $"{model.FirstName} {model.LastName}";
+                company.PhoneNumber = model.PhoneNumber;
+                company.EmailAddress = model.EmailAddress;
+                company.VacationApproverEmail = model.VacationApproverEmail;
+                if (model.WorkWeekStartDay != null)
+                    company.WorkweekStaryDay = (Weekdays)model.WorkWeekStartDay;
+                company.TimePeriodsInFuture = model.TimesheetsWeeks;
+                company.TimeGoUrl = model.TimeGoUrl;
+            }
+            profile.FirstName = model.FirstName;
+            profile.LastName = model.LastName;
+            profile.PhoneNumber = model.PhoneNumber;
+            profile.EmailAddress = model.EmailAddress;
             _repository.Save();
             return ErrorCodes.Success;
         }

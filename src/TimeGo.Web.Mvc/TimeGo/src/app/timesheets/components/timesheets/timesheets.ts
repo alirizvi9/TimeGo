@@ -8,7 +8,7 @@ import { UsersListItem } from '../../../users/models/users-list-item.model'
 import { SelectModel } from '../../models/select-period.model'
 import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-declare var commonServerData: any;
+import { AccountService } from '../../../services/AccountService'
 
 @Component({
     selector: 'up-timesheets',
@@ -36,13 +36,13 @@ export class TimesheetsComponent {
     public userId: number;
     public mytime: Date = new Date();
 
-    constructor(private translate: TranslateService) {
+    constructor(private translate: TranslateService, account: AccountService) {
         translate.addLangs(["en", "fr"]);
         translate.setDefaultLang('en');
+        this.role = account.role;
     }
 
     ngOnInit() {
-        this.role = commonServerData.Role;
     }
 
     public totalLineTimeHr(line: TimesheetsLine): number {

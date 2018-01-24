@@ -531,4 +531,25 @@
   <data name="InviteMessage" xml:space="preserve">
     <value>Enter email employee and we send him original url for registration</value>
   </data>
+  <data name="ReInvite" xml:space="preserve">
+    <value>Reinvite</value>
+  </data>
+  <data name="Allows" xml:space="preserve">
+    <value>Allows</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LoginActiveError" xml:space="preserve">
+    <value>Your account is not active</value>
+  </data>
+  <data name="IsRegistrated" xml:space="preserve">
+    <value>Is Registrated</value>
+  </data>
+  <data name="DateFormat" xml:space="preserve">
+    <value>dd-MMM-yyyy</value>
+  </data>
+  <data name="DateWeekFormat" xml:space="preserve">
+    <value>EEE d-MMM</value>
+  </data>
 </root>

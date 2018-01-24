@@ -25,7 +25,9 @@
                 <td class="text-center">{{ 'Last4SS' | translate }} <a [ngClass]="getArrowClass('SocialSecurityNumber')" (click)="order.emit('SocialSecurityNumber')"></a></td>
                 <td class="text-center">{{ 'IsAdmin' | translate }} <a [ngClass]="getArrowClass('IsAdmin')" (click)="order.emit('IsAdmin')"></a></td>
                 <td class="text-center">{{ 'IsActive' | translate }} <a [ngClass]="getArrowClass('IsActive')" (click)="order.emit('IsActive')"></a></td>
+                <td class="text-center">{{ 'IsRegistrated' | translate }} <a [ngClass]="getArrowClass('IsRegistrate')" (click)="order.emit('IsRegistrate')"></a></td>
                 <td class="text-center">{{ 'CalculateOvertime' | translate }} <a [ngClass]="getArrowClass('IsOvertimeCalculated')" (click)="order.emit('IsOvertimeCalculated')"></a></td>
+                <td class="text-center">{{ 'Action' | translate }} </td>
               </tr>
             </thead>
             <tbody>
@@ -40,8 +42,17 @@
                 <td class="text-center" *ngIf="!user.IsAdmin"><span class="badge badge-danger timego-status">{{user.IsAdmin ? 'Yes' : 'No'}}</span></td>
                 <td class="text-center" *ngIf="user.IsActive"><span class="badge badge-success timego-status">{{user.IsActive ? 'Yes' : 'No'}}</span></td>
                 <td class="text-center" *ngIf="!user.IsActive"><span class="badge badge-danger timego-status">{{user.IsActive ? 'Yes' : 'No'}}</span></td>
+
+                <td class="text-center" *ngIf="user.IsRegistrate"><span class="badge badge-success timego-status">{{'Registrated'}}</span></td>
+                <td class="text-center" *ngIf="!user.IsRegistrate && oldIvite(user)"><span class="badge badge-danger timego-status">{{'No Confirmed'}}</span></td>
+                <td class="text-center" *ngIf="!user.IsRegistrate && !oldIvite(user)"><span class="badge badge-warning timego-status">{{'Waiting'}}</span></td>
+
                 <td class="text-center" *ngIf="user.IsOvertimeCalculated"><span class="badge badge-success timego-status">{{user.IsOvertimeCalculated ? 'Yes' : 'No'}}</span></td>
                 <td class="text-center" *ngIf="!user.IsOvertimeCalculated"><span class="badge badge-danger timego-status">{{user.IsOvertimeCalculated ? 'Yes' : 'No'}}</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editModal" (click)="cloneEditUser(user)">{{ 'Edit' | translate }}</button>
+                    <button [disabled]="user.IsRegistrate" type="button" class="btn btn-sm btn-success" (click)="reinvite.emit(user.Id)">{{ 'ReInvite' | translate }}</button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -136,6 +147,18 @@
               <p *ngIf="addform.controls.PhoneNumber.errors.required">{{ 'FieldIsRequired' | translate }}</p>
             </div>
           </div>
+          <div class="cntr">
+            <label for="admin" class="label-cbx">
+              <input id="admin" type="checkbox" class="invisible" [(ngModel)]="addEmployee.IsAdmin">
+              <div class="checkbox">
+                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                  <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                  <polyline points="4 11 8 15 16 6"></polyline>
+                </svg>
+              </div>
+              <span>{{ 'IsAdmin' | translate }}</span>
+            </label>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close' | translate }}</button>
@@ -157,14 +180,39 @@
       </div>
       <div [formGroup]="inviteform">
         <div class="modal-body timego-modal">
-          <h6>{{ 'InviteMessage' | translate }}</h6>
+          <div class="form-group">
+            <label for="company-name">{{ 'FirstName' | translate }}</label>
+            <div class="input-group mb-3 required">
+              <span class="input-group-addon">
+                <i class="icon-user"></i>
+              </span>
+              <input type="text" formControlName="FirstName" class="form-control" id="company-name" placeholder="{{ 'FirstName' | translate }}" [(ngModel)]="inviteModel.FirstName" />
+            </div>
+            <div class="form-control-feedback validation-error"
+                 *ngIf="inviteform.controls.FirstName.errors && (inviteform.controls.FirstName.dirty || inviteform.controls.FirstName.touched)">
+              <p *ngIf="inviteform.controls.FirstName.errors.required">{{ 'FieldIsRequired' | translate }}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="company-name">{{ 'LastName' | translate }}</label>
+            <div class="input-group mb-3 required">
+              <span class="input-group-addon">
+                <i class="icon-user"></i>
+              </span>
+              <input type="text" formControlName="LastName" class="form-control" id="company-name" placeholder="{{ 'LastName' | translate }}" [(ngModel)]="inviteModel.LastName" />
+            </div>
+            <div class="form-control-feedback validation-error"
+                 *ngIf="inviteform.controls.LastName.errors && (inviteform.controls.LastName.dirty || inviteform.controls.LastName.touched)">
+              <p *ngIf="inviteform.controls.LastName.errors.required">{{ 'FieldIsRequired' | translate }}</p>
+            </div>
+          </div>
           <div class="form-group">
             <label for="company-name">{{ 'Email' | translate }}</label>
             <div class="input-group mb-3 required">
               <span class="input-group-addon">
                 <i class="">@</i>
               </span>
-              <input type="text" class="form-control" id="company-name" placeholder="{{ 'Email' | translate }}" [(ngModel)]="inviteEmail" formControlName="Email" />
+              <input type="text" class="form-control" id="company-name" placeholder="{{ 'Email' | translate }}" [(ngModel)]="inviteModel.Email" formControlName="Email" />
             </div>
             <div class="form-control-feedback validation-error"
                  *ngIf="inviteform.controls.Email.errors && (inviteform.controls.Email.dirty || inviteform.controls.Email.touched)">
@@ -172,11 +220,108 @@
               <p *ngIf="inviteform.controls.Email.errors.pattern">{{ 'EmailNotValid' | translate }}</p>
             </div>
           </div>
+          <div class="cntr">
+            <label for="adminInvite" class="label-cbx">
+              <input id="adminInvite" type="checkbox" class="invisible" [(ngModel)]="inviteModel.IsAdmin">
+              <div class="checkbox">
+                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                  <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                  <polyline points="4 11 8 15 16 6"></polyline>
+                </svg>
+              </div>
+              <span>{{ 'IsAdmin' | translate }}</span>
+            </label>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close' | translate }}</button>
-          <button *ngIf="!inviteform.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="invite.emit(inviteEmail)" disabled>{{ 'Invite' | translate }}</button>
-          <button *ngIf="inviteform.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="invite.emit(inviteEmail)">{{ 'Invite' | translate }}</button>
+          <button *ngIf="!inviteform.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="invite.emit(inviteModel)" disabled>{{ 'Invite' | translate }}</button>
+          <button *ngIf="inviteform.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="invite.emit(inviteModel)">{{ 'Invite' | translate }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="edit employee" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header timego-modal">
+        <h4 class="modal-title">{{ 'Edit' | translate }} {{ 'Employee' | translate }}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div [formGroup]="editform">
+        <div class="modal-body timego-modal">
+          <div class="form-group">
+            <label for="company-name">{{ 'FirstName' | translate }}</label>
+            <div class="input-group mb-3 required">
+              <span class="input-group-addon">
+                <i class="icon-user"></i>
+              </span>
+              <input type="text" formControlName="FirstName" class="form-control" id="company-name" placeholder="{{ 'FirstName' | translate }}" [(ngModel)]="editModel.FirstName" />
+            </div>
+            <div class="form-control-feedback validation-error"
+                 *ngIf="editform.controls.FirstName.errors && (editform.controls.FirstName.dirty || editform.controls.FirstName.touched)">
+              <p *ngIf="editform.controls.FirstName.errors.required">{{ 'FieldIsRequired' | translate }}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="company-name">{{ 'LastName' | translate }}</label>
+            <div class="input-group mb-3 required">
+              <span class="input-group-addon">
+                <i class="icon-user"></i>
+              </span>
+              <input type="text" formControlName="LastName" class="form-control" id="company-name" placeholder="{{ 'LastName' | translate }}" [(ngModel)]="editModel.LastName" />
+            </div>
+            <div class="form-control-feedback validation-error"
+                 *ngIf="editform.controls.LastName.errors && (editform.controls.LastName.dirty || editform.controls.LastName.touched)">
+              <p *ngIf="editform.controls.LastName.errors.required">{{ 'FieldIsRequired' | translate }}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="company-name">{{ 'Email' | translate }}</label>
+            <div class="input-group mb-3 required">
+              <span class="input-group-addon">
+                <i class="">@</i>
+              </span>
+              <input type="text" class="form-control" id="company-name" placeholder="{{ 'Email' | translate }}" [(ngModel)]="editModel.Email" formControlName="Email" />
+            </div>
+            <div class="form-control-feedback validation-error"
+                 *ngIf="editform.controls.Email.errors && (editform.controls.Email.dirty || editform.controls.Email.touched)">
+              <p *ngIf="editform.controls.Email.errors.required">{{ 'FieldIsRequired' | translate }}</p>
+              <p *ngIf="editform.controls.Email.errors.pattern">{{ 'EmailNotValid' | translate }}</p>
+            </div>
+          </div>
+          <div class="cntr">
+            <label for="adminedit" class="label-cbx">
+              <input id="adminedit" type="checkbox" class="invisible" [(ngModel)]="editModel.isAdmin">
+              <div class="checkbox">
+                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                  <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                  <polyline points="4 11 8 15 16 6"></polyline>
+                </svg>
+              </div>
+              <span>{{ 'IsAdmin' | translate }}</span>
+            </label>
+          </div>
+          <div class="cntr">
+            <label for="IsActiveEdit" class="label-cbx">
+              <input id="IsActiveEdit" type="checkbox" class="invisible" [(ngModel)]="editModel.IsActive">
+              <div class="checkbox">
+                <svg width="20px" height="20px" viewBox="0 0 20 20">
+                  <path d="M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z"></path>
+                  <polyline points="4 11 8 15 16 6"></polyline>
+                </svg>
+              </div>
+              <span>{{ 'IsActive' | translate }}</span>
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close' | translate }}</button>
+          <button *ngIf="!editform.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="edit.emit(editModel)" disabled>{{ 'Save' | translate }}</button>
+          <button *ngIf="editform.valid" type="button" class="btn btn-primary" data-dismiss="modal" (click)="edit.emit(editModel)">{{ 'Save' | translate }}</button>
         </div>
       </div>
     </div>

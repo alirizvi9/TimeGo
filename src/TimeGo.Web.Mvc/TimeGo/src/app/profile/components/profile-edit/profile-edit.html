@@ -6,7 +6,18 @@
       </div>
       <div class="card-block" *ngIf="isLoaded">
         <div class="row">
-          <div class="col-md-6">
+          <div [ngClass]="{'col-md-6': role == 'Task Manager', 'col-md-12': role != 'Task Manager'}">
+            <div class="form-group">
+              <label for="contact-name">{{ 'FirstName' | translate }}</label>
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="icon-user"></i>
+                </span>
+                <input type="text" class="form-control" id="contact-name" placeholder="First name" [(ngModel)]="company.FirstName">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="role == 'Task Manager'">
             <div class="form-group">
               <label for="company-name">{{ 'CompanyName' | translate }}</label>
               <div class="input-group mb-3 required">
@@ -17,44 +28,20 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6">
+        </div>
+        <div class="row">
+          <div [ngClass]="{'col-md-6': role == 'Task Manager', 'col-md-12': role != 'Task Manager'}">
             <div class="form-group">
-              <label for="contact-name">{{ 'ContactName' | translate }}</label>
+              <label for="contact-name">{{ 'LastName' | translate }}</label>
               <div class="input-group mb-3 required">
                 <span class="input-group-addon">
                   <i class="icon-user"></i>
                 </span>
-                <input type="text" class="form-control" id="contact-name" placeholder="Contact name" [(ngModel)]="company.ContactName">
+                <input type="text" class="form-control" id="contact-name" placeholder="Last name" [(ngModel)]="company.LastName">
               </div>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="phone-number">{{ 'PhoneNumber' | translate }}</label>
-              <div class="input-group mb-3 required">
-                <span class="input-group-addon">
-                  <i class="icon-phone"></i>
-                </span>
-                <input type="text" class="form-control" id="phone-number" placeholder="Phone number" [(ngModel)]="company.PhoneNumber">
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="email">{{ 'Email' | translate }}</label>
-              <div class="input-group mb-3 required">
-                <span class="input-group-addon">
-                  <i class="">@</i>
-                </span>
-                <input type="email" class="form-control" id="email" placeholder="Email" [(ngModel)]="company.EmailAddress">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-6" *ngIf="role == 'Task Manager'">
             <div class="form-group">
               <label for="vacation-approver-email">{{ 'VacationApproverEmail' | translate }}</label>
               <div class="input-group mb-3 required">
@@ -65,7 +52,46 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6">
+        </div>
+        <div class="row">
+          <div [ngClass]="{'col-md-6': role == 'Task Manager', 'col-md-12': role != 'Task Manager'}">
+            <div class="form-group">
+              <label for="email">{{ 'Email' | translate }}</label>
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="">@</i>
+                </span>
+                <input type="email" class="form-control" id="email" placeholder="Email" [(ngModel)]="company.EmailAddress">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="role == 'Task Manager'">
+            <div class="form-group">
+              <label for="timesheets">{{ 'TimesheetsWeeksInAdvance' | translate }}</label>
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="icon-globe"></i>
+                </span>
+                <select id="timesheets" class="form-control" [(ngModel)]="company.TimesheetsWeeks">
+                  <option *ngFor="let c of timesheets" [ngValue]="c.id">{{c.text}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div [ngClass]="{'col-md-6': role == 'Task Manager', 'col-md-12': role != 'Task Manager'}">
+            <div class="form-group">
+              <label for="phone-number">{{ 'PhoneNumber' | translate }}</label>
+              <div class="input-group mb-3 required">
+                <span class="input-group-addon">
+                  <i class="icon-phone"></i>
+                </span>
+                <input type="text" class="form-control" id="phone-number" placeholder="Phone number" [(ngModel)]="company.PhoneNumber">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" *ngIf="role == 'Task Manager'">
             <div class="form-group">
               <label for="week-day">{{ 'WorkWeekStartDay' | translate }}</label>
               <div class="input-group mb-3 required">
@@ -79,19 +105,8 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="role == 'Task Manager'">
           <div class="col-md-6">
-            <div class="form-group">
-              <label for="timesheets">{{ 'Timesheets WeeksInAdvance' | translate }}</label>
-              <div class="input-group mb-3 required">
-                <span class="input-group-addon">
-                  <i class="icon-globe"></i>
-                </span>
-                <select id="timesheets" class="form-control" [(ngModel)]="company.TimesheetsWeeks">
-                  <option *ngFor="let c of timesheets" [ngValue]="c.id">{{c.text}}</option>
-                </select>
-              </div>
-            </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">

@@ -28,8 +28,8 @@
                 <td class="text-center">{{rate.UserId}}</td>
                 <td class="text-center">{{rate.FirstName}}</td>
                 <td class="text-center">{{rate.LastName}}</td>
-                <td class="text-center">{{rate.StartDate | date: 'dd-MMM-yy'}}</td>
-                <td class="text-center">{{rate.EndDate | date: 'dd-MMM-yy'}}</td>
+                <td class="text-center">{{rate.StartDate | date: ('DateFormat' | translate)}}</td>
+                <td class="text-center">{{rate.EndDate | date: ('DateFormat' | translate)}}</td>
                 <td class="text-center">{{rate.Rate}}</td>
                 <td class="text-center">
                   <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal" (click)="deleteId = rate.Id">{{ 'Delete' | translate }}</button>
@@ -99,6 +99,12 @@
             </span>
             <input required [(ngModel)]="addRate.Rate" type="number" class="form-control"/>
           </div>
+        </div>
+        <div class="row form-group validation-error" *ngIf="addRate.StartDate < dateNow || addRate.EndDate < dateNow">
+          <h6 class="col-md-10">Please, select a date after today's date</h6>
+        </div>
+        <div class="row form-group validation-error" *ngIf="addRate.StartDate > addRate.EndDate">
+          <h6 class="col-md-10">Please, select a end date after start date</h6>
         </div>
       </div>
       <div class="modal-footer">

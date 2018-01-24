@@ -214,6 +214,7 @@
     <Compile Include="Models\Timesheets\TimesheetLineViewModel.cs" />
     <Compile Include="Models\Timesheets\TimesheetViewModel.cs" />
     <Compile Include="Models\Users\AddEmployeeViewModel.cs" />
+    <Compile Include="Models\Users\InviteEmployeeViewModel.cs" />
     <Compile Include="Models\Users\UsersListItemViewModel.cs" />
     <Compile Include="Persistance\IIdentifiable.cs" />
     <Compile Include="Persistance\Implementation\Repository.cs" />

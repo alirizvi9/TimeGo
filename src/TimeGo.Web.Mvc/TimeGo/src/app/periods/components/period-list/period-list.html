@@ -24,16 +24,17 @@
             </thead>
             <tbody>
               <tr *ngFor="let period of periods">
-                <td class="text-center">{{period.PeriodStart | date: 'dd-MMM-yy'}}</td>
-                <td class="text-center">{{period.PeriodEnd | date: 'dd-MMM-yy'}}</td>
-                <td class="text-center">{{period.Reminder1 | date: 'dd-MMM-yy'}}</td>
-                <td class="text-center">{{period.Reminder2 | date: 'dd-MMM-yy'}}</td>
+                <td class="text-center">{{period.PeriodStart | date: ('DateFormat' | translate)}}</td>
+                <td class="text-center">{{period.PeriodEnd | date: ('DateFormat' | translate)}}</td>
+                <td class="text-center">{{period.Reminder1 | date: ('DateFormat' | translate)}}</td>
+                <td class="text-center">{{period.Reminder2 | date: ('DateFormat' | translate)}}</td>
                 <td class="text-center" *ngIf="period.Status == 'Locked'"><span class="badge badge-danger timego-status">{{period.Status}}</span></td>
                 <td class="text-center" *ngIf="period.Status == 'Unlocked'"><span class="badge badge-success timego-status">{{period.Status}}</span></td>
                 <td class="text-center">
-                  <button type="button" *ngIf="period.Status == 'Unlocked'" class="btn btn-sm btn-danger" (click)="changeStatusAction({id: period.Id, status: 'Locked'})">{{ 'Lock' | translate }}</button>
-                  <button type="button" *ngIf="period.Status == 'Locked'" class="btn btn-sm btn-success" (click)="changeStatusAction({id: period.Id, status: 'Unlocked'})">{{ 'Unlock' | translate }}</button>
+                  <button type="button" [disabled]="period.Status == 'Locked'" class="btn btn-sm btn-danger" (click)="changeStatusAction({id: period.Id, status: 'Locked'})">{{ 'Lock' | translate }}</button>
+                  <button type="button" [disabled]="period.Status == 'Unlocked'" class="btn btn-sm btn-success" (click)="changeStatusAction({id: period.Id, status: 'Unlocked'})">{{ 'Unlock' | translate }}</button>
                   <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal" (click)="deleteId = period.Id">{{ 'Delete' | translate }}</button>
+                  <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editModal" (click)="cloneEditPeriod(period); selected=true;">{{ 'Edit' | translate }}</button>
                 </td>
               </tr>
             </tbody>
@@ -97,6 +98,53 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="Edit period" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header timego-modal">
+        <h4 class="modal-title">{{ 'Edit' | translate }} {{ 'Period' | translate }}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body timego-modal" *ngIf="selected">
+        <div class="form-group">
+          <label for="company-name">{{ 'Startdate' | translate }}</label>
+          <div class="input-group mb-3 required">
+            <span class="input-group-addon">
+              <i class="icon-calendar"></i>
+            </span>
+            <ngx-date-picker [(selectedDate)]="editPeriod.PeriodStart"></ngx-date-picker>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="company-name">{{ 'Reminder1Date' | translate }}</label>
+          <div class="input-group mb-3 required">
+            <span class="input-group-addon">
+              <i class="icon-calendar"></i>
+            </span>
+            <ngx-date-picker [(selectedDate)]="editPeriod.Reminder1"></ngx-date-picker>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="company-name">{{ 'Reminder2Date' | translate }}</label>
+          <div class="input-group mb-3 required">
+            <span class="input-group-addon">
+              <i class="icon-calendar"></i>
+            </span>
+            <ngx-date-picker [(selectedDate)]="editPeriod.Reminder2"></ngx-date-picker>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">{{ 'Close' | translate }}</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="editEvent(editPeriod)">{{ 'Save' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="Delete period" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
