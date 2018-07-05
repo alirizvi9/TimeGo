@@ -1,4 +1,4 @@
-﻿import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Timesheets } from '../../models/timesheets.model'
 import { Period } from '../../models/period.model'
 import { AddModel } from '../../models/add.model'
@@ -23,10 +23,12 @@ export class TimesheetsComponent {
     @Input() periods: Period[];
     @Input() tasks: Task[];
     @Input() users: UsersListItem[];
+    @Input() selectModel: SelectModel;
     @Output() selectPeriod = new EventEmitter<SelectModel>();
-    @Output() addLine = new EventEmitter<Date>();
+    @Output() addLine = new EventEmitter<TimesheetsLine>();
     @Output() save = new EventEmitter<AddModel>();
     @Output() submite = new EventEmitter<number>();
+    @Output() resubmite = new EventEmitter<number>();
     @Output() approve = new EventEmitter<number>();
     @Output() unlock = new EventEmitter<number>();
     @Output() delete = new EventEmitter<TimesheetsLine>();
@@ -48,6 +50,13 @@ export class TimesheetsComponent {
     public totalLineTimeHr(line: TimesheetsLine): number {
         let endTime = new Date(line.EndTime);
         let startTime = new Date(line.StartTime);
+        if (startTime > endTime) {
+          var date = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), 24);
+          var date2 = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), 0);
+          let diffMs = (+endTime.valueOf() + +date.valueOf() - +startTime.valueOf() - +date2);
+          var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+          return diffHrs;
+        }
         let diffMs = (+endTime.valueOf() - +startTime.valueOf());
         var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
         return diffHrs;
@@ -56,6 +65,13 @@ export class TimesheetsComponent {
     public totalLineTimeMin(line: TimesheetsLine): number {
         let endTime = new Date(line.EndTime);
         let startTime = new Date(line.StartTime);
+        if (startTime > endTime) {
+          var date = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), 24);
+          var date2 = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), 0);
+          let diffMs = (+endTime.valueOf() + +date.valueOf() - +startTime.valueOf() - +date2);
+          var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+          return diffMins;
+        }
         let diffMs = (+endTime.valueOf() - +startTime.valueOf());
         var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
         return diffMins;
@@ -64,6 +80,12 @@ export class TimesheetsComponent {
     public totalLineTimeMs(line: TimesheetsLine): number {
         let endTime = new Date(line.EndTime);
         let startTime = new Date(line.StartTime);
+        if (startTime > endTime) {
+          var date = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), 24);
+          var date2 = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), 0);
+          let diffMs = (+endTime.valueOf() + +date.valueOf() - +startTime.valueOf() - +date2);
+          return diffMs;
+        }
         let diffMs = (+endTime.valueOf() - +startTime.valueOf());
         return diffMs;
     }
@@ -103,11 +125,11 @@ export class TimesheetsComponent {
                 this.checkIntersection(line, lines);
             }
         }
-        if (currentLine.StartTime > currentLine.EndTime)
-            currentLine.ValidationError = "Time range is not valid";
-        else
-            if (currentLine.ValidationError == "Time range is not valid")
-                currentLine.ValidationError = null;
+        //if (currentLine.StartTime > currentLine.EndTime)
+        //    currentLine.ValidationError = "Time range is not valid";
+        //else
+        //    if (currentLine.ValidationError == "Time range is not valid")
+        //        currentLine.ValidationError = null;
     }
 
     public checkIntersection(currentLine: TimesheetsLine, lines: TimesheetsLine[]) {

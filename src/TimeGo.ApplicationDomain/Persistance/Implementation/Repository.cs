@@ -14,9 +14,9 @@ namespace TimeGo.ApplicationDomain.Persistance.Implementation
             _context = context;
         }
 
-        public void Add<T>(T item) where T : class, IIdentifiable
+        public T Add<T>(T item) where T : class, IIdentifiable
         {
-            _context.Set<T>().Add(item);
+            return _context.Set<T>().Add(item);
         }
 
         public void Delete<T>(object id) where T : class, IIdentifiable

@@ -22,11 +22,11 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
         {
             if (user.Role.RoleType != "Task Manager")
                 return new ResultsModel<TaskViewModel>();
-            var requests = _repository.Find<Task>(x => x.CompanyId == user.CompanyId);
+            var tasks = _repository.Find<Task>(x => x.CompanyId == user.CompanyId);
             var users = _repository.Find<Employee>(x => x.CompanyId == user.CompanyId).ToList();
             var result = new ResultsModel<TaskViewModel>()
             {
-                Results = requests.OrderBy(model.SortExpression).Skip(model.PageSize * (model.Page - 1)).Take(model.PageSize).Select(x => new TaskViewModel()
+                Results = tasks.OrderBy(model.SortExpression).Skip(model.PageSize * (model.Page - 1)).Take(model.PageSize).Select(x => new TaskViewModel()
                 {
                     Id = x.Id,
                     ApproverPrimary = x.ApproverPrimary.EmailAddress,
@@ -34,7 +34,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                     IsActive = x.IsActive,
                     TaskName = x.TaskName
                 }).ToList(),
-                Count = _repository.Find<Task>().Count(),
+                Count = tasks.Count(),
                 Page = model.Page
             };
             foreach(var task in result.Results)

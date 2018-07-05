@@ -39,7 +39,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                     TaskName = x.TaskName
                 }).ToList();
             }
-            return _repository.Find<Task>(x => x.CompanyId == user.CompanyId && x.TaskAllowed.Any(t=>t.EmployeeId == user.Id)).Select(x => new TaskViewModel()
+            return _repository.Find<Task>(x => x.CompanyId == user.CompanyId && x.TaskAllowed.Any(t => t.EmployeeId == user.Id)).Select(x => new TaskViewModel()
             {
                 Id = x.Id,
                 TaskName = x.TaskName
@@ -49,16 +49,28 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
         public ErrorCodes Submit(Employee user, long id)
         {
             var timesheet = _repository.Find<Timesheet>(x => x.Id == id).SingleOrDefault();
-            var approveStatus = _repository.Find<ApprovalStatus>(x => x.ApprovalStatusType == "Submitted").SingleOrDefault();
+            ApprovalStatus approveStatus = _repository.Find<ApprovalStatus>(x => x.ApprovalStatusType == "Waiting for Approval").SingleOrDefault();
+            var lockStatus = _repository.Find<LockStatus>(x => x.LockStatusType == "Locked").SingleOrDefault();
             if (timesheet == null)
                 return ErrorCodes.UnknownError;
+            timesheet.SubmittedOn = DateTime.Now;
+            timesheet.ApprovalStatusId = approveStatus.Id;
+            timesheet.LockStatusId = lockStatus.Id;
+            _repository.Save();
+            return ErrorCodes.Success;
+        }
 
-            if(timesheet.ApprovedById == user.Id)
-            {
-                timesheet.SubmittedOn = DateTime.Now;
-                timesheet.ApprovalStatusId = approveStatus.Id;
-                _repository.Save();
-            }
+        public ErrorCodes ReSubmit(Employee user, long id)
+        {
+            var timesheet = _repository.Find<Timesheet>(x => x.Id == id).SingleOrDefault();
+            ApprovalStatus approveStatus = _repository.Find<ApprovalStatus>(x => x.ApprovalStatusType == "Requesting Resubmit").SingleOrDefault();
+            var lockStatus = _repository.Find<LockStatus>(x => x.LockStatusType == "Unlocked").SingleOrDefault();
+            if (timesheet == null)
+                return ErrorCodes.UnknownError;
+            timesheet.SubmittedOn = DateTime.Now;
+            timesheet.ApprovalStatusId = approveStatus.Id;
+            timesheet.LockStatusId = lockStatus.Id;
+            _repository.Save();
             return ErrorCodes.Success;
         }
 
@@ -68,13 +80,9 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             var approveStatus = _repository.Find<ApprovalStatus>(x => x.ApprovalStatusType == "Approved").SingleOrDefault();
             if (timesheet == null)
                 return ErrorCodes.UnknownError;
-
-            if (timesheet.ApprovedById == user.Id)
-            {
-                timesheet.ApprovedOn = DateTime.Now;
-                timesheet.ApprovalStatusId = approveStatus.Id;
-                _repository.Save();
-            }
+            timesheet.ApprovedOn = DateTime.Now;
+            timesheet.ApprovalStatusId = approveStatus.Id;
+            _repository.Save();
             return ErrorCodes.Success;
         }
 
@@ -84,12 +92,8 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             var lockStatus = _repository.Find<LockStatus>(x => x.LockStatusType == "Request to unlock").SingleOrDefault();
             if (timesheet == null)
                 return ErrorCodes.UnknownError;
-
-            if (timesheet.ApprovedById == user.Id)
-            {
-                timesheet.LockStatusId = lockStatus.Id;
-                _repository.Save();
-            }
+            timesheet.LockStatusId = lockStatus.Id;
+            _repository.Save();
             return ErrorCodes.Success;
         }
 
@@ -105,15 +109,15 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             timesheet.EmployeeNotes = model.EmployeeNotes;
             timesheet.ApproverNotes = model.ApproverNotes;
             timesheet.ApprovalStatusId = approvalStatus.Id;
-            if(timesheet.LockStatus.LockStatusType == "Request to unlock" && !model.Lock || timesheet.LockStatus.LockStatusType != "Request to unlock")
+            if (timesheet.LockStatus.LockStatusType == "Request to unlock" && !model.Lock || timesheet.LockStatus.LockStatusType != "Request to unlock")
                 timesheet.LockStatusId = lockStatus.Id;
             var dbLines = _repository.Find<TimesheetLine>(x => x.TimesheetId == model.Id).ToList();
             foreach (var line in model.Lines)
             {
-                if(line.Id != 0)
+                if (line.Id != 0)
                 {
                     var lineDb = dbLines.SingleOrDefault(x => x.Id == line.Id);
-                    if(lineDb != null)
+                    if (lineDb != null)
                     {
                         lineDb.StartTime = line.StartTime.ToUniversalTime();
                         lineDb.EndTime = line.EndTime.ToUniversalTime();
@@ -137,7 +141,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                 }
             }
             var removedLines = dbLines.Where(x => model.Lines.All(l => l.Id != x.Id));
-            foreach(var line in removedLines)
+            foreach (var line in removedLines)
             {
                 _repository.Delete(line);
             }
@@ -159,24 +163,25 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                 EmployeeNotes = x.EmployeeNotes,
                 SubmittedOn = x.SubmittedOn,
                 Id = x.Id,
-                ApprovedBy = x.ApprovedBy !=null ? x.ApprovedBy.FirstName + x.ApprovedBy.LastName:string.Empty,
+                ApprovedBy = x.ApprovedBy != null ? x.ApprovedBy.FirstName + x.ApprovedBy.LastName : string.Empty,
                 RevisedBy = x.RevisedBy != null ? x.RevisedBy.FirstName + x.RevisedBy.LastName : string.Empty,
                 RevisedOn = x.RevisedOn,
+                LockStatus = x.LockStatus.LockStatusType,
                 Lock = x.LockStatus.LockStatusType != "Unlocked"
             }).FirstOrDefault();
             if (timesheet == null)
             {
-                CreateTimesheet(userId, periodId);
+                var x = CreateTimesheet(userId, periodId);
 
-                timesheet = _repository.Find<Timesheet>(x => x.PeriodId == periodId && x.EmployeeId == user.Id).Select(x => new TimesheetViewModel()
+                timesheet = new TimesheetViewModel()
                 {
                     ApprovalStatus = x.ApprovalStatus.ApprovalStatusType,
                     ApprovedOn = x.ApprovedOn,
                     ApproverNotes = x.ApproverNotes,
                     EmployeeNotes = x.EmployeeNotes,
                     SubmittedOn = x.SubmittedOn,
-                    Id = x.Id,
-                }).FirstOrDefault();
+                    Id = x.Id
+                };
             }
             timesheet.Lines = _repository.Find<TimesheetLine>(x => x.TimesheetId == timesheet.Id).ToList().Select(x => new TimesheetLineViewModel()
             {
@@ -190,11 +195,11 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             return timesheet;
         }
 
-        public void CreateTimesheet(long userId, long periodId)
+        public Timesheet CreateTimesheet(long userId, long periodId)
         {
             var period = _repository.Find<Period>(x => x.Id == periodId).Single();
             var user = _repository.Find<Employee>(x => x.Id == userId).SingleOrDefault();
-            var approvalStatus = _repository.Find<ApprovalStatus>(x => x.ApprovalStatusType == "Waiting for Approval").FirstOrDefault();
+            var approvalStatus = _repository.Find<ApprovalStatus>(x => x.ApprovalStatusType == "Not Submitted").FirstOrDefault();
             var timesheet = new Timesheet()
             {
                 CompanyId = user.CompanyId,
@@ -221,8 +226,9 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                 });
             }
             timesheet.TimesheetLines = timesheetLines;
-            _repository.Add<Timesheet>(timesheet);
+            var result = _repository.Add<Timesheet>(timesheet);
             _repository.Save();
+            return result;
         }
     }
 }

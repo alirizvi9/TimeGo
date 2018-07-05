@@ -6,52 +6,90 @@
       </div>
       <div class="card-block">
         <div class="form-group row">
-            <h5 class="col-md-1 timego-center">{{ 'Period' | translate }}</h5>
-            <select (change)="selectPeriod.emit({periodId: $event.target.value, userId: userId})" [(ngModel)]="periodId" class="form-control col-md-3">
-              <option [value]="0">{{ 'None' | translate }}</option>
-              <option [value]="period.Id" *ngFor="let period of periods">{{period.PeriodStart | date: ('DateWeekFormat' | translate)}} {{ 'To' | translate }} {{period.PeriodEnd | date: ('DateWeekFormat' | translate)}}</option>
-            </select>
-            <h5 class="col-md-2 timego-center" *ngIf="role == 'Task Manager'">{{ 'Employees' | translate }}</h5>
-            <select *ngIf="role == 'Task Manager'" (change)="selectPeriod.emit({periodId: periodId, userId: $event.target.value})" [(ngModel)]="userId" class="form-control col-md-3">
-              <option [value]="0">{{ 'None' | translate }}</option>
-              <option [value]="user.Id" *ngFor="let user of users">{{user.FirstName}} {{user.LastName}}</option>
-            </select>
+          <h5 class="col-md-2 timego-center">{{ 'Period' | translate }}</h5>
+          <select [(ngModel)]="selectModel.periodId" class="form-control col-md-4">
+            <option [value]="period.Id" *ngFor="let period of periods">{{period.PeriodStart | date: ('DateWeekFormat' | translate)}} {{ 'To' | translate }} {{period.PeriodEnd | date: ('DateWeekFormat' | translate)}}</option>
+          </select>
+          <div class="col-md-3" *ngIf="isLoaded && timesheets != null">
+            <span *ngIf="timesheets.LockStatus == 'Unlocked'" class="badge badge-success timego-status" style="float:right; font-size:20px;margin-right: 16px;">
+              <i class="fa fa-unlock"></i> {{timesheets.LockStatus}}
+            </span>
+            <span *ngIf="timesheets.LockStatus == 'Locked'" class="badge badge-danger timego-status" style="float:right; font-size:20px;margin-right: 16px;">
+              <i class="fa fa-lock"></i> {{timesheets.LockStatus}}
+            </span>
+            <span *ngIf="timesheets.LockStatus == 'Request to unlock'" class="badge badge-warning timego-status" style="float:right; font-size:20px;margin-right: 16px;">
+              <i class="fa fa-unlock-alt"></i> {{timesheets.LockStatus}}
+            </span>
+          </div>
+          <div class="col-md-3" *ngIf="isLoaded && timesheets != null">
+            <span *ngIf="timesheets.ApprovalStatus == 'Waiting for Approval'" class="badge badge-warning timego-status" style="float:right; font-size:20px;margin-right: 16px;">
+              <i class="fa fa-history"></i> {{timesheets.ApprovalStatus}}
+            </span>
+            <span *ngIf="timesheets.ApprovalStatus == 'Approved'" class="badge badge-success timego-status" style="float:right; font-size:20px;margin-right: 16px;">
+              <i class="fa fa-check"></i> {{timesheets.ApprovalStatus}}
+            </span>
+            <span *ngIf="timesheets.ApprovalStatus == 'Submitted'" class="badge badge-default timego-status" style="float:right; font-size:20px;margin-right: 16px;">
+              <i class="fa fa-send"></i> {{timesheets.ApprovalStatus}}
+            </span>
+            <span *ngIf="timesheets.ApprovalStatus == 'Requesting Resubmit'" class="badge badge-default timego-status" style="float:right; font-size:20px;margin-right: 16px;">
+              <i class="fa fa-send"></i> {{timesheets.ApprovalStatus}}
+            </span>
+            <span *ngIf="timesheets.ApprovalStatus == 'Not Submitted'" class="badge badge-primary timego-status" style="float:right; font-size:20px;margin-right: 16px;">
+              <i class="fa fa-save"></i> {{timesheets.ApprovalStatus}}
+            </span>
+          </div>
+        </div>
+        <div class="form-group row">
+          <h5 class="col-md-2 timego-center" *ngIf="role == 'Task Manager'">{{ 'Employees' | translate }}</h5>
+          <select *ngIf="role == 'Task Manager'" [(ngModel)]="selectModel.userId" class="form-control col-md-4">
+            <option [value]="user.Id" *ngFor="let user of users">{{user.FirstName}} {{user.LastName}}</option>
+          </select>
+        </div>
+        <div class="form-group row">
+          <div class="col-md-2">
+            <button type="button" class="btn btn-primary" [disabled]="!selectModel.periodId || !selectModel.userId" *ngIf="role == 'Task Manager'" (click)="selectPeriod.emit(selectModel)">{{ 'OpenTimesheet' | translate }}</button>
+            <button type="button" class="btn btn-primary" [disabled]="!selectModel.periodId" *ngIf="role == 'Employee'" (click)="selectPeriod.emit(selectModel)">{{ 'OpenTimesheet' | translate }}</button>
+          </div>
         </div>
         <div *ngIf="isLoaded && timesheets != null" class="form-group">
           <div *ngFor="let line of timesheets.Lines; let i = index">
-            <div class="row form-group timego-line">
+            <div class="row timego-line">
               <h5 class="col-md-2 timego-center">{{line.Date | date: ('DateWeekFormat' | translate)}}</h5>
               <div class="col-md-4">
                 <select [(ngModel)]="line.TaskId" class="form-control col-md-8">
-                  <option [value]="0">{{ 'None' | translate }}</option>
+                  <option [value]="1">{{ 'None' | translate }}</option>
                   <option [value]="task.Id" *ngFor="let task of tasks">{{task.TaskName}}</option>
                 </select>
               </div>
               <div class="col-md-4 row">
                 <timepicker [(ngModel)]="line.StartTime" (ngModelChange)="checkChange(line, timesheets.Lines)" [arrowkeys]="true" [showMeridian]="false" [mousewheel]="false" [showSpinners]="false" class="timego-timepicker"></timepicker>
-                <i class="fa fa-arrows-h fa-lg timego-rangetimepiker-icon"></i>
+                <i class="fa fa-minus fa-lg timego-rangetimepiker-icon"></i>
                 <timepicker [(ngModel)]="line.EndTime" (ngModelChange)="checkChange(line, timesheets.Lines)" [min]="line.StartTime" [mousewheel]="false" [showMeridian]="false" [arrowkeys]="false" [showSpinners]="false" class="timego-timepicker"></timepicker>
               </div>
               <div class="col-md-1 timego-center">
                 <b>
-                  {{totalLineTimeHr(line)}} {{ 'Hours' | translate }} {{totalLineTimeMin(line)}} {{ 'Minutes' | translate }}
+                  <h5>{{totalLineTimeHr(line)}} {{ 'Hours' | translate }} {{totalLineTimeMin(line)}} {{ 'Minutes' | translate }}</h5>
                 </b>
               </div>
               <div class="col-md-1">
-                <button type="button" class="btn btn-danger" 
-                        *ngIf="!((i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date) && (i === 0 || timesheets.Lines[i].Date != timesheets.Lines[i-1].Date))" 
-                        (click)="delete.emit(line)"><i class="fa fa-remove"></i> {{ 'Delete' | translate }}</button>
-                <button type="button" class="btn btn-danger" 
-                        *ngIf="(i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date) && (i === 0 || timesheets.Lines[i].Date != timesheets.Lines[i-1].Date)" 
-                        (click)="delete.emit(line)" disabled><i class="fa fa-remove"></i> {{ 'Delete' | translate }}</button>
+                <button type="button" class="btn btn-danger"
+                        *ngIf="!((i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date) && (i === 0 || timesheets.Lines[i].Date != timesheets.Lines[i-1].Date))"
+                        (click)="delete.emit(line)">
+                  <i class="fa fa-remove"></i> {{ 'Delete' | translate }}
+                </button>
+                <button type="button" class="btn btn-danger"
+                        *ngIf="(i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date) && (i === 0 || timesheets.Lines[i].Date != timesheets.Lines[i-1].Date)"
+                        (click)="delete.emit(line)" disabled>
+                  <i class="fa fa-remove"></i> {{ 'Delete' | translate }}
+                </button>
               </div>
             </div>
-            <div class="row form-group validation-error">
+            <div class="row validation-error" *ngIf="line.ValidationError">
               <h6 class="col-md-10">{{line.ValidationError}}</h6>
             </div>
             <div class="row form-group border-bottom" *ngIf="i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date">
               <div class="col-md-1">
-                <button type="button" class="btn btn-outline-primary" (click)="addLine.emit(line.Date)">+</button>
+                <button type="button" class="btn btn-outline-primary" (click)="addLine.emit(line)">+</button>
               </div>
               <div class="col-md-4 timego-center">
                 {{ 'AddLine' | translate }} {{line.Date | date: ('DateWeekFormat' | translate)}}
@@ -65,14 +103,14 @@
           </div>
           <div class="row form-group" *ngIf="isLoaded && role == 'Employee'">
             <label class="col-md-1">{{ 'EmployeeNotes' | translate }} </label>
-            <textarea rows="4" class="col-md-10" cols="50" [(ngModel)]="timesheets.EmployeeNotes"></textarea>
+            <textarea rows="4" style="width: 89%" cols="50" [(ngModel)]="timesheets.EmployeeNotes"></textarea>
           </div>
           <div class="row form-group" *ngIf="isLoaded && role == 'Task Manager'">
-            <label class="col-md-1">{{ 'EmployeeNotes' | translate }} {{timesheets.EmployeeNotes}}</label>
+            <label class="col-md-1" *ngIf="timesheets.EmployeeNotes">{{ 'EmployeeNotes' | translate }} {{timesheets.EmployeeNotes}}</label>
           </div>
           <div class="row form-group" *ngIf="isLoaded && role == 'Task Manager'">
             <label class="col-md-1">{{ 'ApproverNotes' | translate }} </label>
-            <textarea rows="4" class="col-md-10" cols="50" [(ngModel)]="timesheets.ApproverNotes"></textarea>
+            <textarea rows="4" style="width: 89%" cols="50" [(ngModel)]="timesheets.ApproverNotes"></textarea>
           </div>
           <div class="row form-group" *ngIf="isLoaded && role == 'Task Manager'">
             <div class="checkbox push-md-1 col-md-3">
@@ -91,17 +129,17 @@
             </div>
           </div>
           <div class="form-group float-right">
-            <button type="button" class="btn btn-primary" *ngIf="isLoaded && role == 'Task Manager'" (click)="save.emit({Period: periodId, Timesheets: timesheets})">{{ 'Approve' | translate }}</button>
-            <button type="button" class="btn btn-primary" *ngIf="isLoaded && role == 'Task Manager'" (click)="submit.emit(timesheets.Id)">{{ 'RequestResubmit' | translate }}</button>
-            <button type="button" class="btn btn-primary" *ngIf="isLoaded && role == 'Employee'" [disabled]="timesheets.Lock" (click)="submit.emit(timesheets.Id)">{{ 'Submit' | translate }}</button>
-            <button type="button" class="btn btn-primary" *ngIf="isLoaded && role == 'Employee'" [disabled]="timesheets.Lock" (click)="unlock.emit(timesheets.Id)">{{ 'RequestToUnlock' | translate }}</button>
-            <button type="button" class="btn btn-primary" (click)="save.emit({Timesheets: timesheets, Period: periodId, User: userId})">{{ 'Save' | translate }}</button>
+            <button type="button" class="btn btn-primary" *ngIf="isLoaded && role == 'Task Manager'" [disabled]="timesheets.ApprovalStatus == 'Approved'" (click)="approve.emit(timesheets.Id)">{{ 'Approve' | translate }}</button>
+            <button type="button" class="btn btn-primary" *ngIf="isLoaded && role == 'Task Manager'" [disabled]="timesheets.ApprovalStatus != 'Submitted'" (click)="resubmite.emit(timesheets.Id)">{{ 'RequestResubmit' | translate }}</button>
+            <button type="button" class="btn btn-primary" *ngIf="isLoaded && role == 'Employee'" [disabled]="timesheets.Lock" (click)="submite.emit(timesheets.Id)">{{ 'Submit' | translate }}</button>
+            <button type="button" class="btn btn-primary" *ngIf="isLoaded && role == 'Employee'" [disabled]="!timesheets.Lock" (click)="unlock.emit(timesheets.Id)">{{ 'RequestToUnlock' | translate }}</button>
+            <button type="button" class="btn btn-primary" (click)="save.emit({Timesheets: timesheets, Period: selectModel.periodId, User: selectModel.userId})">{{ 'Save' | translate }}</button>
           </div>
           <div class="row form-group" *ngIf="isLoaded && role == 'Employee'">
             <label class="col-md-10">{{ 'SubmitedOn' | translate }} {{timesheets.SubmittedOn | date: ('DateFormat' | translate)}}</label>
           </div>
           <div class="row form-group" *ngIf="isLoaded && role == 'Employee'">
-            <label class="col-md-10">{{ 'EmployeeNotes' | translate }} {{timesheets.ApproverNotes}}</label>
+            <label class="col-md-10" *ngIf="timesheets.ApproverNotes">{{ 'EmployeeNotes' | translate }} {{timesheets.ApproverNotes}}</label>
           </div>
         </div>
       </div>

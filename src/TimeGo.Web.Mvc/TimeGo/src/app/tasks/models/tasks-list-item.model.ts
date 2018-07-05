@@ -1,4 +1,4 @@
-﻿export interface TasksListItem {
+export interface TasksListItem {
     id: number;
     IsActive: boolean;
     ApproverPrimary: string;

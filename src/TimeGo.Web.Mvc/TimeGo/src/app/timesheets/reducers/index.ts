@@ -1,4 +1,4 @@
-﻿import {
+import {
 ActionReducerMap,
 createSelector,
 createFeatureSelector,
@@ -56,4 +56,9 @@ export const getTasks = createSelector(
 export const getUsers = createSelector(
     getTimesheetsEntityState,
     fromTimesheets.getUsers
+);
+
+export const getSelectModel = createSelector(
+  getTimesheetsEntityState,
+  fromTimesheets.getSelectModel
 );

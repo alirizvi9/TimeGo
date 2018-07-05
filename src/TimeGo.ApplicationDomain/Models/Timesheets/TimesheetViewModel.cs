@@ -14,6 +14,7 @@ namespace TimeGo.ApplicationDomain.Models.Timesheets
         public List<TimesheetLineViewModel> Lines { get; set; }
         public long Id { get; set; }
         public bool Lock { get; set; }
+        public string LockStatus { get; set; }
         public string ApprovedBy { get; set; }
         public string RevisedBy { get; set; }
     }

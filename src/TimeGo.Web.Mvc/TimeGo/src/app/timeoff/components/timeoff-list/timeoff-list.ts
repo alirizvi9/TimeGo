@@ -1,4 +1,4 @@
-﻿import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { TimeoffListItem } from '../../models/timeoff-list-item.model';
 import { AddTimeoff } from '../../models/add-timeoff.model';
 import { TimeoffListPagingModel } from '../../models/timeoff-list-paging.model';
@@ -58,6 +58,23 @@ export class TimeoffListComponent {
     changeStatusAction(model: ChangeStatus) {
         this.changeStatus.emit(model);
         this.changePage.emit(this.pagingModel);
+    }
+
+    isValid(model: AddTimeoff) {
+      if (model.Reasone == "")
+        return false;
+      if (model.StartDate < this.dateNow || model.EndDate < this.dateNow || model.StartDate > model.EndDate)
+        return false;
+      return true;
+    }
+
+    cleanAddModel() {
+      this.addTimeoff = {
+        StartDate: new Date(),
+        EndDate: new Date(),
+        Reasone: "",
+        ReturningToWork: new Date(),
+      };
     }
 }
 

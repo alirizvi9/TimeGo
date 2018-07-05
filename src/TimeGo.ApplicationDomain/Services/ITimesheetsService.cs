@@ -16,5 +16,6 @@ namespace TimeGo.ApplicationDomain.Services
         ErrorCodes Submit(Employee user, long id);
         ErrorCodes Approve(Employee user, long id);
         ErrorCodes Unlock(Employee user, long id);
+        ErrorCodes ReSubmit(Employee user, long id);
     }
 }

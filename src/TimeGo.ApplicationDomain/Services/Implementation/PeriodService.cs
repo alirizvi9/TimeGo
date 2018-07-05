@@ -34,7 +34,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                     Reminder2 = x.Reminder2Date,
                     Status = x.LockStatus.LockStatusType
                 }).ToList(),
-                Count = _repository.Find<Period>().Count(),
+                Count = periods.Count(),
                 Page = model.Page
             };
             return result;

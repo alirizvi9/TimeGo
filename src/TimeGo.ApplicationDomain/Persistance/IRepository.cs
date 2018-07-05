@@ -6,7 +6,7 @@ namespace TimeGo.ApplicationDomain.Persistance
 {
     public interface IRepository
     {
-        void Add<T>(T item) where T : class, IIdentifiable;
+        T Add<T>(T item) where T : class, IIdentifiable;
         void Delete<T>(T item) where T : class, IIdentifiable;
         void Delete<T>(object id) where T : class, IIdentifiable;
         T Find<T>(object id) where T : class, IIdentifiable;

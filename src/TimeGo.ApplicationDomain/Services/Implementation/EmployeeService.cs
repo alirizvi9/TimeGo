@@ -41,7 +41,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
             var company = _repository.Find<Company>(x=>x.Id == user.CompanyId).Single();
             var items = _repository.Find<Employee>(x=> company.Id == x.CompanyId).OrderBy(sortExpression).Skip(pageSize * (page - 1)).Take(pageSize);
             model.Results = Mapper.Map<List<UsersListItemViewModel>>(items);
-            model.Count = Count();
+            model.Count = _repository.Find<Employee>(x => company.Id == x.CompanyId).Count();
             model.Page = page;
             return model;
         }

@@ -1,4 +1,4 @@
-﻿import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/debounceTime';
@@ -25,108 +25,132 @@ import { ToasterModule, ToasterService, ToasterConfig } from 'angular2-toaster/a
 
 @Injectable()
 export class TimesheetsEffects {
-    @Effect()
-    get$: Observable<Action> = this.actions$
-        .ofType(timesheetsActions.GET)
-        .map(toPayload)
-        .switchMap((query: SelectModel) => {
-            const nextGet$ = this.actions$.ofType(timesheetsActions.GET).skip(1);
-            return this.timesheetsService.getTimesheet(query)
-                .takeUntil(nextGet$)
-                .map((timesheet: Timesheets) => new timesheetsActions.GetCompleteAction(timesheet))
-                .catch(() => of(new timesheetsActions.GetCompleteAction(null)));
-        });
+  @Effect()
+  get$: Observable<Action> = this.actions$
+    .ofType(timesheetsActions.GET)
+    .map(toPayload)
+    .switchMap((query: SelectModel) => {
+      const nextGet$ = this.actions$.ofType(timesheetsActions.GET).skip(1);
+      return this.timesheetsService.getTimesheet(query)
+        .takeUntil(nextGet$)
+        .map((timesheet: Timesheets) => new timesheetsActions.GetCompleteAction(timesheet))
+        .catch(() => of(new timesheetsActions.GetCompleteAction(null)));
+    });
 
-    @Effect()
-    getPeriods$: Observable<Action> = this.actions$
-        .ofType(timesheetsActions.GET_PERIODS)
-        .map(toPayload)
-        .switchMap(() => {
-            const nextGet$ = this.actions$.ofType(timesheetsActions.GET_PERIODS).skip(1);
-            return this.timesheetsService.getPeriods()
-                .takeUntil(nextGet$)
-                .map((result: Period[]) => new timesheetsActions.GetPeriodCompleteAction(result))
-                .catch(() => of(new timesheetsActions.GetPeriodCompleteAction(null)));
-        });
+  @Effect()
+  getPeriods$: Observable<Action> = this.actions$
+    .ofType(timesheetsActions.GET_PERIODS)
+    .map(toPayload)
+    .switchMap(() => {
+      const nextGet$ = this.actions$.ofType(timesheetsActions.GET_PERIODS).skip(1);
+      return this.timesheetsService.getPeriods()
+        .takeUntil(nextGet$)
+        .map((result: Period[]) => new timesheetsActions.GetPeriodCompleteAction(result))
+        .catch(() => of(new timesheetsActions.GetPeriodCompleteAction(null)));
+    });
 
-    @Effect()
-    getTasks$: Observable<Action> = this.actions$
-        .ofType(timesheetsActions.GET_Tasks)
-        .map(toPayload)
-        .switchMap(() => {
-            const nextGet$ = this.actions$.ofType(timesheetsActions.GET_Tasks).skip(1);
-            return this.timesheetsService.getTasks()
-                .takeUntil(nextGet$)
-                .map((result: Task[]) => new timesheetsActions.GetTasksCompleteAction(result))
-                .catch(() => of(new timesheetsActions.GetTasksCompleteAction(null)));
-        });
+  @Effect()
+  getTasks$: Observable<Action> = this.actions$
+    .ofType(timesheetsActions.GET_Tasks)
+    .map(toPayload)
+    .switchMap(() => {
+      const nextGet$ = this.actions$.ofType(timesheetsActions.GET_Tasks).skip(1);
+      return this.timesheetsService.getTasks()
+        .takeUntil(nextGet$)
+        .map((result: Task[]) => new timesheetsActions.GetTasksCompleteAction(result))
+        .catch(() => of(new timesheetsActions.GetTasksCompleteAction(null)));
+    });
 
-    @Effect()
-    getUsers$: Observable<Action> = this.actions$
-        .ofType(timesheetsActions.GET_USERS)
-        .map(toPayload)
-        .switchMap(() => {
-            const nextGet$ = this.actions$.ofType(timesheetsActions.GET_USERS_COMPLETE);
-            return this.timesheetsService.getUsers()
-                .takeUntil(nextGet$)
-                .map((result: UsersListItem[]) => new timesheetsActions.GetUsersCompleteAction(result))
-                .catch(() => of(new timesheetsActions.GetUsersCompleteAction(null)));
-        });
+  @Effect()
+  getUsers$: Observable<Action> = this.actions$
+    .ofType(timesheetsActions.GET_USERS)
+    .map(toPayload)
+    .switchMap(() => {
+      const nextGet$ = this.actions$.ofType(timesheetsActions.GET_USERS_COMPLETE);
+      return this.timesheetsService.getUsers()
+        .takeUntil(nextGet$)
+        .map((result: UsersListItem[]) => new timesheetsActions.GetUsersCompleteAction(result))
+        .catch(() => of(new timesheetsActions.GetUsersCompleteAction(null)));
+    });
 
-    @Effect()
-    approve$: Observable<Action> = this.actions$
-        .ofType(timesheetsActions.APPROVE)
-        .map(toPayload)
-        .switchMap((query: number) => {
-            const nextGet$ = this.actions$.ofType(timesheetsActions.APPROVE_COMPLETE);
-            return this.timesheetsService.approve(query)
-                .takeUntil(nextGet$)
-                .map((result: any) => new timesheetsActions.ApproveCompleteAction(result))
-                .catch(() => of(new timesheetsActions.ApproveCompleteAction(null)));
-        });
+  @Effect()
+  approve$: Observable<Action> = this.actions$
+    .ofType(timesheetsActions.APPROVE)
+    .map(toPayload)
+    .switchMap((query: number) => {
+      const nextGet$ = this.actions$.ofType(timesheetsActions.APPROVE_COMPLETE);
+      return this.timesheetsService.approve(query)
+        .takeUntil(nextGet$)
+        .map((result: any) => {
+          this.toasterService.pop('success', 'Approve', 'Approve complete');
+          return new timesheetsActions.ApproveCompleteAction(result);
+        })
+        .catch(() => of(new timesheetsActions.ApproveCompleteAction(null)));
+    });
 
-    @Effect()
-    submite$: Observable<Action> = this.actions$
-        .ofType(timesheetsActions.SUBMIT)
-        .map(toPayload)
-        .switchMap((query: number) => {
-            const nextGet$ = this.actions$.ofType(timesheetsActions.SUBMIT_COMPLETE);
-            return this.timesheetsService.submit(query)
-                .takeUntil(nextGet$)
-                .map((result: any) => new timesheetsActions.SubmitCompleteAction(result))
-                .catch(() => of(new timesheetsActions.SubmitCompleteAction(null)));
-        });
+  @Effect()
+  submite$: Observable<Action> = this.actions$
+    .ofType(timesheetsActions.SUBMIT)
+    .map(toPayload)
+    .switchMap((query: number) => {
+      const nextGet$ = this.actions$.ofType(timesheetsActions.SUBMIT_COMPLETE);
+      return this.timesheetsService.submit(query)
+        .takeUntil(nextGet$)
+        .map((result: any) => {
+          this.toasterService.pop('success', 'Submit', 'Submit complete');
+          return new timesheetsActions.SubmitCompleteAction(result);
+        })
+        .catch(() => of(new timesheetsActions.SubmitCompleteAction(null)));
+    });
 
-    @Effect()
-    unlock: Observable<Action> = this.actions$
-        .ofType(timesheetsActions.REQUEST_TO_UNLOCK)
-        .map(toPayload)
-        .switchMap((query: number) => {
-            const nextGet$ = this.actions$.ofType(timesheetsActions.REQUEST_TO_UNLOCK_COMPLETE);
-            return this.timesheetsService.unlock(query)
-                .takeUntil(nextGet$)
-                .map((result: any) => new timesheetsActions.ToUnlockCompleteAction(result))
-                .catch(() => of(new timesheetsActions.ToUnlockCompleteAction(null)));
-        });
+  @Effect()
+  resubmite$: Observable<Action> = this.actions$
+    .ofType(timesheetsActions.RESUBMIT)
+    .map(toPayload)
+    .switchMap((query: number) => {
+      const nextGet$ = this.actions$.ofType(timesheetsActions.RESUBMIT_COMPLETE);
+      return this.timesheetsService.resubmit(query)
+        .takeUntil(nextGet$)
+        .map((result: any) => {
+          this.toasterService.pop('success', 'Request to resubmit', 'Request to resubmit complete');
+          return new timesheetsActions.ReSubmitCompleteAction(result);
+        })
+        .catch(() => of(new timesheetsActions.SubmitCompleteAction(null)));
+    });
 
-    @Effect()
-    edit$: Observable<Action> = this.actions$
-        .ofType(timesheetsActions.EDIT)
-        .map(toPayload)
-        .switchMap((query: AddModel) => {
-            const nextGet$ = this.actions$.ofType(timesheetsActions.GET);
-            return this.timesheetsService.editTimesheet(query.Timesheets)
-                .takeUntil(nextGet$)
-                .map((result: any) => {
-                    this.toasterService.pop('success', 'Success Save', 'Timesheet saved');
-                    return new timesheetsActions.GetAction({ PeriodId: query.Period, UserId: query.User });
-                })
-                .catch(() => of(new timesheetsActions.EditCompleteAction(null)));
-        });
+  @Effect()
+  unlock: Observable<Action> = this.actions$
+    .ofType(timesheetsActions.REQUEST_TO_UNLOCK)
+    .map(toPayload)
+    .switchMap((query: number) => {
+      const nextGet$ = this.actions$.ofType(timesheetsActions.REQUEST_TO_UNLOCK_COMPLETE);
+      return this.timesheetsService.unlock(query)
+        .takeUntil(nextGet$)
+        .map((result: any) => {
+          this.toasterService.pop('success', 'Request to unlock', 'Request to unlock complete');
+          return new timesheetsActions.ToUnlockCompleteAction(result);
+        })
+        .catch(() => of(new timesheetsActions.ToUnlockCompleteAction(null)));
+    });
 
-    constructor(
-        private actions$: Actions,
-        private timesheetsService: TimesheetsService,
-        private toasterService: ToasterService 
-    ) { }
+  @Effect()
+  edit$: Observable<Action> = this.actions$
+    .ofType(timesheetsActions.EDIT)
+    .map(toPayload)
+    .switchMap((query: AddModel) => {
+      const nextGet$ = this.actions$.ofType(timesheetsActions.GET);
+      return this.timesheetsService.editTimesheet(query.Timesheets)
+        .takeUntil(nextGet$)
+        .map((result: any) => {
+          this.toasterService.pop('success', 'Success Save', 'Timesheet saved');
+          return new timesheetsActions.GetAction({ periodId: query.Period, userId: query.User });
+        })
+        .catch(() => of(new timesheetsActions.EditCompleteAction(null)));
+    });
+
+  constructor(
+    private actions$: Actions,
+    private timesheetsService: TimesheetsService,
+    private toasterService: ToasterService
+  ) { }
 }

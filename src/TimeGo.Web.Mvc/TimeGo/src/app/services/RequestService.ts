@@ -1,4 +1,4 @@
-﻿import { Injectable } from "@angular/core"
+import { Injectable } from "@angular/core"
 import { Subscription, Observable } from "rxjs"
 import { Http, Headers, URLSearchParams, RequestOptions, Request, RequestMethod } from "@angular/http"
 import { Router } from "@angular/router"

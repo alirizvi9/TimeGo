@@ -1,4 +1,4 @@
-﻿import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { RatesListItem } from '../../models/rates-list-item.model';
 import { AddRate } from '../../models/add-rates.model';
 import { RatesListPagingModel } from '../../models/rates-list-paging.model';
@@ -56,6 +56,15 @@ export class RatesComponent {
     addRateAction(model: AddRate) {
         this.add.emit(model);
         this.changePage.emit(this.pagingModel);
+    }
+
+    cleanAddModel() {
+      this.addRate = {
+        EndDate: new Date(),
+        Rate: 0,
+        StartDate: new Date(),
+        UserId: 0
+      };
     }
 }
 

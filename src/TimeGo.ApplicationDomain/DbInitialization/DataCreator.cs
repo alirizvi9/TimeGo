@@ -63,13 +63,14 @@ namespace TimeGo.ApplicationDomain.DbInitialization
         {
             var approvalStatuses = new[]
             {
-                "Saved",
+                "Not Submitted",
                 "Submitted",
                 "Approved",
                 "Waiting for Approval",
                 "Accepted",
                 "Denined",
-                "Canceled"
+                "Canceled",
+                "Requesting Resubmit"
             };
 
             foreach (var status in approvalStatuses)

@@ -1,4 +1,4 @@
-﻿import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { PeriodListItem } from '../../models/period-list-item.model';
 import { AddPeriod } from '../../models/add-period.model';
 import { PeriodListPagingModel } from '../../models/period-list-paging.model';
@@ -87,6 +87,14 @@ export class PeriodListComponent {
     closeModal()
     {
         this.selected = false;
+    }
+
+    cleanAddModel() {
+      this.addPeriod = {
+        Reminder1: new Date(),
+        Reminder2: new Date(),
+        StartDate: new Date()
+      };
     }
 }
 

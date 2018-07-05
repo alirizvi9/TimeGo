@@ -215,6 +215,13 @@ namespace TimeGo.Web.Mvc.Controllers
         }
 
         [AllowAnonymous]
+        [Route("account/resetComplete")]
+        public ActionResult ResetComplete()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
         [Route("account/logout")]
         public ActionResult Logout()
         {
@@ -232,7 +239,7 @@ namespace TimeGo.Web.Mvc.Controllers
             if (ModelState.IsValid)
             {
                 _accountService.ResetPassword(int.Parse(model.UserId), model.Code, model.Password);
-                return RedirectToAction("CompanyLogin");
+                return RedirectToAction("ResetComplete");
             }
 
             return View(model);

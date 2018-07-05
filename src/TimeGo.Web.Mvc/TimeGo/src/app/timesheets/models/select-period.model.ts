@@ -1,4 +1,4 @@
-﻿export interface SelectModel {
-    PeriodId: number;
-    UserId: number;
+export interface SelectModel {
+    periodId: number;
+    userId: number;
 }

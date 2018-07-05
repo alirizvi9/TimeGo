@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Timesheets } from './models/timesheets.model'
 import { TimesheetsLine } from './models/timesheets-line.model'
@@ -39,6 +39,10 @@ export class TimesheetsService {
 
     submit(id: number): Observable<any> {
         return this.requestService.get<any[]>("/api/SubmitTimesheets?id=" + id);
+    }
+
+    resubmit(id: number): Observable<any> {
+      return this.requestService.get<any[]>("/api/ReSubmitTimesheets?id=" + id);
     }
 
     unlock(id: number): Observable<any> {

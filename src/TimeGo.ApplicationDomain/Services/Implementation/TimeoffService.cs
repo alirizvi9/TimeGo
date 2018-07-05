@@ -33,7 +33,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                     UserName = x.Employee.FirstName,
                     Status = x.ApprovalStatus.ApprovalStatusType
                 }).ToList(),
-                Count = _repository.Find<TimeoffRequest>().Count(),
+                Count = requests.Count(),
                 Page = model.Page
             };
             return result;

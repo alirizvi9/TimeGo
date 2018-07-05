@@ -1,4 +1,4 @@
-﻿<div class="row">
+<div class="row">
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
@@ -63,7 +63,7 @@
     <div class="modal-content">
       <div class="modal-header timego-modal">
         <h4 class="modal-title">{{ 'AddRequestTimeoff' | translate }}</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button"  (click)="cleanAddModel()" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
       </div>
@@ -112,8 +112,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close' | translate }}</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addTimeoffAction(addTimeoff)" [disabled]="addTimeoff.StartDate < dateNow || addTimeoff.EndDate < dateNow || addTimeoff.StartDate > addTimeoff.EndDate">{{ 'Request' | translate }}</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addTimeoffAction(addTimeoff)" [disabled]="!isValid(addTimeoff)">{{ 'Request' | translate }}</button>
+        <button type="button" class="btn btn-secondary"  (click)="cleanAddModel()" data-dismiss="modal">{{ 'Close' | translate }}</button>
       </div>
     </div>
   </div>

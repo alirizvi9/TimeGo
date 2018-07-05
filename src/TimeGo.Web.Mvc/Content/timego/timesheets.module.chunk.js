@@ -6,8 +6,10 @@ webpackJsonp(["timesheets.module"],{
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return APPROVE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return APPROVE_COMPLETE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "D", function() { return SUBMIT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "E", function() { return SUBMIT_COMPLETE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "H", function() { return SUBMIT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "I", function() { return SUBMIT_COMPLETE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "D", function() { return RESUBMIT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "E", function() { return RESUBMIT_COMPLETE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "B", function() { return REQUEST_TO_UNLOCK; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "C", function() { return REQUEST_TO_UNLOCK_COMPLETE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET; });
@@ -41,14 +43,18 @@ webpackJsonp(["timesheets.module"],{
 /* unused harmony export ChangeStatusCompleteAction */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return ApproveAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return ApproveCompleteAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "F", function() { return SubmitAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "G", function() { return SubmitCompleteAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "H", function() { return ToUnlockAction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "I", function() { return ToUnlockCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "J", function() { return SubmitAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "K", function() { return SubmitCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "F", function() { return ReSubmitAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "G", function() { return ReSubmitCompleteAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "L", function() { return ToUnlockAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "M", function() { return ToUnlockCompleteAction; });
 var APPROVE = '[Timesheets] Approve Timesheets';
 var APPROVE_COMPLETE = '[Timesheets] Approve Timesheets Complete';
 var SUBMIT = '[Timesheets] Submit Timesheets';
 var SUBMIT_COMPLETE = '[Timesheets] Submit Timesheets Complete';
+var RESUBMIT = '[Timesheets] Resubmit Timesheets';
+var RESUBMIT_COMPLETE = '[Timesheets] Resubmit Timesheets Complete';
 var REQUEST_TO_UNLOCK = '[Timesheets] Request to Unlock Timesheets';
 var REQUEST_TO_UNLOCK_COMPLETE = '[Timesheets] Request to Unlock Timesheets Complete';
 var GET = '[Timesheets] Get Timesheets';
@@ -210,6 +216,22 @@ var SubmitCompleteAction = (function () {
     return SubmitCompleteAction;
 }());
 
+var ReSubmitAction = (function () {
+    function ReSubmitAction(payload) {
+        this.payload = payload;
+        this.type = RESUBMIT;
+    }
+    return ReSubmitAction;
+}());
+
+var ReSubmitCompleteAction = (function () {
+    function ReSubmitCompleteAction(payload) {
+        this.payload = payload;
+        this.type = RESUBMIT_COMPLETE;
+    }
+    return ReSubmitCompleteAction;
+}());
+
 var ToUnlockAction = (function () {
     function ToUnlockAction(payload) {
         this.payload = payload;
@@ -297,7 +319,7 @@ ComponentsModule = __decorate([
 /***/ "../../../../../src/app/timesheets/components/timesheets/timesheets.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-8 push-md-2\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        {{ 'TimesheetHeader' | translate }}\r\n      </div>\r\n      <div class=\"card-block\">\r\n        <div class=\"form-group row\">\r\n            <h5 class=\"col-md-1 timego-center\">{{ 'Period' | translate }}</h5>\r\n            <select (change)=\"selectPeriod.emit({periodId: $event.target.value, userId: userId})\" [(ngModel)]=\"periodId\" class=\"form-control col-md-3\">\r\n              <option [value]=\"0\">{{ 'None' | translate }}</option>\r\n              <option [value]=\"period.Id\" *ngFor=\"let period of periods\">{{period.PeriodStart | date: ('DateWeekFormat' | translate)}} {{ 'To' | translate }} {{period.PeriodEnd | date: ('DateWeekFormat' | translate)}}</option>\r\n            </select>\r\n            <h5 class=\"col-md-2 timego-center\" *ngIf=\"role == 'Task Manager'\">{{ 'Employees' | translate }}</h5>\r\n            <select *ngIf=\"role == 'Task Manager'\" (change)=\"selectPeriod.emit({periodId: periodId, userId: $event.target.value})\" [(ngModel)]=\"userId\" class=\"form-control col-md-3\">\r\n              <option [value]=\"0\">{{ 'None' | translate }}</option>\r\n              <option [value]=\"user.Id\" *ngFor=\"let user of users\">{{user.FirstName}} {{user.LastName}}</option>\r\n            </select>\r\n        </div>\r\n        <div *ngIf=\"isLoaded && timesheets != null\" class=\"form-group\">\r\n          <div *ngFor=\"let line of timesheets.Lines; let i = index\">\r\n            <div class=\"row form-group timego-line\">\r\n              <h5 class=\"col-md-2 timego-center\">{{line.Date | date: ('DateWeekFormat' | translate)}}</h5>\r\n              <div class=\"col-md-4\">\r\n                <select [(ngModel)]=\"line.TaskId\" class=\"form-control col-md-8\">\r\n                  <option [value]=\"0\">{{ 'None' | translate }}</option>\r\n                  <option [value]=\"task.Id\" *ngFor=\"let task of tasks\">{{task.TaskName}}</option>\r\n                </select>\r\n              </div>\r\n              <div class=\"col-md-4 row\">\r\n                <timepicker [(ngModel)]=\"line.StartTime\" (ngModelChange)=\"checkChange(line, timesheets.Lines)\" [arrowkeys]=\"true\" [showMeridian]=\"false\" [mousewheel]=\"false\" [showSpinners]=\"false\" class=\"timego-timepicker\"></timepicker>\r\n                <i class=\"fa fa-arrows-h fa-lg timego-rangetimepiker-icon\"></i>\r\n                <timepicker [(ngModel)]=\"line.EndTime\" (ngModelChange)=\"checkChange(line, timesheets.Lines)\" [min]=\"line.StartTime\" [mousewheel]=\"false\" [showMeridian]=\"false\" [arrowkeys]=\"false\" [showSpinners]=\"false\" class=\"timego-timepicker\"></timepicker>\r\n              </div>\r\n              <div class=\"col-md-1 timego-center\">\r\n                <b>\r\n                  {{totalLineTimeHr(line)}} {{ 'Hours' | translate }} {{totalLineTimeMin(line)}} {{ 'Minutes' | translate }}\r\n                </b>\r\n              </div>\r\n              <div class=\"col-md-1\">\r\n                <button type=\"button\" class=\"btn btn-danger\" \r\n                        *ngIf=\"!((i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date) && (i === 0 || timesheets.Lines[i].Date != timesheets.Lines[i-1].Date))\" \r\n                        (click)=\"delete.emit(line)\"><i class=\"fa fa-remove\"></i> {{ 'Delete' | translate }}</button>\r\n                <button type=\"button\" class=\"btn btn-danger\" \r\n                        *ngIf=\"(i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date) && (i === 0 || timesheets.Lines[i].Date != timesheets.Lines[i-1].Date)\" \r\n                        (click)=\"delete.emit(line)\" disabled><i class=\"fa fa-remove\"></i> {{ 'Delete' | translate }}</button>\r\n              </div>\r\n            </div>\r\n            <div class=\"row form-group validation-error\">\r\n              <h6 class=\"col-md-10\">{{line.ValidationError}}</h6>\r\n            </div>\r\n            <div class=\"row form-group border-bottom\" *ngIf=\"i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date\">\r\n              <div class=\"col-md-1\">\r\n                <button type=\"button\" class=\"btn btn-outline-primary\" (click)=\"addLine.emit(line.Date)\">+</button>\r\n              </div>\r\n              <div class=\"col-md-4 timego-center\">\r\n                {{ 'AddLine' | translate }} {{line.Date | date: ('DateWeekFormat' | translate)}}\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"col-md-4 row form-group\" *ngIf=\"isLoaded\">\r\n            <h5>\r\n              {{ 'TotalTime' | translate }} {{totalTimeHr(timesheets.Lines)}} {{ 'Hours' | translate }} {{totalTimeMin(timesheets.Lines)}} {{ 'Minutes' | translate }}\r\n            </h5>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Employee'\">\r\n            <label class=\"col-md-1\">{{ 'EmployeeNotes' | translate }} </label>\r\n            <textarea rows=\"4\" class=\"col-md-10\" cols=\"50\" [(ngModel)]=\"timesheets.EmployeeNotes\"></textarea>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Task Manager'\">\r\n            <label class=\"col-md-1\">{{ 'EmployeeNotes' | translate }} {{timesheets.EmployeeNotes}}</label>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Task Manager'\">\r\n            <label class=\"col-md-1\">{{ 'ApproverNotes' | translate }} </label>\r\n            <textarea rows=\"4\" class=\"col-md-10\" cols=\"50\" [(ngModel)]=\"timesheets.ApproverNotes\"></textarea>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Task Manager'\">\r\n            <div class=\"checkbox push-md-1 col-md-3\">\r\n              <div class=\"cntr\">\r\n                <label for=\"lock\" class=\"label-cbx\">\r\n                  <input id=\"lock\" type=\"checkbox\" class=\"invisible\" [(ngModel)]=\"timesheets.Lock\">\r\n                  <div class=\"checkbox\">\r\n                    <svg width=\"20px\" height=\"20px\" viewBox=\"0 0 20 20\">\r\n                      <path d=\"M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z\"></path>\r\n                      <polyline points=\"4 11 8 15 16 6\"></polyline>\r\n                    </svg>\r\n                  </div>\r\n                  <span>{{ 'LockedForUser' | translate }}</span>\r\n                </label>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"form-group float-right\">\r\n            <button type=\"button\" class=\"btn btn-primary\" *ngIf=\"isLoaded && role == 'Task Manager'\" (click)=\"save.emit({Period: periodId, Timesheets: timesheets})\">{{ 'Approve' | translate }}</button>\r\n            <button type=\"button\" class=\"btn btn-primary\" *ngIf=\"isLoaded && role == 'Task Manager'\" (click)=\"submit.emit(timesheets.Id)\">{{ 'RequestResubmit' | translate }}</button>\r\n            <button type=\"button\" class=\"btn btn-primary\" *ngIf=\"isLoaded && role == 'Employee'\" [disabled]=\"timesheets.Lock\" (click)=\"submit.emit(timesheets.Id)\">{{ 'Submit' | translate }}</button>\r\n            <button type=\"button\" class=\"btn btn-primary\" *ngIf=\"isLoaded && role == 'Employee'\" [disabled]=\"timesheets.Lock\" (click)=\"unlock.emit(timesheets.Id)\">{{ 'RequestToUnlock' | translate }}</button>\r\n            <button type=\"button\" class=\"btn btn-primary\" (click)=\"save.emit({Timesheets: timesheets, Period: periodId, User: userId})\">{{ 'Save' | translate }}</button>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Employee'\">\r\n            <label class=\"col-md-10\">{{ 'SubmitedOn' | translate }} {{timesheets.SubmittedOn | date: ('DateFormat' | translate)}}</label>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Employee'\">\r\n            <label class=\"col-md-10\">{{ 'EmployeeNotes' | translate }} {{timesheets.ApproverNotes}}</label>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\n"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-8 push-md-2\">\r\n    <div class=\"card\">\r\n      <div class=\"card-header\">\r\n        {{ 'TimesheetHeader' | translate }}\r\n      </div>\r\n      <div class=\"card-block\">\r\n        <div class=\"form-group row\">\r\n          <h5 class=\"col-md-2 timego-center\">{{ 'Period' | translate }}</h5>\r\n          <select [(ngModel)]=\"selectModel.periodId\" class=\"form-control col-md-4\">\r\n            <option [value]=\"period.Id\" *ngFor=\"let period of periods\">{{period.PeriodStart | date: ('DateWeekFormat' | translate)}} {{ 'To' | translate }} {{period.PeriodEnd | date: ('DateWeekFormat' | translate)}}</option>\r\n          </select>\r\n          <div class=\"col-md-3\" *ngIf=\"isLoaded && timesheets != null\">\r\n            <span *ngIf=\"timesheets.LockStatus == 'Unlocked'\" class=\"badge badge-success timego-status\" style=\"float:right; font-size:20px;margin-right: 16px;\">\r\n              <i class=\"fa fa-unlock\"></i> {{timesheets.LockStatus}}\r\n            </span>\r\n            <span *ngIf=\"timesheets.LockStatus == 'Locked'\" class=\"badge badge-danger timego-status\" style=\"float:right; font-size:20px;margin-right: 16px;\">\r\n              <i class=\"fa fa-lock\"></i> {{timesheets.LockStatus}}\r\n            </span>\r\n            <span *ngIf=\"timesheets.LockStatus == 'Request to unlock'\" class=\"badge badge-warning timego-status\" style=\"float:right; font-size:20px;margin-right: 16px;\">\r\n              <i class=\"fa fa-unlock-alt\"></i> {{timesheets.LockStatus}}\r\n            </span>\r\n          </div>\r\n          <div class=\"col-md-3\" *ngIf=\"isLoaded && timesheets != null\">\r\n            <span *ngIf=\"timesheets.ApprovalStatus == 'Waiting for Approval'\" class=\"badge badge-warning timego-status\" style=\"float:right; font-size:20px;margin-right: 16px;\">\r\n              <i class=\"fa fa-history\"></i> {{timesheets.ApprovalStatus}}\r\n            </span>\r\n            <span *ngIf=\"timesheets.ApprovalStatus == 'Approved'\" class=\"badge badge-success timego-status\" style=\"float:right; font-size:20px;margin-right: 16px;\">\r\n              <i class=\"fa fa-check\"></i> {{timesheets.ApprovalStatus}}\r\n            </span>\r\n            <span *ngIf=\"timesheets.ApprovalStatus == 'Submitted'\" class=\"badge badge-default timego-status\" style=\"float:right; font-size:20px;margin-right: 16px;\">\r\n              <i class=\"fa fa-send\"></i> {{timesheets.ApprovalStatus}}\r\n            </span>\r\n            <span *ngIf=\"timesheets.ApprovalStatus == 'Requesting Resubmit'\" class=\"badge badge-default timego-status\" style=\"float:right; font-size:20px;margin-right: 16px;\">\r\n              <i class=\"fa fa-send\"></i> {{timesheets.ApprovalStatus}}\r\n            </span>\r\n            <span *ngIf=\"timesheets.ApprovalStatus == 'Not Submitted'\" class=\"badge badge-primary timego-status\" style=\"float:right; font-size:20px;margin-right: 16px;\">\r\n              <i class=\"fa fa-save\"></i> {{timesheets.ApprovalStatus}}\r\n            </span>\r\n          </div>\r\n        </div>\r\n        <div class=\"form-group row\">\r\n          <h5 class=\"col-md-2 timego-center\" *ngIf=\"role == 'Task Manager'\">{{ 'Employees' | translate }}</h5>\r\n          <select *ngIf=\"role == 'Task Manager'\" [(ngModel)]=\"selectModel.userId\" class=\"form-control col-md-4\">\r\n            <option [value]=\"user.Id\" *ngFor=\"let user of users\">{{user.FirstName}} {{user.LastName}}</option>\r\n          </select>\r\n        </div>\r\n        <div class=\"form-group row\">\r\n          <div class=\"col-md-2\">\r\n            <button type=\"button\" class=\"btn btn-primary\" [disabled]=\"!selectModel.periodId || !selectModel.userId\" *ngIf=\"role == 'Task Manager'\" (click)=\"selectPeriod.emit(selectModel)\">{{ 'OpenTimesheet' | translate }}</button>\r\n            <button type=\"button\" class=\"btn btn-primary\" [disabled]=\"!selectModel.periodId\" *ngIf=\"role == 'Employee'\" (click)=\"selectPeriod.emit(selectModel)\">{{ 'OpenTimesheet' | translate }}</button>\r\n          </div>\r\n        </div>\r\n        <div *ngIf=\"isLoaded && timesheets != null\" class=\"form-group\">\r\n          <div *ngFor=\"let line of timesheets.Lines; let i = index\">\r\n            <div class=\"row timego-line\">\r\n              <h5 class=\"col-md-2 timego-center\">{{line.Date | date: ('DateWeekFormat' | translate)}}</h5>\r\n              <div class=\"col-md-4\">\r\n                <select [(ngModel)]=\"line.TaskId\" class=\"form-control col-md-8\">\r\n                  <option [value]=\"1\">{{ 'None' | translate }}</option>\r\n                  <option [value]=\"task.Id\" *ngFor=\"let task of tasks\">{{task.TaskName}}</option>\r\n                </select>\r\n              </div>\r\n              <div class=\"col-md-4 row\">\r\n                <timepicker [(ngModel)]=\"line.StartTime\" (ngModelChange)=\"checkChange(line, timesheets.Lines)\" [arrowkeys]=\"true\" [showMeridian]=\"false\" [mousewheel]=\"false\" [showSpinners]=\"false\" class=\"timego-timepicker\"></timepicker>\r\n                <i class=\"fa fa-minus fa-lg timego-rangetimepiker-icon\"></i>\r\n                <timepicker [(ngModel)]=\"line.EndTime\" (ngModelChange)=\"checkChange(line, timesheets.Lines)\" [min]=\"line.StartTime\" [mousewheel]=\"false\" [showMeridian]=\"false\" [arrowkeys]=\"false\" [showSpinners]=\"false\" class=\"timego-timepicker\"></timepicker>\r\n              </div>\r\n              <div class=\"col-md-1 timego-center\">\r\n                <b>\r\n                  <h5>{{totalLineTimeHr(line)}} {{ 'Hours' | translate }} {{totalLineTimeMin(line)}} {{ 'Minutes' | translate }}</h5>\r\n                </b>\r\n              </div>\r\n              <div class=\"col-md-1\">\r\n                <button type=\"button\" class=\"btn btn-danger\"\r\n                        *ngIf=\"!((i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date) && (i === 0 || timesheets.Lines[i].Date != timesheets.Lines[i-1].Date))\"\r\n                        (click)=\"delete.emit(line)\">\r\n                  <i class=\"fa fa-remove\"></i> {{ 'Delete' | translate }}\r\n                </button>\r\n                <button type=\"button\" class=\"btn btn-danger\"\r\n                        *ngIf=\"(i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date) && (i === 0 || timesheets.Lines[i].Date != timesheets.Lines[i-1].Date)\"\r\n                        (click)=\"delete.emit(line)\" disabled>\r\n                  <i class=\"fa fa-remove\"></i> {{ 'Delete' | translate }}\r\n                </button>\r\n              </div>\r\n            </div>\r\n            <div class=\"row validation-error\" *ngIf=\"line.ValidationError\">\r\n              <h6 class=\"col-md-10\">{{line.ValidationError}}</h6>\r\n            </div>\r\n            <div class=\"row form-group border-bottom\" *ngIf=\"i === (timesheets.Lines.length - 1) || timesheets.Lines[i].Date != timesheets.Lines[i+1].Date\">\r\n              <div class=\"col-md-1\">\r\n                <button type=\"button\" class=\"btn btn-outline-primary\" (click)=\"addLine.emit(line)\">+</button>\r\n              </div>\r\n              <div class=\"col-md-4 timego-center\">\r\n                {{ 'AddLine' | translate }} {{line.Date | date: ('DateWeekFormat' | translate)}}\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"col-md-4 row form-group\" *ngIf=\"isLoaded\">\r\n            <h5>\r\n              {{ 'TotalTime' | translate }} {{totalTimeHr(timesheets.Lines)}} {{ 'Hours' | translate }} {{totalTimeMin(timesheets.Lines)}} {{ 'Minutes' | translate }}\r\n            </h5>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Employee'\">\r\n            <label class=\"col-md-1\">{{ 'EmployeeNotes' | translate }} </label>\r\n            <textarea rows=\"4\" style=\"width: 89%\" cols=\"50\" [(ngModel)]=\"timesheets.EmployeeNotes\"></textarea>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Task Manager'\">\r\n            <label class=\"col-md-1\" *ngIf=\"timesheets.EmployeeNotes\">{{ 'EmployeeNotes' | translate }} {{timesheets.EmployeeNotes}}</label>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Task Manager'\">\r\n            <label class=\"col-md-1\">{{ 'ApproverNotes' | translate }} </label>\r\n            <textarea rows=\"4\" style=\"width: 89%\" cols=\"50\" [(ngModel)]=\"timesheets.ApproverNotes\"></textarea>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Task Manager'\">\r\n            <div class=\"checkbox push-md-1 col-md-3\">\r\n              <div class=\"cntr\">\r\n                <label for=\"lock\" class=\"label-cbx\">\r\n                  <input id=\"lock\" type=\"checkbox\" class=\"invisible\" [(ngModel)]=\"timesheets.Lock\">\r\n                  <div class=\"checkbox\">\r\n                    <svg width=\"20px\" height=\"20px\" viewBox=\"0 0 20 20\">\r\n                      <path d=\"M3,1 L17,1 L17,1 C18.1045695,1 19,1.8954305 19,3 L19,17 L19,17 C19,18.1045695 18.1045695,19 17,19 L3,19 L3,19 C1.8954305,19 1,18.1045695 1,17 L1,3 L1,3 C1,1.8954305 1.8954305,1 3,1 Z\"></path>\r\n                      <polyline points=\"4 11 8 15 16 6\"></polyline>\r\n                    </svg>\r\n                  </div>\r\n                  <span>{{ 'LockedForUser' | translate }}</span>\r\n                </label>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"form-group float-right\">\r\n            <button type=\"button\" class=\"btn btn-primary\" *ngIf=\"isLoaded && role == 'Task Manager'\" [disabled]=\"timesheets.ApprovalStatus == 'Approved'\" (click)=\"approve.emit(timesheets.Id)\">{{ 'Approve' | translate }}</button>\r\n            <button type=\"button\" class=\"btn btn-primary\" *ngIf=\"isLoaded && role == 'Task Manager'\" [disabled]=\"timesheets.ApprovalStatus != 'Submitted'\" (click)=\"resubmite.emit(timesheets.Id)\">{{ 'RequestResubmit' | translate }}</button>\r\n            <button type=\"button\" class=\"btn btn-primary\" *ngIf=\"isLoaded && role == 'Employee'\" [disabled]=\"timesheets.Lock\" (click)=\"submite.emit(timesheets.Id)\">{{ 'Submit' | translate }}</button>\r\n            <button type=\"button\" class=\"btn btn-primary\" *ngIf=\"isLoaded && role == 'Employee'\" [disabled]=\"!timesheets.Lock\" (click)=\"unlock.emit(timesheets.Id)\">{{ 'RequestToUnlock' | translate }}</button>\r\n            <button type=\"button\" class=\"btn btn-primary\" (click)=\"save.emit({Timesheets: timesheets, Period: selectModel.periodId, User: selectModel.userId})\">{{ 'Save' | translate }}</button>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Employee'\">\r\n            <label class=\"col-md-10\">{{ 'SubmitedOn' | translate }} {{timesheets.SubmittedOn | date: ('DateFormat' | translate)}}</label>\r\n          </div>\r\n          <div class=\"row form-group\" *ngIf=\"isLoaded && role == 'Employee'\">\r\n            <label class=\"col-md-10\" *ngIf=\"timesheets.ApproverNotes\">{{ 'EmployeeNotes' | translate }} {{timesheets.ApproverNotes}}</label>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n"
 
 /***/ }),
 
@@ -327,8 +349,10 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_timesheets_model__ = __webpack_require__("../../../../../src/app/timesheets/models/timesheets.model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_timesheets_model___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__models_timesheets_model__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_AccountService__ = __webpack_require__("../../../../../src/app/services/AccountService.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_select_period_model__ = __webpack_require__("../../../../../src/app/timesheets/models/select-period.model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_select_period_model___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__models_select_period_model__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_AccountService__ = __webpack_require__("../../../../../src/app/services/AccountService.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -342,6 +366,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var TimesheetsComponent = (function () {
     function TimesheetsComponent(translate, account) {
         this.translate = translate;
@@ -351,6 +376,7 @@ var TimesheetsComponent = (function () {
         this.addLine = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.save = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.submite = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.resubmite = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.approve = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.unlock = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
         this.delete = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
@@ -364,6 +390,13 @@ var TimesheetsComponent = (function () {
     TimesheetsComponent.prototype.totalLineTimeHr = function (line) {
         var endTime = new Date(line.EndTime);
         var startTime = new Date(line.StartTime);
+        if (startTime > endTime) {
+            var date = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), 24);
+            var date2 = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), 0);
+            var diffMs_1 = (+endTime.valueOf() + +date.valueOf() - +startTime.valueOf() - +date2);
+            var diffHrs = Math.floor((diffMs_1 % 86400000) / 3600000); // hours
+            return diffHrs;
+        }
         var diffMs = (+endTime.valueOf() - +startTime.valueOf());
         var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
         return diffHrs;
@@ -371,6 +404,13 @@ var TimesheetsComponent = (function () {
     TimesheetsComponent.prototype.totalLineTimeMin = function (line) {
         var endTime = new Date(line.EndTime);
         var startTime = new Date(line.StartTime);
+        if (startTime > endTime) {
+            var date = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), 24);
+            var date2 = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), 0);
+            var diffMs_2 = (+endTime.valueOf() + +date.valueOf() - +startTime.valueOf() - +date2);
+            var diffMins = Math.round(((diffMs_2 % 86400000) % 3600000) / 60000); // minutes
+            return diffMins;
+        }
         var diffMs = (+endTime.valueOf() - +startTime.valueOf());
         var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
         return diffMins;
@@ -378,6 +418,12 @@ var TimesheetsComponent = (function () {
     TimesheetsComponent.prototype.totalLineTimeMs = function (line) {
         var endTime = new Date(line.EndTime);
         var startTime = new Date(line.StartTime);
+        if (startTime > endTime) {
+            var date = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), 24);
+            var date2 = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), 0);
+            var diffMs_3 = (+endTime.valueOf() + +date.valueOf() - +startTime.valueOf() - +date2);
+            return diffMs_3;
+        }
         var diffMs = (+endTime.valueOf() - +startTime.valueOf());
         return diffMs;
     };
@@ -415,10 +461,11 @@ var TimesheetsComponent = (function () {
                 this.checkIntersection(line, lines);
             }
         }
-        if (currentLine.StartTime > currentLine.EndTime)
-            currentLine.ValidationError = "Time range is not valid";
-        else if (currentLine.ValidationError == "Time range is not valid")
-            currentLine.ValidationError = null;
+        //if (currentLine.StartTime > currentLine.EndTime)
+        //    currentLine.ValidationError = "Time range is not valid";
+        //else
+        //    if (currentLine.ValidationError == "Time range is not valid")
+        //        currentLine.ValidationError = null;
     };
     TimesheetsComponent.prototype.checkIntersection = function (currentLine, lines) {
         var error = false;
@@ -469,6 +516,10 @@ __decorate([
     __metadata("design:type", Array)
 ], TimesheetsComponent.prototype, "users", void 0);
 __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+    __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__models_select_period_model__["SelectModel"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__models_select_period_model__["SelectModel"]) === "function" && _b || Object)
+], TimesheetsComponent.prototype, "selectModel", void 0);
+__decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
     __metadata("design:type", Object)
 ], TimesheetsComponent.prototype, "selectPeriod", void 0);
@@ -487,6 +538,10 @@ __decorate([
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
     __metadata("design:type", Object)
+], TimesheetsComponent.prototype, "resubmite", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
+    __metadata("design:type", Object)
 ], TimesheetsComponent.prototype, "approve", void 0);
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["T" /* Output */])(),
@@ -502,10 +557,10 @@ TimesheetsComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/timesheets/components/timesheets/timesheets.html"),
         styles: [__webpack_require__("../../../../../src/app/timesheets/components/timesheets/timesheets.scss")]
     }),
-    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services_AccountService__["a" /* AccountService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_AccountService__["a" /* AccountService */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ngx_translate_core__["c" /* TranslateService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__services_AccountService__["a" /* AccountService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_AccountService__["a" /* AccountService */]) === "function" && _d || Object])
 ], TimesheetsComponent);
 
-var _a, _b, _c;
+var _a, _b, _c, _d;
 //# sourceMappingURL=timesheets.js.map
 
 /***/ }),
@@ -522,6 +577,7 @@ var _a, _b, _c;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__reducers__ = __webpack_require__("../../../../../src/app/timesheets/reducers/index.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__ = __webpack_require__("../../../../../src/app/timesheets/actions/timesheets.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_angular2_toaster_angular2_toaster__ = __webpack_require__("../../../../angular2-toaster/angular2-toaster.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_AccountService__ = __webpack_require__("../../../../../src/app/services/AccountService.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -537,16 +593,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var TimesheetsPageComponent = (function () {
-    function TimesheetsPageComponent(store, toasterService) {
+    function TimesheetsPageComponent(store, toasterService, account) {
         this.store = store;
         this.toasterService = toasterService;
-        this.timesheets$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["e" /* getTimesheet */]);
+        this.timesheets$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["f" /* getTimesheet */]);
         this.isLoaded$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["a" /* getIsLoadedStatus */]);
         this.loading$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["b" /* getLoadingStatus */]);
         this.periods$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["c" /* getPeriods */]);
-        this.tasks$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["d" /* getTasks */]);
-        this.users$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["f" /* getUsers */]);
+        this.tasks$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["e" /* getTasks */]);
+        this.users$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["g" /* getUsers */]);
+        this.selectModel$ = store.select(__WEBPACK_IMPORTED_MODULE_3__reducers__["d" /* getSelectModel */]);
+        this.role = account.role;
     }
     TimesheetsPageComponent.prototype.ngOnInit = function () {
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["v" /* GetPeriodAction */](0));
@@ -554,10 +613,17 @@ var TimesheetsPageComponent = (function () {
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["z" /* GetUsersAction */](0));
     };
     TimesheetsPageComponent.prototype.selectPeriod = function (model) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["t" /* GetAction */](model));
+        if (this.role == 'Task Manager') {
+            if (model.periodId && model.userId)
+                this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["t" /* GetAction */](model));
+        }
+        else {
+            if (model.periodId)
+                this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["t" /* GetAction */](model));
+        }
     };
-    TimesheetsPageComponent.prototype.addLine = function (date) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["d" /* AddAction */](date));
+    TimesheetsPageComponent.prototype.addLine = function (line) {
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["d" /* AddAction */](line));
     };
     TimesheetsPageComponent.prototype.save = function (model) {
         for (var _i = 0, _a = model.Timesheets.Lines; _i < _a.length; _i++) {
@@ -572,11 +638,14 @@ var TimesheetsPageComponent = (function () {
     TimesheetsPageComponent.prototype.delete = function (model) {
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["h" /* DeleteAction */](model));
     };
-    TimesheetsPageComponent.prototype.submit = function (id) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["F" /* SubmitAction */](id));
+    TimesheetsPageComponent.prototype.submite = function (id) {
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["J" /* SubmitAction */](id));
+    };
+    TimesheetsPageComponent.prototype.resubmite = function (id) {
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["F" /* ReSubmitAction */](id));
     };
     TimesheetsPageComponent.prototype.unlock = function (id) {
-        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["H" /* ToUnlockAction */](id));
+        this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["L" /* ToUnlockAction */](id));
     };
     TimesheetsPageComponent.prototype.approve = function (id) {
         this.store.dispatch(new __WEBPACK_IMPORTED_MODULE_4__actions_timesheets__["e" /* ApproveAction */](id));
@@ -587,12 +656,12 @@ TimesheetsPageComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["o" /* Component */])({
         selector: 'timesheets-page',
         changeDetection: __WEBPACK_IMPORTED_MODULE_1__angular_core__["k" /* ChangeDetectionStrategy */].OnPush,
-        template: "\n    <up-timesheets [timesheets]=\"timesheets$ | async\" [isLoaded]=\"isLoaded$ | async\" [periods]=\"periods$ | async\" \n    [users]=\"users$ | async\" [tasks]=\"tasks$ | async\" [loading]=\"loading$ | async\" \n    (selectPeriod)=\"selectPeriod($event)\" (addLine)=\"addLine($event)\" \n    (save)=\"save($event)\" (delete)=\"delete($event)\" (submit)=\"submit($event)\" (approve)=\"approve($event)\" (unlock)=\"unlock($event)\"></up-timesheets>\n  ",
+        template: "\n    <up-timesheets [timesheets]=\"timesheets$ | async\" [isLoaded]=\"isLoaded$ | async\" [selectModel]=\"selectModel$ | async\" [periods]=\"periods$ | async\" \n    [users]=\"users$ | async\" [tasks]=\"tasks$ | async\" [loading]=\"loading$ | async\" \n    (selectPeriod)=\"selectPeriod($event)\" (addLine)=\"addLine($event)\" \n    (save)=\"save($event)\" (delete)=\"delete($event)\" (submite)=\"submite($event)\" (resubmite)=\"resubmite($event)\" (approve)=\"approve($event)\" (unlock)=\"unlock($event)\"></up-timesheets>\n  ",
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5_angular2_toaster_angular2_toaster__["c" /* ToasterService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5_angular2_toaster_angular2_toaster__["c" /* ToasterService */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngrx_store__["h" /* Store */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5_angular2_toaster_angular2_toaster__["c" /* ToasterService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5_angular2_toaster_angular2_toaster__["c" /* ToasterService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_6__services_AccountService__["a" /* AccountService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__services_AccountService__["a" /* AccountService */]) === "function" && _c || Object])
 ], TimesheetsPageComponent);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=timesheets-page.js.map
 
 /***/ }),
@@ -698,18 +767,37 @@ var TimesheetsEffects = (function () {
             var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["c" /* APPROVE_COMPLETE */]);
             return _this.timesheetsService.approve(query)
                 .takeUntil(nextGet$)
-                .map(function (result) { return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["f" /* ApproveCompleteAction */](result); })
+                .map(function (result) {
+                _this.toasterService.pop('success', 'Approve', 'Approve complete');
+                return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["f" /* ApproveCompleteAction */](result);
+            })
                 .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["f" /* ApproveCompleteAction */](null)); });
         });
         this.submite$ = this.actions$
-            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["D" /* SUBMIT */])
+            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["H" /* SUBMIT */])
             .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
             .switchMap(function (query) {
-            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["E" /* SUBMIT_COMPLETE */]);
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["I" /* SUBMIT_COMPLETE */]);
             return _this.timesheetsService.submit(query)
                 .takeUntil(nextGet$)
-                .map(function (result) { return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["G" /* SubmitCompleteAction */](result); })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["G" /* SubmitCompleteAction */](null)); });
+                .map(function (result) {
+                _this.toasterService.pop('success', 'Submit', 'Submit complete');
+                return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["K" /* SubmitCompleteAction */](result);
+            })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["K" /* SubmitCompleteAction */](null)); });
+        });
+        this.resubmite$ = this.actions$
+            .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["D" /* RESUBMIT */])
+            .map(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["d" /* toPayload */])
+            .switchMap(function (query) {
+            var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["E" /* RESUBMIT_COMPLETE */]);
+            return _this.timesheetsService.resubmit(query)
+                .takeUntil(nextGet$)
+                .map(function (result) {
+                _this.toasterService.pop('success', 'Request to resubmit', 'Request to resubmit complete');
+                return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["G" /* ReSubmitCompleteAction */](result);
+            })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["K" /* SubmitCompleteAction */](null)); });
         });
         this.unlock = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["B" /* REQUEST_TO_UNLOCK */])
@@ -718,8 +806,11 @@ var TimesheetsEffects = (function () {
             var nextGet$ = _this.actions$.ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["C" /* REQUEST_TO_UNLOCK_COMPLETE */]);
             return _this.timesheetsService.unlock(query)
                 .takeUntil(nextGet$)
-                .map(function (result) { return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["I" /* ToUnlockCompleteAction */](result); })
-                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["I" /* ToUnlockCompleteAction */](null)); });
+                .map(function (result) {
+                _this.toasterService.pop('success', 'Request to unlock', 'Request to unlock complete');
+                return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["M" /* ToUnlockCompleteAction */](result);
+            })
+                .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["M" /* ToUnlockCompleteAction */](null)); });
         });
         this.edit$ = this.actions$
             .ofType(__WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["i" /* EDIT */])
@@ -730,7 +821,7 @@ var TimesheetsEffects = (function () {
                 .takeUntil(nextGet$)
                 .map(function (result) {
                 _this.toasterService.pop('success', 'Success Save', 'Timesheet saved');
-                return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["t" /* GetAction */]({ PeriodId: query.Period, UserId: query.User });
+                return new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["t" /* GetAction */]({ periodId: query.Period, userId: query.User });
             })
                 .catch(function () { return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["of"])(new __WEBPACK_IMPORTED_MODULE_11__actions_timesheets__["k" /* EditCompleteAction */](null)); });
         });
@@ -764,18 +855,29 @@ __decorate([
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"]) === "function" && _g || Object)
-], TimesheetsEffects.prototype, "unlock", void 0);
+], TimesheetsEffects.prototype, "resubmite$", void 0);
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["b" /* Effect */])(),
     __metadata("design:type", typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"]) === "function" && _h || Object)
+], TimesheetsEffects.prototype, "unlock", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["b" /* Effect */])(),
+    __metadata("design:type", typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["Observable"]) === "function" && _j || Object)
 ], TimesheetsEffects.prototype, "edit$", void 0);
 TimesheetsEffects = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_10__timesheets_service__["a" /* TimesheetsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__timesheets_service__["a" /* TimesheetsService */]) === "function" && _k || Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */]) === "function" && _l || Object])
+    __metadata("design:paramtypes", [typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__ngrx_effects__["a" /* Actions */]) === "function" && _k || Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_10__timesheets_service__["a" /* TimesheetsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__timesheets_service__["a" /* TimesheetsService */]) === "function" && _l || Object, typeof (_m = typeof __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_12_angular2_toaster_angular2_toaster__["c" /* ToasterService */]) === "function" && _m || Object])
 ], TimesheetsEffects);
 
-var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
 //# sourceMappingURL=timesheets.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/timesheets/models/select-period.model.ts":
+/***/ (function(module, exports) {
+
+//# sourceMappingURL=select-period.model.js.map
 
 /***/ }),
 
@@ -790,30 +892,32 @@ var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return reducers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return reducers; });
 /* unused harmony export getTimesheetsState */
 /* unused harmony export getTimesheetsEntityState */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getPeriods; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getTimesheet; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getTimesheet; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getLoadingStatus; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getIsLoadedStatus; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getTasks; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getUsers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getTasks; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return getUsers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getSelectModel; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ngrx_store__ = __webpack_require__("../../../../@ngrx/store/@ngrx/store.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__timesheets__ = __webpack_require__("../../../../../src/app/timesheets/reducers/timesheets.ts");
 
 
 var reducers = {
-    timesheetsPage: __WEBPACK_IMPORTED_MODULE_1__timesheets__["g" /* reducer */]
+    timesheetsPage: __WEBPACK_IMPORTED_MODULE_1__timesheets__["h" /* reducer */]
 };
 var getTimesheetsState = Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_store__["l" /* createFeatureSelector */])('timesheetsPage');
 var getTimesheetsEntityState = Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_store__["m" /* createSelector */])(getTimesheetsState, function (state) { return state.timesheetsPage; });
 var getPeriods = Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_store__["m" /* createSelector */])(getTimesheetsEntityState, __WEBPACK_IMPORTED_MODULE_1__timesheets__["c" /* getPeriods */]);
-var getTimesheet = Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_store__["m" /* createSelector */])(getTimesheetsEntityState, __WEBPACK_IMPORTED_MODULE_1__timesheets__["e" /* getTimesheet */]);
+var getTimesheet = Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_store__["m" /* createSelector */])(getTimesheetsEntityState, __WEBPACK_IMPORTED_MODULE_1__timesheets__["f" /* getTimesheet */]);
 var getLoadingStatus = Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_store__["m" /* createSelector */])(getTimesheetsEntityState, __WEBPACK_IMPORTED_MODULE_1__timesheets__["b" /* getLoadingStatus */]);
 var getIsLoadedStatus = Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_store__["m" /* createSelector */])(getTimesheetsEntityState, __WEBPACK_IMPORTED_MODULE_1__timesheets__["a" /* getIsLoadedStatus */]);
-var getTasks = Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_store__["m" /* createSelector */])(getTimesheetsEntityState, __WEBPACK_IMPORTED_MODULE_1__timesheets__["d" /* getTasks */]);
-var getUsers = Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_store__["m" /* createSelector */])(getTimesheetsEntityState, __WEBPACK_IMPORTED_MODULE_1__timesheets__["f" /* getUsers */]);
+var getTasks = Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_store__["m" /* createSelector */])(getTimesheetsEntityState, __WEBPACK_IMPORTED_MODULE_1__timesheets__["e" /* getTasks */]);
+var getUsers = Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_store__["m" /* createSelector */])(getTimesheetsEntityState, __WEBPACK_IMPORTED_MODULE_1__timesheets__["g" /* getUsers */]);
+var getSelectModel = Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_store__["m" /* createSelector */])(getTimesheetsEntityState, __WEBPACK_IMPORTED_MODULE_1__timesheets__["d" /* getSelectModel */]);
 //# sourceMappingURL=index.js.map
 
 /***/ }),
@@ -823,13 +927,14 @@ var getUsers = Object(__WEBPACK_IMPORTED_MODULE_0__ngrx_store__["m" /* createSel
 
 "use strict";
 /* unused harmony export initialState */
-/* harmony export (immutable) */ __webpack_exports__["g"] = reducer;
+/* harmony export (immutable) */ __webpack_exports__["h"] = reducer;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getPeriods; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getLoadingStatus; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getIsLoadedStatus; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getTimesheet; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getTasks; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getUsers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getTimesheet; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getTasks; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return getUsers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getSelectModel; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__ = __webpack_require__("../../../../../src/app/timesheets/actions/timesheets.ts");
 
 var initialState = {
@@ -837,7 +942,7 @@ var initialState = {
     isLoaded: false,
     loading: false,
     periods: [],
-    periodId: 0,
+    selectModel: { periodId: null, userId: null },
     tasks: [],
     users: []
 };
@@ -846,13 +951,13 @@ function reducer(state, action) {
     switch (action.type) {
         case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["l" /* GET */]:
             {
-                var periodId = action.payload;
+                var selectModel = action.payload;
                 return {
                     timesheet: state.timesheet,
                     isLoaded: true,
                     loading: true,
                     periods: state.periods,
-                    periodId: periodId,
+                    selectModel: selectModel,
                     tasks: state.tasks,
                     users: state.users
                 };
@@ -864,7 +969,7 @@ function reducer(state, action) {
                 isLoaded: true,
                 loading: false,
                 periods: state.periods,
-                periodId: state.periodId,
+                selectModel: state.selectModel,
                 tasks: state.tasks,
                 users: state.users
             };
@@ -876,7 +981,7 @@ function reducer(state, action) {
                     isLoaded: true,
                     loading: false,
                     periods: state.periods,
-                    periodId: state.periodId,
+                    selectModel: state.selectModel,
                     tasks: state.tasks,
                     users: state.users
                 };
@@ -888,7 +993,7 @@ function reducer(state, action) {
                 isLoaded: true,
                 loading: false,
                 periods: periods,
-                periodId: state.periodId,
+                selectModel: state.selectModel,
                 tasks: state.tasks,
                 users: state.users
             };
@@ -900,7 +1005,7 @@ function reducer(state, action) {
                     isLoaded: true,
                     loading: false,
                     periods: state.periods,
-                    periodId: state.periodId,
+                    selectModel: state.selectModel,
                     tasks: state.tasks,
                     users: state.users
                 };
@@ -912,7 +1017,7 @@ function reducer(state, action) {
                 isLoaded: true,
                 loading: false,
                 periods: state.periods,
-                periodId: state.periodId,
+                selectModel: state.selectModel,
                 tasks: tasks,
                 users: state.users
             };
@@ -924,29 +1029,32 @@ function reducer(state, action) {
                 isLoaded: true,
                 loading: false,
                 periods: state.periods,
-                periodId: state.periodId,
+                selectModel: state.selectModel,
                 tasks: state.tasks,
                 users: users
             };
         }
         case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["a" /* ADD */]: {
-            var date = action.payload;
+            var line = action.payload;
             var lines = state.timesheet.Lines;
+            var startDate = new Date(line.EndTime);
+            var endDate = new Date(line.EndTime);
+            endDate.setHours(endDate.getHours() + 1);
             var newLine = {
-                Date: date,
-                EndTime: date,
+                Date: line.Date,
+                EndTime: endDate,
                 Id: 0,
-                StartTime: date,
+                StartTime: startDate,
                 Task: "",
-                TaskId: 0,
+                TaskId: 1,
                 ValidationError: null
             };
             lines.push(newLine);
             lines = lines.sort(function (obj1, obj2) {
-                if (obj1.Date > obj2.Date) {
+                if (obj1.StartTime > obj2.StartTime) {
                     return 1;
                 }
-                if (obj1.Date < obj2.Date) {
+                if (obj1.StartTime < obj2.StartTime) {
                     return -1;
                 }
                 return 0;
@@ -958,7 +1066,7 @@ function reducer(state, action) {
                 isLoaded: true,
                 loading: false,
                 periods: state.periods,
-                periodId: state.periodId,
+                selectModel: state.selectModel,
                 tasks: state.tasks,
                 users: state.users
             };
@@ -977,7 +1085,51 @@ function reducer(state, action) {
                 isLoaded: true,
                 loading: false,
                 periods: state.periods,
-                periodId: state.periodId,
+                selectModel: state.selectModel,
+                tasks: state.tasks,
+                users: state.users
+            };
+        }
+        //
+        case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["b" /* APPROVE */]: {
+            var timesheet = state.timesheet;
+            timesheet.ApprovalStatus = "Approved";
+            return {
+                timesheet: timesheet,
+                isLoaded: true,
+                loading: false,
+                periods: state.periods,
+                selectModel: state.selectModel,
+                tasks: state.tasks,
+                users: state.users
+            };
+        }
+        case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["H" /* SUBMIT */]: {
+            var timesheet = state.timesheet;
+            timesheet.ApprovalStatus = "Waiting for Approval";
+            timesheet.LockStatus = "Locked";
+            timesheet.Lock = true;
+            return {
+                timesheet: timesheet,
+                isLoaded: true,
+                loading: false,
+                periods: state.periods,
+                selectModel: state.selectModel,
+                tasks: state.tasks,
+                users: state.users
+            };
+        }
+        case __WEBPACK_IMPORTED_MODULE_0__actions_timesheets__["D" /* RESUBMIT */]: {
+            var timesheet = state.timesheet;
+            timesheet.ApprovalStatus = "Requesting Resubmit";
+            timesheet.LockStatus = "Unlocked";
+            timesheet.Lock = false;
+            return {
+                timesheet: timesheet,
+                isLoaded: true,
+                loading: false,
+                periods: state.periods,
+                selectModel: state.selectModel,
                 tasks: state.tasks,
                 users: state.users
             };
@@ -993,6 +1145,7 @@ var getIsLoadedStatus = function (state) { return state.isLoaded; };
 var getTimesheet = function (state) { return state.timesheet; };
 var getTasks = function (state) { return state.tasks; };
 var getUsers = function (state) { return state.users; };
+var getSelectModel = function (state) { return state.selectModel; };
 //# sourceMappingURL=timesheets.js.map
 
 /***/ }),
@@ -1094,7 +1247,7 @@ TimesheetsModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_6__timesheets_routing_module__["a" /* TimesheetsRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_10__components_index__["a" /* ComponentsModule */],
-            __WEBPACK_IMPORTED_MODULE_4__ngrx_store__["i" /* StoreModule */].forFeature('timesheetsPage', __WEBPACK_IMPORTED_MODULE_12__reducers__["g" /* reducers */]),
+            __WEBPACK_IMPORTED_MODULE_4__ngrx_store__["i" /* StoreModule */].forFeature('timesheetsPage', __WEBPACK_IMPORTED_MODULE_12__reducers__["h" /* reducers */]),
             __WEBPACK_IMPORTED_MODULE_5__ngrx_effects__["c" /* EffectsModule */].forFeature([__WEBPACK_IMPORTED_MODULE_9__effects_timesheets__["a" /* TimesheetsEffects */]])
         ],
         declarations: [
@@ -1150,6 +1303,9 @@ var TimesheetsService = (function () {
     };
     TimesheetsService.prototype.submit = function (id) {
         return this.requestService.get("/api/SubmitTimesheets?id=" + id);
+    };
+    TimesheetsService.prototype.resubmit = function (id) {
+        return this.requestService.get("/api/ReSubmitTimesheets?id=" + id);
     };
     TimesheetsService.prototype.unlock = function (id) {
         return this.requestService.get("/api/UnlockTimesheets?id=" + id);

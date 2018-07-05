@@ -1,4 +1,4 @@
-﻿import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { UsersListItem } from '../../models/users-list-item.model';
 import { AddEmployee } from '../../models/add-employee.model';
 import { InviteEmployee } from '../../models/invite-employee.model';
@@ -104,5 +104,26 @@ export class UsersListComponent {
         var days = (diffMs / (1000 * 60 * 60 * 24));
         return days >= 14;
     }
+
+    cleanAddModel() {
+      this.addEmployee = {
+        Email: "",
+        FirstName: "",
+        LastName: "",
+        Password: "",
+        PhoneNumber: "",
+        IsAdmin: false
+      };
+    }
+
+    cleanInviteModel() {
+      this.inviteModel = {
+        Email: "",
+        FirstName: "",
+        LastName: "",
+        IsAdmin: false
+      };
+    }
+
 }
 

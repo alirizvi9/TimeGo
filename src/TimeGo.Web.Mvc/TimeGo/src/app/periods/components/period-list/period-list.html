@@ -1,4 +1,4 @@
-﻿<div class="row">
+<div class="row">
   <div class="col-md-8 push-md-2">
     <div class="card">
       <div class="card-header">
@@ -58,7 +58,7 @@
     <div class="modal-content">
       <div class="modal-header timego-modal">
         <h4 class="modal-title">{{ 'AddPeriod' | translate }}</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" (click)="cleanAddModel()" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
       </div>
@@ -92,8 +92,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Close' | translate }}</button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addPeriodAction(addPeriod)">{{ 'Add' | translate }}</button>
+        <button type="button" class="btn btn-secondary" (click)="cleanAddModel()" data-dismiss="modal">{{ 'Close' | translate }}</button>
       </div>
     </div>
   </div>
@@ -138,8 +138,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">{{ 'Close' | translate }}</button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="editEvent(editPeriod)">{{ 'Save' | translate }}</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">{{ 'Close' | translate }}</button>
       </div>
     </div>
   </div>
@@ -158,8 +158,8 @@
         <h6>{{ 'DeleteMessage' | translate }} {{ 'Period' | translate }}?</h6>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'No' | translate }}</button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="delete.emit({id: deleteId, paging: pagingModel})">{{ 'Yes' | translate }}</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'No' | translate }}</button>
       </div>
     </div>
   </div>

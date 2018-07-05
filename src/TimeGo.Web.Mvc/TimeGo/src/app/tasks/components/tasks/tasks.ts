@@ -1,4 +1,4 @@
-﻿import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { TasksListItem } from '../../models/tasks-list-item.model';
 import { AddTask } from '../../models/add-task.model';
 import { TasksListPagingModel } from '../../models/tasks-list-paging.model';
@@ -34,6 +34,14 @@ export class TasksComponent {
         this.editTask = Object.assign({}, task);
     }
 
+    cloneSelectTask(task: TasksListItem) {
+      this.selectTask = Object.assign({}, task);
+      this.selectTask.Allows = [];
+      for (var i = 0; i < task.Allows.length; i++) {
+        this.selectTask.Allows.push(Object.assign({}, task.Allows[i]));
+      }
+    }
+
 
     editTask: TasksListItem = {
         Allows: null,
@@ -44,7 +52,14 @@ export class TasksComponent {
         TaskName: ""
     };
 
-    selectTask: TasksListItem;
+    selectTask: TasksListItem = {
+      Allows: null,
+      ApproverPrimary: null,
+      ApproverSecondary: null,
+      id: 0,
+      IsActive: false,
+      TaskName: ""
+    };
     select: false;
 
     constructor(private translate: TranslateService) {
@@ -66,6 +81,12 @@ export class TasksComponent {
     addTaskAction(model: AddTask) {
         this.add.emit(model);
         this.changePage.emit(this.pagingModel);
+    }
+
+    cleanAddModel() {
+      this.addTask = {
+        TaskName: ""
+      };
     }
 }
 

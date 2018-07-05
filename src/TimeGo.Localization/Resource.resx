@@ -415,7 +415,7 @@
     <value>Lock</value>
   </data>
   <data name="LockedForUser" xml:space="preserve">
-    <value>Locked for User:</value>
+    <value>Locked for User</value>
   </data>
   <data name="Minutes" xml:space="preserve">
     <value>m</value>
@@ -551,5 +551,14 @@
   </data>
   <data name="DateWeekFormat" xml:space="preserve">
     <value>EEE d-MMM</value>
+  </data>
+  <data name="ResetComplete" xml:space="preserve">
+    <value>Reset password complete</value>
+  </data>
+  <data name="ResetCompleteMessage" xml:space="preserve">
+    <value>Your password has been changed successfully</value>
+  </data>
+  <data name="OpenTimesheet" xml:space="preserve">
+    <value>Open Timesheet</value>
   </data>
 </root>

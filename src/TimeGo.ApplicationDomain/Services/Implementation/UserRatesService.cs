@@ -21,10 +21,10 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
         {
             if (user.Role.RoleType != "Task Manager")
                 return new ResultsModel<RateViewModel>();
-            var requests = _repository.Find<EmployeeRate>(x => x.CompanyId == user.CompanyId);
+            var rates = _repository.Find<EmployeeRate>(x => x.CompanyId == user.CompanyId);
             var result = new ResultsModel<RateViewModel>()
             {
-                Results = requests.OrderBy(model.SortExpression).Skip(model.PageSize * (model.Page - 1)).Take(model.PageSize).Select(x => new RateViewModel()
+                Results = rates.OrderBy(model.SortExpression).Skip(model.PageSize * (model.Page - 1)).Take(model.PageSize).Select(x => new RateViewModel()
                 {
                     Id = x.Id,
                     EndDate = x.EffectiveEndDate,
@@ -34,7 +34,7 @@ namespace TimeGo.ApplicationDomain.Services.Implementation
                     Rate = x.RateAmount,
                     UserId = x.EmployeeId
                 }).ToList(),
-                Count = _repository.Find<EmployeeRate>().Count(),
+                Count = rates.Count(),
                 Page = model.Page
             };
             return result;

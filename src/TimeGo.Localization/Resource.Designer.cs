@@ -19,7 +19,7 @@ namespace TimeGo {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resource {
@@ -763,7 +763,7 @@ namespace TimeGo {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Locked for User:.
+        ///   Looks up a localized string similar to Locked for User.
         /// </summary>
         public static string LockedForUser {
             get {
@@ -858,6 +858,15 @@ namespace TimeGo {
         public static string NotFounEmail {
             get {
                 return ResourceManager.GetString("NotFounEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Timesheet.
+        /// </summary>
+        public static string OpenTimesheet {
+            get {
+                return ResourceManager.GetString("OpenTimesheet", resourceCulture);
             }
         }
         
@@ -1056,6 +1065,24 @@ namespace TimeGo {
         public static string RequestToUnlock {
             get {
                 return ResourceManager.GetString("RequestToUnlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset password complete.
+        /// </summary>
+        public static string ResetComplete {
+            get {
+                return ResourceManager.GetString("ResetComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your password has been changed successfully.
+        /// </summary>
+        public static string ResetCompleteMessage {
+            get {
+                return ResourceManager.GetString("ResetCompleteMessage", resourceCulture);
             }
         }
         

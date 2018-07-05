@@ -71,7 +71,7 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
             var user = _authorizationService.GetUser();
             if (user.CompanyId == null)
                 return Success();
-            var result = _timesheetsService.Approve(user, id);
+            var result = _timesheetsService.Unlock(user, id);
             return Success(result);
         }
 
@@ -83,6 +83,17 @@ namespace TimeGo.Web.Mvc.Areas.AppApi.Controllers
             if (user.CompanyId == null)
                 return Success();
             var result = _timesheetsService.Submit(user, id);
+            return Success(result);
+        }
+
+        [HttpGet]
+        [Route("api/ReSubmitTimesheets")]
+        public IHttpActionResult ReSubmit(long id)
+        {
+            var user = _authorizationService.GetUser();
+            if (user.CompanyId == null)
+                return Success();
+            var result = _timesheetsService.ReSubmit(user, id);
             return Success(result);
         }
 
